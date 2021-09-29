@@ -1,6 +1,6 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { Box, Button, Link, Text } from "@chakra-ui/react";
+import { Button, Link } from "@chakra-ui/react";
 import { createUrqlClient } from "../graphql/urqlProvider";
 import { withUrqlClient } from "next-urql";
 import { useMeQuery } from "../graphql/generated/graphql";
@@ -47,12 +47,9 @@ const Home = () => {
         </p>
       </main>
 
-      <Box bg={["brand.100", "brand.200", "brand.300", "brand.400"]}>
-        <Text color="white">Hola</Text>
-        <Button variant="with-shadow" size="banana">
-          With fancy stuff
-        </Button>
-      </Box>
+      <Button variant="primaryWeno" borderRadius="6px">
+        Hola
+      </Button>
 
       <footer className={styles.footer}>
         <a

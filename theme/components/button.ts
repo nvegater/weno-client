@@ -22,9 +22,20 @@ const ButtonStyle = {
   },
   // 3. We can add a new visual variant
   variants: {
-    "with-shadow": {
-      bg: "red.400",
-      boxShadow: "0 0 2px 2px #efdfde",
+    primaryWeno: {
+      bg: "gradient.100",
+      color: "brand.100",
+      borderRadius: "6px",
+      width: "153px",
+      height: "48px",
+    },
+    secondaryWeno: {
+      bg: "brand.100",
+      color: "brand.200",
+      // TODO move sizes and radius to the styles file and use the objects
+      borderRadius: "6px",
+      width: "152px",
+      height: "42px",
     },
     // 4. We can override existing variants
     solid: (props) => ({

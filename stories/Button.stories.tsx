@@ -1,37 +1,30 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-
-import { Button } from "./Button";
+import { Button } from "@chakra-ui/react";
 
 export default {
   title: "Example/Button",
   component: Button,
   argTypes: {
-    backgroundColor: { control: "color" },
+    variant: {
+      options: ["primaryWeno", "secondaryWeno"],
+      control: { type: "radio" },
+    },
   },
 } as ComponentMeta<typeof Button>;
 
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
+const Template: ComponentStory<typeof Button> = (args) => (
+  <Button variant={args.variant}>{args.label}</Button>
+);
 
 export const Primary = Template.bind({});
 Primary.args = {
-  primary: true,
-  label: "Button",
+  variant: "primaryWeno",
+  label: "Hola",
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  label: "Button",
-};
-
-export const Large = Template.bind({});
-Large.args = {
-  size: "large",
-  label: "Button",
-};
-
-export const Small = Template.bind({});
-Small.args = {
-  size: "small",
-  label: "Button",
+  variant: "secondaryWeno",
+  label: "Hola",
 };
