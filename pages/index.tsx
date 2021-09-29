@@ -1,8 +1,36 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { Box, Button, Text } from "@chakra-ui/react";
+import { Box, Button, Link, Text } from "@chakra-ui/react";
+import { createUrqlClient } from "../graphql/urqlProvider";
+import { withUrqlClient } from "next-urql";
+import { useMeQuery } from "../graphql/generated/graphql";
+import NextLink from "next/link";
 
 const Home = () => {
+  const [{ data, error, fetching }] = useMeQuery();
+
+  if (data === undefined) {
+    if (error) return <div>Error</div>;
+    return fetching ? <div>Loading</div> : <div>Something went wrong</div>;
+  }
+  if (
+    data.me === undefined ||
+    data.me === null ||
+    data.me.user === null ||
+    data.me.user === undefined
+  ) {
+    return (
+      <div>
+        Something is wrong with your user credentials
+        <NextLink href="/login">
+          <Link>
+            <b>Login again</b>
+          </Link>
+        </NextLink>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -39,4 +67,7 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withUrqlClient(createUrqlClient, {
+  ssr: true,
+  // disable ssr for cypress to mock the requests ssr: process.env.APP_ENV !== "cy-test",
+})(Home);
