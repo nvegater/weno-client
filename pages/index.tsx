@@ -1,6 +1,6 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import {Box, Button, Text} from "@chakra-ui/react";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+import { Box, Button, Text } from "@chakra-ui/react";
 
 const Home = () => {
   return (
@@ -11,25 +11,20 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to Weno
-        </h1>
+        <h1 className={styles.title}>Welcome to Weno</h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
         </p>
-
       </main>
 
-        <Box bg={["brand.100", "brand.200", "brand.300", "brand.400"]}>
-            <Text color="white">
-                Hola
-            </Text>
-            <Button variant="with-shadow" size="banana">
-                With fancy stuff
-            </Button>
-        </Box>
+      <Box bg={["brand.100", "brand.200", "brand.300", "brand.400"]}>
+        <Text color="white">Hola</Text>
+        <Button variant="with-shadow" size="banana">
+          With fancy stuff
+        </Button>
+      </Box>
 
       <footer className={styles.footer}>
         <a
@@ -41,7 +36,7 @@ const Home = () => {
         </a>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
