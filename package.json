@@ -18,6 +18,7 @@
     "@emotion/styled": "^11.3.0",
     "@paypal/react-paypal-js": "^7.3.3",
     "@urql/exchange-graphcache": "^4.3.5",
+    "aws-sdk": "^2.996.0",
     "framer-motion": "^4.1.17",
     "graphql": "^15.6.0",
     "next": "11.1.2",
