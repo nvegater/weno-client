@@ -4,8 +4,27 @@
  * base styles (baseStyle)
  * styles for different sizes (sizes)
  * styles for different visual variants (variants).
- *
+ * e.g. https://github.com/chakra-ui/chakra-ui/blob/main/packages/theme/src/components/button.ts
  * */
+
+const variants = {
+  primaryWeno: {
+    bg: "brand.100",
+    color: "brand.200",
+    borderRadius: "6px",
+  },
+  secondaryWeno: {
+    bg: "gradient.100",
+    color: "brand.100",
+    border: "1px solid #9F449D",
+    borderRadius: "6px",
+  },
+  cta: {
+    filter: "drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.1))",
+    color: "white",
+    bg: "brand.300",
+  },
+};
 
 const Button = {
   // 1. We can update the base styles
@@ -30,27 +49,6 @@ const Button = {
     },
   },
   // 3. We can add a new visual variant
-  variants: {
-    primaryWeno: {
-      bg: "brand.100",
-      color: "brand.200",
-      borderRadius: "6px",
-    },
-    secondaryWeno: {
-      bg: "gradient.100",
-      color: "brand.100",
-      border: "1px solid #9F449D",
-      borderRadius: "6px",
-    },
-    cta: {
-      filter: "drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.1))",
-      color: "white",
-      bg: "brand.300",
-    },
-    // 4. We can override existing variants
-    /* solid: (props) => ({
-      bg: props.colorMode === "dark" ? "red.300" : "red.500",
-    }),*/
-  },
+  variants,
 };
 export default Button;

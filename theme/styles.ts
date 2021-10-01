@@ -1,3 +1,18 @@
+/*
+ * https://github.com/chakra-ui/chakra-ui/tree/main/packages/theme/src/foundations
+blur.ts
+borders.ts
+breakpoints.ts
+colors.ts
+index.ts
+radius.ts
+shadows.ts
+sizes.ts
+spacing.ts
+transition.ts
+typography.ts
+z-index.ts
+ * */
 const styles = {
   colors: {
     gradient: {
