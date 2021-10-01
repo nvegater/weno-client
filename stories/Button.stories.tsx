@@ -8,7 +8,11 @@ export default {
   component: Button,
   argTypes: {
     variant: {
-      options: ["primaryWeno", "secondaryWeno"],
+      options: ["primaryWeno", "secondaryWeno", "cta"],
+      control: { type: "radio" },
+    },
+    size: {
+      options: ["heroWeno", "sideBarCTA", "navBarCTA"],
       control: { type: "radio" },
     },
   },
