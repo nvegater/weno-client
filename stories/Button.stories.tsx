@@ -1,6 +1,7 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 import { Button } from "@chakra-ui/react";
+import { RiLoginCircleFill } from "react-icons/ri";
 
 export default {
   title: "Example/Button",
@@ -14,9 +15,7 @@ export default {
 } as ComponentMeta<typeof Button>;
 
 const Template: ComponentStory<typeof Button> = (args) => (
-  <Button variant={args.variant} size={args.size}>
-    {args.label}
-  </Button>
+  <Button {...args}>{args.label}</Button>
 );
 
 export const PrimaryHero = Template.bind({});
@@ -31,4 +30,20 @@ SecondaryHero.args = {
   variant: "secondaryWeno",
   size: "heroWeno",
   label: "Hola",
+};
+
+export const SideBarCallToAction = Template.bind({});
+SideBarCallToAction.args = {
+  variant: "cta",
+  size: "sideBarCTA",
+  leftIcon: <RiLoginCircleFill />,
+  label: "Sign in",
+};
+
+export const NavBarCallToAction = Template.bind({});
+NavBarCallToAction.args = {
+  variant: "cta",
+  size: "navBarCTA",
+  leftIcon: <RiLoginCircleFill />,
+  label: "Sign in",
 };

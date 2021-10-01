@@ -17,7 +17,15 @@ const Button = {
     heroWeno: {
       width: "152px",
       height: "42px",
-      borderRadius: "6px",
+    },
+    sideBarCTA: {
+      width: "372px",
+      height: "79px",
+    },
+    navBarCTA: {
+      width: "125px",
+      height: "34px",
+      fontSize: "12px",
     },
   },
   // 3. We can add a new visual variant
@@ -25,11 +33,19 @@ const Button = {
     primaryWeno: {
       bg: "brand.100",
       color: "brand.200",
+      borderRadius: "6px",
     },
     secondaryWeno: {
       bg: "gradient.100",
       color: "brand.100",
       border: "1px solid #9F449D",
+      borderRadius: "6px",
+    },
+    cta: {
+      filter: "drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.1))",
+      color: "white",
+      bg: "brand.300",
+      fontWeight: "bold", // Normally, it is "semibold"
     },
     // 4. We can override existing variants
     /* solid: (props) => ({
