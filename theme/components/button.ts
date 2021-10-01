@@ -9,14 +9,15 @@
 
 const Button = {
   // 1. We can update the base styles
-  /*  baseStyle: {
+  baseStyle: {
     fontWeight: "bold", // Normally, it is "semibold"
-  },*/
+  },
   // 2. We can add a new button size or extend existing
   sizes: {
     heroWeno: {
       width: "152px",
       height: "42px",
+      fontSize: "xs",
     },
     sideBarCTA: {
       width: "372px",
@@ -25,7 +26,7 @@ const Button = {
     navBarCTA: {
       width: "125px",
       height: "34px",
-      fontSize: "12px",
+      fontSize: "xs",
     },
   },
   // 3. We can add a new visual variant
@@ -45,7 +46,6 @@ const Button = {
       filter: "drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.1))",
       color: "white",
       bg: "brand.300",
-      fontWeight: "bold", // Normally, it is "semibold"
     },
     // 4. We can override existing variants
     /* solid: (props) => ({

@@ -22,14 +22,14 @@ export const PrimaryHero = Template.bind({});
 PrimaryHero.args = {
   variant: "primaryWeno",
   size: "heroWeno",
-  label: "Hola",
+  label: "Register",
 };
 
 export const SecondaryHero = Template.bind({});
 SecondaryHero.args = {
   variant: "secondaryWeno",
   size: "heroWeno",
-  label: "Hola",
+  label: "Offer experiences",
 };
 
 export const SideBarCallToAction = Template.bind({});
