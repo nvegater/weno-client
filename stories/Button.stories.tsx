@@ -4,7 +4,7 @@ import { Button } from "@chakra-ui/react";
 import { RiLoginCircleFill } from "react-icons/ri";
 
 export default {
-  title: "Example/Button",
+  title: "Weno/Button",
   component: Button,
   argTypes: {
     variant: {
