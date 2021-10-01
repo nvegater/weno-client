@@ -14,17 +14,21 @@ export default {
 } as ComponentMeta<typeof Button>;
 
 const Template: ComponentStory<typeof Button> = (args) => (
-  <Button variant={args.variant}>{args.label}</Button>
+  <Button variant={args.variant} size={args.size}>
+    {args.label}
+  </Button>
 );
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const PrimaryHero = Template.bind({});
+PrimaryHero.args = {
   variant: "primaryWeno",
+  size: "heroWeno",
   label: "Hola",
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
+export const SecondaryHero = Template.bind({});
+SecondaryHero.args = {
   variant: "secondaryWeno",
+  size: "heroWeno",
   label: "Hola",
 };

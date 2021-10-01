@@ -15,7 +15,6 @@ const overrides = {
   breakpoints,
   components: {
     Button,
-    // Other components go here
   },
 };
 export default extendTheme(overrides);

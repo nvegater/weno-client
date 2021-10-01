@@ -7,40 +7,34 @@
  *
  * */
 
-const ButtonStyle = {
+const Button = {
   // 1. We can update the base styles
-  baseStyle: {
+  /*  baseStyle: {
     fontWeight: "bold", // Normally, it is "semibold"
-  },
+  },*/
   // 2. We can add a new button size or extend existing
   sizes: {
-    banana: {
-      h: "56px",
-      fontSize: "lg",
-      px: "32px",
+    heroWeno: {
+      width: "152px",
+      height: "42px",
+      borderRadius: "6px",
     },
   },
   // 3. We can add a new visual variant
   variants: {
     primaryWeno: {
-      bg: "gradient.100",
-      color: "brand.100",
-      borderRadius: "6px",
-      width: "153px",
-      height: "48px",
-    },
-    secondaryWeno: {
       bg: "brand.100",
       color: "brand.200",
-      // TODO move sizes and radius to the styles file and use the objects
-      borderRadius: "6px",
-      width: "152px",
-      height: "42px",
+    },
+    secondaryWeno: {
+      bg: "gradient.100",
+      color: "brand.100",
+      border: "1px solid #9F449D",
     },
     // 4. We can override existing variants
-    solid: (props) => ({
+    /* solid: (props) => ({
       bg: props.colorMode === "dark" ? "red.300" : "red.500",
-    }),
+    }),*/
   },
 };
-export default ButtonStyle;
+export default Button;
