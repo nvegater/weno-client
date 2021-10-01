@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IoCalendar, IoGrid, IoHelpBuoy } from "react-icons/io5";
+import { IoGrid, IoHelpBuoy } from "react-icons/io5";
 import { MdWeb } from "react-icons/md";
 
 export interface Link {
@@ -25,12 +25,7 @@ export const links: Link[] = [
         href: "#",
         icon: <IoHelpBuoy />,
       },
-      {
-        label: "Events & Meetups",
-        description: "Discover and join your local Sketch community.",
-        href: "#",
-        icon: <IoCalendar />,
-      },
+
       {
         label: "Extensions",
         description: "Do even more with Assistants, plugins and integrations.",

@@ -7,7 +7,7 @@ export const NavBarWithSubmenu = () => {
     <Box minH="640px">
       <Box
         as="header"
-        bg={mode("white", "gray.800")}
+        bg={mode("gradient.100", "gray.800")}
         position="relative"
         zIndex="10"
       >

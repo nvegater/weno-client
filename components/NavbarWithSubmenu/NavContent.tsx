@@ -15,6 +15,7 @@ import { NavMenu } from "./NavMenu";
 import { Submenu } from "./Submenu";
 import { ToggleButton } from "./ToggleButton";
 import { links } from "./_data";
+import { RiLoginCircleFill } from "react-icons/ri";
 
 const MobileNavContext = (props: FlexProps) => {
   const { isOpen, onToggle } = useDisclosure();
@@ -32,13 +33,12 @@ const MobileNavContext = (props: FlexProps) => {
         <Box as="a" rel="home" mx="auto">
           <Logo h="24px" iconColor="blue.400" />
         </Box>
-        <Box visibility={{ base: "hidden", sm: "visible" }}>
-          <Button as="a" colorScheme="blue">
-            Get Started
-          </Button>
-        </Box>
       </Flex>
-      <NavMenu animate={isOpen ? "open" : "closed"}>
+      <NavMenu
+        animate={isOpen ? "open" : "closed"}
+        bg="gradient.100"
+        color="brand.100"
+      >
         {links.map((link, idx) =>
           link.children ? (
             <Submenu.Mobile key={idx} link={link} />
@@ -48,9 +48,15 @@ const MobileNavContext = (props: FlexProps) => {
             </NavLink.Mobile>
           )
         )}
-        <Button colorScheme="blue" w="full" size="lg" mt="5">
-          Try for free
-        </Button>
+        <Flex justifyContent="center" py={4}>
+          <Button
+            leftIcon={<RiLoginCircleFill />}
+            size="sideBarCTA"
+            variant="cta"
+          >
+            Sign in
+          </Button>
+        </Flex>
       </NavMenu>
     </>
   );
@@ -93,8 +99,8 @@ const DesktopNavContent = (props: FlexProps) => {
         >
           Sign In
         </Box>
-        <Button as="a" href="#" colorScheme="blue" fontWeight="bold">
-          Sign up for free
+        <Button leftIcon={<RiLoginCircleFill />} size="navBarCTA" variant="cta">
+          Sign in
         </Button>
       </HStack>
     </Flex>

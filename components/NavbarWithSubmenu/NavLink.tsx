@@ -43,9 +43,9 @@ export const MobileNavLink = (props: NavLinkProps) => {
       w="full"
       display="flex"
       alignItems="center"
+      justifyContent="center"
       height="14"
       fontWeight="semibold"
-      borderBottomWidth="1px"
       {...rest}
     />
   );

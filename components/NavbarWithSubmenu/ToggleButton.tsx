@@ -8,7 +8,7 @@ const Bar = chakra("span", {
     w: "1.25rem",
     h: "0.125rem",
     rounded: "full",
-    bg: "currentcolor",
+    bg: "brand.100",
     mx: "auto",
     insetStart: "0.125rem",
     transition: "all 0.12s",
