@@ -37,6 +37,7 @@ const MobileNavContext = (props: FlexProps) => {
         animate={isOpen ? "open" : "closed"}
         bg="gradient.100"
         color="brand.100"
+        height="35rem"
       >
         {links.map((link, idx) =>
           link.children ? (
