@@ -1,8 +1,4 @@
-import {
-  chakra,
-  HTMLChakraProps,
-  useColorModeValue as mode,
-} from "@chakra-ui/react";
+import { chakra, HTMLChakraProps } from "@chakra-ui/react";
 import * as React from "react";
 
 interface NavLinkProps extends HTMLChakraProps<"a"> {
@@ -18,15 +14,15 @@ const DesktopNavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
         display="inline-block"
         px="4"
         py="6"
-        fontWeight="semibold"
+        fontWeight="bold"
         aria-current={active ? "page" : undefined}
-        color={mode("gray.600", "gray.400")}
+        color="brand.100"
         transition="all 0.2s"
         {...rest}
-        _hover={{ color: "gray.500" }}
-        _active={{ color: "blue.600" }}
+        _hover={{ color: "black" }}
+        _active={{ color: "brand.300" }}
         _activeLink={{
-          color: "blue.600",
+          color: "brand.300",
           fontWeight: "bold",
         }}
       />
@@ -45,7 +41,7 @@ export const MobileNavLink = (props: NavLinkProps) => {
       alignItems="center"
       justifyContent="center"
       height="14"
-      fontWeight="semibold"
+      fontWeight="bold"
       {...rest}
     />
   );

@@ -6,7 +6,6 @@ import {
   HStack,
   useDisclosure,
   VisuallyHidden,
-  useColorModeValue as mode,
 } from "@chakra-ui/react";
 import * as React from "react";
 import { Logo } from "./Logo";
@@ -31,7 +30,7 @@ const MobileNavContext = (props: FlexProps) => {
           <ToggleButton isOpen={isOpen} onClick={onToggle} />
         </Box>
         <Box as="a" rel="home" mx="auto">
-          <Logo h="24px" iconColor="blue.400" />
+          <Logo h="24px" iconColor="brand.100" />
         </Box>
       </Flex>
       <NavMenu
@@ -71,8 +70,8 @@ const DesktopNavContent = (props: FlexProps) => {
       {...props}
     >
       <Box as="a" href="#" rel="home">
-        <VisuallyHidden>Envelope</VisuallyHidden>
-        <Logo h="6" iconColor="blue.500" />
+        <VisuallyHidden>Weno</VisuallyHidden>
+        <Logo h="6" iconColor="brand.100" />
       </Box>
       <HStack
         as="ul"
@@ -91,14 +90,6 @@ const DesktopNavContent = (props: FlexProps) => {
         ))}
       </HStack>
       <HStack spacing="8" minW="240px" justify="space-between">
-        <Box
-          as="a"
-          href="#"
-          color={mode("blue.600", "blue.300")}
-          fontWeight="bold"
-        >
-          Sign In
-        </Box>
         <Button leftIcon={<RiLoginCircleFill />} size="navBarCTA" variant="cta">
           Sign in
         </Button>

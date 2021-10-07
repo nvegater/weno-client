@@ -1,16 +1,11 @@
-import { Box, useColorModeValue as mode } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import * as React from "react";
 import { NavContent } from "./NavContent";
 
 export const NavBarWithSubmenu = () => {
   return (
     <Box minH="640px">
-      <Box
-        as="header"
-        bg={mode("gradient.100", "gray.800")}
-        position="relative"
-        zIndex="10"
-      >
+      <Box as="header" bg="gradient.100" position="relative" zIndex="10">
         <Box
           as="nav"
           aria-label="Main navigation"

@@ -14,10 +14,10 @@ export interface Link {
 }
 
 export const links: Link[] = [
-  { label: "For Designers", href: "#" },
-  { label: "For Teams", href: "#" },
+  { label: "Home", href: "#" },
   {
-    label: "Resources",
+    label: "Experiences",
+    href: "#",
     children: [
       {
         label: "Get Help",
@@ -40,5 +40,29 @@ export const links: Link[] = [
       },
     ],
   },
-  { label: "Pricing", href: "#" },
+  {
+    label: "Wineries",
+    children: [
+      {
+        label: "Get Help",
+        description: "Read our documentation and FAQs, or get in touch.",
+        href: "#",
+        icon: <IoHelpBuoy />,
+      },
+
+      {
+        label: "Extensions",
+        description: "Do even more with Assistants, plugins and integrations.",
+        href: "#",
+        icon: <IoGrid />,
+      },
+      {
+        label: "Blog",
+        description: "Get updates, articles and insights from the team.",
+        href: "#",
+        icon: <MdWeb />,
+      },
+    ],
+  },
+  { label: "About us", href: "#" },
 ];
