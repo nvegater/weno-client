@@ -36,6 +36,27 @@ SecondaryHero.args = {
   label: "Offer experiences",
 };
 
+export const BookExperience = Template.bind({});
+BookExperience.args = {
+  variant: "secondaryWeno",
+  size: "heroWeno",
+  label: "Book",
+};
+
+export const ConfirmOrder = Template.bind({});
+ConfirmOrder.args = {
+  variant: "secondaryWeno",
+  size: "heroWeno",
+  label: "Confirm Order",
+};
+
+export const ViewOnProfile = Template.bind({});
+ViewOnProfile.args = {
+  variant: "secondaryWeno",
+  size: "heroWeno",
+  label: "View on Profile",
+};
+
 export const SideBarCallToAction = Template.bind({});
 SideBarCallToAction.args = {
   variant: "cta",
