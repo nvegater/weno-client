@@ -5,6 +5,7 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { inProd } from "./prodCheck";
 
 import theme from "../theme/index";
+import Fonts from "../theme/fonts/Fonts";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const paypalClientId = !!process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID
@@ -17,6 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
   return (
     <ChakraProvider theme={theme}>
+      <Fonts />
       <PayPalScriptProvider options={initialOptions}>
         <Component {...pageProps} />
       </PayPalScriptProvider>

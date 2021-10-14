@@ -4,17 +4,17 @@ import {
   Flex,
   FlexProps,
   HStack,
+  Text,
   useDisclosure,
-  VisuallyHidden,
 } from "@chakra-ui/react";
 import * as React from "react";
-import { Logo } from "./Logo";
 import { NavLink } from "./NavLink";
 import { NavMenu } from "./NavMenu";
 import { Submenu } from "./Submenu";
 import { ToggleButton } from "./ToggleButton";
 import { links } from "./_data";
 import { RiLoginCircleFill } from "react-icons/ri";
+import { Weno } from "../Hero/Brands";
 
 const MobileNavContext = (props: FlexProps) => {
   const { isOpen, onToggle } = useDisclosure();
@@ -29,8 +29,19 @@ const MobileNavContext = (props: FlexProps) => {
         <Box flexBasis="6rem">
           <ToggleButton isOpen={isOpen} onClick={onToggle} />
         </Box>
-        <Box as="a" rel="home" mx="auto">
-          <Logo h="24px" iconColor="brand.100" />
+        <Box as="a" rel="home">
+          <Flex alignItems="center">
+            <Weno h="2.1em" w="2.1em" />
+            <Text
+              ml={2}
+              fontFamily="fonts.logo"
+              fontWeight="700"
+              color="brand.100"
+              fontSize="24px"
+            >
+              Weno
+            </Text>
+          </Flex>
         </Box>
       </Flex>
       <NavMenu
@@ -71,8 +82,18 @@ const DesktopNavContent = (props: FlexProps) => {
       {...props}
     >
       <Box as="a" href="#" rel="home">
-        <VisuallyHidden>Weno</VisuallyHidden>
-        <Logo h="6" iconColor="brand.100" />
+        <Flex alignItems="center">
+          <Weno h="2.1em" w="2.1em" />
+          <Text
+            ml={2}
+            fontFamily="fonts.logo"
+            fontWeight="700"
+            color="brand.100"
+            fontSize="24px"
+          >
+            Weno
+          </Text>
+        </Flex>
       </Box>
       <HStack
         as="ul"
