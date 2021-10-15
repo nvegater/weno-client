@@ -3,7 +3,6 @@ import {
   Flex,
   Heading,
   Img,
-  Link,
   LinkBox,
   LinkOverlay,
   SimpleGrid,
@@ -11,7 +10,6 @@ import {
   useColorModeValue as mode,
 } from "@chakra-ui/react";
 import * as React from "react";
-import { BsArrowRight, BsClockFill } from "react-icons/bs";
 
 interface BlogProps {
   category: string;

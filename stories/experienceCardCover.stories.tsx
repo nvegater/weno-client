@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ExperienceCardCover } from "../components/Cards/ExperienceCardCover";
 
 export default {
-  title: "Weno/ExperienceCard",
+  title: "Weno/ExperienceCardCover",
   component: ExperienceCardCover,
 } as ComponentMeta<typeof ExperienceCardCover>;
 
