@@ -6,6 +6,7 @@ import styles from "./styles";
 import breakpoints from "./foundations/breakpoints";
 // Component style overrides
 import Button from "./components/button";
+import Card from "./components/card";
 
 // https://github.com/chakra-ui/chakra-ui/tree/main/packages/theme/src/foundations
 
@@ -16,6 +17,7 @@ const overrides = {
   breakpoints,
   components: {
     Button,
+    Card,
   },
 };
 export default extendTheme(overrides);

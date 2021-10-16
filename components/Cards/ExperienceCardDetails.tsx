@@ -51,7 +51,7 @@ const Card = (props: BlogProps) => {
           </Text>
           <Flex
             align="baseline"
-            justify="space-between"
+            justify="center"
             fontSize="sm"
             color={mode("gray.600", "gray.400")}
           >
