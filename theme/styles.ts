@@ -23,6 +23,9 @@ const styles = {
       200: "#3E1414",
       300: "#9F449D",
     },
+    titles: {
+      100: "#3E1414",
+    },
   },
 };
 export default styles;

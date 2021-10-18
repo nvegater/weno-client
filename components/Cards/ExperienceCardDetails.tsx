@@ -25,38 +25,24 @@ const Card = (props: BlogProps) => {
   return (
     <LinkBox
       as="article"
-      bg={{ sm: mode("white", "gray.700") }}
+      bg="brand.100"
       shadow={{ sm: "base" }}
       rounded={{ sm: "md" }}
       overflow="hidden"
-      transition="all 0.2s"
       _hover={{ shadow: { sm: "lg" } }}
     >
-      <Flex direction="column">
-        <Flex direction="column" px={{ sm: "6" }} py="5">
-          <Heading as="h3" size="sm" mb="2" lineHeight="base">
+      <Flex direction="column" px={{ sm: "6" }} py="5">
+        <Flex justify="center" py="3">
+          <Heading color="titles.100" size="24px">
             <LinkOverlay href={href}>{title}</LinkOverlay>
           </Heading>
-          <Text noOfLines={1} mb="8" color={mode("gray.600", "gray.400")}>
-            {date}
-          </Text>
-          <Text noOfLines={1} mb="8" color={mode("gray.600", "gray.400")}>
-            {place}
-          </Text>
-          <Text noOfLines={1} mb="8" color={mode("gray.600", "gray.400")}>
-            {time}
-          </Text>
-          <Text noOfLines={1} mb="8" color={mode("gray.600", "gray.400")}>
-            {totalPeople}
-          </Text>
-          <Flex
-            align="baseline"
-            justify="center"
-            fontSize="sm"
-            color={mode("gray.600", "gray.400")}
-          >
-            <Text>Total Price</Text>
-          </Flex>
+        </Flex>
+        <Text mb="8">{date}</Text>
+        <Text mb="8">{place}</Text>
+        <Text mb="8">{time}</Text>
+        <Text mb="8">{totalPeople}</Text>
+        <Flex justify="center">
+          <Text>Total Price</Text>
         </Flex>
       </Flex>
     </LinkBox>

@@ -23,11 +23,10 @@ const Card = (props: BlogProps) => {
   return (
     <LinkBox
       as="article"
-      bg={{ sm: mode("white", "gray.700") }}
+      bg="brand.100"
       shadow={{ sm: "base" }}
       rounded={{ sm: "md" }}
       overflow="hidden"
-      transition="all 0.2s"
       _hover={{ shadow: { sm: "lg" } }}
     >
       <Flex direction="column">
