@@ -4,12 +4,12 @@ import {
   Heading,
   LinkBox,
   LinkOverlay,
-  SimpleGrid,
   Text,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
 import * as React from "react";
-import * as Logos from "../Hero/Brands";
+import { IoCalendar, IoPeople, IoLocation } from "react-icons/io5";
+import { BsFillClockFill } from "react-icons/bs";
 
 interface BlogProps {
   date: string;
@@ -19,6 +19,21 @@ interface BlogProps {
   time: string;
   totalPeople: string;
 }
+
+interface IconLabelProps {
+  icon: React.ReactElement;
+  label: string;
+}
+
+const IconLabel = (props: IconLabelProps) => {
+  const { label, icon } = props;
+  return (
+    <Flex py="3">
+      {icon}
+      <Text px="5">{label}</Text>
+    </Flex>
+  );
+};
 
 const Card = (props: BlogProps) => {
   const { title, date, place, href, time, totalPeople } = props;
@@ -36,13 +51,10 @@ const Card = (props: BlogProps) => {
               <LinkOverlay href={href}>{title}</LinkOverlay>
             </Heading>
           </Flex>
-          <Flex py="3">
-            <Logos.ChatMonkey />
-            <Text px="5">{date}</Text>
-          </Flex>
-          <Text mb="8">{place}</Text>
-          <Text mb="8">{time}</Text>
-          <Text mb="8">{totalPeople}</Text>
+          <IconLabel label={date} icon={<IoCalendar color="#BE5050" />} />
+          <IconLabel label={place} icon={<IoLocation color="#BE5050" />} />
+          <IconLabel label={time} icon={<BsFillClockFill color="#BE5050" />} />
+          <IconLabel label={totalPeople} icon={<IoPeople color="#BE5050" />} />
           <Flex justify="center">
             <Text>Total Price</Text>
           </Flex>
