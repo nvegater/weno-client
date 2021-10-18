@@ -9,7 +9,7 @@ import {
   useColorModeValue as mode,
 } from "@chakra-ui/react";
 import * as React from "react";
-import { BsArrowRight, BsClockFill } from "react-icons/bs";
+import * as Logos from "../Hero/Brands";
 
 interface BlogProps {
   date: string;
@@ -23,55 +23,44 @@ interface BlogProps {
 const Card = (props: BlogProps) => {
   const { title, date, place, href, time, totalPeople } = props;
   return (
-    <LinkBox
-      as="article"
+    <Box
+      as="section"
       bg="brand.100"
-      shadow={{ sm: "base" }}
-      rounded={{ sm: "md" }}
-      overflow="hidden"
-      _hover={{ shadow: { sm: "lg" } }}
+      borderRadius="12px"
+      maxW={{ base: "xs", md: "sm" }}
     >
-      <Flex direction="column" px={{ sm: "6" }} py="5">
-        <Flex justify="center" py="3">
-          <Heading color="titles.100" size="24px">
-            <LinkOverlay href={href}>{title}</LinkOverlay>
-          </Heading>
+      <LinkBox>
+        <Flex direction="column" p={{ sm: "6" }}>
+          <Flex justify="center" py={{ sm: "3" }}>
+            <Heading color="titles.100" size="24px">
+              <LinkOverlay href={href}>{title}</LinkOverlay>
+            </Heading>
+          </Flex>
+          <Flex py="3">
+            <Logos.ChatMonkey />
+            <Text px="5">{date}</Text>
+          </Flex>
+          <Text mb="8">{place}</Text>
+          <Text mb="8">{time}</Text>
+          <Text mb="8">{totalPeople}</Text>
+          <Flex justify="center">
+            <Text>Total Price</Text>
+          </Flex>
         </Flex>
-        <Text mb="8">{date}</Text>
-        <Text mb="8">{place}</Text>
-        <Text mb="8">{time}</Text>
-        <Text mb="8">{totalPeople}</Text>
-        <Flex justify="center">
-          <Text>Total Price</Text>
-        </Flex>
-      </Flex>
-    </LinkBox>
+      </LinkBox>
+    </Box>
   );
 };
 
 export const ExperienceCardDetails = () => {
   return (
-    <Box
-      as="section"
-      bg={mode("gray.50", "gray.800")}
-      py={{ base: "10", sm: "24" }}
-    >
-      <Box
-        maxW={{ base: "xl", md: "7xl" }}
-        mx="auto"
-        px={{ base: "6", md: "8" }}
-      >
-        <SimpleGrid columns={{ base: 1, md: 3 }} spacing="12" mb="10">
-          <Card
-            date="October 21st, "
-            href="#"
-            title="Experience Name"
-            place="Santo Tomas"
-            time="19:00 hrs"
-            totalPeople="2 people"
-          />
-        </SimpleGrid>
-      </Box>
-    </Box>
+    <Card
+      date="October 21st, "
+      href="#"
+      title="Experience Name"
+      place="Santo Tomas"
+      time="19:00 hrs"
+      totalPeople="2 people"
+    />
   );
 };
