@@ -8,7 +8,7 @@ import {
   Text,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
-import Link from "next/link";
+import { IoLocation } from "react-icons/io5";
 import * as React from "react";
 
 interface BlogProps {
@@ -25,20 +25,20 @@ const Card = (props: BlogProps) => {
       as="section"
       bg="brand.100"
       borderRadius="12px"
-      maxW={{ base: "xs", md: "sm" }}
+      width={"274px"}
+      height={"345px"}
     >
       <LinkBox>
         <Flex direction="column">
-          <Flex direction="column" p={{ sm: "6" }}>
-            <Heading as="h3" size="sm" mb="2" lineHeight="base">
+          <Flex justify="center" p={{ sm: "4" }}>
+            <Heading as="h3" size="sm" lineHeight="base">
               <LinkOverlay href={href}>{title}</LinkOverlay>
             </Heading>
           </Flex>
-          <Img height="60" objectFit="cover" alt={title} src={media} />
-          <Flex direction="column" px={{ sm: "6" }} py="5">
-            <Text noOfLines={2} mb="8" color={mode("gray.600", "gray.400")}>
-              {description}
-            </Text>
+          <Img height="225" objectFit="cover" alt={title} src={media} />
+          <Flex px={{ sm: "4" }} py="4">
+            <IoLocation color="#BE5050" />
+            <Text px="7">{description}</Text>
           </Flex>
         </Flex>
       </LinkBox>

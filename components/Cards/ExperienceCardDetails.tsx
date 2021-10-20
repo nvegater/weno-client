@@ -28,7 +28,7 @@ interface IconLabelProps {
 const IconLabel = (props: IconLabelProps) => {
   const { label, icon } = props;
   return (
-    <Flex py="3">
+    <Flex py="2.5">
       {icon}
       <Text px="5">{label}</Text>
     </Flex>
@@ -42,11 +42,12 @@ const Card = (props: BlogProps) => {
       as="section"
       bg="brand.100"
       borderRadius="12px"
-      maxW={{ base: "xs", md: "sm" }}
+      width={"274px"}
+      height={"288px"}
     >
       <LinkBox>
-        <Flex direction="column" p={{ sm: "6" }}>
-          <Flex justify="center" py={{ sm: "3" }}>
+        <Flex direction="column" px={{ sm: "8" }}>
+          <Flex justify="center" py={{ sm: "4" }}>
             <Heading color="titles.100" size="24px">
               <LinkOverlay href={href}>{title}</LinkOverlay>
             </Heading>
