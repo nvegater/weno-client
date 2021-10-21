@@ -34,16 +34,16 @@ const Button = {
   // 2. We can add a new button size or extend existing
   sizes: {
     heroWeno: {
-      width: "152px",
+      minWidth: "152px",
       height: "42px",
       fontSize: "xs",
     },
     sideBarCTA: {
-      width: "372px",
+      minWidth: "372px",
       height: "79px",
     },
     navBarCTA: {
-      width: "125px",
+      minWidth: "125px",
       height: "34px",
       fontSize: "xs",
     },

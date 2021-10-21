@@ -14,7 +14,7 @@ import * as Logos from "./Brands";
 export const Hero = () => {
   return (
     <Box>
-      <Box as="section" bg="gradient.100" color="brand.100" py="7.5rem">
+      <Box as="section" bg="gradient.100" color="brand.100" py="6rem">
         <Box
           maxW={{ base: "xl", md: "5xl" }}
           mx="auto"
@@ -46,11 +46,11 @@ export const Hero = () => {
             spacing="4"
           >
             <LightMode>
-              <Button as="a" href="#" variant="primaryWeno" size="heroWeno">
-                Get started free
+              <Button variant="primaryWeno" size="heroWeno">
+                Register
               </Button>
-              <Button as="a" href="#" variant="secondaryWeno" size="heroWeno">
-                Request demo
+              <Button variant="secondaryWeno" size="heroWeno">
+                Offer experiences
               </Button>
             </LightMode>
           </Stack>
