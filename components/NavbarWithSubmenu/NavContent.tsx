@@ -34,8 +34,7 @@ const MobileNavContext = (props: FlexProps) => {
             <Weno h="2.1em" w="2.1em" />
             <Text
               ml={2}
-              fontFamily="fonts.logo"
-              fontWeight="700"
+              fontFamily="GothamLogo"
               color="brand.100"
               fontSize="24px"
             >
@@ -84,13 +83,7 @@ const DesktopNavContent = (props: FlexProps) => {
       <Box as="a" href="#" rel="home">
         <Flex alignItems="center">
           <Weno h="2.1em" w="2.1em" />
-          <Text
-            ml={2}
-            fontFamily="fonts.logo"
-            fontWeight="700"
-            color="brand.100"
-            fontSize="24px"
-          >
+          <Text ml={2} fontFamily="GothamLogo" color="brand.100">
             Weno
           </Text>
         </Flex>
