@@ -1,6 +1,4 @@
 import * as React from "react";
-import { IoGrid, IoHelpBuoy } from "react-icons/io5";
-import { MdWeb } from "react-icons/md";
 
 export interface Link {
   label: string;
@@ -18,7 +16,7 @@ export const links: Link[] = [
   {
     label: "Experiences",
     href: "#",
-    children: [
+    /*    children: [
       {
         label: "Get Help",
         description: "Read our documentation and FAQs, or get in touch.",
@@ -38,11 +36,11 @@ export const links: Link[] = [
         href: "#",
         icon: <MdWeb />,
       },
-    ],
+    ],*/
   },
   {
     label: "Wineries",
-    children: [
+    /*    children: [
       {
         label: "Get Help",
         description: "Read our documentation and FAQs, or get in touch.",
@@ -62,7 +60,7 @@ export const links: Link[] = [
         href: "#",
         icon: <MdWeb />,
       },
-    ],
+    ],*/
   },
   { label: "About us", href: "#" },
 ];

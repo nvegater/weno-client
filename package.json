@@ -9,7 +9,7 @@
     "lint": "next lint",
     "prepare": "husky install",
     "gen-graphql-types": "graphql-codegen --config codegengraphql.yml",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 --static-dir /static/media//public",
     "build-storybook": "build-storybook"
   },
   "dependencies": {

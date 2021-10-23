@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { NavBarWithSubmenu } from "../NavbarWithSubmenu/App";
+import { NavBarWithSubmenu } from "../NavbarWithSubmenu/NavBarWithSubmenu";
 import { Hero } from "../Hero/Hero";
 
 interface LandingPageProps {}

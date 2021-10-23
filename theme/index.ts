@@ -12,7 +12,6 @@ import Button from "./components/button";
 const overrides = {
   ...styles,
   // Other foundational style overrides go here
-  fonts: { heading: "GothamLogo", body: "GothamText" },
   breakpoints,
   components: {
     Button,
