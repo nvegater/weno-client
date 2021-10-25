@@ -1,7 +1,9 @@
 import {
   Box,
+  Button,
   Flex,
   Heading,
+  Icon,
   Img,
   LinkBox,
   LinkOverlay,
@@ -9,7 +11,8 @@ import {
   useColorModeValue as mode,
 } from "@chakra-ui/react";
 import { IoLocation } from "react-icons/io5";
-import * as React from "react";
+import React, { useState } from "react";
+import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 
 interface BlogProps {
   title: string;
@@ -20,6 +23,13 @@ interface BlogProps {
 
 const Card = (props: BlogProps) => {
   const { title, href, description, media } = props;
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const handlePress = () => {
+    setIsFavorite(!isFavorite);
+    console.log("isFavorite");
+  };
+
   return (
     <Box
       as="section"
@@ -28,20 +38,23 @@ const Card = (props: BlogProps) => {
       width={"274px"}
       height={"345px"}
     >
-      <LinkBox>
-        <Flex direction="column">
-          <Flex justify="center" p={{ sm: "4" }}>
-            <Heading as="h3" size="sm" lineHeight="base">
-              <LinkOverlay href={href}>{title}</LinkOverlay>
-            </Heading>
-          </Flex>
-          <Img height="225" objectFit="cover" alt={title} src={media} />
-          <Flex px={{ sm: "4" }} py="4">
-            <IoLocation color="#BE5050" />
-            <Text px="7">{description}</Text>
-          </Flex>
+      <Flex direction="column">
+        <Flex justify="center" p={{ sm: "4" }}>
+          <Heading as="h3" size="sm" lineHeight="base">
+            <LinkOverlay href={href}>{title}</LinkOverlay>
+          </Heading>
         </Flex>
-      </LinkBox>
+        <Img height="225" objectFit="cover" alt={title} src={media} />
+        <Flex px={{ sm: "4" }} py="4">
+          <IoLocation color="#BE5050" />
+          <Text px="7">{description}</Text>
+          <Icon
+            as={BsSuitHeartFill}
+            onClick={() => handlePress()}
+            color={isFavorite ? "#F16079" : "#BE5050"}
+          />
+        </Flex>
+      </Flex>
     </Box>
   );
 };
@@ -56,3 +69,12 @@ export const ExperienceCardCover = () => {
     />
   );
 };
+
+// const styles = StyleSheet.create({
+//   viewFavorite: {
+//     position: "absolute",
+//     top: 0,
+//     right: 0,
+//     background : "#fff",
+//   }
+// })
