@@ -1,11 +1,9 @@
 import {
   Box,
-  Button,
   Flex,
   Heading,
   Icon,
   Img,
-  LinkBox,
   LinkOverlay,
   Text,
   useColorModeValue as mode,
@@ -69,12 +67,3 @@ export const ExperienceCardCover = () => {
     />
   );
 };
-
-// const styles = StyleSheet.create({
-//   viewFavorite: {
-//     position: "absolute",
-//     top: 0,
-//     right: 0,
-//     background : "#fff",
-//   }
-// })
