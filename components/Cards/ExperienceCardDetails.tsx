@@ -2,7 +2,7 @@ import {
   Box,
   Flex,
   Heading,
-  LinkBox,
+  Img,
   LinkOverlay,
   Text,
   useColorModeValue as mode,
@@ -18,6 +18,7 @@ interface BlogProps {
   href: string;
   time: string;
   totalPeople: string;
+  media: string;
 }
 
 interface IconLabelProps {
@@ -36,18 +37,19 @@ const IconLabel = (props: IconLabelProps) => {
 };
 
 const Card = (props: BlogProps) => {
-  const { title, date, place, href, time, totalPeople } = props;
+  const { title, date, place, href, time, totalPeople, media } = props;
   return (
-    <Box
-      as="section"
-      bg="brand.100"
-      borderRadius="12px"
-      width={"274px"}
-      height={"288px"}
-    >
-      <LinkBox>
-        <Flex direction="column" px={{ sm: "8" }}>
-          <Flex justify="center" py={{ sm: "4" }}>
+    <Box as="section" borderRadius="12px" width={"274px"}>
+      <Img height="225" objectFit="cover" alt={title} src={media} />
+      <Box
+        as="section"
+        bg="brand.100"
+        borderRadius="12px"
+        width={"274px"}
+        height={"288px"}
+      >
+        <Flex direction="column" px="8">
+          <Flex justify="center" py="4">
             <Heading color="titles.100" size="24px">
               <LinkOverlay href={href}>{title}</LinkOverlay>
             </Heading>
@@ -60,7 +62,7 @@ const Card = (props: BlogProps) => {
             <Text>Total Price</Text>
           </Flex>
         </Flex>
-      </LinkBox>
+      </Box>
     </Box>
   );
 };
@@ -74,6 +76,7 @@ export const ExperienceCardDetails = () => {
       place="Santo Tomas"
       time="19:00 hrs"
       totalPeople="2 people"
+      media="https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
     />
   );
 };
