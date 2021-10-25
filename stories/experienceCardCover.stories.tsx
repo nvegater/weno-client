@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { ExperienceCardCover } from "../components/Cards/ExperienceCardCover";
 
 export default {
-  title: "Weno/ExperienceCardCover",
+  title: "Weno/Cards",
   component: ExperienceCardCover,
 } as ComponentMeta<typeof ExperienceCardCover>;
 
@@ -11,4 +11,4 @@ const Template: ComponentStory<typeof ExperienceCardCover> = (args) => (
   <ExperienceCardCover />
 );
 
-export const NavBar = Template.bind({});
+export const LandingCardExperience = Template.bind({});
