@@ -16,6 +16,18 @@ import { links } from "./_data";
 import { RiLoginCircleFill } from "react-icons/ri";
 import { Weno } from "../Hero/Brands";
 
+const LogoText = (
+  <Text
+    ml={2}
+    fontFamily="GothamLogo"
+    color="brand.100"
+    fontSize="2xl"
+    fontWeight="700"
+  >
+    Weno
+  </Text>
+);
+
 const MobileNavContext = (props: FlexProps) => {
   const { isOpen, onToggle } = useDisclosure();
   return (
@@ -32,15 +44,7 @@ const MobileNavContext = (props: FlexProps) => {
         <Box as="a" rel="home">
           <Flex alignItems="center">
             <Weno h="2.1em" w="2.1em" />
-            <Text
-              ml={2}
-              fontFamily="fonts.logo"
-              fontWeight="700"
-              color="brand.100"
-              fontSize="24px"
-            >
-              Weno
-            </Text>
+            {LogoText}
           </Flex>
         </Box>
       </Flex>
@@ -48,17 +52,19 @@ const MobileNavContext = (props: FlexProps) => {
         animate={isOpen ? "open" : "closed"}
         bg="gradient.100"
         color="brand.100"
-        height="35rem"
+        height="100vh"
+        fontSize="xl"
+        pt="70px"
       >
-        {links.map((link, idx) =>
-          link.children ? (
-            <Submenu.Mobile key={idx} link={link} />
-          ) : (
-            <NavLink.Mobile key={idx} href={link.href}>
-              {link.label}
-            </NavLink.Mobile>
-          )
-        )}
+        {links.map((link, idx) => (
+          <Box py={4} key={idx}>
+            {link.children ? (
+              <Submenu.Mobile link={link} />
+            ) : (
+              <NavLink.Mobile href={link.href}>{link.label}</NavLink.Mobile>
+            )}
+          </Box>
+        ))}
         <Flex justifyContent="center" py={4}>
           <Button
             leftIcon={<RiLoginCircleFill />}
@@ -84,15 +90,7 @@ const DesktopNavContent = (props: FlexProps) => {
       <Box as="a" href="#" rel="home">
         <Flex alignItems="center">
           <Weno h="2.1em" w="2.1em" />
-          <Text
-            ml={2}
-            fontFamily="fonts.logo"
-            fontWeight="700"
-            color="brand.100"
-            fontSize="24px"
-          >
-            Weno
-          </Text>
+          {LogoText}
         </Flex>
       </Box>
       <HStack

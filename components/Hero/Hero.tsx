@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Heading,
-  LightMode,
   SimpleGrid,
   Stack,
   Text,
@@ -14,7 +13,14 @@ import * as Logos from "./Brands";
 export const Hero = () => {
   return (
     <Box>
-      <Box as="section" bg="gradient.100" color="brand.100" py="7.5rem">
+      <Box
+        as="section"
+        bg="gradient.100"
+        color="brand.100"
+        pt="7rem"
+        pb="2rem"
+        borderBottomRadius="12px 12px"
+      >
         <Box
           maxW={{ base: "xl", md: "5xl" }}
           mx="auto"
@@ -32,9 +38,14 @@ export const Hero = () => {
             >
               Be part of the next generation of wine tourism
             </Heading>
-            <Text fontSize="xl" mt="4" maxW="xl" mx="auto">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore
+            <Text
+              fontSize="xl"
+              mt="4"
+              maxW="xl"
+              mx="auto"
+              fontFamily="GothamText"
+            >
+              Connect with wine lovers & growers
             </Text>
           </Box>
 
@@ -44,15 +55,15 @@ export const Hero = () => {
             mt="10"
             mb="20"
             spacing="4"
+            display="flex"
+            justifyContent="space-around"
           >
-            <LightMode>
-              <Button as="a" href="#" variant="primaryWeno" size="heroWeno">
-                Get started free
-              </Button>
-              <Button as="a" href="#" variant="secondaryWeno" size="heroWeno">
-                Request demo
-              </Button>
-            </LightMode>
+            <Button variant="primaryWeno" size="heroWeno">
+              Register
+            </Button>
+            <Button variant="secondaryWeno" size="heroWeno">
+              Offer experiences
+            </Button>
           </Stack>
         </Box>
       </Box>

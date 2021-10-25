@@ -4,7 +4,7 @@ import { NavContent } from "./NavContent";
 
 export const NavBarWithSubmenu = () => {
   return (
-    <Box minH="640px">
+    <Box minH={3}>
       <Box as="header" bg="gradient.100" position="relative" zIndex="10">
         <Box
           as="nav"
