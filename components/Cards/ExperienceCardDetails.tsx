@@ -2,14 +2,15 @@ import {
   Box,
   Flex,
   Heading,
+  Icon,
   Img,
   LinkOverlay,
   Text,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
-import * as React from "react";
+import React, { useState } from "react";
 import { IoCalendar, IoPeople, IoLocation } from "react-icons/io5";
-import { BsFillClockFill } from "react-icons/bs";
+import { BsFillClockFill, BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 
 interface BlogProps {
   date: string;
@@ -38,15 +39,46 @@ const IconLabel = (props: IconLabelProps) => {
 
 const Card = (props: BlogProps) => {
   const { title, date, place, href, time, totalPeople, media } = props;
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  const handlePress = () => {
+    setIsFavorite(!isFavorite);
+    console.log("isFavorite");
+  };
+
   return (
-    <Box as="section" borderRadius="12px" width={"274px"}>
-      <Img height="225" objectFit="cover" alt={title} src={media} />
+    <Box
+      as="section"
+      borderRadius="12px"
+      width={"274px"}
+      position="relative"
+      display="inline-block"
+    >
+      <Box position="relative" display="inline-block">
+        <Img
+          height="225"
+          objectFit="cover"
+          alt={title}
+          src={media}
+          borderRadius="12px"
+        />
+        <Icon
+          as={BsSuitHeartFill}
+          position="absolute"
+          onClick={() => handlePress()}
+          color={isFavorite ? "#3E1414" : "#BE5050"}
+          top="10px"
+          right="10px"
+        />
+      </Box>
       <Box
         as="section"
         bg="brand.100"
         borderRadius="12px"
         width={"274px"}
         height={"288px"}
+        position="absolute"
+        bottom="-250px"
       >
         <Flex direction="column" px="8">
           <Flex justify="center" py="4">

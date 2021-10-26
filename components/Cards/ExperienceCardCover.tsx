@@ -49,7 +49,7 @@ const Card = (props: BlogProps) => {
           <Icon
             as={BsSuitHeartFill}
             onClick={() => handlePress()}
-            color={isFavorite ? "#F16079" : "#BE5050"}
+            color={isFavorite ? "#3E1414" : "#BE5050"}
           />
         </Flex>
       </Flex>
