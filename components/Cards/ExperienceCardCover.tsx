@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  Heading,
   Icon,
   Img,
   LinkOverlay,
@@ -10,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { IoLocation } from "react-icons/io5";
 import React, { useState } from "react";
-import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
+import { BsSuitHeartFill } from "react-icons/bs";
 
 interface BlogProps {
   title: string;

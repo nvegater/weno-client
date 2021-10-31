@@ -1,14 +1,13 @@
 import {
   Box,
   Flex,
-  Heading,
   Icon,
   Img,
   LinkOverlay,
   Text,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 import { IoCalendar, IoPeople, IoLocation } from "react-icons/io5";
 import { BsFillClockFill, BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
 
@@ -32,18 +31,15 @@ const IconLabel = (props: IconLabelProps) => {
   return (
     <Flex py="2.5">
       {icon}
-      <Text px="5">{label}</Text>
+      <Text px="3.5" fontFamily="GothamText">
+        {label}
+      </Text>
     </Flex>
   );
 };
 
 const Card = (props: BlogProps) => {
   const { title, date, place, href, time, totalPeople, media } = props;
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  const handlePress = () => {
-    setIsFavorite(!isFavorite);
-  };
 
   return (
     <Box
@@ -55,19 +51,11 @@ const Card = (props: BlogProps) => {
     >
       <Box position="relative" display="inline-block">
         <Img
-          height="225"
+          height="274"
           objectFit="cover"
           alt={title}
           src={media}
           borderRadius="12px"
-        />
-        <Icon
-          as={BsSuitHeartFill}
-          position="absolute"
-          onClick={() => handlePress()}
-          color={isFavorite ? "#3E1414" : "#BE5050"}
-          top="10px"
-          right="10px"
         />
       </Box>
       <Box
@@ -77,20 +65,27 @@ const Card = (props: BlogProps) => {
         width={"274px"}
         height={"288px"}
         position="absolute"
-        bottom="-250px"
+        bottom="-192px"
       >
-        <Flex direction="column" px="8">
-          <Flex justify="center" py="4">
-            <Heading color="titles.100" size="24px">
-              <LinkOverlay href={href}>{title}</LinkOverlay>
-            </Heading>
+        <Flex direction="column" px="20px">
+          <Flex py="21px">
+            <LinkOverlay href={href}>
+              <Text
+                fontFamily="GothamText"
+                fontWeight="bold"
+                color="#3E1414"
+                fontSize="20px"
+              >
+                {title}
+              </Text>
+            </LinkOverlay>
           </Flex>
           <IconLabel label={date} icon={<IoCalendar color="#BE5050" />} />
           <IconLabel label={place} icon={<IoLocation color="#BE5050" />} />
           <IconLabel label={time} icon={<BsFillClockFill color="#BE5050" />} />
           <IconLabel label={totalPeople} icon={<IoPeople color="#BE5050" />} />
           <Flex justify="center">
-            <Text>Total Price</Text>
+            <Text fontFamily="GothamText">Total: $4,000 MXN</Text>
           </Flex>
         </Flex>
       </Box>
@@ -101,9 +96,9 @@ const Card = (props: BlogProps) => {
 export const ExperienceCardDetails = () => {
   return (
     <Card
-      date="October 21st, "
+      date="October, Sat 21st, 2021 "
       href="#"
-      title="Experience Name"
+      title="Wine Tasting"
       place="Santo Tomas"
       time="19:00 hrs"
       totalPeople="2 people"
