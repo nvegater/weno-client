@@ -71,9 +71,9 @@ const Card = (props: BlogProps) => {
           <Flex py="21px">
             <LinkOverlay href={href}>
               <Text
-                fontFamily="GothamText"
-                fontWeight="bold"
-                color="#3E1414"
+                fontFamily="GothamLogo"
+                fontWeight="700"
+                color="brand.200"
                 fontSize="20px"
               >
                 {title}
