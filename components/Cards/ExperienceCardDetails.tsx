@@ -43,7 +43,6 @@ const Card = (props: BlogProps) => {
 
   const handlePress = () => {
     setIsFavorite(!isFavorite);
-    console.log("isFavorite");
   };
 
   return (
