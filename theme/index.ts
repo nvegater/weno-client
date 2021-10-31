@@ -4,7 +4,7 @@ import { extendTheme } from "@chakra-ui/react";
 import styles from "./styles";
 // Foundational style overrides
 import breakpoints from "./foundations/breakpoints";
-import fonts from "./fonts/fonts";
+import fontsStyles from "./fonts/fontsStyles";
 // Component style overrides
 import Button from "./components/button";
 
@@ -13,7 +13,7 @@ import Button from "./components/button";
 const overrides = {
   ...styles,
   // Other foundational style overrides go here
-  fonts,
+  fonts: fontsStyles,
   breakpoints,
   components: {
     Button,
