@@ -1,0 +1,31 @@
+query experiences(
+  $limit: Int!
+  $cursor: String
+  $experienceName: String
+  $eventType: [EventType!]
+  $valley: [Valley!]
+  $state: String
+) {
+  allServices(
+    limit: $limit
+    cursor: $cursor
+    experienceName: $experienceName
+    eventType: $eventType
+    valley: $valley
+    state: $state
+  ) {
+    moreExperiencesAvailable
+    totalExperiences
+    experiences {
+      ...ServiceFragment
+      winery {
+        name
+        valley
+      }
+    }
+    errors {
+      field
+      message
+    }
+  }
+}

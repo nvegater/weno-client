@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { NavBarWithSubmenu } from "../NavbarWithSubmenu/NavBarWithSubmenu";
 import { Hero } from "../Hero/Hero";
 import { AuthWrapper } from "../Authentication/AuthWrapper";
-import { Badge } from "@chakra-ui/react";
+import { ExperiencesGrid } from "../Experiences/ExperiencesGrid";
 
 interface LandingPageProps {}
 
@@ -12,7 +12,7 @@ export const LandingPage: FC<LandingPageProps> = ({}) => {
       <NavBarWithSubmenu />
       <Hero />
       <AuthWrapper>
-        <Badge colorScheme="green">Success</Badge>
+        <ExperiencesGrid />
       </AuthWrapper>
     </div>
   );
