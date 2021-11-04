@@ -35,24 +35,23 @@ const Card = (props: BlogProps) => {
       height={"274px"}
     >
       <Flex direction="column">
-        <Flex px="20px" py="15px" height="48px">
+        <Flex px="4" py="3" height="48px">
           <LinkOverlay href={href}>
             <Text fontFamily="GothamText">{title}</Text>
           </LinkOverlay>
         </Flex>
-        <Img height="178" objectFit="cover" alt={title} src={media} />
-        <Flex height="48px" px="11px" py="14px">
-          <IoLocation color="#BE5050" height="22px" />
+        <Img height="178" alt={title} src={media} />
+        <Flex height="48px" px="2" py="3">
+          <IoLocation color="brand.400" />
           <Text fontFamily="GothamText" fontSize="13px" px="4">
             {description}
           </Text>
           <Icon
-            height="21px"
             as={BsSuitHeartFill}
-            position="absolute"
-            left="240px"
+            position="relative"
+            left="100px"
             onClick={() => handlePress()}
-            color={isFavorite ? "#3E1414" : "#BE5050"}
+            color={isFavorite ? "brand.200" : "brand.400"}
           />
         </Flex>
       </Flex>

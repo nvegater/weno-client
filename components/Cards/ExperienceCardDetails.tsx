@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  Icon,
   Img,
   LinkOverlay,
   Text,
@@ -9,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { IoCalendar, IoPeople, IoLocation } from "react-icons/io5";
-import { BsFillClockFill, BsSuitHeart, BsSuitHeartFill } from "react-icons/bs";
+import { BsFillClockFill } from "react-icons/bs";
 
 interface BlogProps {
   date: string;
@@ -29,7 +28,7 @@ interface IconLabelProps {
 const IconLabel = (props: IconLabelProps) => {
   const { label, icon } = props;
   return (
-    <Flex py="2.5">
+    <Flex>
       {icon}
       <Text px="3.5" fontFamily="GothamText">
         {label}
@@ -47,7 +46,7 @@ const Card = (props: BlogProps) => {
       borderRadius="12px"
       width={"274px"}
       position="relative"
-      display="inline-block"
+      display="flex"
     >
       <Box position="relative" display="inline-block">
         <Img
@@ -66,9 +65,10 @@ const Card = (props: BlogProps) => {
         height={"288px"}
         position="absolute"
         bottom="-192px"
+        display="flex"
       >
-        <Flex direction="column" px="20px">
-          <Flex py="21px">
+        <Flex direction="column" px="5">
+          <Flex py="4">
             <LinkOverlay href={href}>
               <Text
                 fontFamily="GothamLogo"
@@ -80,12 +80,25 @@ const Card = (props: BlogProps) => {
               </Text>
             </LinkOverlay>
           </Flex>
-          <IconLabel label={date} icon={<IoCalendar color="#BE5050" />} />
-          <IconLabel label={place} icon={<IoLocation color="#BE5050" />} />
-          <IconLabel label={time} icon={<BsFillClockFill color="#BE5050" />} />
-          <IconLabel label={totalPeople} icon={<IoPeople color="#BE5050" />} />
-          <Flex justify="center">
-            <Text fontFamily="GothamText">Total: $4,000 MXN</Text>
+          <Flex
+            flexDirection="column"
+            justifyContent="space-around"
+            height="100%"
+            gridRowGap="1"
+          >
+            <IconLabel label={date} icon={<IoCalendar color="#BE5050" />} />
+            <IconLabel label={place} icon={<IoLocation color="#BE5050" />} />
+            <IconLabel
+              label={time}
+              icon={<BsFillClockFill color="#BE5050" />}
+            />
+            <IconLabel
+              label={totalPeople}
+              icon={<IoPeople color="#BE5050" />}
+            />
+            <Flex justify="center" py="3">
+              <Text fontFamily="GothamText">Total: $4,000 MXN</Text>
+            </Flex>
           </Flex>
         </Flex>
       </Box>
