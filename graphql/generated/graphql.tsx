@@ -18,18 +18,18 @@ export type Scalars = {
 
 /** Types of wine production */
 export enum Amenity {
-  ActividadesEnVinedo = 'ACTIVIDADES_EN_VINEDO',
-  CatasMaridajes = 'CATAS_MARIDAJES',
-  CatasPrivadas = 'CATAS_PRIVADAS',
+  Terraza = 'TERRAZA',
+  Degustacion = 'DEGUSTACION',
+  RecorridoVinedos = 'RECORRIDO_VINEDOS',
+  RecorridoBodega = 'RECORRIDO_BODEGA',
+  PaseoCarreta = 'PASEO_CARRETA',
+  VisitaCavaBarricas = 'VISITA_CAVA_BARRICAS',
   CataBarricas = 'CATA_BARRICAS',
   CreaTuMezcla = 'CREA_TU_MEZCLA',
-  Degustacion = 'DEGUSTACION',
-  PaseoCarreta = 'PASEO_CARRETA',
-  RecorridoBodega = 'RECORRIDO_BODEGA',
-  RecorridoVinedos = 'RECORRIDO_VINEDOS',
   TalleresDidacticos = 'TALLERES_DIDACTICOS',
-  Terraza = 'TERRAZA',
-  VisitaCavaBarricas = 'VISITA_CAVA_BARRICAS'
+  CatasMaridajes = 'CATAS_MARIDAJES',
+  CatasPrivadas = 'CATAS_PRIVADAS',
+  ActividadesEnVinedo = 'ACTIVIDADES_EN_VINEDO'
 }
 
 export type BookServiceResponse = {
@@ -43,21 +43,21 @@ export type ChangePasswordInputs = {
 };
 
 export type CreatePostInputs = {
-  text: Scalars['String'];
   title: Scalars['String'];
+  text: Scalars['String'];
 };
 
 export type CreateServiceInputs = {
-  description: Scalars['String'];
-  duration: Scalars['Float'];
-  endDateTime: Scalars['DateTime'];
-  eventType: EventType;
-  limitOfAttendees: Scalars['Float'];
-  pricePerPersonInDollars: Scalars['Float'];
-  rRules?: Maybe<Array<Scalars['String']>>;
-  startDateTime: Scalars['DateTime'];
-  title: Scalars['String'];
   wineryId: Scalars['Float'];
+  limitOfAttendees: Scalars['Float'];
+  duration: Scalars['Float'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  eventType: EventType;
+  pricePerPersonInDollars: Scalars['Float'];
+  startDateTime: Scalars['DateTime'];
+  endDateTime: Scalars['DateTime'];
+  rRules?: Maybe<Array<Scalars['String']>>;
 };
 
 export type CreateServiceResponse = {
@@ -68,8 +68,8 @@ export type CreateServiceResponse = {
 /** Type of service */
 export enum EventType {
   ComidaCenaMaridaje = 'COMIDA_CENA_MARIDAJE',
-  Concierto = 'CONCIERTO',
-  Degustacion = 'DEGUSTACION'
+  Degustacion = 'DEGUSTACION',
+  Concierto = 'CONCIERTO'
 }
 
 export type FieldError = {
@@ -84,8 +84,8 @@ export type FindExperienceResponse = {
 };
 
 export type GetPreSignedUrlResponse = {
-  arrayUrl?: Maybe<Array<PresignedResponse>>;
   errors?: Maybe<Array<FieldError>>;
+  arrayUrl?: Maybe<Array<PresignedResponse>>;
 };
 
 /** A winery can have one o more kind of grape */
@@ -112,7 +112,6 @@ export enum Grape {
   Moscatel = 'MOSCATEL',
   Mourvedre = 'MOURVEDRE',
   Nebbiolo = 'NEBBIOLO',
-  Otra = 'OTRA',
   Palomino = 'PALOMINO',
   PetiteVerdot = 'PETITE_VERDOT',
   PinotBlanc = 'PINOT_BLANC',
@@ -127,53 +126,86 @@ export enum Grape {
   Syrah = 'SYRAH',
   Tempranillo = 'TEMPRANILLO',
   Viognier = 'VIOGNIER',
-  Zinfandel = 'ZINFANDEL'
+  Zinfandel = 'ZINFANDEL',
+  Otra = 'OTRA'
 }
 
 export type LoginInputs = {
-  password: Scalars['String'];
   usernameOrEmail: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type Mutation = {
-  changeCoverPageImageService: ServiceCoverImageChangeResponse;
-  changeCoverPageImageWinery: WineryChangeResponse;
-  changePassword: UserResponse;
-  createDefaultImageToEvent: ServiceImageResponse;
-  createService: CreateServiceResponse;
-  deleteDefaultImageToEvent: ServiceImageResponse;
-  deleteImageService: ServiceImageResponse;
-  deleteImageWinery: WineryDeleteImageResponse;
-  forgotPassword: UserResponse;
-  insertImageService: ServiceImageResponse;
-  insertImageWinery: WineryServicesResponse;
-  login: UserResponse;
-  logout: Scalars['Boolean'];
-  postCreation: PostResponse;
-  postDeletion: PostDeletion;
-  postUpdate: PostResponse;
-  register: UserResponse;
-  registerWinery: WineryResponse;
-  reserve: BookServiceResponse;
-  sendUserValidation?: Maybe<SendUserValidationResponse>;
-  updateDefaultImageToEvent: ServiceImageResponse;
-  updateService: CreateServiceResponse;
-  updateUser: UserResponse;
-  updateWinery: WineryServicesResponse;
-  validateUser: UserResponse;
   vote: Scalars['Boolean'];
+  postCreation: PostResponse;
+  postUpdate: PostResponse;
+  postDeletion: PostDeletion;
+  register: UserResponse;
+  validateUser: UserResponse;
+  sendUserValidation?: Maybe<SendUserValidationResponse>;
+  registerWinery: WineryResponse;
+  login: UserResponse;
+  changePassword: UserResponse;
+  logout: Scalars['Boolean'];
+  forgotPassword: UserResponse;
+  updateUser: UserResponse;
+  insertImageWinery: WineryServicesResponse;
+  deleteImageWinery: WineryDeleteImageResponse;
+  changeCoverPageImageWinery: WineryChangeResponse;
+  updateWinery: WineryServicesResponse;
+  reserve: BookServiceResponse;
+  createService: CreateServiceResponse;
+  updateService: CreateServiceResponse;
+  insertImageService: ServiceImageResponse;
+  deleteImageService: ServiceImageResponse;
+  changeCoverPageImageService: ServiceCoverImageChangeResponse;
+  createDefaultImageToEvent: ServiceImageResponse;
+  updateDefaultImageToEvent: ServiceImageResponse;
+  deleteDefaultImageToEvent: ServiceImageResponse;
 };
 
 
-export type MutationChangeCoverPageImageServiceArgs = {
-  serviceId: Scalars['Int'];
-  serviceImageId: Scalars['Int'];
+export type MutationVoteArgs = {
+  value: Scalars['Int'];
+  postId: Scalars['Int'];
 };
 
 
-export type MutationChangeCoverPageImageWineryArgs = {
-  wineryId: Scalars['Int'];
-  wineryImageId: Scalars['Int'];
+export type MutationPostCreationArgs = {
+  options: CreatePostInputs;
+};
+
+
+export type MutationPostUpdateArgs = {
+  text: Scalars['String'];
+  title: Scalars['String'];
+  id: Scalars['Int'];
+};
+
+
+export type MutationPostDeletionArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationRegisterArgs = {
+  options: RegisterInputs;
+};
+
+
+export type MutationValidateUserArgs = {
+  token: Scalars['String'];
+};
+
+
+export type MutationRegisterWineryArgs = {
+  wineryDataInputs: WineryDataInputs;
+  options: RegisterInputs;
+};
+
+
+export type MutationLoginArgs = {
+  options: LoginInputs;
 };
 
 
@@ -182,40 +214,13 @@ export type MutationChangePasswordArgs = {
 };
 
 
-export type MutationCreateDefaultImageToEventArgs = {
-  eventType: EventType;
-  urlImage: Scalars['String'];
-};
-
-
-export type MutationCreateServiceArgs = {
-  createServiceInputs: CreateServiceInputs;
-};
-
-
-export type MutationDeleteDefaultImageToEventArgs = {
-  eventType: EventType;
-};
-
-
-export type MutationDeleteImageServiceArgs = {
-  serviceImageId: Scalars['Int'];
-};
-
-
-export type MutationDeleteImageWineryArgs = {
-  imageId: Scalars['Int'];
-};
-
-
 export type MutationForgotPasswordArgs = {
   email: Scalars['String'];
 };
 
 
-export type MutationInsertImageServiceArgs = {
-  serviceId: Scalars['Int'];
-  urlImage: Array<Scalars['String']>;
+export type MutationUpdateUserArgs = {
+  user: UserToEdit;
 };
 
 
@@ -225,57 +230,14 @@ export type MutationInsertImageWineryArgs = {
 };
 
 
-export type MutationLoginArgs = {
-  options: LoginInputs;
+export type MutationDeleteImageWineryArgs = {
+  imageId: Scalars['Int'];
 };
 
 
-export type MutationPostCreationArgs = {
-  options: CreatePostInputs;
-};
-
-
-export type MutationPostDeletionArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type MutationPostUpdateArgs = {
-  id: Scalars['Int'];
-  text: Scalars['String'];
-  title: Scalars['String'];
-};
-
-
-export type MutationRegisterArgs = {
-  options: RegisterInputs;
-};
-
-
-export type MutationRegisterWineryArgs = {
-  options: RegisterInputs;
-  wineryDataInputs: WineryDataInputs;
-};
-
-
-export type MutationReserveArgs = {
-  reserveServiceInputs: ReserveServiceInputs;
-};
-
-
-export type MutationUpdateDefaultImageToEventArgs = {
-  eventType: EventType;
-  urlImage: Scalars['String'];
-};
-
-
-export type MutationUpdateServiceArgs = {
-  updateServiceInputs: UpdateServiceInputs;
-};
-
-
-export type MutationUpdateUserArgs = {
-  user: UserToEdit;
+export type MutationChangeCoverPageImageWineryArgs = {
+  wineryImageId: Scalars['Int'];
+  wineryId: Scalars['Int'];
 };
 
 
@@ -284,21 +246,59 @@ export type MutationUpdateWineryArgs = {
 };
 
 
-export type MutationValidateUserArgs = {
-  token: Scalars['String'];
+export type MutationReserveArgs = {
+  reserveServiceInputs: ReserveServiceInputs;
 };
 
 
-export type MutationVoteArgs = {
-  postId: Scalars['Int'];
-  value: Scalars['Int'];
+export type MutationCreateServiceArgs = {
+  createServiceInputs: CreateServiceInputs;
+};
+
+
+export type MutationUpdateServiceArgs = {
+  updateServiceInputs: UpdateServiceInputs;
+};
+
+
+export type MutationInsertImageServiceArgs = {
+  urlImage: Array<Scalars['String']>;
+  serviceId: Scalars['Int'];
+};
+
+
+export type MutationDeleteImageServiceArgs = {
+  serviceImageId: Scalars['Int'];
+};
+
+
+export type MutationChangeCoverPageImageServiceArgs = {
+  serviceImageId: Scalars['Int'];
+  serviceId: Scalars['Int'];
+};
+
+
+export type MutationCreateDefaultImageToEventArgs = {
+  urlImage: Scalars['String'];
+  eventType: EventType;
+};
+
+
+export type MutationUpdateDefaultImageToEventArgs = {
+  urlImage: Scalars['String'];
+  eventType: EventType;
+};
+
+
+export type MutationDeleteDefaultImageToEventArgs = {
+  eventType: EventType;
 };
 
 /** differents kind of services */
 export enum OtherServices {
-  BarraDeAlimentos = 'BARRA_DE_ALIMENTOS',
   Hospedaje = 'HOSPEDAJE',
-  Restaurante = 'RESTAURANTE'
+  Restaurante = 'RESTAURANTE',
+  BarraDeAlimentos = 'BARRA_DE_ALIMENTOS'
 }
 
 export type PaginatedExperiences = {
@@ -309,21 +309,21 @@ export type PaginatedExperiences = {
 };
 
 export type PaginatedPosts = {
-  morePostsAvailable: Scalars['Boolean'];
   paginatedPosts: Array<Post>;
+  morePostsAvailable: Scalars['Boolean'];
 };
 
 export type Post = {
-  createdAt: Scalars['DateTime'];
-  creator: User;
-  creatorId: Scalars['Float'];
   id: Scalars['Int'];
-  points: Scalars['Float'];
-  text: Scalars['String'];
-  textSnippet: Scalars['String'];
   title: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
+  text: Scalars['String'];
+  points: Scalars['Float'];
   voteStatus?: Maybe<Scalars['Int']>;
+  creatorId: Scalars['Float'];
+  creator: User;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+  textSnippet: Scalars['String'];
 };
 
 export type PostResponse = {
@@ -339,24 +339,24 @@ export type PresignedResponse = {
 /** Types of wine production */
 export enum ProductionType {
   Comercial = 'COMERCIAL',
-  OrgBioNat = 'ORG_BIO_NAT',
-  TradArtesanal = 'TRAD_ARTESANAL'
+  TradArtesanal = 'TRAD_ARTESANAL',
+  OrgBioNat = 'ORG_BIO_NAT'
 }
 
 export type Query = {
   PaginatedPosts: PaginatedPosts;
-  allReservations: ReservationResponse;
-  allServices: PaginatedExperiences;
-  allWineries: WineriesResponse;
-  findExperienceById: FindExperienceResponse;
-  me?: Maybe<UserResponse>;
   post?: Maybe<Post>;
-  preSignedUrl: GetPreSignedUrlResponse;
-  salesConcentrate: SalesConcentrate;
+  me?: Maybe<UserResponse>;
+  allWineries: WineriesResponse;
+  wineryServices: WineryServicesResponse;
+  allServices: PaginatedExperiences;
   servicesUser: ServiceResponse;
+  salesConcentrate: SalesConcentrate;
+  findExperienceById: FindExperienceResponse;
+  preSignedUrl: GetPreSignedUrlResponse;
+  allReservations: ReservationResponse;
   userReservations: Array<ServiceReservation>;
   wineryReservations: Array<ServiceReservation>;
-  wineryServices: WineryServicesResponse;
 };
 
 
@@ -366,18 +366,8 @@ export type QueryPaginatedPostsArgs = {
 };
 
 
-export type QueryAllReservationsArgs = {
-  limit: Scalars['Int'];
-};
-
-
-export type QueryAllServicesArgs = {
-  cursor?: Maybe<Scalars['String']>;
-  eventType?: Maybe<Array<EventType>>;
-  experienceName?: Maybe<Scalars['String']>;
-  limit: Scalars['Int'];
-  state?: Maybe<Scalars['String']>;
-  valley?: Maybe<Array<Valley>>;
+export type QueryPostArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -386,27 +376,18 @@ export type QueryAllWineriesArgs = {
 };
 
 
-export type QueryFindExperienceByIdArgs = {
-  experienceId: Scalars['Int'];
+export type QueryWineryServicesArgs = {
+  wineryId: Scalars['Int'];
 };
 
 
-export type QueryPostArgs = {
-  id: Scalars['Int'];
-};
-
-
-export type QueryPreSignedUrlArgs = {
-  fileName: Array<Scalars['String']>;
-  serviceId?: Maybe<Scalars['Int']>;
-  uploadType: UploadType;
-  userId?: Maybe<Scalars['Int']>;
-  wineryId?: Maybe<Scalars['Int']>;
-};
-
-
-export type QuerySalesConcentrateArgs = {
-  paypalTransaccionId?: Maybe<Scalars['String']>;
+export type QueryAllServicesArgs = {
+  state?: Maybe<Scalars['String']>;
+  valley?: Maybe<Array<Valley>>;
+  eventType?: Maybe<Array<EventType>>;
+  experienceName?: Maybe<Scalars['String']>;
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
 };
 
 
@@ -415,51 +396,70 @@ export type QueryServicesUserArgs = {
 };
 
 
+export type QuerySalesConcentrateArgs = {
+  paypalTransaccionId?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryFindExperienceByIdArgs = {
+  experienceId: Scalars['Int'];
+};
+
+
+export type QueryPreSignedUrlArgs = {
+  userId?: Maybe<Scalars['Int']>;
+  serviceId?: Maybe<Scalars['Int']>;
+  wineryId?: Maybe<Scalars['Int']>;
+  uploadType: UploadType;
+  fileName: Array<Scalars['String']>;
+};
+
+
+export type QueryAllReservationsArgs = {
+  limit: Scalars['Int'];
+};
+
+
 export type QueryWineryReservationsArgs = {
   wineryId: Scalars['Int'];
 };
 
-
-export type QueryWineryServicesArgs = {
-  wineryId: Scalars['Int'];
-};
-
 export type RegisterInputs = {
+  username: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
   userType: UserType;
-  username: Scalars['String'];
 };
 
 export type ReservationDetails = {
-  experienceInfo: Service;
-  noOfAttendees?: Maybe<Scalars['Int']>;
-  paymentCreationDateTime: Scalars['String'];
-  paypalOrderId: Scalars['String'];
-  pricePerPersonInDollars: Scalars['Float'];
-  serviceFromReservation: ServiceFromReservation;
-  serviceId: Scalars['Int'];
-  status: Scalars['String'];
-  userFromReservation: UserFromReservation;
   userId: Scalars['Int'];
+  serviceId: Scalars['Int'];
+  noOfAttendees?: Maybe<Scalars['Int']>;
+  paypalOrderId: Scalars['String'];
+  status: Scalars['String'];
+  paymentCreationDateTime: Scalars['String'];
+  pricePerPersonInDollars: Scalars['Float'];
   userInfo: User;
+  experienceInfo: Service;
+  userFromReservation: UserFromReservation;
+  serviceFromReservation: ServiceFromReservation;
 };
 
 export type ReservationResponse = {
   errors?: Maybe<Array<FieldError>>;
-  moreReservationsAvailable: Scalars['Boolean'];
   reservations?: Maybe<Array<ReservationDetails>>;
+  moreReservationsAvailable: Scalars['Boolean'];
 };
 
 export type ReserveServiceInputs = {
-  getTimezoneOffset: Scalars['Float'];
-  noOfAttendees: Scalars['Float'];
-  paymentCreationDateTime: Scalars['String'];
-  paypalOrderId: Scalars['String'];
-  pricePerPersonInDollars: Scalars['Float'];
   serviceId: Scalars['Float'];
+  noOfAttendees: Scalars['Float'];
   startDateTime: Scalars['DateTime'];
+  paypalOrderId: Scalars['String'];
   status: Scalars['String'];
+  paymentCreationDateTime: Scalars['String'];
+  pricePerPersonInDollars: Scalars['Float'];
+  getTimezoneOffset: Scalars['Float'];
 };
 
 export type SalesConcentrate = {
@@ -473,31 +473,31 @@ export type SendUserValidationResponse = {
 };
 
 export type Service = {
-  createdAt: Scalars['DateTime'];
-  creator: User;
-  creatorId: Scalars['Float'];
-  description: Scalars['String'];
-  duration: Scalars['Int'];
-  endDateTime: Scalars['DateTime'];
-  eventType: EventType;
-  gallery: Array<ServiceImageGallery>;
   id: Scalars['Int'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  urlImageCover?: Maybe<Scalars['String']>;
+  gallery: Array<ServiceImageGallery>;
+  eventType: EventType;
+  startDateTime: Scalars['DateTime'];
+  endDateTime: Scalars['DateTime'];
+  rRules?: Maybe<Array<Scalars['String']>>;
+  wineryId: Scalars['Int'];
+  winery: Winery;
+  creatorId: Scalars['Float'];
+  parentServiceId?: Maybe<Scalars['Int']>;
+  creator: User;
+  duration: Scalars['Int'];
   limitOfAttendees?: Maybe<Scalars['Int']>;
   noOfAttendees?: Maybe<Scalars['Int']>;
-  parentServiceId?: Maybe<Scalars['Int']>;
   pricePerPersonInDollars: Scalars['Float'];
-  rRules?: Maybe<Array<Scalars['String']>>;
-  startDateTime: Scalars['DateTime'];
-  title: Scalars['String'];
+  createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  urlImageCover?: Maybe<Scalars['String']>;
-  winery: Winery;
-  wineryId: Scalars['Int'];
 };
 
 export type ServiceCoverImageChangeResponse = {
-  changed: Scalars['Boolean'];
   errors?: Maybe<Array<FieldError>>;
+  changed: Scalars['Boolean'];
 };
 
 export type ServiceFromReservation = {
@@ -508,10 +508,10 @@ export type ServiceFromReservation = {
 };
 
 export type ServiceImageGallery = {
-  coverPage: Scalars['Boolean'];
   id?: Maybe<Scalars['Float']>;
-  imageUrl?: Maybe<Scalars['String']>;
   serviceId?: Maybe<Scalars['Float']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  coverPage: Scalars['Boolean'];
 };
 
 export type ServiceImageResponse = {
@@ -521,139 +521,139 @@ export type ServiceImageResponse = {
 
 /** Languages supported by the Wineries */
 export enum ServiceLanguage {
-  Aleman = 'ALEMAN',
-  Espanol = 'ESPANOL',
-  Frances = 'FRANCES',
   Ingles = 'INGLES',
+  Espanol = 'ESPANOL',
+  SenasMexicanas = 'SENAS_MEXICANAS',
+  Frances = 'FRANCES',
+  Aleman = 'ALEMAN',
   Italiano = 'ITALIANO',
-  Japones = 'JAPONES',
-  Mandarin = 'MANDARIN',
   Portugues = 'PORTUGUES',
-  SenasMexicanas = 'SENAS_MEXICANAS'
+  Japones = 'JAPONES',
+  Mandarin = 'MANDARIN'
 }
 
 export type ServiceReservation = {
-  experienceInfo: Service;
-  noOfAttendees?: Maybe<Scalars['Int']>;
-  paymentCreationDateTime: Scalars['String'];
-  paypalOrderId: Scalars['String'];
-  pricePerPersonInDollars: Scalars['Float'];
-  serviceId: Scalars['Int'];
-  status: Scalars['String'];
   userId: Scalars['Int'];
+  serviceId: Scalars['Int'];
+  noOfAttendees?: Maybe<Scalars['Int']>;
+  paypalOrderId: Scalars['String'];
+  status: Scalars['String'];
+  paymentCreationDateTime: Scalars['String'];
+  pricePerPersonInDollars: Scalars['Float'];
   userInfo: User;
+  experienceInfo: Service;
 };
 
 export type ServiceResponse = {
   errors?: Maybe<Array<FieldError>>;
-  moreServicesAvailable: Scalars['Boolean'];
   paginatedServices?: Maybe<Array<Service>>;
+  moreServicesAvailable: Scalars['Boolean'];
 };
 
 /** Types of wine produced by a winery */
 export enum TypeWine {
-  Biodinamico = 'BIODINAMICO',
-  BlancoConBarrica = 'BLANCO_CON_BARRICA',
   BlancoJoven = 'BLANCO_JOVEN',
-  ConmemorativoEdiLimitada = 'CONMEMORATIVO_EDI_LIMITADA',
-  Cosecha = 'COSECHA',
-  Dulce = 'DULCE',
-  Espumoso = 'ESPUMOSO',
-  ExclusivoVentaLocal = 'EXCLUSIVO_VENTA_LOCAL',
-  GenerosoFortificado = 'GENEROSO_FORTIFICADO',
-  Naranja = 'NARANJA',
-  Natural = 'NATURAL',
-  Organico = 'ORGANICO',
+  BlancoConBarrica = 'BLANCO_CON_BARRICA',
   Rosado = 'ROSADO',
+  TintoJoven = 'TINTO_JOVEN',
   TintoCrianzaBarrica = 'TINTO_CRIANZA_BARRICA',
-  TintoJoven = 'TINTO_JOVEN'
+  GenerosoFortificado = 'GENEROSO_FORTIFICADO',
+  Espumoso = 'ESPUMOSO',
+  Naranja = 'NARANJA',
+  Dulce = 'DULCE',
+  Cosecha = 'COSECHA',
+  ConmemorativoEdiLimitada = 'CONMEMORATIVO_EDI_LIMITADA',
+  ExclusivoVentaLocal = 'EXCLUSIVO_VENTA_LOCAL',
+  Organico = 'ORGANICO',
+  Biodinamico = 'BIODINAMICO',
+  Natural = 'NATURAL'
 }
 
 export type UpdateServiceInputs = {
-  description: Scalars['String'];
-  endDateTime?: Maybe<Scalars['DateTime']>;
-  eventType: EventType;
   id: Scalars['Float'];
-  limitOfAttendees: Scalars['Float'];
-  pricePerPersonInDollars: Scalars['Float'];
-  rRules?: Maybe<Array<Scalars['String']>>;
-  startDateTime: Scalars['DateTime'];
   title: Scalars['String'];
+  description: Scalars['String'];
+  eventType: EventType;
+  pricePerPersonInDollars: Scalars['Float'];
+  startDateTime: Scalars['DateTime'];
+  endDateTime?: Maybe<Scalars['DateTime']>;
+  limitOfAttendees: Scalars['Float'];
+  rRules?: Maybe<Array<Scalars['String']>>;
 };
 
 export type UpdateWineryInputs = {
-  amenities: Array<Amenity>;
   /** opcional */
-  architecturalReferences?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['Float']>;
   /** opcional */
-  contactEmail?: Maybe<Scalars['String']>;
-  /** opcional */
-  contactName?: Maybe<Scalars['String']>;
-  /** opcional */
-  contactPhoneNumber?: Maybe<Scalars['String']>;
-  /** opcional */
-  covidLabel?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
   /** opcional */
   description?: Maybe<Scalars['String']>;
-  /** opcional */
-  enologoName?: Maybe<Scalars['String']>;
   /** opcional */
   foundationYear?: Maybe<Scalars['Float']>;
   /** opcional */
   googleMapsUrl?: Maybe<Scalars['String']>;
   /** opcional */
-  handicappedFriendly?: Maybe<Scalars['Boolean']>;
+  yearlyWineProduction?: Maybe<Scalars['Float']>;
   /** opcional */
-  id?: Maybe<Scalars['Float']>;
+  contactEmail?: Maybe<Scalars['String']>;
+  /** opcional */
+  contactPhoneNumber?: Maybe<Scalars['String']>;
+  /** opcional */
+  covidLabel?: Maybe<Scalars['Boolean']>;
   /** opcional */
   logo?: Maybe<Scalars['String']>;
   /** opcional */
-  name?: Maybe<Scalars['String']>;
-  othersServices: Array<OtherServices>;
+  contactName?: Maybe<Scalars['String']>;
   /** opcional */
-  petFriendly?: Maybe<Scalars['Boolean']>;
+  productRegion?: Maybe<Scalars['String']>;
   /** opcional */
   postalAddress?: Maybe<Scalars['String']>;
   /** opcional */
-  productRegion?: Maybe<Scalars['String']>;
-  productionType: Array<ProductionType>;
-  supportedLanguages: Array<ServiceLanguage>;
+  architecturalReferences?: Maybe<Scalars['Boolean']>;
   /** opcional */
-  valley?: Maybe<Valley>;
-  wineGrapesProduction: Array<Grape>;
-  wineType: Array<TypeWine>;
-  /** opcional */
-  yearlyWineProduction?: Maybe<Scalars['Float']>;
+  enologoName?: Maybe<Scalars['String']>;
   /** opcional */
   younerFriendly?: Maybe<Scalars['Boolean']>;
+  /** opcional */
+  petFriendly?: Maybe<Scalars['Boolean']>;
+  /** opcional */
+  handicappedFriendly?: Maybe<Scalars['Boolean']>;
+  wineGrapesProduction: Array<Grape>;
+  othersServices: Array<OtherServices>;
+  /** opcional */
+  valley?: Maybe<Valley>;
+  productionType: Array<ProductionType>;
+  wineType: Array<TypeWine>;
+  supportedLanguages: Array<ServiceLanguage>;
+  amenities: Array<Amenity>;
 };
 
 /** Se pueden cargar imagenes para distintos elementos, usuarios, galerias de viñeros etc, etc */
 export enum UploadType {
-  Servicealbum = 'SERVICEALBUM',
-  Userprofilepicture = 'USERPROFILEPICTURE',
   Wineryalbum = 'WINERYALBUM',
+  Userprofilepicture = 'USERPROFILEPICTURE',
+  Servicealbum = 'SERVICEALBUM',
   Winerylogo = 'WINERYLOGO'
 }
 
 export type User = {
-  createdAt: Scalars['DateTime'];
-  email: Scalars['String'];
   id: Scalars['Int'];
+  username: Scalars['String'];
+  email: Scalars['String'];
+  urlImage?: Maybe<Scalars['String']>;
+  verified?: Maybe<Scalars['Boolean']>;
   reservedServices?: Maybe<Array<ServiceReservation>>;
   reservedServicesIds?: Maybe<Array<Scalars['Int']>>;
-  updatedAt: Scalars['DateTime'];
-  urlImage?: Maybe<Scalars['String']>;
-  userType: UserType;
-  username: Scalars['String'];
-  verified?: Maybe<Scalars['Boolean']>;
   wineryId?: Maybe<Scalars['Int']>;
+  userType: UserType;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type UserFromReservation = {
   id: Scalars['Float'];
-  userType: UserType;
   username: Scalars['String'];
+  userType: UserType;
 };
 
 export type UserResponse = {
@@ -662,117 +662,117 @@ export type UserResponse = {
 };
 
 export type UserToEdit = {
-  email?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
-  urlImage?: Maybe<Scalars['String']>;
-  userType?: Maybe<UserType>;
   username?: Maybe<Scalars['String']>;
-  verified?: Maybe<Scalars['Boolean']>;
+  password?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  urlImage?: Maybe<Scalars['String']>;
   visitorOrOwner?: Maybe<Scalars['Boolean']>;
+  userType?: Maybe<UserType>;
+  verified?: Maybe<Scalars['Boolean']>;
 };
 
 /** Al registrarse los visitantes seleccionan una de las siguientes categoriasDistinciones virtuales para afinar sugerencias y para proporcionar la informacion a la vinicola */
 export enum UserType {
-  Agency = 'AGENCY',
-  Concierge = 'CONCIERGE',
-  Distributor = 'DISTRIBUTOR',
-  Dmc = 'DMC',
-  Driver = 'DRIVER',
-  Guide = 'GUIDE',
+  WineryOwner = 'WINERY_OWNER',
+  WineTourist = 'WINE_TOURIST',
   Hotel = 'HOTEL',
-  Ocv = 'OCV',
-  Planner = 'PLANNER',
+  Transportation = 'TRANSPORTATION',
+  Concierge = 'CONCIERGE',
+  Tour = 'TOUR',
+  Distributor = 'DISTRIBUTOR',
   Press = 'PRESS',
   Sommelier = 'SOMMELIER',
-  Tour = 'TOUR',
-  Transportation = 'TRANSPORTATION',
-  WineryOwner = 'WINERY_OWNER',
-  WineTourist = 'WINE_TOURIST'
+  Guide = 'GUIDE',
+  Driver = 'DRIVER',
+  Agency = 'AGENCY',
+  Dmc = 'DMC',
+  Ocv = 'OCV',
+  Planner = 'PLANNER'
 }
 
 /** A winery is in an unique valley, valleys are not identifiable through addresses */
 export enum Valley {
-  Calafia = 'CALAFIA',
-  Ensenada = 'ENSENADA',
-  Grulla = 'GRULLA',
   Guadalupe = 'GUADALUPE',
-  OjosNegros = 'OJOS_NEGROS',
-  SantoTomas = 'SANTO_TOMAS',
   SanAntMinas = 'SAN_ANT_MINAS',
+  Ensenada = 'ENSENADA',
+  SantoTomas = 'SANTO_TOMAS',
+  OjosNegros = 'OJOS_NEGROS',
+  Grulla = 'GRULLA',
+  SanVicente = 'SAN_VICENTE',
   SanQuintin = 'SAN_QUINTIN',
-  SanVicente = 'SAN_VICENTE'
+  Calafia = 'CALAFIA'
 }
 
 export type WineriesResponse = {
   errors?: Maybe<Array<FieldError>>;
-  moreWineriesAvailable: Scalars['Boolean'];
   paginatedWineries?: Maybe<Array<Winery>>;
+  moreWineriesAvailable: Scalars['Boolean'];
 };
 
 export type Winery = {
-  amenities?: Maybe<Array<Amenity>>;
-  architecturalReferences?: Maybe<Scalars['Boolean']>;
-  contactEmail?: Maybe<Scalars['String']>;
-  contactName?: Maybe<Scalars['String']>;
-  contactPhoneNumber?: Maybe<Scalars['String']>;
-  covidLabel?: Maybe<Scalars['Boolean']>;
-  createdAt: Scalars['DateTime'];
-  description: Scalars['String'];
-  enologoName?: Maybe<Scalars['String']>;
-  foundationYear?: Maybe<Scalars['Int']>;
-  googleMapsUrl?: Maybe<Scalars['String']>;
-  handicappedFriendly?: Maybe<Scalars['Boolean']>;
   id: Scalars['Int'];
-  logo?: Maybe<Scalars['String']>;
   name: Scalars['String'];
-  othersServices?: Maybe<Array<OtherServices>>;
-  petFriendly?: Maybe<Scalars['Boolean']>;
-  postalAddress?: Maybe<Scalars['String']>;
-  productRegion?: Maybe<Scalars['String']>;
-  productionType?: Maybe<Array<ProductionType>>;
+  description: Scalars['String'];
+  foundationYear?: Maybe<Scalars['Int']>;
   services?: Maybe<Array<Service>>;
-  supportedLanguages?: Maybe<Array<ServiceLanguage>>;
-  updatedAt: Scalars['DateTime'];
-  urlImageCover?: Maybe<Scalars['String']>;
-  valley: Valley;
-  verified?: Maybe<Scalars['Boolean']>;
-  wineGrapesProduction?: Maybe<Array<Grape>>;
-  wineType?: Maybe<Array<TypeWine>>;
+  googleMapsUrl?: Maybe<Scalars['String']>;
   yearlyWineProduction?: Maybe<Scalars['Int']>;
+  contactEmail?: Maybe<Scalars['String']>;
+  contactPhoneNumber?: Maybe<Scalars['String']>;
+  verified?: Maybe<Scalars['Boolean']>;
+  covidLabel?: Maybe<Scalars['Boolean']>;
+  urlImageCover?: Maybe<Scalars['String']>;
+  logo?: Maybe<Scalars['String']>;
+  contactName?: Maybe<Scalars['String']>;
+  productRegion?: Maybe<Scalars['String']>;
+  postalAddress?: Maybe<Scalars['String']>;
+  architecturalReferences?: Maybe<Scalars['Boolean']>;
   younerFriendly?: Maybe<Scalars['Boolean']>;
+  petFriendly?: Maybe<Scalars['Boolean']>;
+  enologoName?: Maybe<Scalars['String']>;
+  handicappedFriendly?: Maybe<Scalars['Boolean']>;
+  wineGrapesProduction?: Maybe<Array<Grape>>;
+  productionType?: Maybe<Array<ProductionType>>;
+  othersServices?: Maybe<Array<OtherServices>>;
+  valley: Valley;
+  wineType?: Maybe<Array<TypeWine>>;
+  supportedLanguages?: Maybe<Array<ServiceLanguage>>;
+  amenities?: Maybe<Array<Amenity>>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type WineryChangeResponse = {
-  changed: Scalars['Boolean'];
   errors?: Maybe<Array<FieldError>>;
+  changed: Scalars['Boolean'];
 };
 
 export type WineryDataInputs = {
+  name: Scalars['String'];
+  description: Scalars['String'];
+  valley: Valley;
+  productionType: Array<ProductionType>;
+  wineType: Array<TypeWine>;
+  supportedLanguages?: Maybe<Array<ServiceLanguage>>;
   amenities?: Maybe<Array<Amenity>>;
+  yearlyWineProduction?: Maybe<Scalars['Int']>;
+  foundationYear?: Maybe<Scalars['Int']>;
+  googleMapsUrl?: Maybe<Scalars['String']>;
   contactEmail?: Maybe<Scalars['String']>;
   contactPhoneNumber?: Maybe<Scalars['String']>;
   covidLabel: Scalars['Boolean'];
-  description: Scalars['String'];
-  foundationYear?: Maybe<Scalars['Int']>;
-  googleMapsUrl?: Maybe<Scalars['String']>;
-  name: Scalars['String'];
-  productionType: Array<ProductionType>;
-  supportedLanguages?: Maybe<Array<ServiceLanguage>>;
-  valley: Valley;
-  wineType: Array<TypeWine>;
-  yearlyWineProduction?: Maybe<Scalars['Int']>;
 };
 
 export type WineryDeleteImageResponse = {
-  deleted: Scalars['Boolean'];
   errors?: Maybe<Array<FieldError>>;
+  deleted: Scalars['Boolean'];
 };
 
 export type WineryImageGallery = {
-  coverPage: Scalars['Boolean'];
   id?: Maybe<Scalars['Float']>;
-  imageUrl?: Maybe<Scalars['String']>;
   wineryId?: Maybe<Scalars['Float']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  coverPage: Scalars['Boolean'];
 };
 
 export type WineryResponse = {
@@ -782,22 +782,36 @@ export type WineryResponse = {
 
 export type WineryServicesResponse = {
   errors?: Maybe<Array<FieldError>>;
+  winery: Winery;
   images: Array<WineryImageGallery>;
   services: Array<Service>;
-  winery: Winery;
 };
 
 export type PostDeletion = {
-  deleted: Scalars['Boolean'];
   errors?: Maybe<Array<FieldError>>;
+  deleted: Scalars['Boolean'];
 };
 
 export type ErrorFragmentFragment = { field: string, message: string };
 
+export type ServiceFragmentFragment = { id: number, title: string, description: string, eventType: EventType, startDateTime: any, endDateTime: any, rRules?: Array<string> | null | undefined, wineryId: number, creatorId: number, duration: number, pricePerPersonInDollars: number, limitOfAttendees?: number | null | undefined, parentServiceId?: number | null | undefined, noOfAttendees?: number | null | undefined, urlImageCover?: string | null | undefined, createdAt: any };
+
+export type ExperiencesQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+  experienceName?: Maybe<Scalars['String']>;
+  eventType?: Maybe<Array<EventType> | EventType>;
+  valley?: Maybe<Array<Valley> | Valley>;
+  state?: Maybe<Scalars['String']>;
+}>;
+
+
+export type ExperiencesQuery = { allServices: { moreExperiencesAvailable: boolean, totalExperiences: number, experiences?: Array<{ id: number, title: string, description: string, eventType: EventType, startDateTime: any, endDateTime: any, rRules?: Array<string> | null | undefined, wineryId: number, creatorId: number, duration: number, pricePerPersonInDollars: number, limitOfAttendees?: number | null | undefined, parentServiceId?: number | null | undefined, noOfAttendees?: number | null | undefined, urlImageCover?: string | null | undefined, createdAt: any, winery: { name: string, valley: Valley } }> | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { me?: Maybe<{ errors?: Maybe<Array<{ field: string, message: string }>>, user?: Maybe<{ id: number, username: string, email: string, userType: UserType, wineryId?: Maybe<number>, urlImage?: Maybe<string> }> }> };
+export type MeQuery = { me?: { errors?: Array<{ field: string, message: string }> | null | undefined, user?: { id: number, username: string, email: string, userType: UserType, wineryId?: number | null | undefined, urlImage?: string | null | undefined } | null | undefined } | null | undefined };
 
 export const ErrorFragmentFragmentDoc = gql`
     fragment ErrorFragment on FieldError {
@@ -805,6 +819,57 @@ export const ErrorFragmentFragmentDoc = gql`
   message
 }
     `;
+export const ServiceFragmentFragmentDoc = gql`
+    fragment ServiceFragment on Service {
+  id
+  title
+  description
+  eventType
+  startDateTime
+  endDateTime
+  rRules
+  wineryId
+  creatorId
+  duration
+  pricePerPersonInDollars
+  rRules
+  limitOfAttendees
+  parentServiceId
+  noOfAttendees
+  urlImageCover
+  createdAt
+}
+    `;
+export const ExperiencesDocument = gql`
+    query experiences($limit: Int!, $cursor: String, $experienceName: String, $eventType: [EventType!], $valley: [Valley!], $state: String) {
+  allServices(
+    limit: $limit
+    cursor: $cursor
+    experienceName: $experienceName
+    eventType: $eventType
+    valley: $valley
+    state: $state
+  ) {
+    moreExperiencesAvailable
+    totalExperiences
+    experiences {
+      ...ServiceFragment
+      winery {
+        name
+        valley
+      }
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    ${ServiceFragmentFragmentDoc}`;
+
+export function useExperiencesQuery(options: Omit<Urql.UseQueryArgs<ExperiencesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ExperiencesQuery>({ query: ExperiencesDocument, ...options });
+};
 export const MeDocument = gql`
     query Me {
   me {

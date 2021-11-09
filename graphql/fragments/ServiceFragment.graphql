@@ -1,0 +1,19 @@
+fragment ServiceFragment on Service {
+  id
+  title
+  description
+  eventType
+  startDateTime
+  endDateTime
+  rRules
+  wineryId
+  creatorId
+  duration
+  pricePerPersonInDollars
+  rRules
+  limitOfAttendees
+  parentServiceId
+  noOfAttendees
+  urlImageCover
+  createdAt
+}
