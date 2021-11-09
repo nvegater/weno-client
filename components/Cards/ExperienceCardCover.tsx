@@ -33,6 +33,8 @@ const Card = (props: BlogProps) => {
       borderRadius="12px"
       width={"274px"}
       height={"274px"}
+      position="relative"
+      display="flex"
     >
       <Flex direction="column">
         <Flex px="4" py="3" height="48px">
