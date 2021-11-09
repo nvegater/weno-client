@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from "react";
+import React, { FC, useMemo } from "react";
 import { useExperiencesQuery } from "../../graphql/generated/graphql";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { KeycloakInstance } from "keycloak-js";
@@ -25,6 +25,7 @@ export const ExperiencesGrid: FC<ExperiencesGridProps> = ({}) => {
       cursor: null as string | null,
     },
     context: contextHeader,
+    pause: true,
   });
   return (
     <div>

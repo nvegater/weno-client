@@ -9,8 +9,12 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import * as Logos from "./Brands";
+import { useKeycloak } from "@react-keycloak/ssr";
+import { KeycloakInstance } from "keycloak-js";
 
 export const Hero = () => {
+  const { keycloak, initialized } = useKeycloak<KeycloakInstance>();
+
   return (
     <Box>
       <Box
@@ -58,7 +62,15 @@ export const Hero = () => {
             display="flex"
             justifyContent="space-around"
           >
-            <Button variant="primaryWeno" size="heroWeno">
+            <Button
+              variant="primaryWeno"
+              size="heroWeno"
+              onClick={() => {
+                if (initialized && !keycloak.authenticated) {
+                  keycloak.register();
+                }
+              }}
+            >
               Register
             </Button>
             <Button variant="secondaryWeno" size="heroWeno">
