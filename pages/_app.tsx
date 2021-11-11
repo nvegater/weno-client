@@ -29,7 +29,6 @@ AppProps & InitialProps) {
   const keycloakConfig = {
     persistor: SSRCookies(cookies),
     keycloakConfig: keycloakCfg,
-    LoadingComponent: <div>Loading</div>,
     /*  initOptions: {
       //onLoad: "login-required",
       /!*onLoad: "check-sso",
