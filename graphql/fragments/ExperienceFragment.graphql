@@ -1,0 +1,17 @@
+fragment ExperienceFragment on Experience {
+  createdAt
+  description
+  endDateTime
+  eventType
+  extraDates
+  id
+  limitOfAttendees
+  noOfAttendees
+  #pictures
+  pricePerPersonInDollars
+  rRules
+  startDateTime
+  title
+  updatedAt
+  wineryId
+}

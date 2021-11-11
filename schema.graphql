@@ -5,14 +5,24 @@ schema {
   mutation: Mutation
 }
 
-type BookServiceResponse {
-  errors: [FieldError!]
-  service: Service
-}
-
-type CreateServiceResponse {
-  errors: [FieldError!]
-  service: Service
+type Experience {
+  createdAt: DateTime!
+  description: String!
+  endDateTime: DateTime!
+  eventType: ExperienceType!
+  extraDates: [String!]
+  id: Int!
+  limitOfAttendees: Int!
+  noOfAttendees: Int
+  pictures: [Picture!]!
+  pricePerPersonInDollars: Float!
+  rRules: [String!]
+  reservations: [Reservation!]
+  startDateTime: DateTime!
+  title: String!
+  updatedAt: DateTime!
+  winery: Winery!
+  wineryId: Int!
 }
 
 type FieldError {
@@ -20,282 +30,46 @@ type FieldError {
   message: String!
 }
 
-type FindExperienceResponse {
-  errors: [FieldError!]
-  service: Service!
-  winery: Winery!
-}
-
-type GetPreSignedUrlResponse {
-  arrayUrl: [PresignedResponse!]
-  errors: [FieldError!]
-}
-
 type Mutation {
-  changeCoverPageImageService(
-    serviceId: Int!
-    serviceImageId: Int!
-  ): ServiceCoverImageChangeResponse!
-  changeCoverPageImageWinery(
-    wineryId: Int!
-    wineryImageId: Int!
-  ): WineryChangeResponse!
-  changePassword(options: ChangePasswordInputs!): UserResponse!
-  createDefaultImageToEvent(
-    eventType: EventType!
-    urlImage: String!
-  ): ServiceImageResponse!
-  createService(
-    createServiceInputs: CreateServiceInputs!
-  ): CreateServiceResponse!
-  deleteDefaultImageToEvent(eventType: EventType!): ServiceImageResponse!
-  deleteImageService(serviceImageId: Int!): ServiceImageResponse!
-  deleteImageWinery(imageId: Int!): WineryDeleteImageResponse!
-  forgotPassword(email: String!): UserResponse!
-  insertImageService(
-    serviceId: Int!
-    urlImage: [String!]!
-  ): ServiceImageResponse!
-  insertImageWinery(
-    urlImage: [String!]!
-    wineryId: Int!
-  ): WineryServicesResponse!
-  login(options: LoginInputs!): UserResponse!
-  logout: Boolean!
-  postCreation(options: CreatePostInputs!): PostResponse!
-  postDeletion(
-    "each user can delete a post they created if theyre logged in"
-    id: Int!
-  ): postDeletion!
-  postUpdate(id: Int!, text: String!, title: String!): PostResponse!
-  register(options: RegisterInputs!): UserResponse!
-  registerWinery(
-    options: RegisterInputs!
-    wineryDataInputs: WineryDataInputs!
+  createWinery(
+    createWineryInputs: CreateWineryInputs!
+    userInputs: UserInputs!
   ): WineryResponse!
-  reserve(reserveServiceInputs: ReserveServiceInputs!): BookServiceResponse!
-  sendUserValidation: SendUserValidationResponse
-  updateDefaultImageToEvent(
-    eventType: EventType!
-    urlImage: String!
-  ): ServiceImageResponse!
-  updateService(
-    updateServiceInputs: UpdateServiceInputs!
-  ): CreateServiceResponse!
-  updateUser(user: UserToEdit!): UserResponse!
-  updateWinery(wineryData: UpdateWineryInputs!): WineryServicesResponse!
-  validateUser(token: String!): UserResponse!
-  vote(
-    postId: Int!
-    "The user can upvote and downvote. null means, user hasnt upvoted/downvoted"
-    value: Int!
-  ): Boolean!
 }
 
-type PaginatedExperiences {
-  errors: [FieldError!]
-  experiences: [Service!]
-  moreExperiencesAvailable: Boolean!
-  totalExperiences: Float!
-}
-
-type PaginatedPosts {
-  morePostsAvailable: Boolean!
-  paginatedPosts: [Post!]!
-}
-
-type Post {
+type Picture {
+  coverPage: Boolean!
   createdAt: DateTime!
-  creator: User!
-  creatorId: Float!
-  id: Int!
-  points: Float!
-  text: String!
-  textSnippet: String!
-  title: String!
+  experience: Experience!
+  experienceId: Int!
+  id: Float
+  imageUrl: String
   updatedAt: DateTime!
-  voteStatus: Int
-}
-
-type PostResponse {
-  errors: [FieldError!]
-  post: Post
-}
-
-type PresignedResponse {
-  getUrl: String
-  putUrl: String
 }
 
 type Query {
-  PaginatedPosts(
-    "For pagination.Offset=10 means, retrieve the 10th post. Cursor in contrast depends on the sortingDefault sorting: (createdAt, DESC) (new first)The cursor accepts a string timestamp, the createdAt.Returns all the posts after the given timestamp"
-    cursor: String
-    "For pagination.Max number of posts. Default is 50"
-    limit: Int!
-  ): PaginatedPosts!
-  allReservations(
-    "For pagination.Max number of reservations. Default is 50"
-    limit: Int!
-  ): ReservationResponse!
-  allServices(
-    "For pagination.Offset=10 means, retrieve the 10th experience. Cursor in contrast depends on the sortingDefault sorting: (createdAt, DESC) (new first)The cursor accepts a string timestamp, the createdAt.Returns all the experiences after the given timestamp"
-    cursor: String
-    eventType: [EventType!]
-    experienceName: String
-    "For pagination.Max number of experiences. Default is 50"
-    limit: Int!
-    state: String
-    valley: [Valley!]
-  ): PaginatedExperiences!
-  allWineries(
-    "For pagination.Max number of posts. Default is 50"
-    limit: Int!
-  ): WineriesResponse!
-  findExperienceById(experienceId: Int!): FindExperienceResponse!
-  me: UserResponse
-  post(id: Int!): Post
-  preSignedUrl(
-    fileName: [String!]!
-    serviceId: Int
-    uploadType: UploadType!
-    userId: Int
-    wineryId: Int
-  ): GetPreSignedUrlResponse!
-  salesConcentrate(
-    "if you put null or undefinedthe query will return all events registration"
-    paypalTransaccionId: String
-  ): SalesConcentrate!
-  servicesUser(serviceIds: [Int!]!): ServiceResponse!
-  userReservations: [ServiceReservation!]!
-  wineryReservations(wineryId: Int!): [ServiceReservation!]!
-  wineryServices(wineryId: Int!): WineryServicesResponse!
+  allExperiences: Int!
+  allPictures: Int!
+  allReservations: Int!
+  allWineries: Int!
 }
 
-type ReservationDetails {
-  experienceInfo: Service!
-  noOfAttendees: Int
-  paymentCreationDateTime: String!
-  paypalOrderId: String!
-  pricePerPersonInDollars: Float!
-  serviceFromReservation: ServiceFromReservation!
-  serviceId: Int!
-  status: String!
-  userFromReservation: UserFromReservation!
-  userId: Int!
-  userInfo: User!
-}
-
-type ReservationResponse {
-  errors: [FieldError!]
-  moreReservationsAvailable: Boolean!
-  reservations: [ReservationDetails!]
-}
-
-type SalesConcentrate {
-  errors: [FieldError!]
-  url: String
-}
-
-type SendUserValidationResponse {
-  errors: [FieldError!]
-  send: Boolean
-}
-
-type Service {
+type Reservation {
   createdAt: DateTime!
-  creator: User!
-  creatorId: Float!
-  description: String!
-  duration: Int!
   endDateTime: DateTime!
-  eventType: EventType!
-  gallery: [ServiceImageGallery!]!
+  experience: Experience!
+  experienceId: Int!
   id: Int!
-  limitOfAttendees: Int
-  noOfAttendees: Int
-  parentServiceId: Int
+  noOfAttendees: Int!
+  orderId: String!
+  paymentCreationDateTime: String!
+  paymentUpdateDateTime: String!
   pricePerPersonInDollars: Float!
-  rRules: [String!]
   startDateTime: DateTime!
+  status: String!
   title: String!
   updatedAt: DateTime!
-  urlImageCover: String
-  winery: Winery!
-  wineryId: Int!
-}
-
-type ServiceCoverImageChangeResponse {
-  changed: Boolean!
-  errors: [FieldError!]
-}
-
-type ServiceFromReservation {
-  id: Float!
-  noOfAttendees: Float!
-  pricePerPersonInDollars: Float!
-  startDateTime: String!
-}
-
-type ServiceImageGallery {
-  coverPage: Boolean!
-  id: Float
-  imageUrl: String
-  serviceId: Float
-}
-
-type ServiceImageResponse {
-  errors: [FieldError!]
-  success: Boolean!
-}
-
-type ServiceReservation {
-  experienceInfo: Service!
-  noOfAttendees: Int
-  paymentCreationDateTime: String!
-  paypalOrderId: String!
-  pricePerPersonInDollars: Float!
-  serviceId: Int!
-  status: String!
-  userId: Int!
-  userInfo: User!
-}
-
-type ServiceResponse {
-  errors: [FieldError!]
-  moreServicesAvailable: Boolean!
-  paginatedServices: [Service!]
-}
-
-type User {
-  createdAt: DateTime!
-  email: String!
-  id: Int!
-  reservedServices: [ServiceReservation!]
-  reservedServicesIds: [Int!]
-  updatedAt: DateTime!
-  urlImage: String
-  userType: UserType!
-  username: String!
-  verified: Boolean
-  wineryId: Int
-}
-
-type UserFromReservation {
-  id: Float!
-  userType: UserType!
-  username: String!
-}
-
-type UserResponse {
-  errors: [FieldError!]
-  user: User
-}
-
-type WineriesResponse {
-  errors: [FieldError!]
-  moreWineriesAvailable: Boolean!
-  paginatedWineries: [Winery!]
+  userId: String!
 }
 
 type Winery {
@@ -306,8 +80,11 @@ type Winery {
   contactPhoneNumber: String
   covidLabel: Boolean
   createdAt: DateTime!
+  creatorEmail: String!
+  creatorUsername: String!
   description: String!
   enologoName: String
+  experiences: [Experience!]
   foundationYear: Int
   googleMapsUrl: String
   handicappedFriendly: Boolean
@@ -319,7 +96,6 @@ type Winery {
   postalAddress: String
   productRegion: String
   productionType: [ProductionType!]
-  services: [Service!]
   supportedLanguages: [ServiceLanguage!]
   updatedAt: DateTime!
   urlImageCover: String
@@ -331,38 +107,9 @@ type Winery {
   younerFriendly: Boolean
 }
 
-type WineryChangeResponse {
-  changed: Boolean!
-  errors: [FieldError!]
-}
-
-type WineryDeleteImageResponse {
-  deleted: Boolean!
-  errors: [FieldError!]
-}
-
-type WineryImageGallery {
-  coverPage: Boolean!
-  id: Float
-  imageUrl: String
-  wineryId: Float
-}
-
 type WineryResponse {
   errors: [FieldError!]
-  winery: User
-}
-
-type WineryServicesResponse {
-  errors: [FieldError!]
-  images: [WineryImageGallery!]!
-  services: [Service!]!
-  winery: Winery!
-}
-
-type postDeletion {
-  deleted: Boolean!
-  errors: [FieldError!]
+  winery: Winery
 }
 
 "Types of wine production"
@@ -381,11 +128,11 @@ enum Amenity {
   VISITA_CAVA_BARRICAS
 }
 
-"Type of service"
-enum EventType {
-  COMIDA_CENA_MARIDAJE
-  CONCIERTO
-  DEGUSTACION
+"Type of experience"
+enum ExperienceType {
+  CONCERT
+  DEGUSTATION
+  WINE_DINNER_PAIRING
 }
 
 "A winery can have one o more kind of grape"
@@ -476,33 +223,6 @@ enum TypeWine {
   TINTO_JOVEN
 }
 
-"Se pueden cargar imagenes para distintos elementos, usuarios, galerias de viñeros etc, etc"
-enum UploadType {
-  SERVICEALBUM
-  USERPROFILEPICTURE
-  WINERYALBUM
-  WINERYLOGO
-}
-
-"Al registrarse los visitantes seleccionan una de las siguientes categoriasDistinciones virtuales para afinar sugerencias y para proporcionar la informacion a la vinicola"
-enum UserType {
-  AGENCY
-  CONCIERGE
-  DISTRIBUTOR
-  DMC
-  DRIVER
-  GUIDE
-  HOTEL
-  OCV
-  PLANNER
-  PRESS
-  SOMMELIER
-  TOUR
-  TRANSPORTATION
-  WINERY_OWNER
-  WINE_TOURIST
-}
-
 "A winery is in an unique valley, valleys are not identifiable through addresses"
 enum Valley {
   CALAFIA
@@ -516,122 +236,7 @@ enum Valley {
   SAN_VICENTE
 }
 
-input ChangePasswordInputs {
-  newPassword: String!
-  token: String!
-}
-
-input CreatePostInputs {
-  text: String!
-  title: String!
-}
-
-input CreateServiceInputs {
-  description: String!
-  duration: Float!
-  endDateTime: DateTime!
-  eventType: EventType!
-  limitOfAttendees: Float!
-  pricePerPersonInDollars: Float!
-  rRules: [String!]
-  startDateTime: DateTime!
-  title: String!
-  wineryId: Float!
-}
-
-input LoginInputs {
-  password: String!
-  usernameOrEmail: String!
-}
-
-input RegisterInputs {
-  email: String!
-  password: String!
-  userType: UserType!
-  username: String!
-}
-
-input ReserveServiceInputs {
-  getTimezoneOffset: Float!
-  noOfAttendees: Float!
-  paymentCreationDateTime: String!
-  paypalOrderId: String!
-  pricePerPersonInDollars: Float!
-  serviceId: Float!
-  startDateTime: DateTime!
-  status: String!
-}
-
-input UpdateServiceInputs {
-  description: String!
-  endDateTime: DateTime
-  eventType: EventType!
-  id: Float!
-  limitOfAttendees: Float!
-  pricePerPersonInDollars: Float!
-  rRules: [String!]
-  startDateTime: DateTime!
-  title: String!
-}
-
-input UpdateWineryInputs {
-  amenities: [Amenity!]!
-  "opcional"
-  architecturalReferences: Boolean
-  "opcional"
-  contactEmail: String
-  "opcional"
-  contactName: String
-  "opcional"
-  contactPhoneNumber: String
-  "opcional"
-  covidLabel: Boolean
-  "opcional"
-  description: String
-  "opcional"
-  enologoName: String
-  "opcional"
-  foundationYear: Float
-  "opcional"
-  googleMapsUrl: String
-  "opcional"
-  handicappedFriendly: Boolean
-  "opcional"
-  id: Float
-  "opcional"
-  logo: String
-  "opcional"
-  name: String
-  othersServices: [OtherServices!]!
-  "opcional"
-  petFriendly: Boolean
-  "opcional"
-  postalAddress: String
-  "opcional"
-  productRegion: String
-  productionType: [ProductionType!]!
-  supportedLanguages: [ServiceLanguage!]!
-  "opcional"
-  valley: Valley
-  wineGrapesProduction: [Grape!]!
-  wineType: [TypeWine!]!
-  "opcional"
-  yearlyWineProduction: Float
-  "opcional"
-  younerFriendly: Boolean
-}
-
-input UserToEdit {
-  email: String
-  password: String
-  urlImage: String
-  userType: UserType
-  username: String
-  verified: Boolean
-  visitorOrOwner: Boolean
-}
-
-input WineryDataInputs {
+input CreateWineryInputs {
   amenities: [Amenity!]
   contactEmail: String
   contactPhoneNumber: String
@@ -645,6 +250,11 @@ input WineryDataInputs {
   valley: Valley!
   wineType: [TypeWine!]!
   yearlyWineProduction: Int
+}
+
+input UserInputs {
+  email: String!
+  username: String!
 }
 
 "The javascript `Date` as string. Type represents date and time as the ISO Date string."

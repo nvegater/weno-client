@@ -1,0 +1,17 @@
+mutation CreateWinery(
+  $userInputs: UserInputs!
+  $createWineryInputs: CreateWineryInputs!
+) {
+  createWinery(
+    createWineryInputs: $createWineryInputs
+    userInputs: $userInputs
+  ) {
+    errors {
+      field
+      message
+    }
+    winery {
+      ...WineryFragment
+    }
+  }
+}

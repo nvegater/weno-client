@@ -1,0 +1,36 @@
+fragment WineryFragment on Winery {
+  amenities
+  architecturalReferences
+  contactEmail
+  contactName
+  contactPhoneNumber
+  covidLabel
+  createdAt
+  creatorEmail
+  creatorUsername
+  description
+  enologoName
+  experiences {
+    ...ExperienceFragment
+  }
+  foundationYear
+  googleMapsUrl
+  handicappedFriendly
+  id
+  logo
+  name
+  othersServices
+  petFriendly
+  postalAddress
+  productRegion
+  productionType
+  supportedLanguages
+  updatedAt
+  urlImageCover
+  valley
+  verified
+  wineGrapesProduction
+  wineType
+  yearlyWineProduction
+  younerFriendly
+}
