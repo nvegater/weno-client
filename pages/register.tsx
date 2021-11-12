@@ -26,7 +26,7 @@ const Register: FC<RegisterProps> = ({}) => {
   const router = useRouter();
 
   if (authenticated && isVisitor && tokenInfo) {
-    router.push("/user/[userId]", `/user/${tokenInfo.preferred_username}`);
+    router.push("/");
   }
 
   const [{ data, error, fetching }] = useWineryQuery({
