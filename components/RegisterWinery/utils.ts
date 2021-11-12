@@ -8,14 +8,18 @@ import {
   Valley,
 } from "../../graphql/generated/graphql";
 
+export const removeNonStringsFromArray = (array: any[]) => {
+  return array.filter((item) => typeof item === "string");
+};
+
 export const productionTypeReverseMapping = (value: ProductionType) => {
   switch (value) {
     case ProductionType.Comercial:
-      return "commercialProduction";
+      return "Commercial production";
     case ProductionType.OrgBioNat:
-      return "organicProduction";
+      return "Organic production";
     case ProductionType.TradArtesanal:
-      return "traditionalProduction";
+      return "Traditional production";
   }
 };
 

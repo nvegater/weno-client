@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { useForm } from "react-hook-form";
 import {
   Button,
+  Checkbox,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -11,8 +12,12 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { Valley } from "../../graphql/generated/graphql";
-import { valleyReverseMapping } from "./utils";
+import { ProductionType, Valley } from "../../graphql/generated/graphql";
+import {
+  productionTypeReverseMapping,
+  removeNonStringsFromArray,
+  valleyReverseMapping,
+} from "./utils";
 
 interface CreateWineryFormProps {
   username: string;
@@ -29,8 +34,13 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
     formState: { errors, isSubmitting },
   } = useForm();
 
-  console.log(errors);
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    const correctedValues = {
+      ...data,
+      productionType: removeNonStringsFromArray(data.productionType),
+    };
+    console.log(correctedValues);
+  };
 
   console.log("Use when submitting the form", username, email);
 
@@ -116,6 +126,21 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             </option>
           ))}
         </Select>
+      </FormControl>
+
+      <FormControl>
+        <FormLabel htmlFor="productionType">Production type</FormLabel>
+        <VStack justifyContent="start" alignItems="start">
+          {Object.values(ProductionType).map((pt, index) => (
+            <Checkbox
+              key={`productionType.${index}`}
+              value={pt}
+              {...register(`productionType.${index}`)}
+            >
+              {productionTypeReverseMapping(pt)}
+            </Checkbox>
+          ))}
+        </VStack>
       </FormControl>
 
       <Button variant="secondaryWeno" type="submit" isLoading={isSubmitting}>
