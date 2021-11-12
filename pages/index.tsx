@@ -4,6 +4,7 @@ import { withUrqlClient } from "next-urql";
 import { LandingPage } from "../components/LandingPage/LandingPage";
 import { ExperienceCardCover } from "../components/Cards/ExperienceCardCover";
 import { ExperienceCardDetails } from "../components/Cards/ExperienceCardDetails";
+import { InputNumberBox } from "../components/Boxes/InputNumberBox";
 
 const Home = () => {
   return (
@@ -26,6 +27,7 @@ const Home = () => {
       </Head>
       <main>
         <LandingPage />
+        <InputNumberBox />
         <ExperienceCardCover />
         <ExperienceCardDetails />
       </main>
