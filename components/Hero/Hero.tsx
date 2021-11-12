@@ -67,7 +67,8 @@ export const Hero = () => {
               size="heroWeno"
               onClick={() => {
                 if (initialized && !keycloak.authenticated) {
-                  keycloak.register();
+                  const webpageBase = window.location.href;
+                  keycloak.register({ redirectUri: webpageBase + "register" });
                 }
               }}
             >

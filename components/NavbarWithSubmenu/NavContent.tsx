@@ -15,6 +15,7 @@ import { ToggleButton } from "./ToggleButton";
 import { links } from "./_data";
 import { RiLoginCircleFill } from "react-icons/ri";
 import { Weno } from "../Hero/Brands";
+import Link from "next/link";
 
 const LogoText = (
   <Text
@@ -41,12 +42,12 @@ const MobileNavContext = (props: FlexProps) => {
         <Box flexBasis="6rem">
           <ToggleButton isOpen={isOpen} onClick={onToggle} />
         </Box>
-        <Box as="a" rel="home">
-          <Flex alignItems="center">
+        <Link href="/" passHref={true}>
+          <Flex alignItems="center" cursor="pointer">
             <Weno h="2.1em" w="2.1em" />
             {LogoText}
           </Flex>
-        </Box>
+        </Link>
       </Flex>
       <NavMenu
         animate={isOpen ? "open" : "closed"}
@@ -87,12 +88,12 @@ const DesktopNavContent = (props: FlexProps) => {
       justify="space-between"
       {...props}
     >
-      <Box as="a" href="#" rel="home">
-        <Flex alignItems="center">
+      <Link href="/" passHref={true}>
+        <Flex alignItems="center" cursor="pointer">
           <Weno h="2.1em" w="2.1em" />
           {LogoText}
         </Flex>
-      </Box>
+      </Link>
       <HStack
         as="ul"
         id="nav__primary-menu"
