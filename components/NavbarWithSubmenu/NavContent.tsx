@@ -48,6 +48,9 @@ const MobileNavContext = (props: FlexProps) => {
             {LogoText}
           </Flex>
         </Link>
+        <Button leftIcon={<RiLoginCircleFill />} size="navBarCTA" variant="cta">
+          Login
+        </Button>
       </Flex>
       <NavMenu
         animate={isOpen ? "open" : "closed"}
@@ -72,7 +75,7 @@ const MobileNavContext = (props: FlexProps) => {
             size="sideBarCTA"
             variant="cta"
           >
-            Sign in
+            Login
           </Button>
         </Flex>
       </NavMenu>
@@ -112,7 +115,7 @@ const DesktopNavContent = (props: FlexProps) => {
       </HStack>
       <HStack spacing="8" minW="240px" justify="space-between">
         <Button leftIcon={<RiLoginCircleFill />} size="navBarCTA" variant="cta">
-          Sign in
+          Login
         </Button>
       </HStack>
     </Flex>
