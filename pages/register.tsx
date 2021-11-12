@@ -76,9 +76,9 @@ const Register: FC<RegisterProps> = ({}) => {
                 variant="primaryWeno"
                 size="heroWeno"
                 onClick={() => {
-                  const webpageBase = window.location.hostname;
+                  const webpageBase = window.location.origin;
                   register({
-                    redirectUri: webpageBase + "register",
+                    redirectUri: webpageBase + "/register",
                   });
                 }}
               >
@@ -88,10 +88,9 @@ const Register: FC<RegisterProps> = ({}) => {
                 variant="primaryWeno"
                 size="heroWeno"
                 onClick={() => {
-                  const webpageBase = window.location.hostname;
-                  login({
-                    redirectUri: webpageBase + "register",
-                  });
+                  const webpageBase = window.location.origin;
+                  const redirectUri = webpageBase + "/register";
+                  login({ redirectUri: redirectUri });
                 }}
               >
                 Login

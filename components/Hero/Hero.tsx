@@ -67,14 +67,23 @@ export const Hero = () => {
               size="heroWeno"
               onClick={() => {
                 if (initialized && !keycloak.authenticated) {
-                  const webpageBase = window.location.href;
-                  keycloak.register({ redirectUri: webpageBase + "register" });
+                  const webpageBase = window.location.origin;
+                  keycloak.register({ redirectUri: webpageBase + "/register" });
                 }
               }}
             >
               Register
             </Button>
-            <Button variant="secondaryWeno" size="heroWeno">
+            <Button
+              variant="secondaryWeno"
+              size="heroWeno"
+              onClick={() => {
+                if (initialized && !keycloak.authenticated) {
+                  const webpageBase = window.location.origin;
+                  keycloak.register({ redirectUri: webpageBase + "/register" });
+                }
+              }}
+            >
               Offer experiences
             </Button>
           </Stack>

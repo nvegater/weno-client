@@ -7,9 +7,12 @@ import {
   FormLabel,
   Heading,
   Input,
+  Select,
   Textarea,
   VStack,
 } from "@chakra-ui/react";
+import { Valley } from "../../graphql/generated/graphql";
+import { valleyReverseMapping } from "./utils";
 
 interface CreateWineryFormProps {
   username: string;
@@ -72,7 +75,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
           placeholder="How many Liters per year"
           {...register("yearlyWineProduction", {
             valueAsNumber: true,
-            maxLength: { value: 7, message: "Please enter a valid year" },
+            max: { value: 1000000, message: "That's a lot of wine" },
           })}
         />
         <FormErrorMessage>
@@ -87,8 +90,8 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
           placeholder="e.g. 1992"
           {...register("foundationYear", {
             valueAsNumber: true,
-            maxLength: { value: 4, message: "Please enter a valid year" },
-            minLength: { value: 4, message: "Please enter a valid year" },
+            max: { value: 2022, message: "Invalid date" },
+            min: { value: 0, message: "Thats too old to be true" },
           })}
         />
         <FormErrorMessage>
@@ -104,13 +107,18 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
           {...register("googleMapsUrl")}
         />
       </FormControl>
+      <FormControl>
+        <FormLabel htmlFor="valley">Valley</FormLabel>
+        <Select selected={Valley.Ensenada} {...register("valley")}>
+          {Object.values(Valley).map((valley) => (
+            <option key={valley} value={valley}>
+              {valleyReverseMapping(valley)}
+            </option>
+          ))}
+        </Select>
+      </FormControl>
 
-      <Button
-        variant="secondaryWeno"
-        type="submit"
-        isLoading={isSubmitting}
-        mt={4}
-      >
+      <Button variant="secondaryWeno" type="submit" isLoading={isSubmitting}>
         Submit
       </Button>
     </VStack>
