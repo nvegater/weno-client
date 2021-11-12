@@ -12,7 +12,9 @@ interface ParsedTokenExtended extends KeycloakTokenParsed {
   userType: "owner" | "visitor" | null;
 }
 
-type ContextHeader = { fetchOptions: { headers: { Authorization: string } } };
+export type ContextHeader = {
+  fetchOptions: { headers: { Authorization: string } };
+};
 
 interface UseAuthHookResult {
   contextHeader: ContextHeader;

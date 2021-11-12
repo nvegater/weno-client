@@ -12,21 +12,30 @@ import {
   Textarea,
   VStack,
 } from "@chakra-ui/react";
-import { ProductionType, Valley } from "../../graphql/generated/graphql";
+import {
+  ProductionType,
+  TypeWine,
+  useCreateWineryMutation,
+  Valley,
+} from "../../graphql/generated/graphql";
 import {
   productionTypeReverseMapping,
   removeNonStringsFromArray,
   valleyReverseMapping,
+  wineTypeReverseMapping,
 } from "./utils";
+import { ContextHeader } from "../Authentication/useAuth";
 
 interface CreateWineryFormProps {
   username: string;
   email: string;
+  contextHeader: ContextHeader;
 }
 
 export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   username,
   email,
+  contextHeader,
 }) => {
   const {
     register,
@@ -34,15 +43,22 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const [, createWinery] = useCreateWineryMutation();
+
+  const onSubmit = async (data) => {
     const correctedValues = {
       ...data,
       productionType: removeNonStringsFromArray(data.productionType),
+      wineType: removeNonStringsFromArray(data.wineType),
     };
-    console.log(correctedValues);
+    await createWinery(
+      {
+        userInputs: { email, username },
+        createWineryInputs: { ...correctedValues },
+      },
+      { ...contextHeader, requestPolicy: "network-only" }
+    );
   };
-
-  console.log("Use when submitting the form", username, email);
 
   return (
     <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
@@ -141,6 +157,29 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             </Checkbox>
           ))}
         </VStack>
+      </FormControl>
+
+      <FormControl>
+        <FormLabel htmlFor="wineType">Wine type</FormLabel>
+        <VStack justifyContent="start" alignItems="start">
+          {Object.values(TypeWine).map((tw, index) => (
+            <Checkbox
+              key={`wineType.${index}`}
+              value={tw}
+              {...register(`wineType.${index}`)}
+            >
+              {wineTypeReverseMapping(tw)}
+            </Checkbox>
+          ))}
+        </VStack>
+      </FormControl>
+
+      <FormControl>
+        <FormLabel htmlFor="covidLabel">COVID-19 Safety Measures</FormLabel>
+
+        <Checkbox {...register(`covidLabel`)}>
+          We comply with the safety measures from the WHO
+        </Checkbox>
       </FormControl>
 
       <Button variant="secondaryWeno" type="submit" isLoading={isSubmitting}>

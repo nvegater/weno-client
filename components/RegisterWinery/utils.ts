@@ -79,35 +79,35 @@ export const amenitiesReverseMapping = (value: Amenity) => {
 export const wineTypeReverseMapping = (value: TypeWine) => {
   switch (value) {
     case TypeWine.BlancoJoven:
-      return "whiteYoung";
+      return "White-young";
     case TypeWine.BlancoConBarrica:
-      return "barrelAgedWhite";
+      return "Barrel aged white";
     case TypeWine.Rosado:
-      return "roseWine";
+      return "Rose";
     case TypeWine.TintoJoven:
-      return "wineRed";
+      return "Red";
     case TypeWine.TintoCrianzaBarrica:
-      return "agedBarrelRed";
+      return "Barrel aged red";
     case TypeWine.GenerosoFortificado:
-      return "fortifiedWine";
+      return "Fortified";
     case TypeWine.Espumoso:
-      return "sparklingWine";
+      return "Sparkling";
     case TypeWine.Naranja:
-      return "orangeWine";
+      return "Orange";
     case TypeWine.Dulce:
-      return "sweetWine";
+      return "Sweet";
     case TypeWine.Cosecha:
-      return "lateHarvestWine";
+      return "Late harvest";
     case TypeWine.ConmemorativoEdiLimitada:
-      return "commemorativeWine";
+      return "Commemorative";
     case TypeWine.ExclusivoVentaLocal:
-      return "exclusiveWine";
+      return "Exclusive";
     case TypeWine.Organico:
-      return "organicWine";
+      return "Organic";
     case TypeWine.Biodinamico:
-      return "biodynamicWine";
+      return "Biodynamic";
     case TypeWine.Natural:
-      return "naturalWine";
+      return "Natural";
     default:
       return "";
   }

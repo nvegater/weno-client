@@ -105,6 +105,7 @@ const Register: FC<RegisterProps> = ({}) => {
                 <CreateWineryForm
                   username={tokenInfo?.preferred_username}
                   email={tokenInfo?.email}
+                  contextHeader={contextHeader}
                 />
               )}
             </Flex>
