@@ -1,0 +1,11 @@
+query Winery($creatorUsername: String!) {
+  winery(creatorUsername: $creatorUsername) {
+    errors {
+      field
+      message
+    }
+    winery {
+      id
+    }
+  }
+}

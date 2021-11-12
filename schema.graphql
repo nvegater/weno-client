@@ -52,6 +52,7 @@ type Query {
   allPictures: Int!
   allReservations: Int!
   allWineries: Int!
+  winery(creatorUsername: String!): WineryResponse!
 }
 
 type Reservation {
