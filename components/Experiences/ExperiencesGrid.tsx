@@ -1,7 +1,8 @@
 import React, { FC, useMemo } from "react";
-import { useExperiencesQuery } from "../../graphql/generated/graphql";
+//import { useExperiencesQuery } from "../../graphql/generated/graphql";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { KeycloakInstance } from "keycloak-js";
+import { useWineryQuery } from "../../graphql/generated/graphql";
 
 interface ExperiencesGridProps {}
 
@@ -19,10 +20,9 @@ export const ExperiencesGrid: FC<ExperiencesGridProps> = ({}) => {
     }),
     [keycloak.token]
   );
-  const [{ data, error, fetching }] = useExperiencesQuery({
+  const [{ data, error, fetching }] = useWineryQuery({
     variables: {
-      limit: 9,
-      cursor: null as string | null,
+      creatorUsername: "",
     },
     context: contextHeader,
     pause: true,

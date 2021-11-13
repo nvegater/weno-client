@@ -1,8 +1,11 @@
 import { Box } from "@chakra-ui/react";
 import * as React from "react";
 import { NavContent } from "./NavContent";
+import useAuth from "../Authentication/useAuth";
 
 export const NavBarWithSubmenu = () => {
+  const { authenticated, tokenInfo, login } = useAuth();
+
   return (
     <Box minH={3}>
       <Box as="header" bg="gradient.100" position="relative" zIndex="10">
@@ -13,8 +16,18 @@ export const NavBarWithSubmenu = () => {
           mx="auto"
           px={{ base: "6", md: "8" }}
         >
-          <NavContent.Mobile display={{ base: "flex", lg: "none" }} />
-          <NavContent.Desktop display={{ base: "none", lg: "flex" }} />
+          <NavContent.Mobile
+            display={{ base: "flex", lg: "none" }}
+            authenticated={authenticated}
+            login={login}
+            {...tokenInfo}
+          />
+          <NavContent.Desktop
+            display={{ base: "none", lg: "flex" }}
+            authenticated={authenticated}
+            login={login}
+            {...tokenInfo}
+          />
         </Box>
       </Box>
     </Box>

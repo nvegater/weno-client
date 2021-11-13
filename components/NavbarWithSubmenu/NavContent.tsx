@@ -29,7 +29,15 @@ const LogoText = (
   </Text>
 );
 
-const MobileNavContext = (props: FlexProps) => {
+interface NavProps extends FlexProps {
+  authenticated: boolean;
+  preferred_username: string | null;
+  email: string | null;
+  userType: "owner" | "visitor" | null;
+  login: (options?: Keycloak.KeycloakLoginOptions) => void;
+}
+
+const MobileNavContext = (props: NavProps) => {
   const { isOpen, onToggle } = useDisclosure();
   return (
     <>
@@ -48,6 +56,20 @@ const MobileNavContext = (props: FlexProps) => {
             {LogoText}
           </Flex>
         </Link>
+        {!props.authenticated && !isOpen && (
+          <Button
+            leftIcon={<RiLoginCircleFill />}
+            size="navBarCTA"
+            variant="cta"
+            onClick={() => {
+              const webpageBase = window.location.origin;
+              const redirectUri = webpageBase + "/register";
+              props.login({ redirectUri: redirectUri });
+            }}
+          >
+            Login
+          </Button>
+        )}
       </Flex>
       <NavMenu
         animate={isOpen ? "open" : "closed"}
@@ -67,20 +89,27 @@ const MobileNavContext = (props: FlexProps) => {
           </Box>
         ))}
         <Flex justifyContent="center" py={4}>
-          <Button
-            leftIcon={<RiLoginCircleFill />}
-            size="sideBarCTA"
-            variant="cta"
-          >
-            Sign in
-          </Button>
+          {!props.authenticated && (
+            <Button
+              leftIcon={<RiLoginCircleFill />}
+              size="sideBarCTA"
+              variant="cta"
+              onClick={() => {
+                const webpageBase = window.location.origin;
+                const redirectUri = webpageBase + "/register";
+                props.login({ redirectUri: redirectUri });
+              }}
+            >
+              Login
+            </Button>
+          )}
         </Flex>
       </NavMenu>
     </>
   );
 };
 
-const DesktopNavContent = (props: FlexProps) => {
+const DesktopNavContent = (props: NavProps) => {
   return (
     <Flex
       className="nav-content__desktop"
@@ -111,9 +140,15 @@ const DesktopNavContent = (props: FlexProps) => {
         ))}
       </HStack>
       <HStack spacing="8" minW="240px" justify="space-between">
-        <Button leftIcon={<RiLoginCircleFill />} size="navBarCTA" variant="cta">
-          Sign in
-        </Button>
+        {!props.authenticated && (
+          <Button
+            leftIcon={<RiLoginCircleFill />}
+            size="navBarCTA"
+            variant="cta"
+          >
+            Login
+          </Button>
+        )}
       </HStack>
     </Flex>
   );

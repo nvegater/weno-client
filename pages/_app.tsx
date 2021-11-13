@@ -11,7 +11,6 @@ import React from "react";
 
 interface InitialProps {
   cookies: unknown;
-  host: string;
 }
 
 const keycloakCfg: KeycloakConfig = {
@@ -20,12 +19,7 @@ const keycloakCfg: KeycloakConfig = {
   clientId: "weno-frontend",
 };
 
-function MyApp({
-  Component,
-  pageProps,
-  cookies,
-}: //host,
-AppProps & InitialProps) {
+function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   const keycloakConfig = {
     persistor: SSRCookies(cookies),
     keycloakConfig: keycloakCfg,
@@ -61,8 +55,6 @@ MyApp.getInitialProps = async (context: AppContext) => {
   const cookies = parseCookies(ctx.req);
   return {
     cookies: cookies,
-    // https://stackoverflow.com/questions/65199051/how-to-get-page-url-or-hostname-in-nextjs-project
-    host: ctx.req.headers.host,
   };
 };
 
