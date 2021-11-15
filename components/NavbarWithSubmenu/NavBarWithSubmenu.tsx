@@ -17,15 +17,15 @@ export const NavBarWithSubmenu = () => {
           px={{ base: "6", md: "8" }}
         >
           <NavContent.Mobile
-            display={{ base: "flex", lg: "none" }}
+            flexProps={{ display: { base: "flex", lg: "none" } }}
             authenticated={authenticated}
-            login={login}
+            loginFn={login}
             {...tokenInfo}
           />
           <NavContent.Desktop
-            display={{ base: "none", lg: "flex" }}
+            flexProps={{ display: { base: "none", lg: "flex" } }}
             authenticated={authenticated}
-            login={login}
+            loginFn={login}
             {...tokenInfo}
           />
         </Box>
