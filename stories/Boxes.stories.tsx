@@ -1,14 +1,14 @@
 import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { SelectionBox } from "../components/Boxes/SelectBox";
+import { InputNumberBox } from "../components/Boxes/InputNumberBox";
 
 export default {
   title: "Weno/Boxes",
-  component: SelectionBox,
-} as ComponentMeta<typeof SelectionBox>;
+  component: InputNumberBox,
+} as ComponentMeta<typeof InputNumberBox>;
 
-const Template: ComponentStory<typeof SelectionBox> = (args) => (
-  <SelectionBox />
+const Template: ComponentStory<typeof InputNumberBox> = (args) => (
+  <InputNumberBox />
 );
 
-export const selectBox = Template.bind({});
+export const numberBox = Template.bind({});

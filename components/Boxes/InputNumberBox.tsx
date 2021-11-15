@@ -11,22 +11,12 @@ import { BsPeopleFill } from "react-icons/bs";
 const NumberBox = () => {
   const [value, setValue] = useState(0);
 
-  const incrementNumber = () => {
-    let newValue = value + 1;
-    setValue(newValue);
-  };
-
-  const decrementNumber = () => {
-    let newValue = value - 1;
-    setValue(newValue);
-  };
-
   return (
     <HStack maxW="180px">
       <Button
         color="white"
         backgroundColor="brand.300"
-        onClick={() => decrementNumber()}
+        onClick={() => setValue(value - 1)}
       >
         -
       </Button>
@@ -40,7 +30,7 @@ const NumberBox = () => {
       <Button
         color="white"
         backgroundColor="brand.300"
-        onClick={() => incrementNumber()}
+        onClick={() => setValue(value + 1)}
       >
         +
       </Button>
