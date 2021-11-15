@@ -111,9 +111,6 @@ NavBarProps) => {
             {LogoText}
           </Flex>
         </Link>
-        {!authenticated && !isOpen && (
-          <LoginButton loginFn={loginFn} isNavBar />
-        )}
         {!isOpen && (
           <>
             {!authenticated && <LoginButton loginFn={loginFn} isNavBar />}

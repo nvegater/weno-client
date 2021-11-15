@@ -25,6 +25,7 @@ import {
   wineTypeReverseMapping,
 } from "./utils";
 import { ContextHeader } from "../Authentication/useAuth";
+import { VerticalSteps } from "../VerticalSteps/VerticalSteps";
 
 interface CreateWineryFormProps {
   username: string;
@@ -63,6 +64,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   return (
     <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
       <Heading>Your Winery</Heading>
+      <VerticalSteps steps={[]} isLoading={false} />
       <FormControl isInvalid={errors.name}>
         <Input
           type="text"
