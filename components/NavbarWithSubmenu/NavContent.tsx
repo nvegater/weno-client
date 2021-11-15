@@ -14,6 +14,7 @@ import { Submenu } from "./Submenu";
 import { ToggleButton } from "./ToggleButton";
 import { links } from "./_data";
 import { RiLoginCircleFill } from "react-icons/ri";
+import { BiLogOut } from "react-icons/bi";
 import { Weno } from "../Hero/Brands";
 import Link from "next/link";
 import { KeycloakLoginOptions } from "keycloak-js";
@@ -37,10 +38,16 @@ interface NavBarProps {
   email: string | null;
   userType: "owner" | "visitor" | null;
   loginFn: (options?: KeycloakLoginOptions) => void;
+  logoutFn: () => void;
 }
 
 interface LoginButtonProps {
   loginFn: (options?: KeycloakLoginOptions) => void;
+  isNavBar?: boolean;
+}
+
+interface LogoutButtonProps {
+  logoutFn: () => void;
   isNavBar?: boolean;
 }
 
@@ -61,10 +68,26 @@ const LoginButton = ({ loginFn, isNavBar = false }: LoginButtonProps) => {
   );
 };
 
+const LogoutButton = ({ logoutFn, isNavBar = false }: LogoutButtonProps) => {
+  return (
+    <Button
+      leftIcon={<BiLogOut />}
+      size={isNavBar ? "navBarCTA" : "sideBarCTA"}
+      variant="cta"
+      onClick={() => {
+        logoutFn();
+      }}
+    >
+      Logout
+    </Button>
+  );
+};
+
 const MobileNavContext = ({
   flexProps,
   loginFn,
   authenticated,
+  logoutFn,
 }: //userType,
 //email,
 //preferred_username,
@@ -72,6 +95,7 @@ NavBarProps) => {
   const { isOpen, onToggle } = useDisclosure();
   return (
     <>
+      {/*NavBar (closed SideBar)-------------------------------------------*/}
       <Flex
         align="center"
         justify="space-between"
@@ -90,7 +114,14 @@ NavBarProps) => {
         {!authenticated && !isOpen && (
           <LoginButton loginFn={loginFn} isNavBar />
         )}
+        {!isOpen && (
+          <>
+            {!authenticated && <LoginButton loginFn={loginFn} isNavBar />}
+            {authenticated && <LogoutButton logoutFn={logoutFn} isNavBar />}
+          </>
+        )}
       </Flex>
+      {/*SIDEBAR-------------------------------------------*/}
       <NavMenu
         animate={isOpen ? "open" : "closed"}
         bg="gradient.100"
@@ -110,6 +141,7 @@ NavBarProps) => {
         ))}
         <Flex justifyContent="center" py={4}>
           {!authenticated && <LoginButton loginFn={loginFn} />}
+          {authenticated && <LogoutButton logoutFn={logoutFn} />}
         </Flex>
       </NavMenu>
     </>
@@ -120,6 +152,7 @@ const DesktopNavContent = ({
   flexProps,
   loginFn,
   authenticated,
+  logoutFn,
 }: //userType,
 //email,
 //preferred_username,
@@ -155,6 +188,7 @@ NavBarProps) => {
       </HStack>
       <HStack spacing="8" minW="240px" justify="space-between">
         {!authenticated && <LoginButton loginFn={loginFn} isNavBar />}
+        {authenticated && <LogoutButton logoutFn={logoutFn} isNavBar />}
       </HStack>
     </Flex>
   );

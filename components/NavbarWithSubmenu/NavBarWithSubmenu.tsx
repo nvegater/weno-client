@@ -4,7 +4,7 @@ import { NavContent } from "./NavContent";
 import useAuth from "../Authentication/useAuth";
 
 export const NavBarWithSubmenu = () => {
-  const { authenticated, tokenInfo, login } = useAuth();
+  const { authenticated, tokenInfo, login, logout } = useAuth();
 
   return (
     <Box minH={3}>
@@ -20,12 +20,14 @@ export const NavBarWithSubmenu = () => {
             flexProps={{ display: { base: "flex", lg: "none" } }}
             authenticated={authenticated}
             loginFn={login}
+            logoutFn={logout}
             {...tokenInfo}
           />
           <NavContent.Desktop
             flexProps={{ display: { base: "none", lg: "flex" } }}
             authenticated={authenticated}
             loginFn={login}
+            logoutFn={logout}
             {...tokenInfo}
           />
         </Box>

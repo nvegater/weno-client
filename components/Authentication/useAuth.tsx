@@ -26,6 +26,7 @@ interface UseAuthHookResult {
   isVisitor: boolean;
   register: (options?: Keycloak.KeycloakLoginOptions) => void;
   login: (options?: Keycloak.KeycloakLoginOptions) => void;
+  logout: () => void;
 }
 
 type UseAuthHook = () => UseAuthHookResult;
@@ -71,6 +72,10 @@ const useAuth: UseAuthHook = () => {
     keycloak.login({ ...options });
   };
 
+  const logout: () => void = () => {
+    keycloak.logout();
+  };
+
   return {
     contextHeader,
     tokenInfo,
@@ -81,6 +86,7 @@ const useAuth: UseAuthHook = () => {
     isVisitor,
     register,
     login,
+    logout,
   };
 };
 
