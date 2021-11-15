@@ -28,6 +28,7 @@ import {
 import { ContextHeader } from "../Authentication/useAuth";
 import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorMessage } from "@hookform/error-message";
+import { useRouter } from "next/router";
 
 interface CreateWineryFormProps {
   username: string;
@@ -63,9 +64,12 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
 }) => {
   const {
     register,
+    setError,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm({ mode: "onTouched" });
+
+  const router = useRouter();
 
   const [, createWinery] = useCreateWineryMutation();
 
@@ -75,13 +79,24 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       productionType: removeNonStringsFromArray(data.productionType),
       wineType: removeNonStringsFromArray(data.wineType),
     };
-    await createWinery(
+    const { data: res, error } = await createWinery(
       {
         userInputs: { email, username },
         createWineryInputs: { ...correctedValues },
       },
       { ...contextHeader, requestPolicy: "network-only" }
     );
+    if (error) throw error;
+    if (res && res.createWinery.errors !== null) {
+      setError("submit", {
+        type: res.createWinery.errors[0].field,
+        message: res.createWinery.errors[0].message,
+      });
+    } else {
+      router
+        .push("/winery/[wineryId]", `/winery/${res.createWinery.winery.id}`)
+        .then();
+    }
   };
 
   const formSteps: Step[] = [
@@ -110,7 +125,10 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
               placeholder="How would you describe your winery..."
               {...register("description", {
                 required: "Please enter a description",
-                minLength: { value: 20, message: "A bit longer please" },
+                minLength: {
+                  value: 20,
+                  message: "Please enter at least 20 characters",
+                },
               })}
             />
             <FormErrorMessage>
@@ -246,7 +264,11 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
         <VerticalSteps steps={formSteps} isLoading={false} />
       </Box>
 
-      <ErrorSummary errors={errors} />
+      <FormControl isInvalid={Boolean(errors)}>
+        <FormErrorMessage>
+          <ErrorSummary errors={errors} />
+        </FormErrorMessage>
+      </FormControl>
 
       <Button
         variant="secondaryWeno"

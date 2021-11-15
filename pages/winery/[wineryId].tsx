@@ -4,7 +4,9 @@ import { useRouter } from "next/router";
 const Winery = () => {
   const router = useRouter();
   const wineryId =
-    typeof router.query.id === "string" ? parseInt(router.query.id) : -1;
+    typeof router.query.wineryId === "string"
+      ? parseInt(router.query.wineryId as string)
+      : -1;
 
   return (
     <>
