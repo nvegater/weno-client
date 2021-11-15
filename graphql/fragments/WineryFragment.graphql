@@ -1,5 +1,7 @@
 fragment WineryFragment on Winery {
   amenities
+  urlAlias
+  stripe_customerId
   architecturalReferences
   contactEmail
   contactName

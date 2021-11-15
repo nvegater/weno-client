@@ -1,11 +1,11 @@
-query Winery($creatorUsername: String!) {
-  winery(creatorUsername: $creatorUsername) {
+query Winery($getWineryInputs: GetWineryInputs!) {
+  winery(getWineryInputs: $getWineryInputs) {
     errors {
       field
       message
     }
     winery {
-      id
+      ...WineryFragment
     }
   }
 }

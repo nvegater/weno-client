@@ -31,7 +31,9 @@ const Register: FC<RegisterProps> = ({}) => {
 
   const [{ data, error, fetching }] = useWineryQuery({
     variables: {
-      creatorUsername: tokenInfo ? tokenInfo.preferred_username : "",
+      getWineryInputs: {
+        creatorUsername: tokenInfo ? tokenInfo.preferred_username : "",
+      },
     },
     context: contextHeader,
     pause: loadingAuthInfo || notAuthenticated || tokenInfo === null,

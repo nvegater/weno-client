@@ -52,7 +52,7 @@ type Query {
   allPictures: Int!
   allReservations: Int!
   allWineries: Int!
-  winery(creatorUsername: String!): WineryResponse!
+  winery(getWineryInputs: GetWineryInputs!): WineryResponse!
 }
 
 type Reservation {
@@ -97,8 +97,10 @@ type Winery {
   postalAddress: String
   productRegion: String
   productionType: [ProductionType!]
+  stripe_customerId: String
   supportedLanguages: [ServiceLanguage!]
   updatedAt: DateTime!
+  urlAlias: String!
   urlImageCover: String
   valley: Valley!
   verified: Boolean
@@ -248,9 +250,15 @@ input CreateWineryInputs {
   name: String!
   productionType: [ProductionType!]!
   supportedLanguages: [ServiceLanguage!]
+  urlAlias: String!
   valley: Valley!
   wineType: [TypeWine!]!
   yearlyWineProduction: Int
+}
+
+input GetWineryInputs {
+  creatorUsername: String
+  urlAlias: String
 }
 
 input UserInputs {

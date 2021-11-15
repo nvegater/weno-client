@@ -22,7 +22,7 @@ export const ExperiencesGrid: FC<ExperiencesGridProps> = ({}) => {
   );
   const [{ data, error, fetching }] = useWineryQuery({
     variables: {
-      creatorUsername: "",
+      getWineryInputs: {},
     },
     context: contextHeader,
     pause: true,
