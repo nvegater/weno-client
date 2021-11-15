@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import * as React from "react";
 import { useStep } from "./useStep";
-import { RiLoginCircleFill } from "react-icons/ri";
+import { HiCheck } from "react-icons/hi";
 
 interface StepProps extends BoxProps {
   title?: string;
@@ -36,7 +36,7 @@ export const Step = (props: StepProps) => {
           borderColor={isCompleted ? accentColor : "inherit"}
           borderWidth={isActive ? "0px" : "1px"}
         >
-          {isCompleted ? <RiLoginCircleFill /> : step}
+          {isCompleted ? <HiCheck /> : step}
         </Circle>
         <Heading
           fontSize="lg"

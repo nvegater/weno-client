@@ -14,13 +14,13 @@ export interface Step {
 interface VerticalStepsProps {
   steps: Step[];
   isLoading: boolean;
-  mode?: "experience"; // experience can be saved in between ?
+  withSave?: boolean;
 }
 
 export const VerticalSteps: FC<VerticalStepsProps> = ({
   steps,
   isLoading,
-  mode,
+  withSave = false,
 }) => {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
@@ -35,7 +35,7 @@ export const VerticalSteps: FC<VerticalStepsProps> = ({
               <Stack shouldWrapChildren spacing="4">
                 {step.content}
                 <HStack>
-                  {mode !== "experience" && (
+                  {withSave && (
                     <Button
                       size="sm"
                       verticalAlign="baseline"
@@ -76,7 +76,7 @@ export const VerticalSteps: FC<VerticalStepsProps> = ({
         >
           Reset
         </Button>
-        {mode === "experience" && (
+        {withSave && (
           <Button
             size="sm"
             verticalAlign="baseline"
