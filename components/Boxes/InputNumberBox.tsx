@@ -8,13 +8,8 @@ import {
 import React, { useState } from "react";
 import { BsPeopleFill } from "react-icons/bs";
 
-interface BlogProps {
-  input: number;
-}
-
-const NumberBox = (props: BlogProps) => {
-  const { input } = props;
-  const [value, setValue] = useState(input);
+const NumberBox = () => {
+  const [value, setValue] = useState(0);
 
   const incrementNumber = () => {
     let newValue = value + 1;
@@ -54,5 +49,5 @@ const NumberBox = (props: BlogProps) => {
 };
 
 export const InputNumberBox = () => {
-  return <NumberBox input={0} />;
+  return <NumberBox />;
 };
