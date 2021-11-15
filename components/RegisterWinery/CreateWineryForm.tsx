@@ -9,7 +9,9 @@ import {
   FormLabel,
   Heading,
   Input,
+  Link as ChakraLink,
   Select,
+  Text,
   Textarea,
   VStack,
 } from "@chakra-ui/react";
@@ -243,15 +245,26 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       ),
     },
     {
-      title: "COVID-19 Safety Measures",
+      title: "COVID-19",
       content: (
         <FormControl mb={8}>
           <FormLabel htmlFor="covidLabel" visibility="hidden">
-            COVID-19 Safety Measures
+            COVID-19
           </FormLabel>
           <Checkbox {...register(`covidLabel`)}>
-            We comply with the safety measures from the WHO
+            Hygiene measures are in place
           </Checkbox>
+          <Text>
+            Read more{" "}
+            <ChakraLink
+              href="https://www.who.int/water_sanitation_health/hygiene/settings/hvchap8.pdf"
+              color="teal.500"
+              target="_blank"
+            >
+              {" "}
+              here
+            </ChakraLink>
+          </Text>
         </FormControl>
       ),
     },

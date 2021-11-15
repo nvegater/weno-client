@@ -27,7 +27,7 @@ export const VerticalSteps: FC<VerticalStepsProps> = ({
   });
 
   return (
-    <Box minH="400px">
+    <Box minH="400px" minW="400px">
       <Steps activeStep={activeStep}>
         {steps.map((step, index) => (
           <Step key={step.title} title={step.title}>
