@@ -9,6 +9,8 @@ import {
   FormLabel,
   Heading,
   Input,
+  InputGroup,
+  InputLeftAddon,
   Link as ChakraLink,
   Select,
   Text,
@@ -96,7 +98,10 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       });
     } else {
       router
-        .push("/winery/[wineryId]", `/winery/${res.createWinery.winery.id}`)
+        .push(
+          "/winery/[wineryAlias]",
+          `/winery/${res.createWinery.winery.urlAlias}`
+        )
         .then();
     }
   };
@@ -135,6 +140,31 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             />
             <FormErrorMessage>
               {errors.description && errors.description.message}
+            </FormErrorMessage>
+          </FormControl>
+
+          <FormControl isInvalid={errors.urlAlias}>
+            <FormLabel for="urlAlias">Alias</FormLabel>
+            <InputGroup size="sm">
+              <InputLeftAddon>weno-mx.com/winery/</InputLeftAddon>
+              <Input
+                type="text"
+                placeholder="url alias"
+                {...register("urlAlias", {
+                  required: "Please enter an alias",
+                  minLength: {
+                    value: 6,
+                    message: "Please enter at least 5 characters",
+                  },
+                  maxLength: {
+                    value: 12,
+                    message: "No more than 12 characters",
+                  },
+                })}
+              />
+            </InputGroup>
+            <FormErrorMessage>
+              {errors.alias && errors.alias.message}
             </FormErrorMessage>
           </FormControl>
 
