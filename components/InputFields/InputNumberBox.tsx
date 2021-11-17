@@ -8,7 +8,7 @@ import {
 import React, { useState } from "react";
 import { BsPeopleFill } from "react-icons/bs";
 
-const NumberBox = () => {
+export const InputNumberBox = () => {
   const [value, setValue] = useState(1);
 
   return (
@@ -21,10 +21,9 @@ const NumberBox = () => {
         -
       </Button>
       <InputGroup>
-        <InputLeftElement
-          pointerEvents="none"
-          children={<BsPeopleFill color="#BE5050" />}
-        />
+        <InputLeftElement pointerEvents="none">
+          <BsPeopleFill color="#BE5050" />
+        </InputLeftElement>
         <Input value={value} />
       </InputGroup>
       <Button
@@ -36,8 +35,4 @@ const NumberBox = () => {
       </Button>
     </HStack>
   );
-};
-
-export const InputNumberBox = () => {
-  return <NumberBox />;
 };

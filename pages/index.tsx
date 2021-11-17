@@ -2,7 +2,6 @@ import Head from "next/head";
 import { createUrqlClient } from "../graphql/urqlProvider";
 import { withUrqlClient } from "next-urql";
 import { LandingPage } from "../components/LandingPage/LandingPage";
-import { InputNumberBox } from "../components/Boxes/InputNumberBox";
 
 const Home = () => {
   return (

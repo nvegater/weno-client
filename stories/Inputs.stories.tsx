@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { InputNumberBox } from "../components/Boxes/InputNumberBox";
+import { InputNumberBox } from "../components/InputFields/InputNumberBox";
 
 export default {
   title: "Weno/Inputs",
