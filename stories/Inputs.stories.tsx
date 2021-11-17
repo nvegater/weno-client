@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { InputNumberBox } from "../components/Boxes/InputNumberBox";
 
 export default {
-  title: "Weno/Boxes",
+  title: "Weno/Inputs",
   component: InputNumberBox,
 } as ComponentMeta<typeof InputNumberBox>;
 

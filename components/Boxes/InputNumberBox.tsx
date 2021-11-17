@@ -9,14 +9,14 @@ import React, { useState } from "react";
 import { BsPeopleFill } from "react-icons/bs";
 
 const NumberBox = () => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(1);
 
   return (
     <HStack maxW="180px">
       <Button
         color="white"
         backgroundColor="brand.300"
-        onClick={() => setValue(value - 1)}
+        onClick={() => setValue(value <= 1 ? 1 : value - 1)}
       >
         -
       </Button>
