@@ -123,9 +123,7 @@ NavBarProps) => {
         animate={isOpen ? "open" : "closed"}
         bg="gradient.100"
         color="brand.100"
-        height="40vh"
         fontSize="xl"
-        pt="70px"
       >
         {links.map((link, idx) => (
           <Box py={4} key={idx}>
