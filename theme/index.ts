@@ -7,8 +7,6 @@ import breakpoints from "./foundations/breakpoints";
 import fontsStyles from "./fonts/fontsStyles";
 // Component style overrides
 import Button from "./components/button";
-//Select component style overrides
-import Select from "./components/select";
 
 // https://github.com/chakra-ui/chakra-ui/tree/main/packages/theme/src/foundations
 
@@ -19,7 +17,6 @@ const overrides = {
   breakpoints,
   components: {
     Button,
-    Select,
   },
 };
 export default extendTheme(overrides);
