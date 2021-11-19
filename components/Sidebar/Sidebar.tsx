@@ -1,5 +1,6 @@
 import {
   Box,
+  Checkbox,
   Flex,
   Text,
   Select,
@@ -7,8 +8,9 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { FaWineGlass, FaBed, FaPizzaSlice } from "react-icons/fa";
-import { RiMusic2Fill } from "react-icons/ri";
+import { RiMusic2Fill, RiFilterOffFill } from "react-icons/ri";
 import { BiCycling } from "react-icons/bi";
+import { MdArrowDropDown } from "react-icons/md";
 
 interface IconLabelProps {
   icon: React.ReactElement;
@@ -18,11 +20,21 @@ interface IconLabelProps {
 const IconLabel = (props: IconLabelProps) => {
   const { label, icon } = props;
   return (
-    <Flex>
-      {icon}
-      <Text px="2" fontFamily="GothamText">
-        {label}
-      </Text>
+    <Flex direction="row" justifyContent="space-between">
+      <Flex>
+        {icon}
+        <Text px="2" fontFamily="GothamText">
+          {label}
+        </Text>
+      </Flex>
+      <Flex>
+        <Checkbox
+          alignSelf="end"
+          iconColor="brand.300"
+          colorScheme="white"
+          borderColor="brand.300"
+        />
+      </Flex>
     </Flex>
   );
 };
@@ -37,13 +49,18 @@ const Bar = () => {
       position="relative"
     >
       <Flex direction="column" p="3">
-        <Text fontFamily="GothamText">Filter</Text>
+        <Flex direction="row" justifyContent="space-between">
+          <Text fontFamily="GothamText" color="brand.200">
+            Filter
+          </Text>
+          <RiFilterOffFill color="#9F449D" />
+        </Flex>
         <Flex
           flexDirection="column"
           justifyContent="space-around"
           height="100%"
           gridRowGap="3"
-          px="5"
+          p="5"
         >
           <IconLabel
             label="Wine tasting"
@@ -56,7 +73,9 @@ const Bar = () => {
         </Flex>
       </Flex>
       <Flex direction="column" p="3">
-        <Text fontFamily="GothamText">Experience Date</Text>
+        <Text fontFamily="GothamText" color="brand.200">
+          Experience Date
+        </Text>
         <Flex
           flexDirection="column"
           justifyContent="space-around"
@@ -64,12 +83,24 @@ const Bar = () => {
           gridRowGap="3"
           p="5"
         >
-          <Select placeholder="Hour" />
-          <Select placeholder="Date" />
+          <Select
+            placeholder="Hour"
+            borderColor="brand.300"
+            icon={<MdArrowDropDown />}
+            iconColor="brand.300"
+          />
+          <Select
+            placeholder="Date"
+            borderColor="brand.300"
+            icon={<MdArrowDropDown />}
+            iconColor="brand.300"
+          />
         </Flex>
       </Flex>
       <Flex direction="column" p="3">
-        <Text fontFamily="GothamText">Valley</Text>
+        <Text fontFamily="GothamText" color="brand.200">
+          Valley
+        </Text>
         <Flex
           flexDirection="column"
           justifyContent="space-around"
@@ -77,7 +108,12 @@ const Bar = () => {
           gridRowGap="3"
           p="5"
         >
-          <Select placeholder="Choose" />
+          <Select
+            placeholder="Choose"
+            borderColor="brand.300"
+            icon={<MdArrowDropDown />}
+            iconColor="brand.300"
+          />
         </Flex>
       </Flex>
     </Box>
