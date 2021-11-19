@@ -2,6 +2,7 @@ import Head from "next/head";
 import { createUrqlClient } from "../graphql/urqlProvider";
 import { withUrqlClient } from "next-urql";
 import { LandingPage } from "../components/LandingPage/LandingPage";
+import { Sidebar } from "../components/Sidebar/Sidebar";
 
 const Home = () => {
   return (
@@ -24,6 +25,7 @@ const Home = () => {
       </Head>
       <main>
         <LandingPage />
+        <Sidebar />
       </main>
       <footer>Footer</footer>
     </div>
