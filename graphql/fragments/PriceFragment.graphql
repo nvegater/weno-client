@@ -1,0 +1,8 @@
+fragment PriceFragment on Price {
+  id
+  type
+  currency
+  tiers {
+    ...TiersFragment
+  }
+}

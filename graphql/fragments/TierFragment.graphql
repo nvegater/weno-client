@@ -1,0 +1,7 @@
+fragment TiersFragment on Tier {
+  flat_amount
+  flat_amount_decimal
+  unit_amount
+  unit_amount_decimal
+  up_to
+}

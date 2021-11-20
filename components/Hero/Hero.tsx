@@ -11,6 +11,7 @@ import * as React from "react";
 import * as Logos from "./Brands";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { KeycloakInstance } from "keycloak-js";
+import Link from "next/link";
 
 export const Hero = () => {
   const { keycloak, initialized } = useKeycloak<KeycloakInstance>();
@@ -40,7 +41,7 @@ export const Hero = () => {
               lineHeight="1.2"
               letterSpacing="tight"
             >
-              Be part of the next generation of wine tourism
+              Enjoy Enoturism in the easiest way possible
             </Heading>
             <Text
               fontSize="xl"
@@ -49,7 +50,7 @@ export const Hero = () => {
               mx="auto"
               fontFamily="GothamText"
             >
-              Connect with wine lovers & growers
+              Weno is made for wine lovers & growers
             </Text>
           </Box>
 
@@ -72,19 +73,12 @@ export const Hero = () => {
                 }
               }}
             >
-              Register
+              Register and book experiences
             </Button>
-            <Button
-              variant="secondaryWeno"
-              size="heroWeno"
-              onClick={() => {
-                if (initialized && !keycloak.authenticated) {
-                  const webpageBase = window.location.origin;
-                  keycloak.register({ redirectUri: webpageBase + "/register" });
-                }
-              }}
-            >
-              Offer experiences
+            <Button variant="secondaryWeno" size="heroWeno">
+              <Link href="/subscriptions">
+                You own a winery? Check our pricing and offer your experiences
+              </Link>
             </Button>
           </Stack>
         </Box>

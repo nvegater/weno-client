@@ -1,0 +1,27 @@
+query SubscriptionProducts {
+  getSubscriptionProducts {
+    errors {
+      field
+      message
+    }
+    products {
+      id
+      name
+      description
+      images
+      unit_label
+      price {
+        id
+        type
+        currency
+        tiers {
+          flat_amount
+          flat_amount_decimal
+          unit_amount
+          unit_amount_decimal
+          up_to
+        }
+      }
+    }
+  }
+}
