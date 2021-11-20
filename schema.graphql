@@ -5,6 +5,23 @@ schema {
   mutation: Mutation
 }
 
+type CheckoutSessionResponse {
+  errors: [FieldError!]
+  sessionStatus: String
+  sessionUrl: String
+}
+
+type Customer {
+  email: String!
+  name: String
+  paymentMetadata: PaymentMetadata!
+}
+
+type CustomerResponse {
+  customer: Customer
+  errors: [FieldError!]
+}
+
 type Experience {
   createdAt: DateTime!
   description: String!
@@ -31,10 +48,21 @@ type FieldError {
 }
 
 type Mutation {
+  createCustomer(createCustomerInputs: CreateCustomerInputs!): CustomerResponse!
   createWinery(
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
   ): WineryResponse!
+  getCheckoutSessionForSubscription(
+    cancelUrl: String!
+    productId: String!
+    successUrl: String!
+  ): CheckoutSessionResponse!
+  getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
+}
+
+type PaymentMetadata {
+  username: String!
 }
 
 type Picture {
@@ -47,11 +75,34 @@ type Picture {
   updatedAt: DateTime!
 }
 
+type Price {
+  currency: String!
+  id: String!
+  tiers: [Tier!]
+  tiersMode: String
+  type: String!
+}
+
+type Product {
+  description: String!
+  id: String!
+  images: [String!]!
+  name: String!
+  price: Price!
+  unit_label: String!
+}
+
+type ProductsResponse {
+  errors: [FieldError!]
+  products: [Product!]
+}
+
 type Query {
   allExperiences: Int!
   allPictures: Int!
   allReservations: Int!
   allWineries: Int!
+  getSubscriptionProducts: ProductsResponse!
   winery(getWineryInputs: GetWineryInputs!): WineryResponse!
 }
 
@@ -71,6 +122,14 @@ type Reservation {
   title: String!
   updatedAt: DateTime!
   userId: String!
+}
+
+type Tier {
+  flat_amount: Float
+  flat_amount_decimal: String
+  unit_amount: Float
+  unit_amount_decimal: String
+  up_to: Float
 }
 
 type Winery {
@@ -98,6 +157,7 @@ type Winery {
   productRegion: String
   productionType: [ProductionType!]
   stripe_customerId: String
+  subscription: String
   supportedLanguages: [ServiceLanguage!]
   updatedAt: DateTime!
   urlAlias: String!
@@ -239,6 +299,11 @@ enum Valley {
   SAN_VICENTE
 }
 
+input CreateCustomerInputs {
+  email: String!
+  paymentMetadata: PaymentMetadataInputs!
+}
+
 input CreateWineryInputs {
   amenities: [Amenity!]
   contactEmail: String
@@ -249,6 +314,7 @@ input CreateWineryInputs {
   googleMapsUrl: String
   name: String!
   productionType: [ProductionType!]!
+  subscription: String
   supportedLanguages: [ServiceLanguage!]
   urlAlias: String!
   valley: Valley!
@@ -259,6 +325,10 @@ input CreateWineryInputs {
 input GetWineryInputs {
   creatorUsername: String
   urlAlias: String
+}
+
+input PaymentMetadataInputs {
+  username: String!
 }
 
 input UserInputs {

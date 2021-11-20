@@ -32,6 +32,17 @@ export enum Amenity {
   ActividadesEnVinedo = 'ACTIVIDADES_EN_VINEDO'
 }
 
+export type CheckoutSessionResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  sessionStatus?: Maybe<Scalars['String']>;
+  sessionUrl?: Maybe<Scalars['String']>;
+};
+
+export type CreateCustomerInputs = {
+  email: Scalars['String'];
+  paymentMetadata: PaymentMetadataInputs;
+};
+
 export type CreateWineryInputs = {
   name: Scalars['String'];
   description: Scalars['String'];
@@ -46,7 +57,19 @@ export type CreateWineryInputs = {
   googleMapsUrl?: Maybe<Scalars['String']>;
   contactEmail?: Maybe<Scalars['String']>;
   contactPhoneNumber?: Maybe<Scalars['String']>;
+  subscription?: Maybe<Scalars['String']>;
   covidLabel: Scalars['Boolean'];
+};
+
+export type Customer = {
+  email: Scalars['String'];
+  paymentMetadata: PaymentMetadata;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type CustomerResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  customer?: Maybe<Customer>;
 };
 
 export type Experience = {
@@ -130,6 +153,9 @@ export enum Grape {
 
 export type Mutation = {
   createWinery: WineryResponse;
+  createCustomer: CustomerResponse;
+  getCheckoutSessionStatus: CheckoutSessionResponse;
+  getCheckoutSessionForSubscription: CheckoutSessionResponse;
 };
 
 
@@ -138,12 +164,37 @@ export type MutationCreateWineryArgs = {
   userInputs: UserInputs;
 };
 
+
+export type MutationCreateCustomerArgs = {
+  createCustomerInputs: CreateCustomerInputs;
+};
+
+
+export type MutationGetCheckoutSessionStatusArgs = {
+  sessionId: Scalars['String'];
+};
+
+
+export type MutationGetCheckoutSessionForSubscriptionArgs = {
+  productId: Scalars['String'];
+  cancelUrl: Scalars['String'];
+  successUrl: Scalars['String'];
+};
+
 /** differents kind of services */
 export enum OtherServices {
   Hospedaje = 'HOSPEDAJE',
   Restaurante = 'RESTAURANTE',
   BarraDeAlimentos = 'BARRA_DE_ALIMENTOS'
 }
+
+export type PaymentMetadata = {
+  username: Scalars['String'];
+};
+
+export type PaymentMetadataInputs = {
+  username: Scalars['String'];
+};
 
 export type Picture = {
   id?: Maybe<Scalars['Float']>;
@@ -155,6 +206,23 @@ export type Picture = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type Price = {
+  id: Scalars['String'];
+  type: Scalars['String'];
+  currency: Scalars['String'];
+  tiersMode?: Maybe<Scalars['String']>;
+  tiers?: Maybe<Array<Tier>>;
+};
+
+export type Product = {
+  id: Scalars['String'];
+  name: Scalars['String'];
+  description: Scalars['String'];
+  images: Array<Scalars['String']>;
+  unit_label: Scalars['String'];
+  price: Price;
+};
+
 /** Types of wine production */
 export enum ProductionType {
   Comercial = 'COMERCIAL',
@@ -162,12 +230,18 @@ export enum ProductionType {
   OrgBioNat = 'ORG_BIO_NAT'
 }
 
+export type ProductsResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  products?: Maybe<Array<Product>>;
+};
+
 export type Query = {
   allExperiences: Scalars['Int'];
   allPictures: Scalars['Int'];
   allReservations: Scalars['Int'];
   allWineries: Scalars['Int'];
   winery: WineryResponse;
+  getSubscriptionProducts: ProductsResponse;
 };
 
 
@@ -205,6 +279,14 @@ export enum ServiceLanguage {
   Japones = 'JAPONES',
   Mandarin = 'MANDARIN'
 }
+
+export type Tier = {
+  flat_amount?: Maybe<Scalars['Float']>;
+  flat_amount_decimal?: Maybe<Scalars['String']>;
+  unit_amount?: Maybe<Scalars['Float']>;
+  unit_amount_decimal?: Maybe<Scalars['String']>;
+  up_to?: Maybe<Scalars['Float']>;
+};
 
 /** Types of wine produced by a winery */
 export enum TypeWine {
@@ -248,6 +330,7 @@ export type Winery = {
   name: Scalars['String'];
   urlAlias: Scalars['String'];
   stripe_customerId?: Maybe<Scalars['String']>;
+  subscription?: Maybe<Scalars['String']>;
   creatorUsername: Scalars['String'];
   creatorEmail: Scalars['String'];
   description: Scalars['String'];

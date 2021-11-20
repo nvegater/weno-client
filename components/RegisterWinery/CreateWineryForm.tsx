@@ -33,6 +33,7 @@ import { ContextHeader } from "../Authentication/useAuth";
 import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorMessage } from "@hookform/error-message";
 import { useRouter } from "next/router";
+import RadioGroup from "../Radio/RadioGroup";
 
 interface CreateWineryFormProps {
   username: string;
@@ -70,6 +71,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
     register,
     setError,
     handleSubmit,
+    control,
     formState: { errors, isSubmitting },
   } = useForm({ mode: "onTouched" });
 
@@ -296,6 +298,16 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             </ChakraLink>
           </Text>
         </FormControl>
+      ),
+    },
+    {
+      title: "Subscriptions",
+      content: (
+        <RadioGroup
+          control={control}
+          name="subscription"
+          label="Subscription"
+        />
       ),
     },
   ];
