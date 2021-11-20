@@ -211,6 +211,8 @@ export type Price = {
   type: Scalars['String'];
   currency: Scalars['String'];
   tiersMode?: Maybe<Scalars['String']>;
+  unitAmount?: Maybe<Scalars['Float']>;
+  unitAmountDecimal?: Maybe<Scalars['String']>;
   tiers?: Maybe<Array<Tier>>;
 };
 
@@ -220,7 +222,7 @@ export type Product = {
   description: Scalars['String'];
   images: Array<Scalars['String']>;
   unit_label: Scalars['String'];
-  price: Price;
+  price: Array<Price>;
 };
 
 /** Types of wine production */
@@ -374,7 +376,7 @@ export type ExperienceFragmentFragment = { createdAt: any, description: string, 
 
 export type PriceFragmentFragment = { id: string, type: string, currency: string, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined };
 
-export type ProductFragmentFragment = { id: string, name: string, description: string, images: Array<string>, unit_label: string, price: { id: string, type: string, currency: string, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined } };
+export type ProductFragmentFragment = { id: string, name: string, description: string, images: Array<string>, unit_label: string, price: Array<{ id: string, type: string, currency: string, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined }> };
 
 export type TiersFragmentFragment = { flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined };
 
@@ -391,7 +393,7 @@ export type CreateWineryMutation = { createWinery: { errors?: Array<{ field: str
 export type SubscriptionProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SubscriptionProductsQuery = { getSubscriptionProducts: { errors?: Array<{ field: string, message: string }> | null | undefined, products?: Array<{ id: string, name: string, description: string, images: Array<string>, unit_label: string, price: { id: string, type: string, currency: string, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined } }> | null | undefined } };
+export type SubscriptionProductsQuery = { getSubscriptionProducts: { errors?: Array<{ field: string, message: string }> | null | undefined, products?: Array<{ id: string, name: string, description: string, images: Array<string>, unit_label: string, price: Array<{ id: string, type: string, currency: string, unitAmount?: number | null | undefined, unitAmountDecimal?: string | null | undefined, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined }> }> | null | undefined } };
 
 export type WineryQueryVariables = Exact<{
   getWineryInputs: GetWineryInputs;
@@ -529,6 +531,8 @@ export const SubscriptionProductsDocument = gql`
         id
         type
         currency
+        unitAmount
+        unitAmountDecimal
         tiers {
           flat_amount
           flat_amount_decimal

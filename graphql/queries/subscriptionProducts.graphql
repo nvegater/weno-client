@@ -14,6 +14,8 @@ query SubscriptionProducts {
         id
         type
         currency
+        unitAmount
+        unitAmountDecimal
         tiers {
           flat_amount
           flat_amount_decimal

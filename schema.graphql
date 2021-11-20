@@ -81,6 +81,8 @@ type Price {
   tiers: [Tier!]
   tiersMode: String
   type: String!
+  unitAmount: Float
+  unitAmountDecimal: String
 }
 
 type Product {
@@ -88,7 +90,7 @@ type Product {
   id: String!
   images: [String!]!
   name: String!
-  price: Price!
+  price: [Price!]!
   unit_label: String!
 }
 
