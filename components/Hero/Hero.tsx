@@ -41,7 +41,7 @@ export const Hero = () => {
               lineHeight="1.2"
               letterSpacing="tight"
             >
-              Enjoy Enoturism in the easiest way possible
+              Just enjoy Enoturism
             </Heading>
             <Text
               fontSize="xl"
@@ -73,12 +73,10 @@ export const Hero = () => {
                 }
               }}
             >
-              Register and book experiences
+              Register
             </Button>
             <Button variant="secondaryWeno" size="heroWeno">
-              <Link href="/subscriptions">
-                You own a winery? Check our pricing and offer your experiences
-              </Link>
+              <Link href="/subscriptions">Offer experiences</Link>
             </Button>
           </Stack>
         </Box>

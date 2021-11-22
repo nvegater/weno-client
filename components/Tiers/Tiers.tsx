@@ -11,6 +11,12 @@ import { HiCheckCircle } from "react-icons/hi";
 import { PricingCard } from "./PricingCard";
 import { FC } from "react";
 import { ProductFragmentFragment } from "../../graphql/generated/graphql";
+import {
+  BASIC_SUBSCRIPTION_NAME,
+  INTERMEDIATE_SUBSCRIPTION_NAME,
+  PREMIUM_SUBSCRIPTION_NAME,
+} from "../RegisterWinery/CreateWineryForm";
+import useAuth from "../Authentication/useAuth";
 
 const FeatureItem: React.FC = ({ children }) => (
   <HStack>
@@ -28,6 +34,13 @@ interface TiersProps {
 }
 export const Tiers: FC<TiersProps> = ({ products }) => {
   console.log(products);
+  const { register, authenticated } = useAuth();
+  const onClickFn = () => {
+    if (!authenticated) {
+      const webpageBase = window.location.origin;
+      register({ redirectUri: webpageBase + "/register" });
+    }
+  };
   return (
     <Box as="section" bg={mode("gray.50", "gray.800")} py="20">
       <Box
@@ -66,7 +79,8 @@ export const Tiers: FC<TiersProps> = ({ products }) => {
         >
           <PricingCard
             colorScheme="blue"
-            name={"Basic"}
+            onClick={onClickFn}
+            name={BASIC_SUBSCRIPTION_NAME}
             price={29}
             duration="/ mo"
             description="Lorem ipsum dolor sit amet consectetur, adipisicing."
@@ -79,7 +93,8 @@ export const Tiers: FC<TiersProps> = ({ products }) => {
           />
           <PricingCard
             colorScheme="teal"
-            name="Enterprise"
+            onClick={onClickFn}
+            name={INTERMEDIATE_SUBSCRIPTION_NAME}
             price={79}
             duration="/ mo"
             description="Lorem ipsum dolor sit amet consectetur, adipisicing."
@@ -92,7 +107,8 @@ export const Tiers: FC<TiersProps> = ({ products }) => {
           />
           <PricingCard
             colorScheme="teal"
-            name="Enterprise"
+            onClick={onClickFn}
+            name={PREMIUM_SUBSCRIPTION_NAME}
             price={79}
             duration="/ mo"
             description="Lorem ipsum dolor sit amet consectetur, adipisicing."

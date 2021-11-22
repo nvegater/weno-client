@@ -174,6 +174,7 @@ type Winery {
 
 type WineryResponse {
   errors: [FieldError!]
+  sessionUrl: String
   winery: Winery
 }
 
@@ -316,7 +317,7 @@ input CreateWineryInputs {
   googleMapsUrl: String
   name: String!
   productionType: [ProductionType!]!
-  subscription: String
+  subscription: String!
   supportedLanguages: [ServiceLanguage!]
   urlAlias: String!
   valley: Valley!
@@ -334,7 +335,9 @@ input PaymentMetadataInputs {
 }
 
 input UserInputs {
+  cancelUrl: String!
   email: String!
+  successUrl: String!
   username: String!
 }
 

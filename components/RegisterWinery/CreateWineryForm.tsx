@@ -32,7 +32,6 @@ import {
 import { ContextHeader } from "../Authentication/useAuth";
 import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorMessage } from "@hookform/error-message";
-import { useRouter } from "next/router";
 import RadioGroup from "../Radio/RadioGroup";
 
 interface CreateWineryFormProps {
@@ -62,6 +61,10 @@ function ErrorSummary<T>({ errors }: ErrorSummaryProps<T>) {
   );
 }
 
+export const BASIC_SUBSCRIPTION_NAME = "Basic";
+export const INTERMEDIATE_SUBSCRIPTION_NAME = "Intermediate";
+export const PREMIUM_SUBSCRIPTION_NAME = "Premium";
+
 export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   username,
   email,
@@ -75,8 +78,6 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
     formState: { errors, isSubmitting },
   } = useForm({ mode: "onTouched" });
 
-  const router = useRouter();
-
   const [, createWinery] = useCreateWineryMutation();
 
   const onSubmit = async (data) => {
@@ -85,9 +86,17 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       productionType: removeNonStringsFromArray(data.productionType),
       wineType: removeNonStringsFromArray(data.wineType),
     };
+    const baseURL = window.location.protocol + "//" + window.location.host;
+    const successUrl = baseURL + `/winery/${data.urlAlias}`;
+    const cancelUrl = baseURL + "/error";
     const { data: res, error } = await createWinery(
       {
-        userInputs: { email, username },
+        userInputs: {
+          email,
+          username,
+          successUrl: successUrl,
+          cancelUrl: cancelUrl,
+        },
         createWineryInputs: { ...correctedValues },
       },
       { ...contextHeader, requestPolicy: "network-only" }
@@ -99,12 +108,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
         message: res.createWinery.errors[0].message,
       });
     } else {
-      router
-        .push(
-          "/winery/[wineryAlias]",
-          `/winery/${res.createWinery.winery.urlAlias}`
-        )
-        .then();
+      window.location.href = res.createWinery.sessionUrl;
     }
   };
 

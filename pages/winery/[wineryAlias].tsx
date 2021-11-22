@@ -30,6 +30,7 @@ const Winery = () => {
     pause: loadingAuthInfo || notAuthenticated,
     requestPolicy: "network-only",
   });
+  // TODO Verify Checkout Session ID after redirect
 
   return (
     <>

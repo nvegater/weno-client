@@ -8,6 +8,11 @@ import {
 } from "@chakra-ui/react";
 import RadioCard from "./RadioCard";
 import { useController, Control } from "react-hook-form";
+import {
+  BASIC_SUBSCRIPTION_NAME,
+  INTERMEDIATE_SUBSCRIPTION_NAME,
+  PREMIUM_SUBSCRIPTION_NAME,
+} from "../RegisterWinery/CreateWineryForm";
 
 const RadioGroup: FC<{
   control: Control<{ subscription: string }>;
@@ -37,16 +42,18 @@ const RadioGroup: FC<{
         {label}
       </FormLabel>
       <HStack {...group}>
-        {[{ name: "basic" }, { name: "medium" }, { name: "premium" }].map(
-          (value) => {
-            const radio = getRadioProps({ value: value.name });
-            return (
-              <RadioCard key={value.name} {...radio}>
-                {value.name}
-              </RadioCard>
-            );
-          }
-        )}
+        {[
+          { name: BASIC_SUBSCRIPTION_NAME },
+          { name: INTERMEDIATE_SUBSCRIPTION_NAME },
+          { name: PREMIUM_SUBSCRIPTION_NAME },
+        ].map((value) => {
+          const radio = getRadioProps({ value: value.name });
+          return (
+            <RadioCard key={value.name} {...radio}>
+              {value.name}
+            </RadioCard>
+          );
+        })}
       </HStack>
       <FormErrorMessage>
         {errors[name] && errors[name].message}
