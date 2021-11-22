@@ -4,14 +4,9 @@ import { createUrqlClient } from "../graphql/urqlProvider";
 import { WenoLayout } from "../components/GeneralLayout/WenoLayout";
 import { useSubscriptionProductsQuery } from "../graphql/generated/graphql";
 import { Tiers } from "../components/Tiers/Tiers";
-import useAuth from "../components/Authentication/useAuth";
 
 const Subscriptions = () => {
-  const { tokenInfo, loading: loadingAuthInfo, notAuthenticated } = useAuth();
-  const [{ data, fetching, error }] = useSubscriptionProductsQuery({
-    requestPolicy: "network-only",
-    pause: loadingAuthInfo || notAuthenticated || tokenInfo === null,
-  });
+  const [{ data, fetching, error }] = useSubscriptionProductsQuery();
   return (
     <WenoLayout>
       {<div>{JSON.stringify(data)}</div>}

@@ -48,7 +48,10 @@ const Register: FC<RegisterProps> = ({}) => {
     }
     const wineryAvailable = data.winery?.winery;
     if (isOwner && wineryAvailable) {
-      router.push("/winery/[wineryId]", `/winery/${data.winery.winery.id}`);
+      router.push(
+        "/winery/[wineryAlias]",
+        `/winery/${data.winery.winery.urlAlias}`
+      );
     }
   }, [data, isOwner, router]);
 

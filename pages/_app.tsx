@@ -1,6 +1,4 @@
-import { AppContext, AppProps } from "next/app";
-import type { IncomingMessage } from "http";
-import cookie from "cookie";
+import { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/provider";
 import theme from "../theme/index";
 import Fonts from "../theme/fonts/Fonts";
@@ -23,12 +21,6 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   const keycloakConfig = {
     persistor: SSRCookies(cookies),
     keycloakConfig: keycloakCfg,
-    /*  initOptions: {
-      //onLoad: "login-required",
-      /!*onLoad: "check-sso",
-      silentCheckSsoRedirectUri: host + "/silent-check-sso.html",
-      pkceMethod: "S256",*!/
-    },*/
   };
 
   // https://github.com/react-keycloak/react-keycloak/blob/master/packages/ssr/README.md
@@ -41,21 +33,5 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
     </SSRKeycloakProvider>
   );
 }
-
-function parseCookies(req?: IncomingMessage) {
-  if (!req || !req.headers) {
-    return {};
-  }
-  return cookie.parse(req.headers.cookie || "");
-}
-
-MyApp.getInitialProps = async (context: AppContext) => {
-  // Extract cookies from AppContext
-  const { ctx } = context;
-  const cookies = parseCookies(ctx.req);
-  return {
-    cookies: cookies,
-  };
-};
 
 export default MyApp;
