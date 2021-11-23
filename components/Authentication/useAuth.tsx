@@ -6,7 +6,7 @@ import {
 } from "keycloak-js";
 import { useMemo } from "react";
 
-interface ParsedTokenExtended extends KeycloakTokenParsed {
+export interface ParsedTokenExtended extends KeycloakTokenParsed {
   preferred_username: string | null;
   email: string | null;
   userType: "owner" | "visitor" | null;

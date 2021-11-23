@@ -5,6 +5,7 @@ import useAuth from "../../components/Authentication/useAuth";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../graphql/urqlProvider";
 import { Flex, Heading } from "@chakra-ui/react";
+import { WenoLayout } from "../../components/GeneralLayout/WenoLayout";
 
 const Winery = () => {
   const router = useRouter();
@@ -18,6 +19,10 @@ const Winery = () => {
     loading: loadingAuthInfo,
     notAuthenticated,
     contextHeader,
+    authenticated,
+    logout,
+    login,
+    tokenInfo,
   } = useAuth();
 
   const [
@@ -33,7 +38,12 @@ const Winery = () => {
   // TODO Verify Checkout Session ID after redirect
 
   return (
-    <>
+    <WenoLayout
+      authenticated={authenticated}
+      loginFn={login}
+      logoutFn={logout}
+      tokenInfo={tokenInfo}
+    >
       {!wineryAlias && <h1>Something is wrong with the Url</h1>}
 
       {(loadingAuthInfo || fetchingWinery) && (
@@ -63,7 +73,7 @@ const Winery = () => {
       {wineryAlias && wineryQuery && (
         <h1>Your winery is {wineryQuery.winery.winery.name}</h1>
       )}
-    </>
+    </WenoLayout>
   );
 };
 

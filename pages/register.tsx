@@ -21,6 +21,7 @@ const Register: FC<RegisterProps> = ({}) => {
     isVisitor,
     register,
     login,
+    logout,
   } = useAuth();
 
   const router = useRouter();
@@ -60,7 +61,12 @@ const Register: FC<RegisterProps> = ({}) => {
   }
 
   return (
-    <WenoLayout>
+    <WenoLayout
+      loginFn={login}
+      logoutFn={logout}
+      authenticated={authenticated}
+      tokenInfo={tokenInfo}
+    >
       <Grid as="section" m={5}>
         {(loadingAuthInfo || fetching) && (
           <Flex justifyContent="center" m={5}>

@@ -1,9 +1,15 @@
 import Head from "next/head";
 import { createUrqlClient } from "../graphql/urqlProvider";
 import { withUrqlClient } from "next-urql";
-import { LandingPage } from "../components/LandingPage/LandingPage";
+import useAuth from "../components/Authentication/useAuth";
+import { WenoLayout } from "../components/GeneralLayout/WenoLayout";
+import { Hero } from "../components/Hero/Hero";
+import { AuthWrapper } from "../components/Authentication/AuthWrapper";
+import { ExperiencesGrid } from "../components/Experiences/ExperiencesGrid";
+import React from "react";
 
 const Home = () => {
+  const { authenticated, logout, login, tokenInfo } = useAuth();
   return (
     <div>
       <Head>
@@ -23,7 +29,17 @@ const Home = () => {
         />
       </Head>
       <main>
-        <LandingPage />
+        <WenoLayout
+          loginFn={login}
+          logoutFn={logout}
+          authenticated={authenticated}
+          tokenInfo={tokenInfo}
+        >
+          <Hero />
+          <AuthWrapper>
+            <ExperiencesGrid />
+          </AuthWrapper>
+        </WenoLayout>
       </main>
       <footer>Footer</footer>
     </div>
