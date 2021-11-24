@@ -6,6 +6,7 @@ import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../graphql/urqlProvider";
 import { Flex, Heading } from "@chakra-ui/react";
 import { WenoLayout } from "../../components/GeneralLayout/WenoLayout";
+import useVerifySession from "../../components/Authentication/useVerifySession";
 
 const Winery = () => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const Winery = () => {
     logout,
     login,
     tokenInfo,
+    isOwner,
   } = useAuth();
 
   const [
@@ -35,7 +37,14 @@ const Winery = () => {
     pause: loadingAuthInfo || notAuthenticated,
     requestPolicy: "network-only",
   });
-  // TODO Verify Checkout Session ID after redirect
+
+  // http://localhost:3000/winery/wineryAlias?session_id=cs_test_b1BRjVbQsImZAEqMJiQENGFPrEvkeOelYHoH2bfjMsIJCU0ivFtmxAknnR
+  const sessionID: string | null = router.query.session_id
+    ? (router.query.session_id as string)
+    : null;
+
+  const { loadingVerification, verificationError, isVerified } =
+    useVerifySession({ sessionId: sessionID, contextHeader });
 
   return (
     <WenoLayout
@@ -46,7 +55,7 @@ const Winery = () => {
     >
       {!wineryAlias && <h1>Something is wrong with the Url</h1>}
 
-      {(loadingAuthInfo || fetchingWinery) && (
+      {(loadingAuthInfo || fetchingWinery || loadingVerification) && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
             We are fetching the winery information....
@@ -70,8 +79,25 @@ const Winery = () => {
         </Flex>
       )}
 
-      {wineryAlias && wineryQuery && (
-        <h1>Your winery is {wineryQuery.winery.winery.name}</h1>
+      {wineryAlias && wineryQuery && wineryQuery.winery.errors && (
+        <h1>
+          {wineryQuery.winery.errors[0].field}:{" "}
+          {wineryQuery.winery.errors[0].message}
+        </h1>
+      )}
+
+      {!verificationError && isVerified && (
+        <Flex justifyContent="center" m={5}>
+          <Heading as="h2" size="xl">
+            You have successfully subscribed!
+          </Heading>
+        </Flex>
+      )}
+      {wineryAlias && wineryQuery && wineryQuery.winery.winery && (
+        <h1>
+          Your winery is {wineryQuery.winery.winery.name} and you are{" "}
+          {isOwner ? "the owner" : "just visiting"}
+        </h1>
       )}
     </WenoLayout>
   );

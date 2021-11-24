@@ -154,8 +154,6 @@ export enum Grape {
 export type Mutation = {
   createWinery: WineryResponse;
   createCustomer: CustomerResponse;
-  getCheckoutSessionStatus: CheckoutSessionResponse;
-  getCheckoutSessionForSubscription: CheckoutSessionResponse;
 };
 
 
@@ -167,18 +165,6 @@ export type MutationCreateWineryArgs = {
 
 export type MutationCreateCustomerArgs = {
   createCustomerInputs: CreateCustomerInputs;
-};
-
-
-export type MutationGetCheckoutSessionStatusArgs = {
-  sessionId: Scalars['String'];
-};
-
-
-export type MutationGetCheckoutSessionForSubscriptionArgs = {
-  productId: Scalars['String'];
-  cancelUrl: Scalars['String'];
-  successUrl: Scalars['String'];
 };
 
 /** differents kind of services */
@@ -244,11 +230,17 @@ export type Query = {
   allWineries: Scalars['Int'];
   winery: WineryResponse;
   getSubscriptionProducts: ProductsResponse;
+  getCheckoutSessionStatus: CheckoutSessionResponse;
 };
 
 
 export type QueryWineryArgs = {
   getWineryInputs: GetWineryInputs;
+};
+
+
+export type QueryGetCheckoutSessionStatusArgs = {
+  sessionId: Scalars['String'];
 };
 
 export type Reservation = {
@@ -397,6 +389,13 @@ export type SubscriptionProductsQueryVariables = Exact<{ [key: string]: never; }
 
 
 export type SubscriptionProductsQuery = { getSubscriptionProducts: { errors?: Array<{ field: string, message: string }> | null | undefined, products?: Array<{ id: string, name: string, description: string, images: Array<string>, unit_label: string, price: Array<{ id: string, type: string, currency: string, unitAmount?: number | null | undefined, unitAmountDecimal?: string | null | undefined, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined }> }> | null | undefined } };
+
+export type GetCheckoutSessionStatusQueryVariables = Exact<{
+  sessionId: Scalars['String'];
+}>;
+
+
+export type GetCheckoutSessionStatusQuery = { getCheckoutSessionStatus: { sessionStatus?: string | null | undefined, sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
 
 export type WineryQueryVariables = Exact<{
   getWineryInputs: GetWineryInputs;
@@ -552,6 +551,22 @@ export const SubscriptionProductsDocument = gql`
 
 export function useSubscriptionProductsQuery(options: Omit<Urql.UseQueryArgs<SubscriptionProductsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<SubscriptionProductsQuery>({ query: SubscriptionProductsDocument, ...options });
+};
+export const GetCheckoutSessionStatusDocument = gql`
+    query GetCheckoutSessionStatus($sessionId: String!) {
+  getCheckoutSessionStatus(sessionId: $sessionId) {
+    errors {
+      field
+      message
+    }
+    sessionStatus
+    sessionUrl
+  }
+}
+    `;
+
+export function useGetCheckoutSessionStatusQuery(options: Omit<Urql.UseQueryArgs<GetCheckoutSessionStatusQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetCheckoutSessionStatusQuery>({ query: GetCheckoutSessionStatusDocument, ...options });
 };
 export const WineryDocument = gql`
     query Winery($getWineryInputs: GetWineryInputs!) {

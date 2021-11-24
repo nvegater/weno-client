@@ -311,6 +311,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
           control={control}
           name="subscription"
           label="Subscription"
+          isRequired
         />
       ),
     },

@@ -1,0 +1,10 @@
+query GetCheckoutSessionStatus($sessionId: String!) {
+  getCheckoutSessionStatus(sessionId: $sessionId) {
+    errors {
+      field
+      message
+    }
+    sessionStatus
+    sessionUrl
+  }
+}

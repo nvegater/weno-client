@@ -53,12 +53,6 @@ type Mutation {
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
   ): WineryResponse!
-  getCheckoutSessionForSubscription(
-    cancelUrl: String!
-    productId: String!
-    successUrl: String!
-  ): CheckoutSessionResponse!
-  getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
 }
 
 type PaymentMetadata {
@@ -104,6 +98,7 @@ type Query {
   allPictures: Int!
   allReservations: Int!
   allWineries: Int!
+  getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
   getSubscriptionProducts: ProductsResponse!
   winery(getWineryInputs: GetWineryInputs!): WineryResponse!
 }
