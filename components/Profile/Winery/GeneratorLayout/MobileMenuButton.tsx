@@ -1,6 +1,7 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import * as React from "react";
-import { HiMenu, HiX } from "react-icons/hi";
+import { HiX } from "react-icons/hi";
+import { CgMenuGridR } from "react-icons/cg";
 
 interface MobileMenuButtonProps {
   onClick: () => void;
@@ -20,11 +21,18 @@ export const MobileMenuButton = (props: MobileMenuButtonProps) => {
       p="1"
       fontSize="xl"
       color="gray.500"
-      _hover={{ bg: "gray.100" }}
+      _hover={{ bg: "white" }}
       onClick={onClick}
     >
       <Box srOnly>{isOpen ? "Close Menu" : "Open Menu"}</Box>
-      {isOpen ? <HiX /> : <HiMenu />}
+      {isOpen ? (
+        <HiX />
+      ) : (
+        <Flex alignItems="center">
+          <CgMenuGridR />
+          <Box pl={2}>Menu</Box>
+        </Flex>
+      )}
     </Box>
   );
 };
