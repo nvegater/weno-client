@@ -37,7 +37,7 @@ const Winery = () => {
 
   const { loadingVerification, verificationError, isVerified } =
     useVerifySession({
-      sessionId: session_id,
+      sessionId: session_id === undefined ? null : session_id,
       contextHeader,
     });
 
@@ -92,6 +92,14 @@ const Winery = () => {
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
             You have successfully subscribed!
+          </Heading>
+        </Flex>
+      )}
+
+      {verificationError && (
+        <Flex justifyContent="center" m={5}>
+          <Heading as="h2" size="xl">
+            Your session is invalid
           </Heading>
         </Flex>
       )}
