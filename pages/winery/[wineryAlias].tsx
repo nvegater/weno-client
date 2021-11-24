@@ -11,7 +11,7 @@ import useVerifySession from "../../components/Authentication/useVerifySession";
 const Winery = () => {
   const router = useRouter();
 
-  const { wineryAlias, sessionID } = router.query;
+  const { wineryAlias, session_id } = router.query;
 
   const {
     loading: loadingAuthInfo,
@@ -37,7 +37,7 @@ const Winery = () => {
 
   const { loadingVerification, verificationError, isVerified } =
     useVerifySession({
-      sessionId: sessionID ? (sessionID as string) : "",
+      sessionId: session_id,
       contextHeader,
     });
 
@@ -81,18 +81,19 @@ const Winery = () => {
         </h1>
       )}
 
+      {wineryAlias && wineryQuery && wineryQuery.winery.winery && (
+        <h1>
+          Your winery is {wineryQuery.winery.winery.name} and you are{" "}
+          {isOwner ? "the owner" : "just visiting"}
+        </h1>
+      )}
+
       {!verificationError && isVerified && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
             You have successfully subscribed!
           </Heading>
         </Flex>
-      )}
-      {wineryAlias && wineryQuery && wineryQuery.winery.winery && (
-        <h1>
-          Your winery is {wineryQuery.winery.winery.name} and you are{" "}
-          {isOwner ? "the owner" : "just visiting"}
-        </h1>
       )}
     </WenoLayout>
   );

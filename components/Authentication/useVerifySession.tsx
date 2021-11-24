@@ -3,7 +3,7 @@ import { useGetCheckoutSessionStatusQuery } from "../../graphql/generated/graphq
 import { ContextHeader } from "./useAuth";
 
 interface UseVerifySessionHookProps {
-  sessionId: string | null;
+  sessionId: string | null | string[];
   contextHeader: ContextHeader;
 }
 
@@ -21,8 +21,7 @@ const useVerifySession: UseVerifySessionHook = ({
   sessionId,
   contextHeader,
 }) => {
-  // http://localhost:3000/winery/wineryAlias?session_id=cs_test_b1BRjVbQsImZAEqMJiQENGFPrEvkeOelYHoH2bfjMsIJCU0ivFtmxAknnR
-  const sessionID = sessionId ? sessionId : null;
+  // http://localhost:3000/winery/theAlias?session_id=cs_test_b1BRjVbQsImZAEqMJiQENGFPrEvkeOelYHoH2bfjMsIJCU0ivFtmxAknnR
 
   const [verifiedSubscription, setVerifiedSubscription] =
     useState<boolean>(false);
@@ -35,18 +34,15 @@ const useVerifySession: UseVerifySessionHook = ({
     },
   ] = useGetCheckoutSessionStatusQuery({
     variables: {
-      sessionId: sessionID as string,
+      sessionId: sessionId ? (sessionId as string) : "",
     },
-    pause: !sessionID,
+    pause: sessionId === null,
     context: contextHeader,
     requestPolicy: "network-only",
   });
 
   useEffect(() => {
-    if (
-      sessionID &&
-      !(checkoutSession?.getCheckoutSessionStatus.sessionStatus === "open")
-    ) {
+    if (checkoutSession?.getCheckoutSessionStatus.sessionStatus === "open") {
       window.location.href =
         checkoutSession?.getCheckoutSessionStatus.sessionUrl;
     } else if (
@@ -54,7 +50,7 @@ const useVerifySession: UseVerifySessionHook = ({
     ) {
       setVerifiedSubscription(true);
     }
-  }, [checkoutSession, sessionID]);
+  }, [checkoutSession]);
 
   return {
     loadingVerification: loadingCheckoutSession,
