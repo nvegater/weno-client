@@ -11,10 +11,7 @@ import useVerifySession from "../../components/Authentication/useVerifySession";
 const Winery = () => {
   const router = useRouter();
 
-  const wineryAlias =
-    typeof router.query.wineryAlias === "string"
-      ? router.query.wineryAlias
-      : null;
+  const { wineryAlias, sessionID } = router.query;
 
   const {
     loading: loadingAuthInfo,
@@ -31,20 +28,18 @@ const Winery = () => {
     { data: wineryQuery, error: errorFetchingWinery, fetching: fetchingWinery },
   ] = useWineryQuery({
     variables: {
-      getWineryInputs: { urlAlias: wineryAlias },
+      getWineryInputs: { urlAlias: wineryAlias ? (wineryAlias as string) : "" },
     },
     context: contextHeader,
     pause: loadingAuthInfo || notAuthenticated,
     requestPolicy: "network-only",
   });
 
-  // http://localhost:3000/winery/wineryAlias?session_id=cs_test_b1BRjVbQsImZAEqMJiQENGFPrEvkeOelYHoH2bfjMsIJCU0ivFtmxAknnR
-  const sessionID: string | null = router.query.session_id
-    ? (router.query.session_id as string)
-    : null;
-
   const { loadingVerification, verificationError, isVerified } =
-    useVerifySession({ sessionId: sessionID, contextHeader });
+    useVerifySession({
+      sessionId: sessionID ? (sessionID as string) : "",
+      contextHeader,
+    });
 
   return (
     <WenoLayout
