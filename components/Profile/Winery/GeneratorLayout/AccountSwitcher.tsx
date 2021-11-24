@@ -1,11 +1,4 @@
-import {
-  Menu,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Menu, MenuDivider, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import * as React from "react";
 import { FC } from "react";
 import { AccountSwitcherButton } from "./AccountSwitcherButton";
@@ -33,25 +26,28 @@ export const AccountSwitcher: FC<AccountSwitcherProps> = ({
         username={username}
         logoUrl={logoUrl ? logoUrl : ""}
       />
-      <MenuList
-        shadow="lg"
-        py="4"
-        color={useColorModeValue("gray.600", "gray.200")}
-        px="3"
-      >
+      <MenuList shadow="lg" py="4" color="brand.100" bg="brand.600" px="3">
         <Text fontWeight="medium" mb="2">
           {email}
         </Text>
         <MenuDivider />
-        <MenuItem rounded="md">
+        <MenuItem rounded="md" _focus={{ bg: "gradient.100" }}>
           <NextLink href="/">
             <b>Home</b>
           </NextLink>
         </MenuItem>
-        <MenuItem rounded="md">Terms and Conditions</MenuItem>
-        <MenuItem rounded="md">Help</MenuItem>
+        <MenuItem rounded="md" _focus={{ bg: "gradient.100" }}>
+          Terms and Conditions
+        </MenuItem>
+        <MenuItem rounded="md" _focus={{ bg: "gradient.100" }}>
+          Help
+        </MenuItem>
         <MenuDivider />
-        <MenuItem rounded="md" onClick={logoutFn}>
+        <MenuItem
+          rounded="md"
+          onClick={logoutFn}
+          _focus={{ bg: "gradient.100" }}
+        >
           Logout
         </MenuItem>
       </MenuList>

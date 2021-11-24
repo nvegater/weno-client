@@ -36,9 +36,9 @@ export const NavItem = (props: NavItemProps) => {
       userSelect="none"
       rounded="md"
       transition="all 0.2s"
-      bg={active ? "gray.700" : undefined}
-      _hover={{ bg: "gray.700" }}
-      _active={{ bg: "gray.600" }}
+      bg={active ? "gradient.100" : undefined}
+      _hover={{ bg: "gradient.200" }}
+      _active={{ bg: "brand.500" }}
       onClick={() => setSubPage(subPage)}
     >
       <Box fontSize="lg" color={active ? "currentcolor" : "gray.400"}>

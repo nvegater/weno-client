@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, useColorModeValue as mode } from "@chakra-ui/react";
+import { Box, Flex, Stack } from "@chakra-ui/react";
 import * as React from "react";
 import { FC, useState } from "react";
 import { MobileMenuButton } from "./MobileMenuButton";
@@ -45,7 +45,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = (props) => {
   return (
     <Flex
       height="100vh"
-      bg={mode("blue.800", "gray.800")}
+      bg="brand.600"
       overflow="hidden"
       sx={{ "--sidebar-width": "16rem" }}
     >
@@ -57,7 +57,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = (props) => {
         left="0"
         py="5"
         px="3"
-        color="gray.200"
+        color="brand.100"
         position="fixed"
       >
         <Box fontSize="sm" lineHeight="tall">
@@ -149,7 +149,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = (props) => {
       >
         <Box
           maxW="2560px"
-          bg={mode("white", "gray.700")}
+          bg="brand.100"
           height="100%"
           pb="6"
           rounded={{ md: "lg" }}

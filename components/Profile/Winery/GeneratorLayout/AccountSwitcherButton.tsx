@@ -32,7 +32,7 @@ export const AccountSwitcherButton: FC<AccountSwitcherButtonProps> = ({
       display="flex"
       alignItems="center"
       rounded="lg"
-      bg="gray.700"
+      bg="gradient.100"
       px="3"
       py="2"
       fontSize="sm"
@@ -40,7 +40,7 @@ export const AccountSwitcherButton: FC<AccountSwitcherButtonProps> = ({
       cursor="pointer"
       outline="0"
       transition="all 0.2s"
-      _active={{ bg: "gray.600" }}
+      _active={{ bg: "brand.200" }}
       _focus={{ shadow: "outline" }}
     >
       <HStack flex="1" spacing="3">
@@ -55,15 +55,15 @@ export const AccountSwitcherButton: FC<AccountSwitcherButtonProps> = ({
           />
         )}
         <Box textAlign="start">
-          <Box isTruncated fontWeight="semibold">
+          <Box isTruncated fontWeight="semibold" color="brand.100">
             {wineryName}
           </Box>
-          <Box fontSize="xs" color="gray.400">
+          <Box fontSize="xs" color="brand.100">
             {username}
           </Box>
         </Box>
       </HStack>
-      <Box fontSize="lg" color="gray.400">
+      <Box fontSize="lg" color="brand.100">
         <HiSelector />
       </Box>
     </Flex>
