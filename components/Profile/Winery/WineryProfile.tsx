@@ -1,17 +1,21 @@
 import React, { FC } from "react";
-import { useWineryQuery } from "../../graphql/generated/graphql";
+import { useWineryQuery } from "../../../graphql/generated/graphql";
 import { Flex, Heading } from "@chakra-ui/react";
-import { ContextHeader } from "../Authentication/useAuth";
+import { ContextHeader } from "../../Authentication/useAuth";
+import { GeneratorLayout } from "./GeneratorLayout/GeneratorLayout";
+import { WineryCard } from "./WineryCard";
 
 interface WineryProfileProps {
   isOwner: boolean;
   wineryAlias: string;
   contextHeader: ContextHeader;
+  logout: () => void;
 }
 export const WineryProfile: FC<WineryProfileProps> = ({
   isOwner,
   wineryAlias,
   contextHeader,
+  logout,
 }) => {
   const [
     { data: wineryQuery, error: errorFetchingWinery, fetching: fetchingWinery },
@@ -46,12 +50,16 @@ export const WineryProfile: FC<WineryProfileProps> = ({
           </Heading>
         </Flex>
       )}
-      {wineryQuery && wineryQuery.winery.winery && (
-        <>
-          Your winery is {wineryQuery.winery.winery.name} and you are{" "}
-          {isOwner ? "the owner" : "just visiting"}
-        </>
+      {wineryQuery && wineryQuery.winery.winery && isOwner && (
+        <GeneratorLayout
+          email={wineryQuery.winery.winery.creatorEmail}
+          wineryId={wineryQuery.winery.winery.id}
+          wineryName={wineryQuery.winery.winery.name}
+          username={wineryQuery.winery.winery.creatorUsername}
+          logoutFn={logout}
+        />
       )}
+      {wineryQuery && wineryQuery.winery.winery && !isOwner && <WineryCard />}
     </div>
   );
 };
