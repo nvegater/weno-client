@@ -71,7 +71,7 @@ const Winery = () => {
         </Flex>
       )}
 
-      {wineryAlias && (
+      {wineryAlias && !loadingAuthInfo && (
         <WineryProfile
           isOwner={isOwner}
           wineryAlias={wineryAlias as string}

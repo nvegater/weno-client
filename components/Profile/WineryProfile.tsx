@@ -35,7 +35,7 @@ export const WineryProfile: FC<WineryProfileProps> = ({
           </Heading>
         </Flex>
       )}
-      {displayError && (
+      {displayError && !fetchingWinery && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
             {errorMessageAvailable
