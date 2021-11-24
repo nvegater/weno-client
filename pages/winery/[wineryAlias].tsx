@@ -1,12 +1,12 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { useWineryQuery } from "../../graphql/generated/graphql";
 import useAuth from "../../components/Authentication/useAuth";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../graphql/urqlProvider";
 import { Flex, Heading } from "@chakra-ui/react";
 import { WenoLayout } from "../../components/GeneralLayout/WenoLayout";
 import useVerifySession from "../../components/Authentication/useVerifySession";
+import { WineryProfile } from "../../components/Profile/WineryProfile";
 
 const Winery = () => {
   const router = useRouter();
@@ -24,17 +24,6 @@ const Winery = () => {
     isOwner,
   } = useAuth();
 
-  const [
-    { data: wineryQuery, error: errorFetchingWinery, fetching: fetchingWinery },
-  ] = useWineryQuery({
-    variables: {
-      getWineryInputs: { urlAlias: wineryAlias ? (wineryAlias as string) : "" },
-    },
-    context: contextHeader,
-    pause: loadingAuthInfo || notAuthenticated,
-    requestPolicy: "network-only",
-  });
-
   const { loadingVerification, verificationError, isVerified } =
     useVerifySession({
       sessionId: session_id === undefined ? null : session_id,
@@ -50,18 +39,10 @@ const Winery = () => {
     >
       {!wineryAlias && <h1>Something is wrong with the Url</h1>}
 
-      {(loadingAuthInfo || fetchingWinery || loadingVerification) && (
+      {(loadingAuthInfo || loadingVerification) && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
             We are fetching the winery information....
-          </Heading>
-        </Flex>
-      )}
-
-      {errorFetchingWinery && (
-        <Flex justifyContent="center" m={5}>
-          <Heading as="h2" size="xl">
-            Error Fetching Winery
           </Heading>
         </Flex>
       )}
@@ -72,20 +53,6 @@ const Winery = () => {
             Login to see the winery information
           </Heading>
         </Flex>
-      )}
-
-      {wineryAlias && wineryQuery && wineryQuery.winery.errors && (
-        <h1>
-          {wineryQuery.winery.errors[0].field}:{" "}
-          {wineryQuery.winery.errors[0].message}
-        </h1>
-      )}
-
-      {wineryAlias && wineryQuery && wineryQuery.winery.winery && (
-        <h1>
-          Your winery is {wineryQuery.winery.winery.name} and you are{" "}
-          {isOwner ? "the owner" : "just visiting"}
-        </h1>
       )}
 
       {!verificationError && isVerified && (
@@ -102,6 +69,14 @@ const Winery = () => {
             Your session is invalid
           </Heading>
         </Flex>
+      )}
+
+      {wineryAlias && (
+        <WineryProfile
+          isOwner={isOwner}
+          wineryAlias={wineryAlias as string}
+          contextHeader={contextHeader}
+        />
       )}
     </WenoLayout>
   );
