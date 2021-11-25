@@ -4,17 +4,34 @@ import {
   CardProperty,
   CardWithUserDetails,
 } from "../../Cards/CardWithUserDetails/CardWithUserDetails";
+import { WineryFragmentFragment } from "../../../graphql/generated/graphql";
 
-interface WineryOwnerInfoProps {}
+interface WineryOwnerInfoProps {
+  winery: WineryFragmentFragment;
+}
 
-export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({}) => {
+const timeFormatter = Intl.DateTimeFormat("en", {
+  minute: "2-digit",
+  hour: "2-digit",
+});
+const dateFormatter = Intl.DateTimeFormat("en", {
+  dateStyle: "medium",
+});
+export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({ winery }) => {
+  const newDate = new Date(winery.createdAt);
+  const createdAt = `${timeFormatter.format(newDate)} - ${dateFormatter.format(
+    newDate
+  )}`;
   const accountProps: CardProperty[] = [
-    { name: "Username", value: "insert" },
-    { name: "Email", value: "insert" },
+    { name: "Username", value: winery.creatorUsername },
+    { name: "Email", value: winery.creatorEmail },
+    { name: "Member since", value: createdAt },
   ];
   const subscriptionProps: CardProperty[] = [
-    { name: "Status", value: "insert" },
-    { name: "Cutomer ID", value: "insert" },
+    { name: "Tier", value: winery.subscription },
+    { name: "Cutomer ID", value: winery.stripe_customerId },
+    // TODO retrieve subscription status
+    { name: "Status", value: "Active ?" },
   ];
   return (
     <section>

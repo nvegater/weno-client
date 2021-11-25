@@ -35,4 +35,5 @@ fragment WineryFragment on Winery {
   wineType
   yearlyWineProduction
   younerFriendly
+  subscription
 }
