@@ -18,6 +18,7 @@ import {
 import { NavGroup } from "./NavGroup";
 import { WineryOwnerInfo } from "../WineryOwnerInfo";
 import { WineryFragmentFragment } from "../../../../graphql/generated/graphql";
+import { ContextHeader } from "../../../Authentication/useAuth";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -35,11 +36,13 @@ export interface GeneratorLayoutProps {
   winery: WineryFragmentFragment;
   logoUrl?: string | undefined | null;
   logoutFn: () => void;
+  contextHeader: ContextHeader;
 }
 
 export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
   winery,
   logoutFn,
+  contextHeader,
 }) => {
   const { isOpen, toggle } = useMobileMenuState();
   const [subPage, setSubPage] = useState(GeneratorSubpage.WINERY_INFO);
@@ -175,7 +178,10 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
             </Flex>
             <Flex direction="column" flex="1" overflow="auto" px="10">
               {subPage === GeneratorSubpage.WINERY_INFO && (
-                <WineryOwnerInfo winery={winery} />
+                <WineryOwnerInfo
+                  winery={winery}
+                  contextHeader={contextHeader}
+                />
               )}
               {subPage === GeneratorSubpage.EDIT_INFO && <div>Edit Winery</div>}
               {subPage === GeneratorSubpage.ALL_EXPERIENCES && (

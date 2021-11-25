@@ -4,12 +4,18 @@ import {
   CardProperty,
   CardWithUserDetails,
 } from "../../Cards/CardWithUserDetails/CardWithUserDetails";
-import { WineryFragmentFragment } from "../../../graphql/generated/graphql";
+import {
+  useGetSubscriptionStatusQuery,
+  WineryFragmentFragment,
+} from "../../../graphql/generated/graphql";
+import { ContextHeader } from "../../Authentication/useAuth";
 
 interface WineryOwnerInfoProps {
   winery: WineryFragmentFragment;
+  contextHeader: ContextHeader;
 }
 
+// https://nodejs.org/docs/latest-v12.x/api/intl.html
 const timeFormatter = Intl.DateTimeFormat("en", {
   minute: "2-digit",
   hour: "2-digit",
@@ -17,7 +23,21 @@ const timeFormatter = Intl.DateTimeFormat("en", {
 const dateFormatter = Intl.DateTimeFormat("en", {
   dateStyle: "medium",
 });
-export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({ winery }) => {
+export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
+  winery,
+  contextHeader,
+}) => {
+  const [
+    {
+      data: subscriptionStatus,
+      error: errorSubscriptionStatus,
+      fetching: fetchingSubsStatus,
+    },
+  ] = useGetSubscriptionStatusQuery({
+    variables: { customerId: winery.stripe_customerId },
+    context: contextHeader,
+  });
+
   const newDate = new Date(winery.createdAt);
   const createdAt = `${timeFormatter.format(newDate)} - ${dateFormatter.format(
     newDate
@@ -30,8 +50,16 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({ winery }) => {
   const subscriptionProps: CardProperty[] = [
     { name: "Tier", value: winery.subscription },
     { name: "Cutomer ID", value: winery.stripe_customerId },
-    // TODO retrieve subscription status
-    { name: "Status", value: "Active ?" },
+    {
+      name: "Status",
+      value: subscriptionStatus
+        ? subscriptionStatus.getSubscriptionStatus
+        : errorSubscriptionStatus
+        ? "Error"
+        : fetchingSubsStatus
+        ? "Loading"
+        : "",
+    },
   ];
   return (
     <section>

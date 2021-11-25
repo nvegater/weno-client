@@ -51,7 +51,11 @@ export const WineryProfile: FC<WineryProfileProps> = ({
         </Flex>
       )}
       {wineryQuery && wineryQuery.winery.winery && isOwner && (
-        <GeneratorLayout winery={wineryQuery.winery.winery} logoutFn={logout} />
+        <GeneratorLayout
+          winery={wineryQuery.winery.winery}
+          logoutFn={logout}
+          contextHeader={contextHeader}
+        />
       )}
       {wineryQuery && wineryQuery.winery.winery && !isOwner && <WineryCard />}
     </div>
