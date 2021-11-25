@@ -188,6 +188,10 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
               {...register("yearlyWineProduction", {
                 valueAsNumber: true,
                 max: { value: 1000000, message: "That's a lot of wine" },
+                min: {
+                  value: 0,
+                  message: "Negative numbers couldn't be produced",
+                },
               })}
             />
             <FormErrorMessage>
@@ -358,18 +362,19 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       title: "Contact Information",
       content: (
         <VStack spacing="24px" mt={4} mb={8}>
-          <FormControl isInvalid={errors.name}>
+          <FormControl isInvalid={errors.email}>
+            <FormLabel htmlFor="telephoneNumber">Email</FormLabel>
             <Input
               type="email"
-              placeholder="Email"
-              {...register("name", {
+              placeholder="e.g. example@mailprovider.com"
+              {...register("email", {
                 required: "Please enter your contact email",
                 minLength: 10,
                 maxLength: 50,
               })}
             />
             <FormErrorMessage>
-              {errors.name && errors.name.message}
+              {errors.email && errors.email.message}
             </FormErrorMessage>
           </FormControl>
 
