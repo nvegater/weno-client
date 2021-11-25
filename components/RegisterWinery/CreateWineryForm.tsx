@@ -18,14 +18,18 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import {
+  Amenity,
   ProductionType,
+  ServiceLanguage,
   TypeWine,
   useCreateWineryMutation,
   Valley,
 } from "../../graphql/generated/graphql";
 import {
+  amenitiesReverseMapping,
   productionTypeReverseMapping,
   removeNonStringsFromArray,
+  supportedLanguagesReverseMapping,
   valleyReverseMapping,
   wineTypeReverseMapping,
 } from "./utils";
@@ -184,6 +188,10 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
               {...register("yearlyWineProduction", {
                 valueAsNumber: true,
                 max: { value: 1000000, message: "That's a lot of wine" },
+                min: {
+                  value: 0,
+                  message: "Negative numbers couldn't be produced",
+                },
               })}
             />
             <FormErrorMessage>
@@ -305,14 +313,87 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       ),
     },
     {
-      title: "Subscriptions",
+      title: "Languages",
       content: (
-        <RadioGroup
-          control={control}
-          name="subscription"
-          label="Subscription"
-          isRequired
-        />
+        <VStack spacing="24px" mb={8}>
+          <FormControl>
+            <FormLabel htmlFor="languages" visibility="hidden">
+              Languages
+            </FormLabel>
+            <VStack justifyContent="start" alignItems="start">
+              {Object.values(ServiceLanguage).map((tw, index) => (
+                <Checkbox
+                  key={`languages.${index}`}
+                  value={tw}
+                  {...register(`languages.${index}`)}
+                >
+                  {supportedLanguagesReverseMapping(tw)}
+                </Checkbox>
+              ))}
+            </VStack>
+          </FormControl>
+        </VStack>
+      ),
+    },
+    {
+      title: "Amenities",
+      content: (
+        <VStack spacing="24px" mb={8}>
+          <FormControl>
+            <FormLabel htmlFor="amenities" visibility="hidden">
+              Amenities
+            </FormLabel>
+            <VStack justifyContent="start" alignItems="start">
+              {Object.values(Amenity).map((tw, index) => (
+                <Checkbox
+                  key={`amenities.${index}`}
+                  value={tw}
+                  {...register(`amenities.${index}`)}
+                >
+                  {amenitiesReverseMapping(tw)}
+                </Checkbox>
+              ))}
+            </VStack>
+          </FormControl>
+        </VStack>
+      ),
+    },
+    {
+      title: "Contact Information",
+      content: (
+        <VStack spacing="24px" mt={4} mb={8}>
+          <FormControl isInvalid={errors.email}>
+            <FormLabel htmlFor="telephoneNumber">Email</FormLabel>
+            <Input
+              type="email"
+              placeholder="e.g. example@mailprovider.com"
+              {...register("email", {
+                required: "Please enter your contact email",
+                minLength: 10,
+                maxLength: 50,
+              })}
+            />
+            <FormErrorMessage>
+              {errors.email && errors.email.message}
+            </FormErrorMessage>
+          </FormControl>
+
+          <FormControl isInvalid={errors.telephoneNumber}>
+            <FormLabel htmlFor="telephoneNumber">Telephone Number</FormLabel>
+            <Input
+              type="number"
+              placeholder="e.g. 5563930586"
+              {...register("telephoneNumber", {
+                valueAsNumber: true,
+                minLength: 7,
+                maxLength: 10,
+              })}
+            />
+            <FormErrorMessage>
+              {errors.telephoneNumber && errors.telephoneNumber.message}
+            </FormErrorMessage>
+          </FormControl>
+        </VStack>
       ),
     },
   ];
