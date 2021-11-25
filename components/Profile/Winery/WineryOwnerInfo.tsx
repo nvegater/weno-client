@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Heading } from "@chakra-ui/react";
+import { Heading, Flex } from "@chakra-ui/react";
 import {
   CardProperty,
   CardWithUserDetails,
@@ -18,9 +18,11 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({}) => {
   ];
   return (
     <section>
-      <Heading as="h1" size="xl">
-        Winery Information
-      </Heading>
+      <Flex as="section" justifyContent={[null, null, null, "center"]}>
+        <Heading as="h1" size="xl">
+          Winery Information
+        </Heading>
+      </Flex>
 
       <CardWithUserDetails properties={accountProps} title="Account" />
       <CardWithUserDetails
