@@ -18,7 +18,7 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({}) => {
   ];
   return (
     <section>
-      <Flex as="section" justifyContent={[null, null, null, "center"]}>
+      <Flex justifyContent={[null, null, null, "center"]}>
         <Heading as="h1" size="xl">
           Winery Information
         </Heading>
