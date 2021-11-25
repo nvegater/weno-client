@@ -52,11 +52,9 @@ export const WineryProfile: FC<WineryProfileProps> = ({
       )}
       {wineryQuery && wineryQuery.winery.winery && isOwner && (
         <GeneratorLayout
-          email={wineryQuery.winery.winery.creatorEmail}
-          wineryId={wineryQuery.winery.winery.id}
-          wineryName={wineryQuery.winery.winery.name}
-          username={wineryQuery.winery.winery.creatorUsername}
+          winery={wineryQuery.winery.winery}
           logoutFn={logout}
+          contextHeader={contextHeader}
         />
       )}
       {wineryQuery && wineryQuery.winery.winery && !isOwner && <WineryCard />}

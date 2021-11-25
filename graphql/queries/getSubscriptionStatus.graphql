@@ -1,0 +1,3 @@
+query GetSubscriptionStatus($customerId: String!) {
+  getSubscriptionStatus(customerId: $customerId)
+}

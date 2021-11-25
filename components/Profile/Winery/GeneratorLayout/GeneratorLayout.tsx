@@ -16,6 +16,9 @@ import {
   BiUserCircle,
 } from "react-icons/bi";
 import { NavGroup } from "./NavGroup";
+import { WineryOwnerInfo } from "../WineryOwnerInfo";
+import { WineryFragmentFragment } from "../../../../graphql/generated/graphql";
+import { ContextHeader } from "../../../Authentication/useAuth";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -30,15 +33,17 @@ export enum GeneratorSubpage {
 }
 
 export interface GeneratorLayoutProps {
-  email: string;
-  wineryId: number;
-  wineryName: string;
-  username: string;
+  winery: WineryFragmentFragment;
   logoUrl?: string | undefined | null;
   logoutFn: () => void;
+  contextHeader: ContextHeader;
 }
 
-export const GeneratorLayout: FC<GeneratorLayoutProps> = (props) => {
+export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
+  winery,
+  logoutFn,
+  contextHeader,
+}) => {
   const { isOpen, toggle } = useMobileMenuState();
   const [subPage, setSubPage] = useState(GeneratorSubpage.WINERY_INFO);
 
@@ -61,7 +66,12 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = (props) => {
         position="fixed"
       >
         <Box fontSize="sm" lineHeight="tall">
-          <AccountSwitcher {...props} />
+          <AccountSwitcher
+            email={winery.creatorEmail}
+            username={winery.creatorUsername}
+            logoutFn={logoutFn}
+            wineryName={winery.name}
+          />
           <ScrollArea pt="5" pb="6">
             <Stack spacing="8" flex="1" overflow="auto" pt="8">
               <NavGroup label="Your profile">
@@ -168,7 +178,10 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = (props) => {
             </Flex>
             <Flex direction="column" flex="1" overflow="auto" px="10">
               {subPage === GeneratorSubpage.WINERY_INFO && (
-                <div>Winery info</div>
+                <WineryOwnerInfo
+                  winery={winery}
+                  contextHeader={contextHeader}
+                />
               )}
               {subPage === GeneratorSubpage.EDIT_INFO && <div>Edit Winery</div>}
               {subPage === GeneratorSubpage.ALL_EXPERIENCES && (
