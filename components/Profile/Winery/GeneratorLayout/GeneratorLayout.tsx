@@ -16,6 +16,7 @@ import {
   BiUserCircle,
 } from "react-icons/bi";
 import { NavGroup } from "./NavGroup";
+import { WineryOwnerInfo } from "../WineryOwnerInfo";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -167,9 +168,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = (props) => {
               </Flex>
             </Flex>
             <Flex direction="column" flex="1" overflow="auto" px="10">
-              {subPage === GeneratorSubpage.WINERY_INFO && (
-                <div>Winery info</div>
-              )}
+              {subPage === GeneratorSubpage.WINERY_INFO && <WineryOwnerInfo />}
               {subPage === GeneratorSubpage.EDIT_INFO && <div>Edit Winery</div>}
               {subPage === GeneratorSubpage.ALL_EXPERIENCES && (
                 <div>All experiences</div>
