@@ -85,12 +85,14 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   const [, createWinery] = useCreateWineryMutation();
 
   const onSubmit = async (data) => {
+    console.log(data);
     const correctedValues = {
       ...data,
       productionType: removeNonStringsFromArray(data.productionType),
       wineType: removeNonStringsFromArray(data.wineType),
     };
-    const baseURL = window.location.protocol + "//" + window.location.host;
+    console.log(correctedValues);
+    /*    const baseURL = window.location.protocol + "//" + window.location.host;
     const successUrl = baseURL + `/winery/${data.urlAlias}`;
     const cancelUrl = baseURL + "/error";
     const { data: res, error } = await createWinery(
@@ -113,7 +115,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       });
     } else {
       window.location.href = res.createWinery.sessionUrl;
-    }
+    }*/
   };
 
   const formSteps: Step[] = [
@@ -174,7 +176,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
               />
             </InputGroup>
             <FormErrorMessage>
-              {errors.alias && errors.alias.message}
+              {errors.urlAlias && errors.urlAlias.message}
             </FormErrorMessage>
           </FormControl>
 
