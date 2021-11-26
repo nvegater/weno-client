@@ -396,6 +396,17 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
         </VStack>
       ),
     },
+    {
+      title: "Subscriptions",
+      content: (
+        <RadioGroup
+          control={control}
+          name="subscription"
+          label="Subscription"
+          isRequired
+        />
+      ),
+    },
   ];
 
   return (
