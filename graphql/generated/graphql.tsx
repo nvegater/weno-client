@@ -154,6 +154,7 @@ export enum Grape {
 export type Mutation = {
   createWinery: WineryResponse;
   createCustomer: CustomerResponse;
+  wineryOnboarding: OnboardingResponse;
 };
 
 
@@ -165,6 +166,16 @@ export type MutationCreateWineryArgs = {
 
 export type MutationCreateCustomerArgs = {
   createCustomerInputs: CreateCustomerInputs;
+};
+
+
+export type MutationWineryOnboardingArgs = {
+  wineryAlias: Scalars['String'];
+};
+
+export type OnboardingResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  accountLinkUrl?: Maybe<Scalars['String']>;
 };
 
 /** differents kind of services */
@@ -333,6 +344,7 @@ export type Winery = {
   urlAlias: Scalars['String'];
   stripe_customerId?: Maybe<Scalars['String']>;
   subscription?: Maybe<Scalars['String']>;
+  accountId?: Maybe<Scalars['String']>;
   creatorUsername: Scalars['String'];
   creatorEmail: Scalars['String'];
   description: Scalars['String'];
@@ -390,6 +402,13 @@ export type CreateWineryMutationVariables = Exact<{
 
 
 export type CreateWineryMutation = { createWinery: { sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined, experiences?: Array<{ createdAt: any, description: string, endDateTime: any, eventType: ExperienceType, extraDates?: Array<string> | null | undefined, id: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, pricePerPersonInDollars: number, rRules?: Array<string> | null | undefined, startDateTime: any, title: string, updatedAt: any, wineryId: number }> | null | undefined } | null | undefined } };
+
+export type WineryOnboardingMutationVariables = Exact<{
+  wineryAlias: Scalars['String'];
+}>;
+
+
+export type WineryOnboardingMutation = { wineryOnboarding: { accountLinkUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
 
 export type GetSubscriptionStatusQueryVariables = Exact<{
   customerId: Scalars['String'];
@@ -530,6 +549,21 @@ export const CreateWineryDocument = gql`
 
 export function useCreateWineryMutation() {
   return Urql.useMutation<CreateWineryMutation, CreateWineryMutationVariables>(CreateWineryDocument);
+};
+export const WineryOnboardingDocument = gql`
+    mutation WineryOnboarding($wineryAlias: String!) {
+  wineryOnboarding(wineryAlias: $wineryAlias) {
+    errors {
+      field
+      message
+    }
+    accountLinkUrl
+  }
+}
+    `;
+
+export function useWineryOnboardingMutation() {
+  return Urql.useMutation<WineryOnboardingMutation, WineryOnboardingMutationVariables>(WineryOnboardingDocument);
 };
 export const GetSubscriptionStatusDocument = gql`
     query GetSubscriptionStatus($customerId: String!) {

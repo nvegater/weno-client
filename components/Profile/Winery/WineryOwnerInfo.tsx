@@ -6,6 +6,7 @@ import {
 } from "../../Cards/CardWithUserDetails/CardWithUserDetails";
 import {
   useGetSubscriptionStatusQuery,
+  useWineryOnboardingMutation,
   WineryFragmentFragment,
 } from "../../../graphql/generated/graphql";
 import { ContextHeader } from "../../Authentication/useAuth";
@@ -38,6 +39,19 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
     variables: { customerId: winery.stripe_customerId },
     context: contextHeader,
   });
+
+  const [, onboardWinery] = useWineryOnboardingMutation();
+
+  const handleOnboarding = async () => {
+    const { error, data } = await onboardWinery({
+      wineryAlias: winery.urlAlias,
+    });
+    if (error) {
+      console.log(error);
+    } else {
+      window.location.href = data.wineryOnboarding?.accountLinkUrl;
+    }
+  };
 
   const newDate = new Date(winery.createdAt);
   const createdAt = `${timeFormatter.format(newDate)} - ${dateFormatter.format(
@@ -100,7 +114,11 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
       </Text>
 
       <Flex justifyContent={[null, null, null, "center"]}>
-        <Button variant="secondaryWeno" size="heroWeno">
+        <Button
+          variant="secondaryWeno"
+          size="heroWeno"
+          onClick={handleOnboarding}
+        >
           Enable Stripe connected account
         </Button>
       </Flex>

@@ -53,6 +53,12 @@ type Mutation {
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
   ): WineryResponse!
+  wineryOnboarding(wineryAlias: String!): OnboardingResponse!
+}
+
+type OnboardingResponse {
+  accountLinkUrl: String
+  errors: [FieldError!]
 }
 
 type PaymentMetadata {
@@ -131,6 +137,7 @@ type Tier {
 }
 
 type Winery {
+  accountId: String
   amenities: [Amenity!]
   architecturalReferences: Boolean
   contactEmail: String
