@@ -1,11 +1,12 @@
 import React, { FC } from "react";
-import { Heading, Flex } from "@chakra-ui/react";
+import { Heading, Flex, Button, Text, Link } from "@chakra-ui/react";
 import {
   CardProperty,
   CardWithUserDetails,
 } from "../../Cards/CardWithUserDetails/CardWithUserDetails";
 import {
   useGetSubscriptionStatusQuery,
+  useWineryOnboardingMutation,
   WineryFragmentFragment,
 } from "../../../graphql/generated/graphql";
 import { ContextHeader } from "../../Authentication/useAuth";
@@ -27,6 +28,7 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
   winery,
   contextHeader,
 }) => {
+  // TODO modify this query to get an object with all the subscription related information: Subscription, connected account, payment status, count of reservations etc..
   const [
     {
       data: subscriptionStatus,
@@ -37,6 +39,19 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
     variables: { customerId: winery.stripe_customerId },
     context: contextHeader,
   });
+
+  const [, onboardWinery] = useWineryOnboardingMutation();
+
+  const handleOnboarding = async () => {
+    const { error, data } = await onboardWinery({
+      wineryAlias: winery.urlAlias,
+    });
+    if (error) {
+      console.log(error);
+    } else {
+      window.location.href = data.wineryOnboarding?.accountLinkUrl;
+    }
+  };
 
   const newDate = new Date(winery.createdAt);
   const createdAt = `${timeFormatter.format(newDate)} - ${dateFormatter.format(
@@ -74,6 +89,39 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
         properties={subscriptionProps}
         title="Subscription"
       />
+
+      <Flex justifyContent={[null, null, null, "center"]}>
+        <Heading as="h4" size="md">
+          One more step to start selling your experiences
+        </Heading>
+      </Flex>
+
+      <Text
+        my={4}
+        mx={[0, 0, 0, "5em"]}
+        textAlign={[null, null, null, "center"]}
+      >
+        We want to help you earn money in the most secure way while always being
+        up to date with new regulations. <br /> Thats why we partnered with{" "}
+        <Link
+          fontWeight="bold"
+          href="https://stripe.com/blog/stripe-launches-in-mexico"
+        >
+          Stripe
+        </Link>
+        . Read more about their{" "}
+        <Link href="https://stripe.com/en-mx/privacy">Privacy Policy</Link>.
+      </Text>
+
+      <Flex justifyContent={[null, null, null, "center"]}>
+        <Button
+          variant="secondaryWeno"
+          size="heroWeno"
+          onClick={handleOnboarding}
+        >
+          Enable Stripe connected account
+        </Button>
+      </Flex>
     </section>
   );
 };

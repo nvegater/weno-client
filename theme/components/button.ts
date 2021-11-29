@@ -30,6 +30,7 @@ const Button = {
   // 1. We can update the base styles
   baseStyle: {
     fontWeight: "bold", // Normally, it is "semibold"
+    padding: 2,
   },
   // 2. We can add a new button size or extend existing
   sizes: {

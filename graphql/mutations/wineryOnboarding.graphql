@@ -1,0 +1,9 @@
+mutation WineryOnboarding($wineryAlias: String!) {
+  wineryOnboarding(wineryAlias: $wineryAlias) {
+    errors {
+      field
+      message
+    }
+    accountLinkUrl
+  }
+}
