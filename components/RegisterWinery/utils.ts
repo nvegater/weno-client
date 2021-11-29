@@ -26,51 +26,51 @@ export const productionTypeReverseMapping = (value: ProductionType) => {
 export const supportedLanguagesReverseMapping = (value: ServiceLanguage) => {
   switch (value) {
     case ServiceLanguage.Ingles:
-      return "english";
+      return "English";
     case ServiceLanguage.Espanol:
-      return "spanish";
+      return "Spanish";
     case ServiceLanguage.SenasMexicanas:
-      return "signLanguage";
+      return "Sign Language";
     case ServiceLanguage.Frances:
-      return "french";
+      return "French";
     case ServiceLanguage.Italiano:
-      return "italian";
+      return "Italian";
     case ServiceLanguage.Portugues:
-      return "portuguese";
+      return "Portuguese";
     case ServiceLanguage.Japones:
-      return "japanese";
+      return "Japanese";
     case ServiceLanguage.Mandarin:
-      return "mandarin";
+      return "Mandarin";
     case ServiceLanguage.Aleman:
-      return "german";
+      return "German";
   }
 };
 export const amenitiesReverseMapping = (value: Amenity) => {
   switch (value) {
     case Amenity.Terraza:
-      return "terrace";
+      return "Terrace";
     case Amenity.Degustacion:
-      return "tasting";
+      return "Tasting";
     case Amenity.RecorridoVinedos:
-      return "wineyardTour";
+      return "Wineyard Tour";
     case Amenity.RecorridoBodega:
-      return "wineryTour";
+      return "Winery Tour";
     case Amenity.PaseoCarreta:
-      return "wagonRide";
+      return "Wagon Ride";
     case Amenity.VisitaCavaBarricas:
-      return "cellarBarrels";
+      return "Cellar Barrels";
     case Amenity.CataBarricas:
-      return "barrelTasting";
+      return "Barrel Tasting";
     case Amenity.CreaTuMezcla:
-      return "wineMix";
+      return "Wine Mix";
     case Amenity.TalleresDidacticos:
-      return "didacticWorkshop";
+      return "Didactic Workshop";
     case Amenity.CatasMaridajes:
-      return "tastingAndPairing";
+      return "Tasting and Pairing";
     case Amenity.CatasPrivadas:
-      return "privateTasting";
+      return "Private Tasting";
     case Amenity.ActividadesEnVinedo:
-      return "vineyardActivities";
+      return "Vineyard Activities";
     default:
       return "";
   }
@@ -141,11 +141,11 @@ export const valleyReverseMapping = (value: Valley) => {
 export const otherServicesReverseMapping = (otherService: OtherServices) => {
   switch (otherService) {
     case OtherServices.BarraDeAlimentos:
-      return "foodBar";
+      return "Food Bar";
     case OtherServices.Hospedaje:
-      return "lodging";
+      return "Lodging";
     case OtherServices.Restaurante:
-      return "restaurant";
+      return "Restaurant";
   }
 };
 
