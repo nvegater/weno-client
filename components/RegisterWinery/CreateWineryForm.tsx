@@ -101,11 +101,10 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       },
       { ...contextHeader, requestPolicy: "network-only" }
     );
-    if (error) throw error;
-    if (res && res.createWinery.errors !== null) {
+    if (error || (res && res.createWinery.errors !== null)) {
       setError("submit", {
-        type: res.createWinery.errors[0].field,
-        message: res.createWinery.errors[0].message,
+        type: res.createWinery.errors[0].field || error.name,
+        message: res.createWinery.errors[0].message || error.message,
       });
     } else {
       window.location.href = res.createWinery.sessionUrl;
