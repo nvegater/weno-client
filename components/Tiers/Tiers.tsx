@@ -11,11 +11,6 @@ import { HiCheckCircle } from "react-icons/hi";
 import { PricingCard } from "./PricingCard";
 import { FC } from "react";
 import { ProductFragmentFragment } from "../../graphql/generated/graphql";
-import {
-  BASIC_SUBSCRIPTION_NAME,
-  INTERMEDIATE_SUBSCRIPTION_NAME,
-  PREMIUM_SUBSCRIPTION_NAME,
-} from "../RegisterWinery/CreateWineryForm";
 import useAuth from "../Authentication/useAuth";
 
 const FeatureItem: React.FC = ({ children }) => (
@@ -80,7 +75,7 @@ export const Tiers: FC<TiersProps> = ({ products }) => {
           <PricingCard
             colorScheme="blue"
             onClick={onClickFn}
-            name={BASIC_SUBSCRIPTION_NAME}
+            name="Basic"
             price={29}
             duration="/ mo"
             description="Lorem ipsum dolor sit amet consectetur, adipisicing."
@@ -94,7 +89,7 @@ export const Tiers: FC<TiersProps> = ({ products }) => {
           <PricingCard
             colorScheme="teal"
             onClick={onClickFn}
-            name={INTERMEDIATE_SUBSCRIPTION_NAME}
+            name="Medium"
             price={79}
             duration="/ mo"
             description="Lorem ipsum dolor sit amet consectetur, adipisicing."
@@ -108,7 +103,7 @@ export const Tiers: FC<TiersProps> = ({ products }) => {
           <PricingCard
             colorScheme="teal"
             onClick={onClickFn}
-            name={PREMIUM_SUBSCRIPTION_NAME}
+            name="Premium"
             price={79}
             duration="/ mo"
             description="Lorem ipsum dolor sit amet consectetur, adipisicing."

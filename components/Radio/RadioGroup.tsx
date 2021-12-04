@@ -1,25 +1,30 @@
 import React, { FC } from "react";
 import {
-  useRadioGroup,
-  HStack,
   FormControl,
-  FormLabel,
   FormErrorMessage,
+  FormLabel,
+  HStack,
+  useRadioGroup,
 } from "@chakra-ui/react";
 import RadioCard from "./RadioCard";
-import { useController, Control } from "react-hook-form";
-import {
-  BASIC_SUBSCRIPTION_NAME,
-  INTERMEDIATE_SUBSCRIPTION_NAME,
-  PREMIUM_SUBSCRIPTION_NAME,
-} from "../RegisterWinery/CreateWineryForm";
+import { Control, useController } from "react-hook-form";
 
+export type RadioElement = { name: string };
 const RadioGroup: FC<{
-  control: Control<{ subscription: string }>;
+  control: Control<{ subscription?: string; eventType?: string }>;
   label: string;
-  name: "subscription";
+  elements: RadioElement[];
+  name: "subscription" | "eventType";
   isRequired?: boolean;
-}> = ({ control, name, label, isRequired }) => {
+  isVisibleLabel?: boolean;
+}> = ({
+  control,
+  name,
+  label,
+  isRequired,
+  elements,
+  isVisibleLabel = false,
+}) => {
   const {
     field,
     formState: { errors },
@@ -32,21 +37,21 @@ const RadioGroup: FC<{
     name,
     onChange: field.onChange,
     value: field.value,
+    defaultValue: elements.length > 0 ? elements[0].name : null,
   });
 
   const group = getRootProps();
 
   return (
     <FormControl isRequired={isRequired} isInvalid={!!errors[name]} mb={6}>
-      <FormLabel htmlFor={name} visibility="hidden">
+      <FormLabel
+        htmlFor={name}
+        visibility={isVisibleLabel ? "visible" : "hidden"}
+      >
         {label}
       </FormLabel>
       <HStack {...group}>
-        {[
-          { name: BASIC_SUBSCRIPTION_NAME },
-          { name: INTERMEDIATE_SUBSCRIPTION_NAME },
-          { name: PREMIUM_SUBSCRIPTION_NAME },
-        ].map((value) => {
+        {elements.map((value) => {
           const radio = getRadioProps({ value: value.name });
           return (
             <RadioCard key={value.name} {...radio}>

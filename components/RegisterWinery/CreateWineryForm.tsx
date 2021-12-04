@@ -61,10 +61,6 @@ export function ErrorSummary<T>({ errors }: ErrorSummaryProps<T>) {
   );
 }
 
-export const BASIC_SUBSCRIPTION_NAME = "Basic";
-export const INTERMEDIATE_SUBSCRIPTION_NAME = "Intermediate";
-export const PREMIUM_SUBSCRIPTION_NAME = "Premium";
-
 export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   username,
   email,
@@ -310,6 +306,11 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
           control={control}
           name="subscription"
           label="Subscription"
+          elements={[
+            { name: "Basic" },
+            { name: "Intermediate" },
+            { name: "Premium" },
+          ]}
           isRequired
         />
       ),

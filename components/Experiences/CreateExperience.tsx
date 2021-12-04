@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorSummary } from "../RegisterWinery/CreateWineryForm";
+import RadioGroup from "../Radio/RadioGroup";
 
 interface CreateExperienceProps {
   winery: WineryFragmentFragment;
@@ -29,11 +30,12 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     register,
     //setError,
     handleSubmit,
-    //control,
+    control,
     formState: { errors, isSubmitting },
   } = useForm({ mode: "onTouched" });
   console.log(winery, contextHeader);
   const onSubmit = async (data) => {
+    // TODO convert event type value to Backend Enum
     console.log(data);
   };
 
@@ -42,7 +44,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
       title: "Experience Details",
       content: (
         <VStack spacing="24px" mt={4} mb={8}>
-          <FormControl isInvalid={errors.title}>
+          <FormControl isInvalid={errors.title} isRequired={true}>
             <Input
               type="text"
               placeholder="Title"
@@ -57,7 +59,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={errors.description}>
+          <FormControl isInvalid={errors.description} isRequired={true}>
             <Textarea
               type="text"
               placeholder="Describe your event"
@@ -74,7 +76,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={errors.pricePerPersonInMxn}>
+          <FormControl isInvalid={errors.pricePerPersonInMxn} isRequired={true}>
             <FormLabel htmlFor="pricePerPersonInMxn">
               Price per Person
             </FormLabel>
@@ -89,7 +91,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
               {errors.pricePerPersonInMxn && errors.pricePerPersonInMxn.message}
             </FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={errors.limitOfAttendees}>
+          <FormControl isInvalid={errors.limitOfAttendees} isRequired={true}>
             <FormLabel htmlFor="limitOfAttendees">Limit of attendees</FormLabel>
             <Input
               type="number"
@@ -104,6 +106,18 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
               {errors.limitOfAttendees && errors.limitOfAttendees.message}
             </FormErrorMessage>
           </FormControl>
+          <RadioGroup
+            control={control}
+            name="eventType"
+            label="Event type"
+            elements={[
+              { name: "Degustation" },
+              { name: "Pairing" },
+              { name: "Concert" },
+            ]}
+            isRequired
+            isVisibleLabel
+          />
         </VStack>
       ),
     },
