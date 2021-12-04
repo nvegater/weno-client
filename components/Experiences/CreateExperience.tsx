@@ -137,7 +137,11 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
         <VerticalSteps steps={formSteps} isLoading={false} />
       </Box>
 
-      <FormControl isInvalid={Boolean(errors)}>
+      <FormControl
+        isInvalid={Boolean(errors)}
+        display="flex"
+        justifyContent="center"
+      >
         <FormErrorMessage>
           <ErrorSummary errors={errors} />
         </FormErrorMessage>
