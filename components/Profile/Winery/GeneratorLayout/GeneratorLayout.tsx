@@ -19,6 +19,7 @@ import { NavGroup } from "./NavGroup";
 import { WineryOwnerInfo } from "../WineryOwnerInfo";
 import { WineryFragmentFragment } from "../../../../graphql/generated/graphql";
 import { ContextHeader } from "../../../Authentication/useAuth";
+import { CreateExperience } from "../../../Experiences/CreateExperience";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -191,7 +192,10 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 <div>Experiences Calendar</div>
               )}
               {subPage === GeneratorSubpage.NEW_EXPERIENCE && (
-                <div>Create new experience</div>
+                <CreateExperience
+                  winery={winery}
+                  contextHeader={contextHeader}
+                />
               )}
               {subPage === GeneratorSubpage.EDIT_EXPERIENCE && (
                 <div>Edit experience</div>

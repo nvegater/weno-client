@@ -43,7 +43,7 @@ type ErrorSummaryProps<T> = {
   errors: FieldErrors<T>;
 };
 
-function ErrorSummary<T>({ errors }: ErrorSummaryProps<T>) {
+export function ErrorSummary<T>({ errors }: ErrorSummaryProps<T>) {
   if (Object.keys(errors).length === 0) {
     return null;
   }
