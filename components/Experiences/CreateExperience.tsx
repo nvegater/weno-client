@@ -16,6 +16,7 @@ import {
 import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorSummary } from "../RegisterWinery/CreateWineryForm";
 import RadioGroup from "../Radio/RadioGroup";
+import { DateTimeForm } from "./DateTimeForm";
 
 interface CreateExperienceProps {
   winery: WineryFragmentFragment;
@@ -123,7 +124,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     },
     {
       title: "Dates and frequency",
-      content: <div>Hola</div>,
+      content: <DateTimeForm control={control} />,
     },
     {
       title: "Images",
