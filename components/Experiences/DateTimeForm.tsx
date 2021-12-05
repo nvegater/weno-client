@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import { Control } from "react-hook-form";
+import { Control, UseFormWatch } from "react-hook-form";
+import RadioGroup from "../Radio/RadioGroup";
 
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
 
@@ -15,9 +16,21 @@ type DateTimeFormSubmitProps = {
 };
 
 interface DateTimeFormProps {
-  control: Control<DateTimeFormSubmitProps>;
+  control: Control<any>;
+  watch: UseFormWatch<any>;
 }
 
-export const DateTimeForm: FC<DateTimeFormProps> = ({}) => {
-  return <div>Hola</div>;
+export const DateTimeForm: FC<DateTimeFormProps> = ({ control, watch }) => {
+  const watchPeriodic = watch("isPeriodic", "Periodic");
+  return (
+    <>
+      <RadioGroup
+        control={control}
+        name="isPeriodic"
+        label="Recurrent"
+        elements={[{ name: "Periodic" }, { name: "One Time" }]}
+      />
+      {watchPeriodic === "Periodic" && <div>Hola</div>}
+    </>
+  );
 };

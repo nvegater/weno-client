@@ -10,11 +10,16 @@ import RadioCard from "./RadioCard";
 import { Control, useController } from "react-hook-form";
 
 export type RadioElement = { name: string };
+type FormElementsUsingRadiogroup = {
+  subscription?: string;
+  eventType?: string;
+  isPeriodic?: string;
+};
 const RadioGroup: FC<{
-  control: Control<{ subscription?: string; eventType?: string }>;
+  control: Control<FormElementsUsingRadiogroup>;
   label: string;
   elements: RadioElement[];
-  name: "subscription" | "eventType";
+  name: "subscription" | "eventType" | "isPeriodic";
   isRequired?: boolean;
   isVisibleLabel?: boolean;
 }> = ({

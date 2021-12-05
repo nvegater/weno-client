@@ -30,6 +30,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
   const {
     register,
     //setError,
+    watch,
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
@@ -124,7 +125,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     },
     {
       title: "Dates and frequency",
-      content: <DateTimeForm control={control} />,
+      content: <DateTimeForm control={control} watch={watch} />,
     },
     {
       title: "Images",
