@@ -38,6 +38,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
   console.log(winery, contextHeader);
   const onSubmit = async (data) => {
     // TODO convert event type value to Backend Enum
+    // TODO convert periodic field to enum
     console.log(data);
   };
 

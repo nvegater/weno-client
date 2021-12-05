@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Control, UseFormWatch } from "react-hook-form";
 import RadioGroup from "../Radio/RadioGroup";
+import { DateTimePickerWeno } from "../DateTimePicker/DateTimePicker";
 
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
 
@@ -31,6 +32,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({ control, watch }) => {
         elements={[{ name: "Periodic" }, { name: "One Time" }]}
       />
       {watchPeriodic === "Periodic" && <div>Hola</div>}
+      <DateTimePickerWeno />
     </>
   );
 };

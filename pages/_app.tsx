@@ -7,6 +7,9 @@ import { SSRCookies, SSRKeycloakProvider } from "@react-keycloak/ssr";
 import { KeycloakConfig } from "keycloak-js";
 import React from "react";
 
+import "../components/DateTimePicker/Clock.css";
+import "../components/DateTimePicker/DateTimePicker.css";
+
 interface InitialProps {
   cookies: unknown;
 }
