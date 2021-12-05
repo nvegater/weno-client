@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
 // styles are imported in the _app.tsx component
 
 interface DateTimePickerProps {
-  onDateTimeSelection: (date: Date) => void;
+  onDateTimeSelection?: (date: Date) => void;
   initialDate?: Date;
 }
 
@@ -15,14 +15,11 @@ export const DateTimePickerWeno: FC<DateTimePickerProps> = ({
     initialDate ? initialDate : new Date()
   );
 
-  useEffect(() => {
-    onDateTimeSelection(dateValue);
-  }, [onDateTimeSelection, dateValue]);
-
   return (
     <DateTimePicker
       onChange={(newValue) => {
         const castedDate = newValue as Date;
+        if (onDateTimeSelection) onDateTimeSelection(castedDate);
         setDateValue(castedDate);
       }}
       value={dateValue}
