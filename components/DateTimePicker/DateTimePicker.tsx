@@ -9,5 +9,11 @@ export const DateTimePickerWeno: FC<DateTimePickerProps> = ({}) => {
 
   console.log(value);
 
-  return <DateTimePicker onChange={(value) => onChange(value)} value={value} />;
+  return (
+    <DateTimePicker
+      onChange={(value) => onChange(value)}
+      value={value}
+      disableClock={true}
+    />
+  );
 };

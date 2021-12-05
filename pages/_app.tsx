@@ -9,6 +9,7 @@ import React from "react";
 
 import "../components/DateTimePicker/Clock.css";
 import "../components/DateTimePicker/DateTimePicker.css";
+import "../components/DateTimePicker/Calendar.css";
 
 interface InitialProps {
   cookies: unknown;
