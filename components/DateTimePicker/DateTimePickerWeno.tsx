@@ -12,7 +12,7 @@ export const DateTimePickerWeno: FC<DateTimePickerProps> = ({
   initialDate,
 }) => {
   const [dateValue, setDateValue] = useState<Date>(
-    initialDate ? initialDate : new Date()
+    initialDate ? initialDate : undefined
   );
 
   return (
