@@ -35,14 +35,15 @@ const RadioGroup: FC<{
     formState: { errors },
   } = useController({
     control,
+    defaultValue: elements.length > 0 ? elements[0].name : undefined,
     name: name,
     rules: { required: { value: true, message: "Required field" } },
   });
   const { getRootProps, getRadioProps } = useRadioGroup({
-    name,
+    name: field.name,
     onChange: field.onChange,
     value: field.value,
-    defaultValue: elements.length > 0 ? elements[0].name : null,
+    defaultValue: field.value,
   });
 
   const group = getRootProps();
