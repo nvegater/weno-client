@@ -97,13 +97,15 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({ control, watch }) => {
       </HStack>
 
       {watchPeriodic === "Periodic" && (
-        <>
+        <VStack justifyContent="start" display="flex" alignItems="start" py={5}>
           <Button
             onClick={() => {
               append({ exceptions: "exceptions" });
             }}
+            variant="secondaryWeno"
+            size="navBarCTA"
           >
-            Add exceptions
+            Add {fields.length > 0 ? "another" : "an"} exception
           </Button>
 
           {fields.map((field, index) => (
@@ -129,7 +131,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({ control, watch }) => {
               )}
             />
           ))}
-        </>
+        </VStack>
       )}
     </VStack>
   );
