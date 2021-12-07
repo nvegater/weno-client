@@ -161,7 +161,11 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                 </FormLabel>
                 <Input
                   type="number"
-                  placeholder={setAutoDuration ? "disabled" : "e.g. 60"}
+                  placeholder={
+                    setAutoDuration
+                      ? "Select Start & End to display duration"
+                      : "e.g. 60"
+                  }
                   onChange={field.onChange}
                   name={field.name}
                   value={field.value}
