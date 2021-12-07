@@ -23,6 +23,9 @@ interface CreateExperienceProps {
   contextHeader: ContextHeader;
 }
 
+export const oneTime = "One Time";
+export const recurrent = "Periodic";
+
 export const CreateExperience: FC<CreateExperienceProps> = ({
   winery,
   contextHeader,
@@ -33,6 +36,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     watch,
     handleSubmit,
     control,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm({ mode: "onTouched" });
   console.log(winery, contextHeader);
@@ -126,7 +130,9 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     },
     {
       title: "Dates and frequency",
-      content: <DateTimeForm control={control} watch={watch} />,
+      content: (
+        <DateTimeForm control={control} watch={watch} setValue={setValue} />
+      ),
     },
     {
       title: "Images",

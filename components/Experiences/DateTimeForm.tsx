@@ -1,8 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import {
   Control,
   Controller,
   useFieldArray,
+  UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
 import RadioGroup from "../Radio/RadioGroup";
@@ -13,8 +14,11 @@ import {
   FormErrorMessage,
   FormLabel,
   HStack,
+  Input,
   VStack,
 } from "@chakra-ui/react";
+import { oneTime, recurrent } from "./CreateExperience";
+import { differenceInMinutes } from "date-fns";
 
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
 
@@ -32,21 +36,36 @@ type DateTimeFormSubmitProps = {
 interface DateTimeFormProps {
   control: Control<any>;
   watch: UseFormWatch<any>;
+  setValue: UseFormSetValue<any>;
 }
 
-export const DateTimeForm: FC<DateTimeFormProps> = ({ control, watch }) => {
+export const DateTimeForm: FC<DateTimeFormProps> = ({
+  control,
+  watch,
+  setValue,
+}) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "exceptions",
   });
-  const watchPeriodic = watch("isPeriodic", "One Time");
+  const watchPeriodic = watch("isPeriodic", oneTime);
+  const watchEndDate = watch("startDateTime");
+  const watchStartDate = watch("endDateTime");
+
+  const disableDuration = watchPeriodic === oneTime;
+  useEffect(() => {
+    if (disableDuration) {
+      const diff = differenceInMinutes(watchStartDate, watchEndDate);
+      setValue("durationInMinutes", diff);
+    }
+  }, [watchStartDate, watchEndDate, disableDuration, setValue]);
   return (
     <VStack justifyContent="start" display="flex" alignItems="start">
       <RadioGroup
         control={control}
         name="isPeriodic"
         label="Recurrent"
-        elements={[{ name: "One Time" }, { name: "Periodic" }]}
+        elements={[{ name: oneTime }, { name: recurrent }]}
       />
       <HStack>
         <Controller
@@ -95,8 +114,43 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({ control, watch }) => {
           )}
         />
       </HStack>
+      <Controller
+        control={control}
+        name="durationInMinutes"
+        defaultValue={0}
+        rules={{
+          required: { value: true, message: "You need a duration" },
+          max: { value: 100000, message: "Your event is too long." },
+          min: { value: 1, message: "Thats not a valid duration" },
+        }}
+        render={({ field, fieldState }) => {
+          console.log(field.value);
+          return (
+            <FormControl
+              isInvalid={Boolean(fieldState.error)}
+              isRequired={true}
+            >
+              <FormLabel htmlFor="durationInMinutes">
+                Duration in minutes
+              </FormLabel>
+              <Input
+                type="number"
+                placeholder="e.g. 60"
+                onChange={field.onChange}
+                name={field.name}
+                value={field.value}
+                ref={field.ref}
+                isReadOnly={disableDuration}
+              />
+              <FormErrorMessage>
+                {fieldState.error && fieldState.error.message}
+              </FormErrorMessage>
+            </FormControl>
+          );
+        }}
+      />
 
-      {watchPeriodic === "Periodic" && (
+      {watchPeriodic === recurrent && (
         <VStack justifyContent="start" display="flex" alignItems="start" py={5}>
           <Button
             onClick={() => {
