@@ -3,6 +3,7 @@ import {
   Control,
   Controller,
   useFieldArray,
+  UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
 } from "react-hook-form";
@@ -10,6 +11,7 @@ import RadioGroup from "../Radio/RadioGroup";
 import { DateTimePickerWeno } from "../DateTimePicker/DateTimePickerWeno";
 import {
   Button,
+  Checkbox,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -19,8 +21,10 @@ import {
 } from "@chakra-ui/react";
 import { allDay, oneTime, recurrent } from "./CreateExperience";
 import { differenceInMinutes } from "date-fns";
+import { weekdaysReverseMapping } from "../RegisterWinery/utils";
 
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
+const weekdaysArray: WeekdayStr[] = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
 
 type DateTimeFormSubmitProps = {
   startDateTime: Date;
@@ -37,12 +41,14 @@ interface DateTimeFormProps {
   control: Control<any>;
   watch: UseFormWatch<any>;
   setValue: UseFormSetValue<any>;
+  register: UseFormRegister<any>;
 }
 
 export const DateTimeForm: FC<DateTimeFormProps> = ({
   control,
   watch,
   setValue,
+  register,
 }) => {
   const { fields, append, remove } = useFieldArray({
     control,
@@ -217,6 +223,26 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               )}
             />
           ))}
+        </VStack>
+      )}
+      {enable__Exceptions__messages_Recurrent__dateFormat_inverted && (
+        <VStack spacing="24px" mb={8}>
+          <FormControl>
+            <FormLabel htmlFor="exceptionDays" fontWeight="bold">
+              Not this days
+            </FormLabel>
+            <VStack justifyContent="start" alignItems="start">
+              {weekdaysArray.map((wd, index) => (
+                <Checkbox
+                  key={`exceptionDays.${index}`}
+                  value={wd}
+                  {...register(`exceptionDays.${index}`)}
+                >
+                  {weekdaysReverseMapping(wd)}
+                </Checkbox>
+              ))}
+            </VStack>
+          </FormControl>
         </VStack>
       )}
     </VStack>

@@ -44,6 +44,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
   const onSubmit = async (data) => {
     // TODO convert event type value to Backend Enum
     // TODO convert periodic field to enum
+    // TODO remove "False" from the Weekday enum
     console.log(data);
   };
 
@@ -132,7 +133,12 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     {
       title: "Dates and frequency",
       content: (
-        <DateTimeForm control={control} watch={watch} setValue={setValue} />
+        <DateTimeForm
+          control={control}
+          watch={watch}
+          setValue={setValue}
+          register={register}
+        />
       ),
     },
     {
