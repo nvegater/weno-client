@@ -17,7 +17,7 @@ import {
   Input,
   VStack,
 } from "@chakra-ui/react";
-import { oneTime, recurrent } from "./CreateExperience";
+import { allDay, oneTime, recurrent } from "./CreateExperience";
 import { differenceInMinutes } from "date-fns";
 
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
@@ -52,20 +52,34 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   const watchEndDate = watch("startDateTime");
   const watchStartDate = watch("endDateTime");
 
-  const disableDuration = watchPeriodic === oneTime;
+  const enable__Exceptions__messages_Recurrent__dateFormat_inverted =
+    watchPeriodic === recurrent;
+  const setAutoDuration = watchPeriodic === oneTime;
+  const disable__Duration_StartTime_EndDateTime__setAutoDuration =
+    watchPeriodic === allDay;
+
   useEffect(() => {
-    if (disableDuration) {
+    if (setAutoDuration) {
       const diff = differenceInMinutes(watchStartDate, watchEndDate);
       setValue("durationInMinutes", diff);
     }
-  }, [watchStartDate, watchEndDate, disableDuration, setValue]);
+    if (disable__Duration_StartTime_EndDateTime__setAutoDuration) {
+      setValue("durationInMinutes", 24 * 60);
+    }
+  }, [
+    watchStartDate,
+    watchEndDate,
+    setAutoDuration,
+    setValue,
+    disable__Duration_StartTime_EndDateTime__setAutoDuration,
+  ]);
   return (
     <VStack justifyContent="start" display="flex" alignItems="start">
       <RadioGroup
         control={control}
         name="isPeriodic"
         label="Recurrent"
-        elements={[{ name: oneTime }, { name: recurrent }]}
+        elements={[{ name: oneTime }, { name: recurrent }, { name: allDay }]}
       />
       <HStack>
         <Controller
@@ -84,6 +98,9 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                 onDateTimeSelection={(date) => {
                   field.onChange(date);
                 }}
+                onlyDate={
+                  disable__Duration_StartTime_EndDateTime__setAutoDuration
+                }
               />
               <FormErrorMessage>
                 {fieldState.error && fieldState.error.message}
@@ -92,65 +109,75 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
           )}
         />
 
+        {!disable__Duration_StartTime_EndDateTime__setAutoDuration && (
+          <Controller
+            control={control}
+            name="endDateTime"
+            rules={{
+              required: { value: true, message: "You need an end date" },
+            }}
+            render={({ field, fieldState }) => (
+              <FormControl
+                isRequired={true}
+                isInvalid={Boolean(fieldState.error)}
+              >
+                <FormLabel htmlFor="endDateTime">End</FormLabel>
+                <DateTimePickerWeno
+                  onDateTimeSelection={(date) => {
+                    field.onChange(date);
+                  }}
+                  endDatePeriodic={
+                    enable__Exceptions__messages_Recurrent__dateFormat_inverted
+                  }
+                />
+                <FormErrorMessage>
+                  {fieldState.error && fieldState.error.message}
+                </FormErrorMessage>
+              </FormControl>
+            )}
+          />
+        )}
+      </HStack>
+      {!disable__Duration_StartTime_EndDateTime__setAutoDuration && (
         <Controller
           control={control}
-          name="endDateTime"
-          rules={{ required: { value: true, message: "You need an end date" } }}
-          render={({ field, fieldState }) => (
-            <FormControl
-              isRequired={true}
-              isInvalid={Boolean(fieldState.error)}
-            >
-              <FormLabel htmlFor="endDateTime">End</FormLabel>
-              <DateTimePickerWeno
-                onDateTimeSelection={(date) => {
-                  field.onChange(date);
-                }}
-              />
-              <FormErrorMessage>
-                {fieldState.error && fieldState.error.message}
-              </FormErrorMessage>
-            </FormControl>
-          )}
+          name="durationInMinutes"
+          defaultValue={0}
+          rules={{
+            required: { value: true, message: "You need a duration" },
+            max: { value: 100000, message: "Your event is too long." },
+            min: { value: 1, message: "Thats not a valid duration" },
+          }}
+          render={({ field, fieldState }) => {
+            return (
+              <FormControl
+                isInvalid={Boolean(fieldState.error)}
+                isRequired={true}
+              >
+                <FormLabel htmlFor="durationInMinutes">
+                  {enable__Exceptions__messages_Recurrent__dateFormat_inverted
+                    ? "Duration in minutes (for each event)"
+                    : "Duration in minutes"}
+                </FormLabel>
+                <Input
+                  type="number"
+                  placeholder={setAutoDuration ? "disabled" : "e.g. 60"}
+                  onChange={field.onChange}
+                  name={field.name}
+                  value={field.value}
+                  ref={field.ref}
+                  isReadOnly={setAutoDuration}
+                />
+                <FormErrorMessage>
+                  {fieldState.error && fieldState.error.message}
+                </FormErrorMessage>
+              </FormControl>
+            );
+          }}
         />
-      </HStack>
-      <Controller
-        control={control}
-        name="durationInMinutes"
-        defaultValue={0}
-        rules={{
-          required: { value: true, message: "You need a duration" },
-          max: { value: 100000, message: "Your event is too long." },
-          min: { value: 1, message: "Thats not a valid duration" },
-        }}
-        render={({ field, fieldState }) => {
-          console.log(field.value);
-          return (
-            <FormControl
-              isInvalid={Boolean(fieldState.error)}
-              isRequired={true}
-            >
-              <FormLabel htmlFor="durationInMinutes">
-                Duration in minutes
-              </FormLabel>
-              <Input
-                type="number"
-                placeholder="e.g. 60"
-                onChange={field.onChange}
-                name={field.name}
-                value={field.value}
-                ref={field.ref}
-                isReadOnly={disableDuration}
-              />
-              <FormErrorMessage>
-                {fieldState.error && fieldState.error.message}
-              </FormErrorMessage>
-            </FormControl>
-          );
-        }}
-      />
+      )}
 
-      {watchPeriodic === recurrent && (
+      {enable__Exceptions__messages_Recurrent__dateFormat_inverted && (
         <VStack justifyContent="start" display="flex" alignItems="start" py={5}>
           <Button
             onClick={() => {
@@ -173,6 +200,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                     onDateTimeSelection={(date) => {
                       field.onChange(date);
                     }}
+                    onlyDate={true}
                   />
                   <Button
                     onClick={() => {

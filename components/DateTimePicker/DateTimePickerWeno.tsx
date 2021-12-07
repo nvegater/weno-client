@@ -5,15 +5,28 @@ import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
 interface DateTimePickerProps {
   onDateTimeSelection?: (date: Date) => void;
   initialDate?: Date;
+  onlyDate?: boolean;
+  endDatePeriodic?: boolean;
 }
 
 export const DateTimePickerWeno: FC<DateTimePickerProps> = ({
   onDateTimeSelection,
   initialDate,
+  onlyDate = false,
+  endDatePeriodic = false,
 }) => {
   const [dateValue, setDateValue] = useState<Date>(
     initialDate ? initialDate : undefined
   );
+
+  let format: string | undefined;
+
+  if (onlyDate) {
+    format = "dd/MM/yy";
+  }
+  if (endDatePeriodic) {
+    format = "H:mm dd/MM/yy";
+  }
 
   return (
     <DateTimePicker
@@ -24,6 +37,7 @@ export const DateTimePickerWeno: FC<DateTimePickerProps> = ({
       }}
       value={dateValue}
       disableClock={true}
+      format={format}
     />
   );
 };

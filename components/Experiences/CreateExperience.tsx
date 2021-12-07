@@ -25,6 +25,7 @@ interface CreateExperienceProps {
 
 export const oneTime = "One Time";
 export const recurrent = "Periodic";
+export const allDay = "All day";
 
 export const CreateExperience: FC<CreateExperienceProps> = ({
   winery,
