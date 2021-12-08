@@ -12,7 +12,7 @@ export interface Link {
 }
 
 export const links: Link[] = [
-  { label: "Home", href: "#" },
+  { label: "home", href: "#" },
   {
     label: "Experiences",
     href: "#",

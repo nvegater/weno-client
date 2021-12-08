@@ -18,6 +18,7 @@ import { BiLogOut } from "react-icons/bi";
 import { Weno } from "../Hero/Brands";
 import Link from "next/link";
 import { KeycloakLoginOptions } from "keycloak-js";
+import { useTranslation } from "react-i18next";
 
 const LogoText = (
   <Text
@@ -52,6 +53,7 @@ interface LogoutButtonProps {
 }
 
 const LoginButton = ({ loginFn, isNavBar = false }: LoginButtonProps) => {
+  const [t] = useTranslation("global");
   return (
     <Button
       leftIcon={<RiLoginCircleFill />}
@@ -63,12 +65,13 @@ const LoginButton = ({ loginFn, isNavBar = false }: LoginButtonProps) => {
         loginFn({ redirectUri: redirectUri });
       }}
     >
-      Login
+      {t("logIn")}
     </Button>
   );
 };
 
 const LogoutButton = ({ logoutFn, isNavBar = false }: LogoutButtonProps) => {
+  const [t] = useTranslation("global");
   return (
     <Button
       leftIcon={<BiLogOut />}
@@ -78,7 +81,7 @@ const LogoutButton = ({ logoutFn, isNavBar = false }: LogoutButtonProps) => {
         logoutFn();
       }}
     >
-      Logout
+      {t("logOut")}
     </Button>
   );
 };

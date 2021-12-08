@@ -6,6 +6,7 @@ import { Link } from "./_data";
 import { NavLink } from "./NavLink";
 import { NavMenu } from "./NavMenu";
 import { SubmenuItem as DesktopMenuItem } from "./SubmenuItem";
+import { useTranslation } from "react-i18next";
 
 interface SubmenuProps {
   link: Link;
@@ -14,6 +15,7 @@ interface SubmenuProps {
 const DesktopSubmenu = (props: SubmenuProps) => {
   const { link } = props;
   const { isOpen, getMenuProps, getTriggerProps } = useNavMenu();
+  const [t] = useTranslation("global");
   return (
     <>
       <NavLink.Desktop
@@ -35,7 +37,7 @@ const DesktopSubmenu = (props: SubmenuProps) => {
             {link.children?.map((item, idx) => (
               <DesktopMenuItem
                 key={idx}
-                title={item.label}
+                title={t(item.label)}
                 href={item.href}
                 icon={item.icon}
               >
@@ -52,6 +54,7 @@ const DesktopSubmenu = (props: SubmenuProps) => {
 const MobileSubMenu = (props: SubmenuProps) => {
   const { link } = props;
   const { isOpen, onToggle } = useDisclosure();
+  const [t] = useTranslation("global");
 
   return (
     <Box>
@@ -73,7 +76,7 @@ const MobileSubMenu = (props: SubmenuProps) => {
         <Box pl="5" textAlign="start" display="flex" justifyContent="start">
           {link.children?.map((item, idx) => (
             <NavLink.Mobile key={idx} href={item.href}>
-              {item.label}
+              {t(item.label)}
             </NavLink.Mobile>
           ))}
         </Box>

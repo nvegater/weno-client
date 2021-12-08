@@ -7,6 +7,11 @@ import { SSRCookies, SSRKeycloakProvider } from "@react-keycloak/ssr";
 import { KeycloakConfig } from "keycloak-js";
 import React from "react";
 
+import { I18nextProvider } from "react-i18next";
+import i18next from "i18next";
+import esLang from "../public/locales/es/common.json";
+import enLang from "../public/locales/en/common.json";
+
 import "../components/DateTimePicker/Clock.css";
 import "../components/DateTimePicker/DateTimePicker.css";
 import "../components/DateTimePicker/Calendar.css";
@@ -21,6 +26,19 @@ const keycloakCfg: KeycloakConfig = {
   clientId: "weno-frontend",
 };
 
+i18next.init({
+  interpolation: { escapeValue: false },
+  lng: "es",
+  resources: {
+    es: {
+      global: esLang,
+    },
+    en: {
+      global: enLang,
+    },
+  },
+});
+
 function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   const keycloakConfig = {
     persistor: SSRCookies(cookies),
@@ -31,8 +49,10 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   return (
     <SSRKeycloakProvider {...keycloakConfig}>
       <ChakraProvider theme={theme}>
-        <Fonts />
-        <Component {...pageProps} />
+        <I18nextProvider i18n={i18next}>
+          <Fonts />
+          <Component {...pageProps} />
+        </I18nextProvider>
       </ChakraProvider>
     </SSRKeycloakProvider>
   );

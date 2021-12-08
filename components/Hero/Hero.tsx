@@ -12,9 +12,11 @@ import * as Logos from "./Brands";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { KeycloakInstance } from "keycloak-js";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 export const Hero = () => {
   const { keycloak, initialized } = useKeycloak<KeycloakInstance>();
+  const [t] = useTranslation("global");
 
   return (
     <Box>
@@ -41,7 +43,7 @@ export const Hero = () => {
               lineHeight="1.2"
               letterSpacing="tight"
             >
-              Just enjoy Enoturism
+              {t("homeHeading")}
             </Heading>
             <Text
               fontSize="xl"
@@ -50,7 +52,7 @@ export const Hero = () => {
               mx="auto"
               fontFamily="GothamText"
             >
-              Weno is made for wine lovers & growers
+              {t("homeDescription")}
             </Text>
           </Box>
 
@@ -73,10 +75,10 @@ export const Hero = () => {
                 }
               }}
             >
-              Register
+              {t("register")}
             </Button>
             <Button variant="secondaryWeno" size="heroWeno">
-              <Link href="/subscriptions">Offer experiences</Link>
+              <Link href="/subscriptions">{t("subscription")}</Link>
             </Button>
           </Stack>
         </Box>
@@ -96,7 +98,7 @@ export const Hero = () => {
             letterSpacing="wide"
             color={mode("gray.600", "gray.400")}
           >
-            Trusted by over 6,000 blues
+            {t("footerHeading")}
           </Text>
           <SimpleGrid
             mt="8"

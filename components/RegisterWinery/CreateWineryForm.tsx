@@ -33,6 +33,7 @@ import { ContextHeader } from "../Authentication/useAuth";
 import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorMessage } from "@hookform/error-message";
 import RadioGroup from "../Radio/RadioGroup";
+import { useTranslation } from "react-i18next";
 
 interface CreateWineryFormProps {
   username: string;
@@ -75,6 +76,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   } = useForm({ mode: "onTouched" });
 
   const [, createWinery] = useCreateWineryMutation();
+  const [t] = useTranslation("global");
 
   const onSubmit = async (data) => {
     const correctedValues = {
@@ -109,13 +111,13 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
 
   const formSteps: Step[] = [
     {
-      title: "General",
+      title: t("general"),
       content: (
         <VStack spacing="24px" mt={4} mb={8}>
           <FormControl isInvalid={errors.name}>
             <Input
               type="text"
-              placeholder="Winery Name"
+              placeholder={t("wineryName")}
               {...register("name", {
                 required: "Please enter the name of your winery",
                 minLength: 3,
