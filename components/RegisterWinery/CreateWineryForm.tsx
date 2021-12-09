@@ -132,7 +132,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
           <FormControl isInvalid={errors.description}>
             <Textarea
               type="text"
-              placeholder="How would you describe your winery..."
+              placeholder={t("wineryDescription")}
               {...register("description", {
                 required: "Please enter a description",
                 minLength: {
@@ -157,11 +157,11 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
                   required: "Please enter an alias",
                   minLength: {
                     value: 6,
-                    message: "Please enter at least 5 characters",
+                    message: t("minAlias"),
                   },
                   maxLength: {
                     value: 12,
-                    message: "No more than 12 characters",
+                    message: t("maxAlias"),
                   },
                 })}
               />
@@ -173,14 +173,14 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
 
           <FormControl isInvalid={errors.yearlyWineProduction}>
             <FormLabel htmlFor="yearlyWineProduction">
-              Yearly wine production
+              {t("yearlyProduction")}
             </FormLabel>
             <Input
               type="number"
-              placeholder="How many Liters per year"
+              placeholder={t("litersPerYear")}
               {...register("yearlyWineProduction", {
                 valueAsNumber: true,
-                max: { value: 1000000, message: "That's a lot of wine" },
+                max: { value: 1000000, message: t("yearlyProductionMessage") },
               })}
             />
             <FormErrorMessage>
@@ -189,14 +189,16 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={errors.foundationYear}>
-            <FormLabel htmlFor="foundationYear">Foundation year</FormLabel>
+            <FormLabel htmlFor="foundationYear">
+              {t("foundationYear")}
+            </FormLabel>
             <Input
               type="number"
               placeholder="e.g. 1992"
               {...register("foundationYear", {
                 valueAsNumber: true,
-                max: { value: 2022, message: "Invalid date" },
-                min: { value: 0, message: "Thats too old to be true" },
+                max: { value: 2022, message: t("lateDate") },
+                min: { value: 0, message: t("earlyDate") },
               })}
             />
             <FormErrorMessage>
@@ -207,19 +209,19 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       ),
     },
     {
-      title: "Location",
+      title: t("location"),
       content: (
         <VStack spacing="24px" mt={4} mb={8}>
           <FormControl>
-            <FormLabel htmlFor="googleMapsUrl">Location</FormLabel>
+            <FormLabel htmlFor="googleMapsUrl">{t("location")}</FormLabel>
             <Input
               type="text"
-              placeholder="Google maps link"
+              placeholder={t("urlMapBox")}
               {...register("googleMapsUrl")}
             />
           </FormControl>
           <FormControl>
-            <FormLabel htmlFor="valley">Valley</FormLabel>
+            <FormLabel htmlFor="valley">{t("valley")}</FormLabel>
             <Select selected={Valley.Ensenada} {...register("valley")}>
               {Object.values(Valley).map((valley) => (
                 <option key={valley} value={valley}>
@@ -232,12 +234,12 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       ),
     },
     {
-      title: "Production types",
+      title: t("productionType"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
             <FormLabel htmlFor="productionType" visibility="hidden">
-              Production type
+              {t("productionType")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {Object.values(ProductionType).map((pt, index) => (
@@ -255,12 +257,12 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       ),
     },
     {
-      title: "Wine types",
+      title: t("wineType"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
             <FormLabel htmlFor="wineType" visibility="hidden">
-              Wine type
+              {t("wineType")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {Object.values(TypeWine).map((tw, index) => (
@@ -278,14 +280,14 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       ),
     },
     {
-      title: "COVID-19",
+      title: t("covid19"),
       content: (
         <FormControl mb={8}>
           <FormLabel htmlFor="covidLabel" visibility="hidden">
-            COVID-19
+            {t("covid19")}
           </FormLabel>
           <Checkbox {...register(`covidLabel`)}>
-            Hygiene measures are in place
+            {t("covid19Checkbox")}
           </Checkbox>
           <Text>
             Read more{" "}
@@ -302,16 +304,16 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       ),
     },
     {
-      title: "Subscriptions",
+      title: t("subscription"),
       content: (
         <RadioGroup
           control={control}
           name="subscription"
-          label="Subscription"
+          label={t("subscription")}
           elements={[
-            { name: "Basic" },
-            { name: "Intermediate" },
-            { name: "Premium" },
+            { name: t("basicSubscription") },
+            { name: t("intermediateSubscription") },
+            { name: t("premiumSubscription") },
           ]}
           isRequired
         />
@@ -321,7 +323,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
 
   return (
     <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
-      <Heading mb={8}>Your Winery</Heading>
+      <Heading mb={8}>{t("yourWinery")}</Heading>
       <Box mb={"3em"}>
         <VerticalSteps steps={formSteps} isLoading={false} />
       </Box>
@@ -339,7 +341,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
         mt={"3em"}
         disabled={isSubmitting}
       >
-        Submit
+        {t("submit")}
       </Button>
     </VStack>
   );

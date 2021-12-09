@@ -78,7 +78,7 @@ export const Hero = () => {
               {t("register")}
             </Button>
             <Button variant="secondaryWeno" size="heroWeno">
-              <Link href="/subscriptions">{t("subscription")}</Link>
+              <Link href="/subscriptions">{t("subscribe")}</Link>
             </Button>
           </Stack>
         </Box>

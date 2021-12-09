@@ -5,6 +5,7 @@ import { Step } from "./Step";
 import { StepContent } from "./StepContent";
 import { Steps } from "./Steps";
 import { useSteps } from "./useSteps";
+import { useTranslation } from "react-i18next";
 
 export interface Step {
   title: string;
@@ -25,6 +26,7 @@ export const VerticalSteps: FC<VerticalStepsProps> = ({
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
+  const [t] = useTranslation("global");
 
   return (
     <Box minH="400px" minW="400px">
@@ -44,16 +46,16 @@ export const VerticalSteps: FC<VerticalStepsProps> = ({
                       isLoading={isLoading}
                       mr={5}
                     >
-                      Save
+                      {t("save")}
                     </Button>
                   )}
                   {index !== 0 && (
                     <Button size="sm" variant="ghost" onClick={prevStep}>
-                      Back
+                      {t("back")}
                     </Button>
                   )}
                   <Button size="sm" onClick={nextStep}>
-                    Next
+                    {t("next")}
                   </Button>
                 </HStack>
               </Stack>
@@ -67,14 +69,14 @@ export const VerticalSteps: FC<VerticalStepsProps> = ({
         spacing="4"
         shouldWrapChildren
       >
-        <Text>Completed steps</Text>
+        <Text>{t("completedSteps")}</Text>
         <Button
           size="sm"
           onClick={reset}
           variant="outline"
           verticalAlign="baseline"
         >
-          Reset
+          {t("reset")}
         </Button>
         {withSave && (
           <Button
@@ -85,7 +87,7 @@ export const VerticalSteps: FC<VerticalStepsProps> = ({
             isLoading={isLoading}
             mr={5}
           >
-            Save
+            {t("save")}
           </Button>
         )}
       </HStack>
