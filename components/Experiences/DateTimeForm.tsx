@@ -26,6 +26,7 @@ import {
   ModalOverlay,
   useDisclosure,
   VStack,
+  Text,
 } from "@chakra-ui/react";
 import { allDay, oneTime, recurrent } from "./CreateExperience";
 import { differenceInMinutes } from "date-fns";
@@ -33,6 +34,7 @@ import { weekdaysReverseMapping } from "../RegisterWinery/utils";
 import { useRecurrentDatesQuery } from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
 import { SampleDates } from "./SampleDates";
+import { BsFillEyeFill } from "react-icons/bs";
 
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
 const weekdaysArray: WeekdayStr[] = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
@@ -219,7 +221,13 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
       )}
 
       {enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion && (
-        <VStack justifyContent="start" display="flex" alignItems="start" py={5}>
+        <VStack
+          justifyContent="start"
+          display="flex"
+          alignItems="start"
+          py={5}
+          spacing={8}
+        >
           <Button
             onClick={() => {
               append({ exceptions: "exceptions" });
@@ -229,18 +237,6 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
           >
             Add {fields.length > 0 ? "another" : "an"} exception
           </Button>
-          <Button
-            onClick={() => {
-              setFetchRecurrentDates(true);
-              onOpen();
-            }}
-            isLoading={fetching}
-            variant="secondaryWeno"
-            size="navBarCTA"
-          >
-            Preview Dates
-          </Button>
-
           {fields.map((field, index) => (
             <Controller
               key={field.id}
@@ -265,13 +261,10 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               )}
             />
           ))}
-        </VStack>
-      )}
-      {enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion && (
-        <VStack spacing="24px" mb={8}>
+
           <FormControl>
             <FormLabel htmlFor="exceptionDays" fontWeight="bold">
-              Not this days
+              Exclude this days
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {weekdaysArray.map((wd, index) => (
@@ -285,6 +278,18 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               ))}
             </VStack>
           </FormControl>
+          <Button
+            onClick={() => {
+              setFetchRecurrentDates(true);
+              onOpen();
+            }}
+            isLoading={fetching}
+            variant="secondaryWeno"
+            size="heroWeno"
+            rightIcon={<BsFillEyeFill />}
+          >
+            Preview Dates
+          </Button>
         </VStack>
       )}
 
@@ -301,7 +306,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                   datesWithTimes={recDatesQuery.recurrentDates.dateWithTimes}
                 />
               )}
-            {error && <>Error calculating recurrence {JSON.stringify(error)}</>}
+            {error && <Text>Select a valid date</Text>}
           </ModalBody>
 
           <ModalFooter>
