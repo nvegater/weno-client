@@ -43,6 +43,16 @@ export type CreateCustomerInputs = {
   paymentMetadata: PaymentMetadataInputs;
 };
 
+export type CreateRecurrentDatesInputs = {
+  startDate: Scalars['DateTime'];
+  endDate: Scalars['DateTime'];
+  durationInMinutes: Scalars['Float'];
+  typeOfEvent?: Maybe<Scalars['String']>;
+  customDates?: Maybe<Array<Scalars['DateTime']>>;
+  exceptions?: Maybe<Array<Scalars['DateTime']>>;
+  exceptionDays?: Maybe<Array<Scalars['String']>>;
+};
+
 export type CreateWineryInputs = {
   name: Scalars['String'];
   description: Scalars['String'];
@@ -235,7 +245,7 @@ export type ProductsResponse = {
 };
 
 export type Query = {
-  allExperiences: Scalars['Int'];
+  recurrentDates: RecurrenceResponse;
   allPictures: Scalars['Int'];
   allReservations: Scalars['Int'];
   allWineries: Scalars['Int'];
@@ -243,6 +253,11 @@ export type Query = {
   getSubscriptionProducts: ProductsResponse;
   getCheckoutSessionStatus: CheckoutSessionResponse;
   getSubscriptionStatus: Scalars['String'];
+};
+
+
+export type QueryRecurrentDatesArgs = {
+  createRecurrentDatesInputs: CreateRecurrentDatesInputs;
 };
 
 
@@ -258,6 +273,12 @@ export type QueryGetCheckoutSessionStatusArgs = {
 
 export type QueryGetSubscriptionStatusArgs = {
   customerId: Scalars['String'];
+};
+
+export type RecurrenceResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  utcDates?: Maybe<Array<Scalars['String']>>;
+  dates?: Maybe<Array<Scalars['String']>>;
 };
 
 export type Reservation = {
@@ -409,6 +430,13 @@ export type WineryOnboardingMutationVariables = Exact<{
 
 
 export type WineryOnboardingMutation = { wineryOnboarding: { accountLinkUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
+
+export type RecurrentDatesQueryVariables = Exact<{
+  createRecurrentDatesInputs: CreateRecurrentDatesInputs;
+}>;
+
+
+export type RecurrentDatesQuery = { recurrentDates: { utcDates?: Array<string> | null | undefined, dates?: Array<string> | null | undefined, errors?: Array<{ field: string }> | null | undefined } };
 
 export type GetSubscriptionStatusQueryVariables = Exact<{
   customerId: Scalars['String'];
@@ -564,6 +592,21 @@ export const WineryOnboardingDocument = gql`
 
 export function useWineryOnboardingMutation() {
   return Urql.useMutation<WineryOnboardingMutation, WineryOnboardingMutationVariables>(WineryOnboardingDocument);
+};
+export const RecurrentDatesDocument = gql`
+    query RecurrentDates($createRecurrentDatesInputs: CreateRecurrentDatesInputs!) {
+  recurrentDates(createRecurrentDatesInputs: $createRecurrentDatesInputs) {
+    utcDates
+    dates
+    errors {
+      field
+    }
+  }
+}
+    `;
+
+export function useRecurrentDatesQuery(options: Omit<Urql.UseQueryArgs<RecurrentDatesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<RecurrentDatesQuery>({ query: RecurrentDatesDocument, ...options });
 };
 export const GetSubscriptionStatusDocument = gql`
     query GetSubscriptionStatus($customerId: String!) {

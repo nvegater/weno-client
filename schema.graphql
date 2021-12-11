@@ -100,14 +100,22 @@ type ProductsResponse {
 }
 
 type Query {
-  allExperiences: Int!
   allPictures: Int!
   allReservations: Int!
   allWineries: Int!
   getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
   getSubscriptionProducts: ProductsResponse!
   getSubscriptionStatus(customerId: String!): String!
+  recurrentDates(
+    createRecurrentDatesInputs: CreateRecurrentDatesInputs!
+  ): RecurrenceResponse!
   winery(getWineryInputs: GetWineryInputs!): WineryResponse!
+}
+
+type RecurrenceResponse {
+  dates: [String!]
+  errors: [FieldError!]
+  utcDates: [String!]
 }
 
 type Reservation {
@@ -308,6 +316,16 @@ enum Valley {
 input CreateCustomerInputs {
   email: String!
   paymentMetadata: PaymentMetadataInputs!
+}
+
+input CreateRecurrentDatesInputs {
+  customDates: [DateTime!]
+  durationInMinutes: Float!
+  endDate: DateTime!
+  exceptionDays: [String!]
+  exceptions: [DateTime!]
+  startDate: DateTime!
+  typeOfEvent: String
 }
 
 input CreateWineryInputs {
