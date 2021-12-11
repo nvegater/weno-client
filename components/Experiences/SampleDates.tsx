@@ -8,17 +8,10 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
-import { CombinedError } from "urql";
+import { DateWithTimesFragment } from "../../graphql/generated/graphql";
 
 interface SampleDatesProps {
-  dates: string[];
-  utcDates: string[];
-  error: CombinedError;
-}
-
-interface DateWithTimes {
-  date: Date;
-  times: Date[];
+  datesWithTimes: DateWithTimesFragment[];
 }
 
 function formatDateTime(date: Date) {
@@ -34,69 +27,30 @@ function formatDate(date: Date) {
   });
 }
 
-const getTimesForDate = (
-  onlyDate: Date,
-  allCompleteDateTimes: Date[]
-): Date[] => {
-  return allCompleteDateTimes.filter((dateTime) => {
-    const sameYear = dateTime.getFullYear() === onlyDate.getFullYear();
-    const sameMonth = onlyDate.getMonth() === dateTime.getMonth();
-    const sameDate = dateTime.getDate() === onlyDate.getDate();
-    return sameYear && sameMonth && sameDate;
-  });
-};
-
-export const SampleDates: FC<SampleDatesProps> = ({ dates, error }) => {
-  if (error) return <>Error calculating recurrence {JSON.stringify(error)}</>;
-  // convert to only Dates without time
-  const onlyDateNoTime = dates.map((date) => new Date(date).toDateString());
-
-  // filter out duplicates
-  const noDuplicateDates = new Set([...onlyDateNoTime]);
-
-  const printableDateTimes: DateWithTimes[] = [...noDuplicateDates].map(
-    (noDuplicateDate) => {
-      const dateIgnoreTime = new Date(noDuplicateDate);
-      return {
-        date: dateIgnoreTime,
-        times: getTimesForDate(
-          dateIgnoreTime,
-          dates.map((d) => new Date(d))
-        ),
-      };
-    }
-  );
-
+export const SampleDates: FC<SampleDatesProps> = ({ datesWithTimes }) => {
   return (
     <Accordion defaultIndex={[0]} allowMultiple>
-      {printableDateTimes.length > 0 &&
-        printableDateTimes.map((pDateTime, idx) => {
-          const formattedDate = formatDate(pDateTime.date);
-
-          return (
-            <AccordionItem key={idx}>
-              <h2>
-                <AccordionButton>
-                  <Box flex="1" textAlign="left">
-                    {formattedDate}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                {pDateTime.times.length > 0 &&
-                  pDateTime.times.map((time) => {
-                    const formattedTime = formatDateTime(time);
-                    return (
-                      <Text key={`${time}-${pDateTime.date}`}>
-                        {formattedTime} <br />
-                      </Text>
-                    );
-                  })}
-              </AccordionPanel>
-            </AccordionItem>
-          );
-        })}
+      {datesWithTimes.length > 0 &&
+        datesWithTimes.map((pDateTime, idx) => (
+          <AccordionItem key={idx}>
+            <h2>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  {formatDate(new Date(pDateTime.date))}
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel pb={4}>
+              {pDateTime.times.length > 0 &&
+                pDateTime.times.map((time) => (
+                  <Text key={`${time}-${pDateTime.date}`}>
+                    {formatDateTime(new Date(time))} <br />
+                  </Text>
+                ))}
+            </AccordionPanel>
+          </AccordionItem>
+        ))}
     </Accordion>
   );
 };

@@ -82,6 +82,11 @@ export type CustomerResponse = {
   customer?: Maybe<Customer>;
 };
 
+export type DateWithTimes = {
+  date: Scalars['DateTime'];
+  times: Array<Scalars['DateTime']>;
+};
+
 export type Experience = {
   id: Scalars['Int'];
   title: Scalars['String'];
@@ -277,8 +282,7 @@ export type QueryGetSubscriptionStatusArgs = {
 
 export type RecurrenceResponse = {
   errors?: Maybe<Array<FieldError>>;
-  utcDates?: Maybe<Array<Scalars['String']>>;
-  dates?: Maybe<Array<Scalars['String']>>;
+  dateWithTimes?: Maybe<Array<DateWithTimes>>;
 };
 
 export type Reservation = {
@@ -404,6 +408,8 @@ export type WineryResponse = {
   sessionUrl?: Maybe<Scalars['String']>;
 };
 
+export type DateWithTimesFragment = { date: any, times: Array<any> };
+
 export type ErrorFragmentFragment = { field: string, message: string };
 
 export type ExperienceFragmentFragment = { createdAt: any, description: string, endDateTime: any, eventType: ExperienceType, extraDates?: Array<string> | null | undefined, id: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, pricePerPersonInDollars: number, rRules?: Array<string> | null | undefined, startDateTime: any, title: string, updatedAt: any, wineryId: number };
@@ -436,7 +442,7 @@ export type RecurrentDatesQueryVariables = Exact<{
 }>;
 
 
-export type RecurrentDatesQuery = { recurrentDates: { utcDates?: Array<string> | null | undefined, dates?: Array<string> | null | undefined, errors?: Array<{ field: string }> | null | undefined } };
+export type RecurrentDatesQuery = { recurrentDates: { dateWithTimes?: Array<{ date: any, times: Array<any> }> | null | undefined, errors?: Array<{ field: string }> | null | undefined } };
 
 export type GetSubscriptionStatusQueryVariables = Exact<{
   customerId: Scalars['String'];
@@ -464,6 +470,12 @@ export type WineryQueryVariables = Exact<{
 
 export type WineryQuery = { winery: { errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined, experiences?: Array<{ createdAt: any, description: string, endDateTime: any, eventType: ExperienceType, extraDates?: Array<string> | null | undefined, id: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, pricePerPersonInDollars: number, rRules?: Array<string> | null | undefined, startDateTime: any, title: string, updatedAt: any, wineryId: number }> | null | undefined } | null | undefined } };
 
+export const DateWithTimesFragmentDoc = gql`
+    fragment DateWithTimes on DateWithTimes {
+  date
+  times
+}
+    `;
 export const ErrorFragmentFragmentDoc = gql`
     fragment ErrorFragment on FieldError {
   field
@@ -596,14 +608,15 @@ export function useWineryOnboardingMutation() {
 export const RecurrentDatesDocument = gql`
     query RecurrentDates($createRecurrentDatesInputs: CreateRecurrentDatesInputs!) {
   recurrentDates(createRecurrentDatesInputs: $createRecurrentDatesInputs) {
-    utcDates
-    dates
+    dateWithTimes {
+      ...DateWithTimes
+    }
     errors {
       field
     }
   }
 }
-    `;
+    ${DateWithTimesFragmentDoc}`;
 
 export function useRecurrentDatesQuery(options: Omit<Urql.UseQueryArgs<RecurrentDatesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<RecurrentDatesQuery>({ query: RecurrentDatesDocument, ...options });

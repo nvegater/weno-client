@@ -1,7 +1,8 @@
 query RecurrentDates($createRecurrentDatesInputs: CreateRecurrentDatesInputs!) {
   recurrentDates(createRecurrentDatesInputs: $createRecurrentDatesInputs) {
-    utcDates
-    dates
+    dateWithTimes {
+      ...DateWithTimes
+    }
     errors {
       field
     }

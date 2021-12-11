@@ -37,17 +37,6 @@ import { SampleDates } from "./SampleDates";
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
 const weekdaysArray: WeekdayStr[] = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
 
-type DateTimeFormSubmitProps = {
-  startDateTime: Date;
-  endDateTime: Date;
-  intervalInMinutes: number;
-  daysOfTheWeek: WeekdayStr[];
-  isPeriodic: boolean;
-  isSameDayRepetition: boolean;
-  customExcludedDates?: Date[];
-  customAddedDates?: Date[];
-};
-
 interface DateTimeFormProps {
   control: Control<any>;
   watch: UseFormWatch<any>;
@@ -240,6 +229,17 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
           >
             Add {fields.length > 0 ? "another" : "an"} exception
           </Button>
+          <Button
+            onClick={() => {
+              setFetchRecurrentDates(true);
+              onOpen();
+            }}
+            isLoading={fetching}
+            variant="secondaryWeno"
+            size="navBarCTA"
+          >
+            Preview Dates
+          </Button>
 
           {fields.map((field, index) => (
             <Controller
@@ -288,28 +288,20 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
         </VStack>
       )}
 
-      <Button
-        onClick={() => {
-          setFetchRecurrentDates(true);
-          onOpen();
-        }}
-      >
-        Preview Dates
-      </Button>
-
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Preview</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {recDatesQuery && !fetching && (
-              <SampleDates
-                dates={recDatesQuery.recurrentDates.dates}
-                utcDates={recDatesQuery.recurrentDates.utcDates}
-                error={error}
-              />
-            )}
+            {recDatesQuery &&
+              recDatesQuery.recurrentDates &&
+              recDatesQuery.recurrentDates && (
+                <SampleDates
+                  datesWithTimes={recDatesQuery.recurrentDates.dateWithTimes}
+                />
+              )}
+            {error && <>Error calculating recurrence {JSON.stringify(error)}</>}
           </ModalBody>
 
           <ModalFooter>
