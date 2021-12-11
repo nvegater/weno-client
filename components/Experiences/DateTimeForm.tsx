@@ -24,13 +24,16 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Text,
   useDisclosure,
   VStack,
-  Text,
 } from "@chakra-ui/react";
 import { allDay, oneTime, recurrent } from "./CreateExperience";
 import { differenceInMinutes } from "date-fns";
-import { weekdaysReverseMapping } from "../RegisterWinery/utils";
+import {
+  removeNonStringsFromArray,
+  weekdaysReverseMapping,
+} from "../RegisterWinery/utils";
 import { useRecurrentDatesQuery } from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
 import { SampleDates } from "./SampleDates";
@@ -54,9 +57,22 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   register,
   contextHeader,
 }) => {
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: customExceptionField,
+    append: appendException,
+    remove: removeException,
+  } = useFieldArray({
     control,
     name: "exceptions",
+  });
+
+  const {
+    fields: customDateField,
+    append: appendCustomDate,
+    remove: removeCustomDate,
+  } = useFieldArray({
+    control,
+    name: "customDates",
   });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -65,8 +81,9 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   const watchEndDate = watch("endDateTime");
   const watchStartDate = watch("startDateTime");
   const watchDuration = watch("durationInMinutes");
-  //const watchExceptions = watch("exceptions");
-  //const watchExceptionDays = watch("exceptionDays");
+  const watchCustomDates = watch("customDates");
+  const watchExceptions = watch("exceptions");
+  const watchExceptionDays = watch("exceptionDays");
 
   const enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion =
     watchPeriodic === recurrent;
@@ -101,6 +118,19 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
         startDate: startDateTime,
         endDate: endDateTime,
         durationInMinutes: parseInt(watchDuration),
+        customDates:
+          watchCustomDates && watchCustomDates.length > 0
+            ? watchCustomDates.map((d) => new Date(d.value))
+            : undefined,
+        exceptions:
+          watchExceptions && watchExceptions.length > 0
+            ? watchExceptions.map((d) => new Date(d.value))
+            : undefined,
+        exceptionDays:
+          watchExceptionDays &&
+          removeNonStringsFromArray(watchExceptionDays).length > 0
+            ? removeNonStringsFromArray(watchExceptionDays)
+            : undefined,
       },
     },
     context: contextHeader,
@@ -230,14 +260,48 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
         >
           <Button
             onClick={() => {
-              append({ exceptions: "exceptions" });
+              appendCustomDate({ customDates: "customDates" });
             }}
             variant="secondaryWeno"
             size="navBarCTA"
           >
-            Add {fields.length > 0 ? "another" : "an"} exception
+            Add {customDateField.length > 0 ? "another" : "a"} custom date
           </Button>
-          {fields.map((field, index) => (
+          {customDateField.map((field, index) => (
+            <Controller
+              key={field.id}
+              control={control}
+              name={`customDates.${index}.value`}
+              render={({ field }) => (
+                <HStack>
+                  <DateTimePickerWeno
+                    onDateTimeSelection={(date) => {
+                      field.onChange(date);
+                    }}
+                  />
+                  <Button
+                    onClick={() => {
+                      removeCustomDate(index);
+                    }}
+                  >
+                    Remove
+                  </Button>
+                </HStack>
+              )}
+            />
+          ))}
+
+          <Button
+            onClick={() => {
+              appendException({ exceptions: "exceptions" });
+            }}
+            variant="secondaryWeno"
+            size="navBarCTA"
+          >
+            Add {customExceptionField.length > 0 ? "another" : "an"} exception
+          </Button>
+
+          {customExceptionField.map((field, index) => (
             <Controller
               key={field.id}
               control={control}
@@ -248,11 +312,10 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                     onDateTimeSelection={(date) => {
                       field.onChange(date);
                     }}
-                    onlyDate={true}
                   />
                   <Button
                     onClick={() => {
-                      remove(index);
+                      removeException(index);
                     }}
                   >
                     Remove
@@ -306,7 +369,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                   datesWithTimes={recDatesQuery.recurrentDates.dateWithTimes}
                 />
               )}
-            {error && <Text>Select a valid date</Text>}
+            {error && <Text>Select a valid recursion</Text>}
           </ModalBody>
 
           <ModalFooter>
