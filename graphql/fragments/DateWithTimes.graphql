@@ -1,0 +1,4 @@
+fragment DateWithTimes on DateWithTimes {
+  date
+  times
+}

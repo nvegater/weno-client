@@ -22,6 +22,11 @@ type CustomerResponse {
   errors: [FieldError!]
 }
 
+type DateWithTimes {
+  date: DateTime!
+  times: [DateTime!]!
+}
+
 type Experience {
   createdAt: DateTime!
   description: String!
@@ -100,14 +105,21 @@ type ProductsResponse {
 }
 
 type Query {
-  allExperiences: Int!
   allPictures: Int!
   allReservations: Int!
   allWineries: Int!
   getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
   getSubscriptionProducts: ProductsResponse!
   getSubscriptionStatus(customerId: String!): String!
+  recurrentDates(
+    createRecurrentDatesInputs: CreateRecurrentDatesInputs!
+  ): RecurrenceResponse!
   winery(getWineryInputs: GetWineryInputs!): WineryResponse!
+}
+
+type RecurrenceResponse {
+  dateWithTimes: [DateWithTimes!]
+  errors: [FieldError!]
 }
 
 type Reservation {
@@ -305,9 +317,22 @@ enum Valley {
   SAN_VICENTE
 }
 
+"The javascript `Date` as string. Type represents date and time as the ISO Date string."
+scalar DateTime
+
 input CreateCustomerInputs {
   email: String!
   paymentMetadata: PaymentMetadataInputs!
+}
+
+input CreateRecurrentDatesInputs {
+  customDates: [DateTime!]
+  durationInMinutes: Float!
+  endDate: DateTime!
+  exceptionDays: [String!]
+  exceptions: [DateTime!]
+  startDate: DateTime!
+  typeOfEvent: String
 }
 
 input CreateWineryInputs {
@@ -343,6 +368,3 @@ input UserInputs {
   successUrl: String!
   username: String!
 }
-
-"The javascript `Date` as string. Type represents date and time as the ISO Date string."
-scalar DateTime

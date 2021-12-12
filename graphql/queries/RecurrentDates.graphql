@@ -1,0 +1,10 @@
+query RecurrentDates($createRecurrentDatesInputs: CreateRecurrentDatesInputs!) {
+  recurrentDates(createRecurrentDatesInputs: $createRecurrentDatesInputs) {
+    dateWithTimes {
+      ...DateWithTimes
+    }
+    errors {
+      field
+    }
+  }
+}

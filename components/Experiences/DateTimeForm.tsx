@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Control,
   Controller,
@@ -17,31 +17,37 @@ import {
   FormLabel,
   HStack,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  useDisclosure,
   VStack,
 } from "@chakra-ui/react";
 import { allDay, oneTime, recurrent } from "./CreateExperience";
 import { differenceInMinutes } from "date-fns";
-import { weekdaysReverseMapping } from "../RegisterWinery/utils";
+import {
+  removeNonStringsFromArray,
+  weekdaysReverseMapping,
+} from "../RegisterWinery/utils";
+import { useRecurrentDatesQuery } from "../../graphql/generated/graphql";
+import { ContextHeader } from "../Authentication/useAuth";
+import { SampleDates } from "./SampleDates";
+import { BsFillEyeFill } from "react-icons/bs";
 
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
 const weekdaysArray: WeekdayStr[] = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
-
-type DateTimeFormSubmitProps = {
-  startDateTime: Date;
-  endDateTime: Date;
-  intervalInMinutes: number;
-  daysOfTheWeek: WeekdayStr[];
-  isPeriodic: boolean;
-  isSameDayRepetition: boolean;
-  customExcludedDates?: Date[];
-  customAddedDates?: Date[];
-};
 
 interface DateTimeFormProps {
   control: Control<any>;
   watch: UseFormWatch<any>;
   setValue: UseFormSetValue<any>;
   register: UseFormRegister<any>;
+  contextHeader: ContextHeader;
 }
 
 export const DateTimeForm: FC<DateTimeFormProps> = ({
@@ -49,16 +55,37 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   watch,
   setValue,
   register,
+  contextHeader,
 }) => {
-  const { fields, append, remove } = useFieldArray({
+  const {
+    fields: customExceptionField,
+    append: appendException,
+    remove: removeException,
+  } = useFieldArray({
     control,
     name: "exceptions",
   });
-  const watchPeriodic = watch("isPeriodic", oneTime);
-  const watchEndDate = watch("startDateTime");
-  const watchStartDate = watch("endDateTime");
 
-  const enable__Exceptions__messages_Recurrent__dateFormat_inverted =
+  const {
+    fields: customDateField,
+    append: appendCustomDate,
+    remove: removeCustomDate,
+  } = useFieldArray({
+    control,
+    name: "customDates",
+  });
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const watchPeriodic = watch("isPeriodic", oneTime);
+  const watchEndDate = watch("endDateTime");
+  const watchStartDate = watch("startDateTime");
+  const watchDuration = watch("durationInMinutes");
+  const watchCustomDates = watch("customDates");
+  const watchExceptions = watch("exceptions");
+  const watchExceptionDays = watch("exceptionDays");
+
+  const enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion =
     watchPeriodic === recurrent;
   const setAutoDuration = watchPeriodic === oneTime;
   const disable__Duration_StartTime_EndDateTime__setAutoDuration =
@@ -66,7 +93,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
 
   useEffect(() => {
     if (setAutoDuration) {
-      const diff = differenceInMinutes(watchStartDate, watchEndDate);
+      const diff = differenceInMinutes(watchEndDate, watchStartDate);
       setValue("durationInMinutes", diff);
     }
     if (disable__Duration_StartTime_EndDateTime__setAutoDuration) {
@@ -79,6 +106,42 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
     setValue,
     disable__Duration_StartTime_EndDateTime__setAutoDuration,
   ]);
+
+  const [fetchRecurrentDates, setFetchRecurrentDates] =
+    useState<boolean>(false);
+
+  const startDateTime = new Date(watchStartDate);
+  const endDateTime = new Date(watchEndDate);
+  const [{ data: recDatesQuery, error, fetching }] = useRecurrentDatesQuery({
+    variables: {
+      createRecurrentDatesInputs: {
+        startDate: startDateTime,
+        endDate: endDateTime,
+        durationInMinutes: parseInt(watchDuration),
+        customDates:
+          watchCustomDates && watchCustomDates.length > 0
+            ? watchCustomDates.map((d) => new Date(d.value))
+            : undefined,
+        exceptions:
+          watchExceptions && watchExceptions.length > 0
+            ? watchExceptions.map((d) => new Date(d.value))
+            : undefined,
+        exceptionDays:
+          watchExceptionDays &&
+          removeNonStringsFromArray(watchExceptionDays).length > 0
+            ? removeNonStringsFromArray(watchExceptionDays)
+            : undefined,
+      },
+    },
+    context: contextHeader,
+    requestPolicy: "network-only",
+    pause: !fetchRecurrentDates,
+  });
+
+  useEffect(() => {
+    setFetchRecurrentDates(false);
+  }, [recDatesQuery]);
+
   return (
     <VStack justifyContent="start" display="flex" alignItems="start">
       <RadioGroup
@@ -133,7 +196,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                     field.onChange(date);
                   }}
                   endDatePeriodic={
-                    enable__Exceptions__messages_Recurrent__dateFormat_inverted
+                    enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion
                   }
                 />
                 <FormErrorMessage>
@@ -161,7 +224,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                 isRequired={true}
               >
                 <FormLabel htmlFor="durationInMinutes">
-                  {enable__Exceptions__messages_Recurrent__dateFormat_inverted
+                  {enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion
                     ? "Duration in minutes (for each event)"
                     : "Duration in minutes"}
                 </FormLabel>
@@ -187,19 +250,58 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
         />
       )}
 
-      {enable__Exceptions__messages_Recurrent__dateFormat_inverted && (
-        <VStack justifyContent="start" display="flex" alignItems="start" py={5}>
+      {enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion && (
+        <VStack
+          justifyContent="start"
+          display="flex"
+          alignItems="start"
+          py={5}
+          spacing={8}
+        >
           <Button
             onClick={() => {
-              append({ exceptions: "exceptions" });
+              appendCustomDate({ customDates: "customDates" });
             }}
             variant="secondaryWeno"
             size="navBarCTA"
           >
-            Add {fields.length > 0 ? "another" : "an"} exception
+            Add {customDateField.length > 0 ? "another" : "a"} custom date
+          </Button>
+          {customDateField.map((field, index) => (
+            <Controller
+              key={field.id}
+              control={control}
+              name={`customDates.${index}.value`}
+              render={({ field }) => (
+                <HStack>
+                  <DateTimePickerWeno
+                    onDateTimeSelection={(date) => {
+                      field.onChange(date);
+                    }}
+                  />
+                  <Button
+                    onClick={() => {
+                      removeCustomDate(index);
+                    }}
+                  >
+                    Remove
+                  </Button>
+                </HStack>
+              )}
+            />
+          ))}
+
+          <Button
+            onClick={() => {
+              appendException({ exceptions: "exceptions" });
+            }}
+            variant="secondaryWeno"
+            size="navBarCTA"
+          >
+            Add {customExceptionField.length > 0 ? "another" : "an"} exception
           </Button>
 
-          {fields.map((field, index) => (
+          {customExceptionField.map((field, index) => (
             <Controller
               key={field.id}
               control={control}
@@ -210,11 +312,10 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                     onDateTimeSelection={(date) => {
                       field.onChange(date);
                     }}
-                    onlyDate={true}
                   />
                   <Button
                     onClick={() => {
-                      remove(index);
+                      removeException(index);
                     }}
                   >
                     Remove
@@ -223,13 +324,10 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               )}
             />
           ))}
-        </VStack>
-      )}
-      {enable__Exceptions__messages_Recurrent__dateFormat_inverted && (
-        <VStack spacing="24px" mb={8}>
+
           <FormControl>
             <FormLabel htmlFor="exceptionDays" fontWeight="bold">
-              Not this days
+              Exclude this days
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {weekdaysArray.map((wd, index) => (
@@ -243,8 +341,44 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               ))}
             </VStack>
           </FormControl>
+          <Button
+            onClick={() => {
+              setFetchRecurrentDates(true);
+              onOpen();
+            }}
+            isLoading={fetching}
+            variant="secondaryWeno"
+            size="heroWeno"
+            rightIcon={<BsFillEyeFill />}
+          >
+            Preview Dates
+          </Button>
         </VStack>
       )}
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Preview</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {recDatesQuery &&
+              recDatesQuery.recurrentDates &&
+              recDatesQuery.recurrentDates && (
+                <SampleDates
+                  datesWithTimes={recDatesQuery.recurrentDates.dateWithTimes}
+                />
+              )}
+            {error && <Text>Select a valid recursion</Text>}
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </VStack>
   );
 };

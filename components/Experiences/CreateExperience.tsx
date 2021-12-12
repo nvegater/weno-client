@@ -138,6 +138,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
           watch={watch}
           setValue={setValue}
           register={register}
+          contextHeader={contextHeader}
         />
       ),
     },
