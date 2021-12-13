@@ -1,0 +1,5 @@
+fragment ExperienceImageFragment on ExperienceImage {
+  id
+  imageUrl
+  coverPage
+}

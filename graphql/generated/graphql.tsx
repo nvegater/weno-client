@@ -43,11 +43,20 @@ export type CreateCustomerInputs = {
   paymentMetadata: PaymentMetadataInputs;
 };
 
+export type CreateExperienceInputs = {
+  wineryId: Scalars['Float'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  limitOfAttendees: Scalars['Float'];
+  typeOfEvent: ExperienceType;
+  pricePerPersonInDollars: Scalars['Float'];
+};
+
 export type CreateRecurrentDatesInputs = {
   startDate: Scalars['DateTime'];
   endDate: Scalars['DateTime'];
   durationInMinutes: Scalars['Float'];
-  typeOfEvent?: Maybe<Scalars['String']>;
+  slotType: SlotType;
   customDates?: Maybe<Array<Scalars['DateTime']>>;
   exceptions?: Maybe<Array<Scalars['DateTime']>>;
   exceptionDays?: Maybe<Array<Scalars['String']>>;
@@ -85,24 +94,51 @@ export type CustomerResponse = {
 export type DateWithTimes = {
   date: Scalars['DateTime'];
   times: Array<Scalars['DateTime']>;
+  durationInMinutes: Scalars['Float'];
 };
 
 export type Experience = {
   id: Scalars['Int'];
   title: Scalars['String'];
   description: Scalars['String'];
-  eventType: ExperienceType;
-  startDateTime: Scalars['DateTime'];
-  endDateTime: Scalars['DateTime'];
-  rRules?: Maybe<Array<Scalars['String']>>;
-  extraDates?: Maybe<Array<Scalars['String']>>;
-  limitOfAttendees: Scalars['Int'];
-  noOfAttendees?: Maybe<Scalars['Int']>;
+  experienceType: ExperienceType;
+  allAttendeesAllSlots?: Maybe<Scalars['Int']>;
   pricePerPersonInDollars: Scalars['Float'];
-  pictures: Array<Picture>;
+  slots: Array<ExperienceSlot>;
+  images?: Maybe<Array<ExperienceImage>>;
   wineryId: Scalars['Int'];
   winery: Winery;
   reservations?: Maybe<Array<Reservation>>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type ExperienceImage = {
+  id: Scalars['Float'];
+  experienceId: Scalars['Float'];
+  experience: Experience;
+  imageUrl: Scalars['String'];
+  coverPage?: Maybe<Scalars['Boolean']>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type ExperienceResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  experience?: Maybe<Experience>;
+  dateWithTimes?: Maybe<Array<DateWithTimes>>;
+};
+
+export type ExperienceSlot = {
+  id: Scalars['Int'];
+  startDateTime: Scalars['DateTime'];
+  endDateTime: Scalars['DateTime'];
+  slotType: SlotType;
+  durationInMinutes: Scalars['Int'];
+  noOfAttendees?: Maybe<Scalars['Int']>;
+  limitOfAttendees: Scalars['Int'];
+  experienceId: Scalars['Float'];
+  experience: Experience;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
@@ -167,9 +203,16 @@ export enum Grape {
 }
 
 export type Mutation = {
+  createExperience: ExperienceResponse;
   createWinery: WineryResponse;
   createCustomer: CustomerResponse;
   wineryOnboarding: OnboardingResponse;
+};
+
+
+export type MutationCreateExperienceArgs = {
+  createRecurrentDatesInputs: CreateRecurrentDatesInputs;
+  createExperienceInputs: CreateExperienceInputs;
 };
 
 
@@ -206,16 +249,6 @@ export type PaymentMetadata = {
 
 export type PaymentMetadataInputs = {
   username: Scalars['String'];
-};
-
-export type Picture = {
-  id?: Maybe<Scalars['Float']>;
-  experienceId: Scalars['Int'];
-  experience: Experience;
-  imageUrl?: Maybe<Scalars['String']>;
-  coverPage: Scalars['Boolean'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
 };
 
 export type Price = {
@@ -316,6 +349,13 @@ export enum ServiceLanguage {
   Mandarin = 'MANDARIN'
 }
 
+/** Type of slot */
+export enum SlotType {
+  OneTime = 'ONE_TIME',
+  Recurrent = 'RECURRENT',
+  AllDay = 'ALL_DAY'
+}
+
 export type Tier = {
   flat_amount?: Maybe<Scalars['Float']>;
   flat_amount_decimal?: Maybe<Scalars['String']>;
@@ -375,6 +415,7 @@ export type Winery = {
   description: Scalars['String'];
   foundationYear?: Maybe<Scalars['Int']>;
   experiences?: Maybe<Array<Experience>>;
+  images?: Maybe<Array<WineryImage>>;
   googleMapsUrl?: Maybe<Scalars['String']>;
   yearlyWineProduction?: Maybe<Scalars['Int']>;
   contactEmail?: Maybe<Scalars['String']>;
@@ -402,6 +443,16 @@ export type Winery = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type WineryImage = {
+  id: Scalars['Float'];
+  wineryId: Scalars['Float'];
+  winery: Winery;
+  imageUrl: Scalars['String'];
+  coverPage?: Maybe<Scalars['Boolean']>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type WineryResponse = {
   errors?: Maybe<Array<FieldError>>;
   winery?: Maybe<Winery>;
@@ -412,15 +463,27 @@ export type DateWithTimesFragment = { date: any, times: Array<any> };
 
 export type ErrorFragmentFragment = { field: string, message: string };
 
-export type ExperienceFragmentFragment = { createdAt: any, description: string, endDateTime: any, eventType: ExperienceType, extraDates?: Array<string> | null | undefined, id: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, pricePerPersonInDollars: number, rRules?: Array<string> | null | undefined, startDateTime: any, title: string, updatedAt: any, wineryId: number };
+export type ExperienceFragmentFragment = { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, images?: Array<{ id: number, imageUrl: string, coverPage?: boolean | null | undefined }> | null | undefined, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> };
+
+export type ExperienceImageFragmentFragment = { id: number, imageUrl: string, coverPage?: boolean | null | undefined };
 
 export type PriceFragmentFragment = { id: string, type: string, currency: string, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined };
 
 export type ProductFragmentFragment = { id: string, name: string, description: string, images: Array<string>, unit_label: string, price: Array<{ id: string, type: string, currency: string, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined }> };
 
+export type SlotFragmentFragment = { id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any };
+
 export type TiersFragmentFragment = { flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined };
 
-export type WineryFragmentFragment = { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined, experiences?: Array<{ createdAt: any, description: string, endDateTime: any, eventType: ExperienceType, extraDates?: Array<string> | null | undefined, id: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, pricePerPersonInDollars: number, rRules?: Array<string> | null | undefined, startDateTime: any, title: string, updatedAt: any, wineryId: number }> | null | undefined };
+export type WineryFragmentFragment = { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, images?: Array<{ id: number, imageUrl: string, coverPage?: boolean | null | undefined }> | null | undefined, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> }> | null | undefined };
+
+export type CreateExperienceMutationVariables = Exact<{
+  createExperienceInputs: CreateExperienceInputs;
+  createRecurrentDatesInputs: CreateRecurrentDatesInputs;
+}>;
+
+
+export type CreateExperienceMutation = { createExperience: { errors?: Array<{ field: string, message: string }> | null | undefined, experience?: { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, images?: Array<{ id: number, imageUrl: string, coverPage?: boolean | null | undefined }> | null | undefined, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> } | null | undefined, dateWithTimes?: Array<{ date: any, durationInMinutes: number, times: Array<any> }> | null | undefined } };
 
 export type CreateWineryMutationVariables = Exact<{
   userInputs: UserInputs;
@@ -428,7 +491,7 @@ export type CreateWineryMutationVariables = Exact<{
 }>;
 
 
-export type CreateWineryMutation = { createWinery: { sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined, experiences?: Array<{ createdAt: any, description: string, endDateTime: any, eventType: ExperienceType, extraDates?: Array<string> | null | undefined, id: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, pricePerPersonInDollars: number, rRules?: Array<string> | null | undefined, startDateTime: any, title: string, updatedAt: any, wineryId: number }> | null | undefined } | null | undefined } };
+export type CreateWineryMutation = { createWinery: { sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, images?: Array<{ id: number, imageUrl: string, coverPage?: boolean | null | undefined }> | null | undefined, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> }> | null | undefined } | null | undefined } };
 
 export type WineryOnboardingMutationVariables = Exact<{
   wineryAlias: Scalars['String'];
@@ -468,7 +531,7 @@ export type WineryQueryVariables = Exact<{
 }>;
 
 
-export type WineryQuery = { winery: { errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined, experiences?: Array<{ createdAt: any, description: string, endDateTime: any, eventType: ExperienceType, extraDates?: Array<string> | null | undefined, id: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, pricePerPersonInDollars: number, rRules?: Array<string> | null | undefined, startDateTime: any, title: string, updatedAt: any, wineryId: number }> | null | undefined } | null | undefined } };
+export type WineryQuery = { winery: { errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, images?: Array<{ id: number, imageUrl: string, coverPage?: boolean | null | undefined }> | null | undefined, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> }> | null | undefined } | null | undefined } };
 
 export const DateWithTimesFragmentDoc = gql`
     fragment DateWithTimes on DateWithTimes {
@@ -513,24 +576,45 @@ export const ProductFragmentFragmentDoc = gql`
   }
 }
     ${PriceFragmentFragmentDoc}`;
+export const ExperienceImageFragmentFragmentDoc = gql`
+    fragment ExperienceImageFragment on ExperienceImage {
+  id
+  imageUrl
+  coverPage
+}
+    `;
+export const SlotFragmentFragmentDoc = gql`
+    fragment SlotFragment on ExperienceSlot {
+  id
+  startDateTime
+  endDateTime
+  durationInMinutes
+  limitOfAttendees
+  noOfAttendees
+  slotType
+  createdAt
+  updatedAt
+}
+    `;
 export const ExperienceFragmentFragmentDoc = gql`
     fragment ExperienceFragment on Experience {
   createdAt
-  description
-  endDateTime
-  eventType
-  extraDates
   id
-  limitOfAttendees
-  noOfAttendees
-  pricePerPersonInDollars
-  rRules
-  startDateTime
   title
-  updatedAt
+  description
+  pricePerPersonInDollars
   wineryId
+  images {
+    ...ExperienceImageFragment
+  }
+  allAttendeesAllSlots
+  experienceType
+  slots {
+    ...SlotFragment
+  }
 }
-    `;
+    ${ExperienceImageFragmentFragmentDoc}
+${SlotFragmentFragmentDoc}`;
 export const WineryFragmentFragmentDoc = gql`
     fragment WineryFragment on Winery {
   amenities
@@ -572,6 +656,31 @@ export const WineryFragmentFragmentDoc = gql`
   subscription
 }
     ${ExperienceFragmentFragmentDoc}`;
+export const CreateExperienceDocument = gql`
+    mutation CreateExperience($createExperienceInputs: CreateExperienceInputs!, $createRecurrentDatesInputs: CreateRecurrentDatesInputs!) {
+  createExperience(
+    createExperienceInputs: $createExperienceInputs
+    createRecurrentDatesInputs: $createRecurrentDatesInputs
+  ) {
+    errors {
+      field
+      message
+    }
+    experience {
+      ...ExperienceFragment
+    }
+    dateWithTimes {
+      date
+      durationInMinutes
+      times
+    }
+  }
+}
+    ${ExperienceFragmentFragmentDoc}`;
+
+export function useCreateExperienceMutation() {
+  return Urql.useMutation<CreateExperienceMutation, CreateExperienceMutationVariables>(CreateExperienceDocument);
+};
 export const CreateWineryDocument = gql`
     mutation CreateWinery($userInputs: UserInputs!, $createWineryInputs: CreateWineryInputs!) {
   createWinery(createWineryInputs: $createWineryInputs, userInputs: $userInputs) {

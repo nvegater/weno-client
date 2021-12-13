@@ -1,0 +1,22 @@
+mutation CreateExperience(
+  $createExperienceInputs: CreateExperienceInputs!
+  $createRecurrentDatesInputs: CreateRecurrentDatesInputs!
+) {
+  createExperience(
+    createExperienceInputs: $createExperienceInputs
+    createRecurrentDatesInputs: $createRecurrentDatesInputs
+  ) {
+    errors {
+      field
+      message
+    }
+    experience {
+      ...ExperienceFragment
+    }
+    dateWithTimes {
+      date
+      durationInMinutes
+      times
+    }
+  }
+}

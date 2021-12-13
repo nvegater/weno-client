@@ -24,27 +24,54 @@ type CustomerResponse {
 
 type DateWithTimes {
   date: DateTime!
+  durationInMinutes: Float!
   times: [DateTime!]!
 }
 
 type Experience {
+  allAttendeesAllSlots: Int
   createdAt: DateTime!
   description: String!
-  endDateTime: DateTime!
-  eventType: ExperienceType!
-  extraDates: [String!]
+  experienceType: ExperienceType!
   id: Int!
-  limitOfAttendees: Int!
-  noOfAttendees: Int
-  pictures: [Picture!]!
+  images: [ExperienceImage!]
   pricePerPersonInDollars: Float!
-  rRules: [String!]
   reservations: [Reservation!]
-  startDateTime: DateTime!
+  slots: [ExperienceSlot!]!
   title: String!
   updatedAt: DateTime!
   winery: Winery!
   wineryId: Int!
+}
+
+type ExperienceImage {
+  coverPage: Boolean
+  createdAt: DateTime!
+  experience: Experience!
+  experienceId: Float!
+  id: Float!
+  imageUrl: String!
+  updatedAt: DateTime!
+}
+
+type ExperienceResponse {
+  dateWithTimes: [DateWithTimes!]
+  errors: [FieldError!]
+  experience: Experience
+}
+
+type ExperienceSlot {
+  createdAt: DateTime!
+  durationInMinutes: Int!
+  endDateTime: DateTime!
+  experience: Experience!
+  experienceId: Float!
+  id: Int!
+  limitOfAttendees: Int!
+  noOfAttendees: Int
+  slotType: SlotType!
+  startDateTime: DateTime!
+  updatedAt: DateTime!
 }
 
 type FieldError {
@@ -54,6 +81,10 @@ type FieldError {
 
 type Mutation {
   createCustomer(createCustomerInputs: CreateCustomerInputs!): CustomerResponse!
+  createExperience(
+    createExperienceInputs: CreateExperienceInputs!
+    createRecurrentDatesInputs: CreateRecurrentDatesInputs!
+  ): ExperienceResponse!
   createWinery(
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
@@ -68,16 +99,6 @@ type OnboardingResponse {
 
 type PaymentMetadata {
   username: String!
-}
-
-type Picture {
-  coverPage: Boolean!
-  createdAt: DateTime!
-  experience: Experience!
-  experienceId: Int!
-  id: Float
-  imageUrl: String
-  updatedAt: DateTime!
 }
 
 type Price {
@@ -166,6 +187,7 @@ type Winery {
   googleMapsUrl: String
   handicappedFriendly: Boolean
   id: Int!
+  images: [WineryImage!]
   logo: String
   name: String!
   othersServices: [OtherServices!]
@@ -185,6 +207,16 @@ type Winery {
   wineType: [TypeWine!]
   yearlyWineProduction: Int
   younerFriendly: Boolean
+}
+
+type WineryImage {
+  coverPage: Boolean
+  createdAt: DateTime!
+  id: Float!
+  imageUrl: String!
+  updatedAt: DateTime!
+  winery: Winery!
+  wineryId: Float!
 }
 
 type WineryResponse {
@@ -285,6 +317,13 @@ enum ServiceLanguage {
   SENAS_MEXICANAS
 }
 
+"Type of slot"
+enum SlotType {
+  ALL_DAY
+  ONE_TIME
+  RECURRENT
+}
+
 "Types of wine produced by a winery"
 enum TypeWine {
   BIODINAMICO
@@ -325,14 +364,23 @@ input CreateCustomerInputs {
   paymentMetadata: PaymentMetadataInputs!
 }
 
+input CreateExperienceInputs {
+  description: String!
+  limitOfAttendees: Float!
+  pricePerPersonInDollars: Float!
+  title: String!
+  typeOfEvent: ExperienceType!
+  wineryId: Float!
+}
+
 input CreateRecurrentDatesInputs {
   customDates: [DateTime!]
   durationInMinutes: Float!
   endDate: DateTime!
   exceptionDays: [String!]
   exceptions: [DateTime!]
+  slotType: SlotType!
   startDate: DateTime!
-  typeOfEvent: String
 }
 
 input CreateWineryInputs {

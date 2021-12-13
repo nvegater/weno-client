@@ -1,5 +1,10 @@
-import React, { FC } from "react";
-import { WineryFragmentFragment } from "../../graphql/generated/graphql";
+import React, { FC, useState } from "react";
+import {
+  CreateExperienceInputs,
+  CreateRecurrentDatesInputs,
+  useCreateExperienceMutation,
+  WineryFragmentFragment,
+} from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
 import { useForm } from "react-hook-form";
 import {
@@ -17,6 +22,12 @@ import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorSummary } from "../RegisterWinery/CreateWineryForm";
 import RadioGroup from "../Radio/RadioGroup";
 import { DateTimeForm } from "./DateTimeForm";
+import { ExperienceImagesForm } from "./ExperienceImagesForm";
+import {
+  mapEventType,
+  mapSlotType,
+  removeNonStringsFromArray,
+} from "../RegisterWinery/utils";
 
 interface CreateExperienceProps {
   winery: WineryFragmentFragment;
@@ -27,26 +38,79 @@ export const oneTime = "One Time";
 export const recurrent = "Periodic";
 export const allDay = "All day";
 
+export const degustation = "Degustation";
+export const pairing = "Pairing";
+export const concert = "Concert";
+
 export const CreateExperience: FC<CreateExperienceProps> = ({
   winery,
   contextHeader,
 }) => {
   const {
     register,
-    //setError,
+    setError,
     watch,
     handleSubmit,
     control,
     setValue,
     formState: { errors, isSubmitting },
   } = useForm({ mode: "onTouched" });
-  console.log(winery, contextHeader);
+
+  const [, createExperience] = useCreateExperienceMutation();
   const onSubmit = async (data) => {
-    // TODO convert event type value to Backend Enum
-    // TODO convert periodic field to enum
-    // TODO remove "False" from the Weekday enum
+    const experienceInputs: CreateExperienceInputs = {
+      wineryId: winery.id,
+      title: data.title,
+      description: data.description,
+      limitOfAttendees: data.limitOfAttendees,
+      typeOfEvent: mapEventType(data.eventType),
+      pricePerPersonInDollars: data.pricePerPersonInMxn,
+    };
+    const recurrenceInputs: CreateRecurrentDatesInputs = {
+      startDate: data.startDateTime,
+      endDate: data.endDateTime,
+      durationInMinutes: parseInt(data.durationInMinutes),
+      slotType: mapSlotType(data.typeOfSlot),
+      customDates:
+        data.customDates && data.customDates.length > 0
+          ? data.customDates.map((d) => new Date(d.value))
+          : undefined,
+      exceptions:
+        data.exceptions && data.exceptions.length > 0
+          ? data.exceptions.map((d) => new Date(d.value))
+          : undefined,
+      exceptionDays:
+        data.exceptionDays &&
+        removeNonStringsFromArray(data.exceptionDays).length > 0
+          ? removeNonStringsFromArray(data.exceptionDays)
+          : undefined,
+    };
     console.log(data);
+    console.log(experienceInputs);
+    console.log(recurrenceInputs);
+    const { data: result, error } = await createExperience(
+      {
+        createExperienceInputs: experienceInputs,
+        createRecurrentDatesInputs: recurrenceInputs,
+      },
+      { context: contextHeader, requestPolicy: "network-only" }
+    );
+    console.log("Result: ", result);
+    console.log("Error: ", error);
+    if (error || (result && result.createExperience.errors !== null)) {
+      setError("submit", {
+        type: result.createExperience.errors[0].field || error.name,
+        message: result.createExperience.errors[0].message || error.message,
+      });
+    } else {
+      console.log(result.createExperience.experience);
+      console.log(result.createExperience.dateWithTimes);
+      // Trigger image upload after succesfull experience Creation
+      setPauseImageUpload(false);
+    }
   };
+
+  const [pauseImageUpload, setPauseImageUpload] = useState(true);
 
   const formSteps: Step[] = [
     {
@@ -120,9 +184,9 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
             name="eventType"
             label="Event type"
             elements={[
-              { name: "Degustation" },
-              { name: "Pairing" },
-              { name: "Concert" },
+              { name: degustation },
+              { name: pairing },
+              { name: concert },
             ]}
             isRequired
             isVisibleLabel
@@ -144,7 +208,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     },
     {
       title: "Images",
-      content: <div>Hola</div>,
+      content: <ExperienceImagesForm />,
     },
   ];
   return (

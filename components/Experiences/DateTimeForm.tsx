@@ -31,10 +31,14 @@ import {
 import { allDay, oneTime, recurrent } from "./CreateExperience";
 import { differenceInMinutes } from "date-fns";
 import {
+  mapSlotType,
   removeNonStringsFromArray,
   weekdaysReverseMapping,
 } from "../RegisterWinery/utils";
-import { useRecurrentDatesQuery } from "../../graphql/generated/graphql";
+import {
+  CreateRecurrentDatesInputs,
+  useRecurrentDatesQuery,
+} from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
 import { SampleDates } from "./SampleDates";
 import { BsFillEyeFill } from "react-icons/bs";
@@ -77,7 +81,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const watchPeriodic = watch("isPeriodic", oneTime);
+  const watchPeriodic = watch("typeOfSlot", oneTime);
   const watchEndDate = watch("endDateTime");
   const watchStartDate = watch("startDateTime");
   const watchDuration = watch("durationInMinutes");
@@ -90,6 +94,39 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   const setAutoDuration = watchPeriodic === oneTime;
   const disable__Duration_StartTime_EndDateTime__setAutoDuration =
     watchPeriodic === allDay;
+
+  const [fetchRecurrentDates, setFetchRecurrentDates] =
+    useState<boolean>(false);
+
+  const startDateTime = new Date(watchStartDate);
+  const endDateTime = new Date(watchEndDate);
+  const recurrentDatesInputs: CreateRecurrentDatesInputs = {
+    startDate: startDateTime,
+    endDate: endDateTime,
+    durationInMinutes: parseInt(watchDuration),
+    slotType: mapSlotType(watchPeriodic),
+    customDates:
+      watchCustomDates && watchCustomDates.length > 0
+        ? watchCustomDates.map((d) => new Date(d.value))
+        : undefined,
+    exceptions:
+      watchExceptions && watchExceptions.length > 0
+        ? watchExceptions.map((d) => new Date(d.value))
+        : undefined,
+    exceptionDays:
+      watchExceptionDays &&
+      removeNonStringsFromArray(watchExceptionDays).length > 0
+        ? removeNonStringsFromArray(watchExceptionDays)
+        : undefined,
+  };
+  const [{ data: recDatesQuery, error, fetching }] = useRecurrentDatesQuery({
+    variables: {
+      createRecurrentDatesInputs: recurrentDatesInputs,
+    },
+    context: contextHeader,
+    requestPolicy: "network-only",
+    pause: !fetchRecurrentDates,
+  });
 
   useEffect(() => {
     if (setAutoDuration) {
@@ -107,37 +144,6 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
     disable__Duration_StartTime_EndDateTime__setAutoDuration,
   ]);
 
-  const [fetchRecurrentDates, setFetchRecurrentDates] =
-    useState<boolean>(false);
-
-  const startDateTime = new Date(watchStartDate);
-  const endDateTime = new Date(watchEndDate);
-  const [{ data: recDatesQuery, error, fetching }] = useRecurrentDatesQuery({
-    variables: {
-      createRecurrentDatesInputs: {
-        startDate: startDateTime,
-        endDate: endDateTime,
-        durationInMinutes: parseInt(watchDuration),
-        customDates:
-          watchCustomDates && watchCustomDates.length > 0
-            ? watchCustomDates.map((d) => new Date(d.value))
-            : undefined,
-        exceptions:
-          watchExceptions && watchExceptions.length > 0
-            ? watchExceptions.map((d) => new Date(d.value))
-            : undefined,
-        exceptionDays:
-          watchExceptionDays &&
-          removeNonStringsFromArray(watchExceptionDays).length > 0
-            ? removeNonStringsFromArray(watchExceptionDays)
-            : undefined,
-      },
-    },
-    context: contextHeader,
-    requestPolicy: "network-only",
-    pause: !fetchRecurrentDates,
-  });
-
   useEffect(() => {
     setFetchRecurrentDates(false);
   }, [recDatesQuery]);
@@ -146,7 +152,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
     <VStack justifyContent="start" display="flex" alignItems="start">
       <RadioGroup
         control={control}
-        name="isPeriodic"
+        name="typeOfSlot"
         label="Recurrent"
         elements={[{ name: oneTime }, { name: recurrent }, { name: allDay }]}
       />

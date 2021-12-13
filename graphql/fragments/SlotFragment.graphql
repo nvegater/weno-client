@@ -1,0 +1,11 @@
+fragment SlotFragment on ExperienceSlot {
+  id
+  startDateTime
+  endDateTime
+  durationInMinutes
+  limitOfAttendees
+  noOfAttendees
+  slotType
+  createdAt
+  updatedAt
+}

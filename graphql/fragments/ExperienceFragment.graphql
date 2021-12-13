@@ -1,17 +1,16 @@
 fragment ExperienceFragment on Experience {
   createdAt
-  description
-  endDateTime
-  eventType
-  extraDates
   id
-  limitOfAttendees
-  noOfAttendees
-  #pictures
-  pricePerPersonInDollars
-  rRules
-  startDateTime
   title
-  updatedAt
+  description
+  pricePerPersonInDollars
   wineryId
+  images {
+    ...ExperienceImageFragment
+  }
+  allAttendeesAllSlots
+  experienceType
+  slots {
+    ...SlotFragment
+  }
 }

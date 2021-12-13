@@ -1,15 +1,47 @@
 import {
   Amenity,
+  ExperienceType,
   Grape,
   OtherServices,
   ProductionType,
   ServiceLanguage,
+  SlotType,
   TypeWine,
   Valley,
 } from "../../graphql/generated/graphql";
+import {
+  allDay,
+  concert,
+  degustation,
+  oneTime,
+  pairing,
+  recurrent,
+} from "../Experiences/CreateExperience";
 
 export const removeNonStringsFromArray = (array: any[]) => {
   return array.filter((item) => typeof item === "string");
+};
+
+export const mapSlotType = (formSlotType: string): SlotType => {
+  switch (formSlotType) {
+    case oneTime:
+      return SlotType.OneTime;
+    case recurrent:
+      return SlotType.Recurrent;
+    case allDay:
+      return SlotType.AllDay;
+  }
+};
+
+export const mapEventType = (formExperienceType: string): ExperienceType => {
+  switch (formExperienceType) {
+    case degustation:
+      return ExperienceType.Degustation;
+    case pairing:
+      return ExperienceType.WineDinnerPairing;
+    case concert:
+      return ExperienceType.Concert;
+  }
 };
 
 export const productionTypeReverseMapping = (value: ProductionType) => {
