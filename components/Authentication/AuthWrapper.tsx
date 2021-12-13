@@ -2,6 +2,7 @@ import React, { FC, ReactNode, useEffect, useState } from "react";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { KeycloakInstance, KeycloakTokenParsed } from "keycloak-js";
 import { Badge } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 interface AuthWrapperProps {
   children: ReactNode;
@@ -13,7 +14,7 @@ interface TokenParsedWithCustomAttribute extends KeycloakTokenParsed {
 
 export const AuthWrapper: FC<AuthWrapperProps> = ({ children }) => {
   const { keycloak, initialized } = useKeycloak<KeycloakInstance>();
-
+  const [t] = useTranslation("global");
   const [customToken, setCustomToken] =
     useState<TokenParsedWithCustomAttribute | null>(null);
 
@@ -34,19 +35,19 @@ export const AuthWrapper: FC<AuthWrapperProps> = ({ children }) => {
           {keycloak.authenticated && (
             <>
               <div>
-                Youre logged in, welcome,{" "}
+                {t("welcomeHeading")}{" "}
                 {JSON.stringify(keycloak.tokenParsed, undefined, 4)}
               </div>
 
               <div>
-                Youre logged in, welcome,{" "}
+                {t("welcomeHeading")}{" "}
                 {JSON.stringify(
                   customToken ? customToken.userType : "",
                   undefined,
                   4
                 )}
               </div>
-              <button onClick={() => keycloak.logout()}>Logout</button>
+              <button onClick={() => keycloak.logout()}>{t("logOut")}</button>
               {children}
             </>
           )}
@@ -54,9 +55,9 @@ export const AuthWrapper: FC<AuthWrapperProps> = ({ children }) => {
             <>
               <div>Login pls</div>
               <button onClick={() => keycloak.login()} color="red">
-                Login
+                {t("LogIn")}
               </button>
-              <Badge colorScheme="red">Not logged in</Badge>
+              <Badge colorScheme="red">{t("notLoggedIn")}</Badge>
             </>
           )}
         </>

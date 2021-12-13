@@ -20,6 +20,7 @@ import { WineryOwnerInfo } from "../WineryOwnerInfo";
 import { WineryFragmentFragment } from "../../../../graphql/generated/graphql";
 import { ContextHeader } from "../../../Authentication/useAuth";
 import { CreateExperience } from "../../../Experiences/CreateExperience";
+import { useTranslation } from "react-i18next";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -47,6 +48,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
 }) => {
   const { isOpen, toggle } = useMobileMenuState();
   const [subPage, setSubPage] = useState(GeneratorSubpage.WINERY_INFO);
+  const [t] = useTranslation("global");
 
   return (
     <Flex
@@ -75,65 +77,65 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
           />
           <ScrollArea pt="5" pb="6">
             <Stack spacing="8" flex="1" overflow="auto" pt="8">
-              <NavGroup label="Your profile">
+              <NavGroup label={t("yourProfile")}>
                 <NavItem
                   icon={<BiUserCircle />}
-                  label="Winery information"
+                  label={t("wineryInformation")}
                   subPage={GeneratorSubpage.WINERY_INFO}
                   setSubPage={setSubPage}
                   active={subPage === GeneratorSubpage.WINERY_INFO}
                 />
                 <NavItem
                   icon={<BiCreditCard />}
-                  label="Edit information"
+                  label={t("editInformation")}
                   subPage={GeneratorSubpage.EDIT_INFO}
                   setSubPage={setSubPage}
                   active={subPage === GeneratorSubpage.EDIT_INFO}
                 />
               </NavGroup>
 
-              <NavGroup label="Experiences">
+              <NavGroup label={t("experiences")}>
                 <NavItem
                   icon={<BiNews />}
-                  label="All experiences"
+                  label={t("allExperiences")}
                   subPage={GeneratorSubpage.ALL_EXPERIENCES}
                   setSubPage={setSubPage}
                   active={subPage === GeneratorSubpage.ALL_EXPERIENCES}
                 />
                 <NavItem
                   icon={<BiEnvelope />}
-                  label="Schedule"
+                  label={t("schedule")}
                   subPage={GeneratorSubpage.SCHEDULE}
                   setSubPage={setSubPage}
                   active={subPage === GeneratorSubpage.SCHEDULE}
                 />
                 <NavItem
                   icon={<BiPurchaseTagAlt />}
-                  label="New experience"
+                  label={t("newExperience")}
                   subPage={GeneratorSubpage.NEW_EXPERIENCE}
                   setSubPage={setSubPage}
                   active={subPage === GeneratorSubpage.NEW_EXPERIENCE}
                 />
                 <NavItem
                   icon={<BiRecycle />}
-                  label="Edit experience"
+                  label={t("editExperience")}
                   subPage={GeneratorSubpage.EDIT_EXPERIENCE}
                   setSubPage={setSubPage}
                   active={subPage === GeneratorSubpage.EDIT_EXPERIENCE}
                 />
                 <NavItem
                   icon={<BiNews />}
-                  label="Past Experiences"
+                  label={t("pastExperience")}
                   subPage={GeneratorSubpage.PAST_EXPERIENCES}
                   setSubPage={setSubPage}
                   active={subPage === GeneratorSubpage.PAST_EXPERIENCES}
                 />
               </NavGroup>
 
-              <NavGroup label="Analytics">
+              <NavGroup label={t("analytics")}>
                 <NavItem
                   icon={<BiNews />}
-                  label="Analytics Dashboard"
+                  label={t("dashboard")}
                   subPage={GeneratorSubpage.DASHBOARD_ANALYTICS}
                   setSubPage={setSubPage}
                   active={subPage === GeneratorSubpage.DASHBOARD_ANALYTICS}
@@ -141,7 +143,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
               </NavGroup>
               <NavItem
                 icon={<BiHome />}
-                label="Help"
+                label={t("help")}
                 subPage={GeneratorSubpage.HELP}
                 setSubPage={setSubPage}
                 active={subPage === GeneratorSubpage.HELP}
@@ -186,10 +188,10 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
               )}
               {subPage === GeneratorSubpage.EDIT_INFO && <div>Edit Winery</div>}
               {subPage === GeneratorSubpage.ALL_EXPERIENCES && (
-                <div>All experiences</div>
+                <div>{t("allExperiences")}</div>
               )}
               {subPage === GeneratorSubpage.SCHEDULE && (
-                <div>Experiences Calendar</div>
+                <div>{t("experiencesCalendar")}</div>
               )}
               {subPage === GeneratorSubpage.NEW_EXPERIENCE && (
                 <CreateExperience
@@ -198,15 +200,15 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 />
               )}
               {subPage === GeneratorSubpage.EDIT_EXPERIENCE && (
-                <div>Edit experience</div>
+                <div>{t("editExperience")}</div>
               )}
               {subPage === GeneratorSubpage.PAST_EXPERIENCES && (
-                <div>Past experiences</div>
+                <div>{t("pastExperiences")}</div>
               )}
               {subPage === GeneratorSubpage.DASHBOARD_ANALYTICS && (
-                <div>Analytics</div>
+                <div>{t("analytics")}</div>
               )}
-              {subPage === GeneratorSubpage.HELP && <>Help</>}
+              {subPage === GeneratorSubpage.HELP && <>{t("help")}</>}
             </Flex>
           </Flex>
         </Box>

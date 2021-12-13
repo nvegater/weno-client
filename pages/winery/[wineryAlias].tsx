@@ -7,10 +7,11 @@ import { Flex, Heading } from "@chakra-ui/react";
 import { WenoLayout } from "../../components/GeneralLayout/WenoLayout";
 import useVerifySession from "../../components/Authentication/useVerifySession";
 import { WineryProfile } from "../../components/Profile/Winery/WineryProfile";
+import { useTranslation } from "react-i18next";
 
 const Winery = () => {
   const router = useRouter();
-
+  const [t] = useTranslation("global");
   const { wineryAlias, session_id } = router.query;
 
   const {
@@ -37,12 +38,12 @@ const Winery = () => {
       logoutFn={logout}
       tokenInfo={tokenInfo}
     >
-      {!wineryAlias && <h1>Something is wrong with the Url</h1>}
+      {!wineryAlias && <h1>{t("urlError")}</h1>}
 
       {(loadingAuthInfo || loadingVerification) && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
-            We are fetching the winery information....
+            {t("fetchingInformation")}
           </Heading>
         </Flex>
       )}
@@ -50,7 +51,7 @@ const Winery = () => {
       {notAuthenticated && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
-            Login to see the winery information
+            {t("needToLogin")}
           </Heading>
         </Flex>
       )}
@@ -58,7 +59,7 @@ const Winery = () => {
       {!verificationError && isVerified && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
-            You have successfully subscribed!
+            {t("subscribed")}
           </Heading>
         </Flex>
       )}
@@ -66,7 +67,7 @@ const Winery = () => {
       {verificationError && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
-            Your session is invalid
+            {t("invalidSession")}
           </Heading>
         </Flex>
       )}

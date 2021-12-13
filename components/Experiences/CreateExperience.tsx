@@ -17,6 +17,7 @@ import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorSummary } from "../RegisterWinery/CreateWineryForm";
 import RadioGroup from "../Radio/RadioGroup";
 import { DateTimeForm } from "./DateTimeForm";
+import { useTranslation } from "react-i18next";
 
 interface CreateExperienceProps {
   winery: WineryFragmentFragment;
@@ -47,16 +48,17 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     // TODO remove "False" from the Weekday enum
     console.log(data);
   };
+  const [t] = useTranslation("global");
 
   const formSteps: Step[] = [
     {
-      title: "Experience Details",
+      title: t("experienceDetails"),
       content: (
         <VStack spacing="24px" mt={4} mb={8}>
           <FormControl isInvalid={errors.title} isRequired={true}>
             <Input
               type="text"
-              placeholder="Title"
+              placeholder={t("title")}
               {...register("title", {
                 required: "Please enter the title of your event",
                 minLength: 3,
@@ -71,12 +73,12 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
           <FormControl isInvalid={errors.description} isRequired={true}>
             <Textarea
               type="text"
-              placeholder="Describe your event"
+              placeholder={t("describeEvent")}
               {...register("description", {
                 required: "Please enter a description",
                 minLength: {
                   value: 20,
-                  message: "Please enter at least 20 characters",
+                  message: t("descriptionMessage"),
                 },
               })}
             />
@@ -86,12 +88,10 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
           </FormControl>
 
           <FormControl isInvalid={errors.pricePerPersonInMxn} isRequired={true}>
-            <FormLabel htmlFor="pricePerPersonInMxn">
-              Price per Person
-            </FormLabel>
+            <FormLabel htmlFor="pricePerPersonInMxn">{t("price")}</FormLabel>
             <Input
               type="number"
-              placeholder="How much per person in MXN ?"
+              placeholder={t("howMuch")}
               {...register("pricePerPersonInMxn", {
                 valueAsNumber: true,
               })}
@@ -101,14 +101,16 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
             </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={errors.limitOfAttendees} isRequired={true}>
-            <FormLabel htmlFor="limitOfAttendees">Limit of attendees</FormLabel>
+            <FormLabel htmlFor="limitOfAttendees">
+              {t("attendeesLimit")}
+            </FormLabel>
             <Input
               type="number"
               placeholder="e.g. 1992"
               {...register("limitOfAttendees", {
                 valueAsNumber: true,
-                max: { value: 2022, message: "Invalid date" },
-                min: { value: 0, message: "Thats too old to be true" },
+                max: { value: 2022, message: t("lateDate") },
+                min: { value: 0, message: t("earlyDate") },
               })}
             />
             <FormErrorMessage>
@@ -118,11 +120,11 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
           <RadioGroup
             control={control}
             name="eventType"
-            label="Event type"
+            label={t("eventType")}
             elements={[
-              { name: "Degustation" },
-              { name: "Pairing" },
-              { name: "Concert" },
+              { name: t("degustation") },
+              { name: t("pairing") },
+              { name: t("concert") },
             ]}
             isRequired
             isVisibleLabel
@@ -143,13 +145,13 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
       ),
     },
     {
-      title: "Images",
+      title: t("images"),
       content: <div>Hola</div>,
     },
   ];
   return (
     <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
-      <Heading mb={8}>New Experience</Heading>
+      <Heading mb={8}>{t("newExperience")}</Heading>
       <Box mb={"3em"}>
         <VerticalSteps steps={formSteps} isLoading={false} />
       </Box>
@@ -171,7 +173,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
         mt={"3em"}
         disabled={isSubmitting}
       >
-        Submit
+        {t("submit")}
       </Button>
     </VStack>
   );

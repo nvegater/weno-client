@@ -10,6 +10,7 @@ import {
   WineryFragmentFragment,
 } from "../../../graphql/generated/graphql";
 import { ContextHeader } from "../../Authentication/useAuth";
+import { useTranslation } from "react-i18next";
 
 interface WineryOwnerInfoProps {
   winery: WineryFragmentFragment;
@@ -39,7 +40,7 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
     variables: { customerId: winery.stripe_customerId },
     context: contextHeader,
   });
-
+  const [t] = useTranslation("global");
   const [, onboardWinery] = useWineryOnboardingMutation();
 
   const handleOnboarding = async () => {
@@ -58,21 +59,21 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
     newDate
   )}`;
   const accountProps: CardProperty[] = [
-    { name: "Username", value: winery.creatorUsername },
-    { name: "Email", value: winery.creatorEmail },
-    { name: "Member since", value: createdAt },
+    { name: t("username"), value: winery.creatorUsername },
+    { name: t("email"), value: winery.creatorEmail },
+    { name: t("memberSince"), value: createdAt },
   ];
   const subscriptionProps: CardProperty[] = [
-    { name: "Tier", value: winery.subscription },
-    { name: "Cutomer ID", value: winery.stripe_customerId },
+    { name: t("tier"), value: winery.subscription },
+    { name: t("customerId"), value: winery.stripe_customerId },
     {
-      name: "Status",
+      name: t("status"),
       value: subscriptionStatus
         ? subscriptionStatus.getSubscriptionStatus
         : errorSubscriptionStatus
-        ? "Error"
+        ? t("error")
         : fetchingSubsStatus
-        ? "Loading"
+        ? t("loading")
         : "",
     },
   ];
@@ -80,19 +81,19 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
     <section>
       <Flex justifyContent={[null, null, null, "center"]}>
         <Heading as="h1" size="xl">
-          Winery Information
+          {t("wineryInformation")}
         </Heading>
       </Flex>
 
       <CardWithUserDetails properties={accountProps} title="Account" />
       <CardWithUserDetails
         properties={subscriptionProps}
-        title="Subscription"
+        title={t("subscription")}
       />
 
       <Flex justifyContent={[null, null, null, "center"]}>
         <Heading as="h4" size="md">
-          One more step to start selling your experiences
+          {t("oneMoreStep")}
         </Heading>
       </Flex>
 
@@ -101,16 +102,18 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
         mx={[0, 0, 0, "5em"]}
         textAlign={[null, null, null, "center"]}
       >
-        We want to help you earn money in the most secure way while always being
-        up to date with new regulations. <br /> Thats why we partnered with{" "}
+        {t("securityAd")} <br /> {t("partneredWith")}{" "}
         <Link
           fontWeight="bold"
           href="https://stripe.com/blog/stripe-launches-in-mexico"
         >
           Stripe
         </Link>
-        . Read more about their{" "}
-        <Link href="https://stripe.com/en-mx/privacy">Privacy Policy</Link>.
+        {t("readMore")}{" "}
+        <Link href="https://stripe.com/en-mx/privacy">
+          {t("privacyPolicy")}
+        </Link>
+        .
       </Text>
 
       <Flex justifyContent={[null, null, null, "center"]}>
@@ -119,7 +122,7 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
           size="heroWeno"
           onClick={handleOnboarding}
         >
-          Enable Stripe connected account
+          {t("enableStripe")}
         </Button>
       </Flex>
     </section>

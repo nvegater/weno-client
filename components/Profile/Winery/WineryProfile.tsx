@@ -4,6 +4,7 @@ import { Flex, Heading } from "@chakra-ui/react";
 import { ContextHeader } from "../../Authentication/useAuth";
 import { GeneratorLayout } from "./GeneratorLayout/GeneratorLayout";
 import { WineryCard } from "./WineryCard";
+import { useTranslation } from "react-i18next";
 
 interface WineryProfileProps {
   isOwner: boolean;
@@ -26,7 +27,7 @@ export const WineryProfile: FC<WineryProfileProps> = ({
     context: contextHeader,
     requestPolicy: "network-only",
   });
-
+  const [t] = useTranslation("global");
   const displayError =
     (wineryQuery && wineryQuery.winery.errors) || errorFetchingWinery;
   const errorMessageAvailable = wineryQuery && wineryQuery.winery.errors;
@@ -35,7 +36,7 @@ export const WineryProfile: FC<WineryProfileProps> = ({
       {fetchingWinery && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
-            We are fetching the winery information....
+            {t("fetchingInformation")}
           </Heading>
         </Flex>
       )}
