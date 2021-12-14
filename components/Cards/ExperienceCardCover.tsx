@@ -1,12 +1,4 @@
-import {
-  Box,
-  Flex,
-  Icon,
-  Img,
-  LinkOverlay,
-  Text,
-  useColorModeValue as mode,
-} from "@chakra-ui/react";
+import { Box, Flex, Icon, Img, LinkOverlay, Text } from "@chakra-ui/react";
 import { IoLocation } from "react-icons/io5";
 import React, { useState } from "react";
 import { BsSuitHeartFill } from "react-icons/bs";
