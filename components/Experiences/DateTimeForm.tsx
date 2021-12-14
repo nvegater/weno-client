@@ -46,6 +46,12 @@ import { BsFillEyeFill } from "react-icons/bs";
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
 const weekdaysArray: WeekdayStr[] = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
 
+export function isoDateWithoutTimeZone(date: Date) {
+  const timestamp = date.getTime() - date.getTimezoneOffset() * 60000;
+  const correctDate = new Date(timestamp);
+  return correctDate.toISOString();
+}
+
 interface DateTimeFormProps {
   control: Control<any>;
   watch: UseFormWatch<any>;
@@ -171,7 +177,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               <FormLabel htmlFor="startDateTime">Start</FormLabel>
               <DateTimePickerWeno
                 onDateTimeSelection={(date) => {
-                  field.onChange(date);
+                  field.onChange(isoDateWithoutTimeZone(date));
                 }}
                 onlyDate={
                   disable__Duration_StartTime_EndDateTime__setAutoDuration
@@ -199,7 +205,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                 <FormLabel htmlFor="endDateTime">End</FormLabel>
                 <DateTimePickerWeno
                   onDateTimeSelection={(date) => {
-                    field.onChange(date);
+                    field.onChange(isoDateWithoutTimeZone(date));
                   }}
                   endDatePeriodic={
                     enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion

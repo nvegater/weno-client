@@ -14,9 +14,31 @@ interface SampleDatesProps {
   datesWithTimes: DateWithTimesFragment[];
 }
 
+interface DateTimeFormatOptions {
+  localeMatcher?: "best fit" | "lookup";
+  weekday?: "long" | "short" | "narrow";
+  era?: "long" | "short" | "narrow";
+  year?: "numeric" | "2-digit";
+  month?: "numeric" | "2-digit" | "long" | "short" | "narrow";
+  day?: "numeric" | "2-digit";
+  hour?: "numeric" | "2-digit";
+  minute?: "numeric" | "2-digit";
+  second?: "numeric" | "2-digit";
+  timeZoneName?: "long" | "short";
+  formatMatcher?: "best fit" | "basic";
+  hour12?: boolean;
+  timeZone?: string;
+}
+
+const timeFormatterOptions: DateTimeFormatOptions = {
+  timeZone: "UTC",
+  hour: "numeric",
+  minute: "numeric",
+};
+const dateFormatter = new Intl.DateTimeFormat(undefined, timeFormatterOptions);
+
 function formatDateTime(date: Date) {
-  const timePart = date.toLocaleTimeString();
-  return timePart.substring(0, timePart.length - 3);
+  return dateFormatter.format(date);
 }
 
 function formatDate(date: Date) {

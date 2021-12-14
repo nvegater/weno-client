@@ -85,24 +85,27 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
           ? removeNonStringsFromArray(data.exceptionDays)
           : undefined,
     };
-    console.log(data);
-    console.log(experienceInputs);
-    console.log(recurrenceInputs);
     const { data: result, error } = await createExperience(
       {
         createExperienceInputs: experienceInputs,
         createRecurrentDatesInputs: recurrenceInputs,
       },
-      { context: contextHeader, requestPolicy: "network-only" }
+      { ...contextHeader, requestPolicy: "network-only" }
     );
-    console.log("Result: ", result);
-    console.log("Error: ", error);
-    if (error || (result && result.createExperience.errors !== null)) {
+    if (error) {
       setError("submit", {
-        type: result.createExperience.errors[0].field || error.name,
-        message: result.createExperience.errors[0].message || error.message,
+        type: error.name,
+        message: error.message,
       });
-    } else {
+    }
+    if (result && result.createExperience.errors !== null) {
+      setError(result.createExperience.errors[0].field, {
+        type: "Field error",
+        message: result?.createExperience.errors[0].message,
+      });
+    }
+    if (result && result.createExperience.experience !== null) {
+      console.log("Success");
       console.log(result.createExperience.experience);
       console.log(result.createExperience.dateWithTimes);
       // Trigger image upload after succesfull experience Creation
