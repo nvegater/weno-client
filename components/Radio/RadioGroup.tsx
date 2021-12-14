@@ -13,13 +13,13 @@ export type RadioElement = { name: string };
 type FormElementsUsingRadiogroup = {
   subscription?: string;
   eventType?: string;
-  isPeriodic?: string;
+  typeOfSlot?: string;
 };
 const RadioGroup: FC<{
   control: Control<FormElementsUsingRadiogroup>;
   label: string;
   elements: RadioElement[];
-  name: "subscription" | "eventType" | "isPeriodic";
+  name: "subscription" | "eventType" | "typeOfSlot";
   isRequired?: boolean;
   isVisibleLabel?: boolean;
 }> = ({

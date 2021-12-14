@@ -20,6 +20,7 @@
     "@react-keycloak/ssr": "^3.3.0",
     "@urql/exchange-graphcache": "^4.3.5",
     "aws-sdk": "^2.996.0",
+    "browser-image-compression": "^1.0.17",
     "date-fns": "^2.27.0",
     "framer-motion": "^4.1.17",
     "graphql": "^15.6.0",

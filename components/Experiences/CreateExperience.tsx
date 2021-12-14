@@ -1,5 +1,10 @@
-import React, { FC } from "react";
-import { WineryFragmentFragment } from "../../graphql/generated/graphql";
+import React, { FC, useState } from "react";
+import {
+  CreateExperienceInputs,
+  CreateRecurrentDatesInputs,
+  useCreateExperienceMutation,
+  WineryFragmentFragment,
+} from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
 import { useForm } from "react-hook-form";
 import {
@@ -18,6 +23,12 @@ import { ErrorSummary } from "../RegisterWinery/CreateWineryForm";
 import RadioGroup from "../Radio/RadioGroup";
 import { DateTimeForm } from "./DateTimeForm";
 import { useTranslation } from "react-i18next";
+import { ExperienceImagesForm } from "./ExperienceImagesForm";
+import {
+  mapEventType,
+  mapSlotType,
+  removeNonStringsFromArray,
+} from "../RegisterWinery/utils";
 
 interface CreateExperienceProps {
   winery: WineryFragmentFragment;
@@ -28,25 +39,82 @@ export const oneTime = "One Time";
 export const recurrent = "Periodic";
 export const allDay = "All day";
 
+export const degustation = "Degustation";
+export const pairing = "Pairing";
+export const concert = "Concert";
+
 export const CreateExperience: FC<CreateExperienceProps> = ({
   winery,
   contextHeader,
 }) => {
+  const [experienceId, setExperienceId] = useState<number>(-1);
+  const [pauseImageUpload, setPauseImageUpload] = useState(true);
   const {
     register,
-    //setError,
+    setError,
     watch,
     handleSubmit,
     control,
     setValue,
     formState: { errors, isSubmitting },
   } = useForm({ mode: "onTouched" });
-  console.log(winery, contextHeader);
+
+  const [, createExperience] = useCreateExperienceMutation();
   const onSubmit = async (data) => {
-    // TODO convert event type value to Backend Enum
-    // TODO convert periodic field to enum
-    // TODO remove "False" from the Weekday enum
-    console.log(data);
+    const experienceInputs: CreateExperienceInputs = {
+      wineryId: winery.id,
+      title: data.title,
+      description: data.description,
+      limitOfAttendees: data.limitOfAttendees,
+      typeOfEvent: mapEventType(data.eventType),
+      pricePerPersonInDollars: data.pricePerPersonInMxn,
+    };
+    const recurrenceInputs: CreateRecurrentDatesInputs = {
+      startDate: data.startDateTime,
+      endDate: data.endDateTime,
+      durationInMinutes: parseInt(data.durationInMinutes),
+      slotType: mapSlotType(data.typeOfSlot),
+      customDates:
+        data.customDates && data.customDates.length > 0
+          ? data.customDates.map((d) => new Date(d.value))
+          : undefined,
+      exceptions:
+        data.exceptions && data.exceptions.length > 0
+          ? data.exceptions.map((d) => new Date(d.value))
+          : undefined,
+      exceptionDays:
+        data.exceptionDays &&
+        removeNonStringsFromArray(data.exceptionDays).length > 0
+          ? removeNonStringsFromArray(data.exceptionDays)
+          : undefined,
+    };
+    const { data: result, error } = await createExperience(
+      {
+        createExperienceInputs: experienceInputs,
+        createRecurrentDatesInputs: recurrenceInputs,
+      },
+      { ...contextHeader, requestPolicy: "network-only" }
+    );
+    if (error) {
+      setError("submit", {
+        type: error.name,
+        message: error.message,
+      });
+    }
+    if (result && result.createExperience.errors !== null) {
+      setError(result.createExperience.errors[0].field, {
+        type: "Field error",
+        message: result?.createExperience.errors[0].message,
+      });
+    }
+    if (result && result.createExperience.experience !== null) {
+      console.log("Success");
+      console.log(result.createExperience.experience);
+      console.log(result.createExperience.dateWithTimes);
+      // Trigger image upload after succesfull experience Creation
+      setPauseImageUpload(false);
+      setExperienceId(result.createExperience.experience.id);
+    }
   };
   const [t] = useTranslation("global");
 
@@ -146,7 +214,13 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     },
     {
       title: t("images"),
-      content: <div>Hola</div>,
+      content: (
+        <ExperienceImagesForm
+          pauseImageUpload={pauseImageUpload}
+          experienceId={experienceId}
+          contextHeader={contextHeader}
+        />
+      ),
     },
   ];
   return (
