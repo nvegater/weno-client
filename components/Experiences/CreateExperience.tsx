@@ -46,6 +46,8 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
   winery,
   contextHeader,
 }) => {
+  const [experienceId, setExperienceId] = useState<number>(-1);
+  const [pauseImageUpload, setPauseImageUpload] = useState(true);
   const {
     register,
     setError,
@@ -110,10 +112,9 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
       console.log(result.createExperience.dateWithTimes);
       // Trigger image upload after succesfull experience Creation
       setPauseImageUpload(false);
+      setExperienceId(result.createExperience.experience.id);
     }
   };
-
-  const [pauseImageUpload, setPauseImageUpload] = useState(true);
 
   const formSteps: Step[] = [
     {
@@ -211,7 +212,13 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     },
     {
       title: "Images",
-      content: <ExperienceImagesForm />,
+      content: (
+        <ExperienceImagesForm
+          pauseImageUpload={pauseImageUpload}
+          experienceId={experienceId}
+          contextHeader={contextHeader}
+        />
+      ),
     },
   ];
   return (

@@ -1,6 +1,11 @@
 import React, { FC, useState } from "react";
 import imageCompression from "browser-image-compression";
 import ExperienceGallery from "./ExperienceGallery";
+import {
+  UploadType,
+  usePreSignedUrlQuery,
+} from "../../graphql/generated/graphql";
+import { ContextHeader } from "../Authentication/useAuth";
 
 // you should provide one of maxSizeMB, maxWidthOrHeight in the options
 const options = {
@@ -37,10 +42,31 @@ const uploadImage = (putURL: string, file: File) =>
     }
   });
 
-interface ExperienceImagesFormProps {}
+interface ExperienceImagesFormProps {
+  pauseImageUpload: boolean;
+  experienceId: null | number;
+  contextHeader: ContextHeader;
+}
 
-export const ExperienceImagesForm: FC<ExperienceImagesFormProps> = () => {
+export const ExperienceImagesForm: FC<ExperienceImagesFormProps> = ({
+  pauseImageUpload,
+  contextHeader,
+  experienceId,
+}) => {
   const [files, setFiles] = useState<Array<File>>([]);
+
+  const [{ data: uploadImageResponse }] = usePreSignedUrlQuery({
+    pause: pauseImageUpload || experienceId === null,
+    variables: {
+      presignedUrlInputs: {
+        fileNames: files.map((f) => f.name),
+        uploadType: UploadType.Experiencealbum,
+        experienceId: experienceId,
+      },
+    },
+    context: contextHeader,
+    requestPolicy: "network-only",
+  });
 
   return (
     <ExperienceGallery

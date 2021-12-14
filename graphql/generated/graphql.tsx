@@ -155,6 +155,11 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+export type GetPreSignedUrlResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  arrayUrl?: Maybe<Array<PresignedResponse>>;
+};
+
 export type GetWineryInputs = {
   urlAlias?: Maybe<Scalars['String']>;
   creatorUsername?: Maybe<Scalars['String']>;
@@ -251,6 +256,22 @@ export type PaymentMetadataInputs = {
   username: Scalars['String'];
 };
 
+export type PresignedResponse = {
+  getUrl?: Maybe<Scalars['String']>;
+  putUrl?: Maybe<Scalars['String']>;
+};
+
+export type PresignedUrlInput = {
+  fileNames: Array<Scalars['String']>;
+  uploadType: UploadType;
+  /** opcional */
+  wineryId?: Maybe<Scalars['Float']>;
+  /** opcional */
+  experienceId?: Maybe<Scalars['Float']>;
+  /** opcional */
+  creatorUsername?: Maybe<Scalars['String']>;
+};
+
 export type Price = {
   id: Scalars['String'];
   type: Scalars['String'];
@@ -283,6 +304,7 @@ export type ProductsResponse = {
 };
 
 export type Query = {
+  experienceWithSlots: ExperienceResponse;
   recurrentDates: RecurrenceResponse;
   allPictures: Scalars['Int'];
   allReservations: Scalars['Int'];
@@ -291,6 +313,12 @@ export type Query = {
   getSubscriptionProducts: ProductsResponse;
   getCheckoutSessionStatus: CheckoutSessionResponse;
   getSubscriptionStatus: Scalars['String'];
+  preSignedUrl: GetPreSignedUrlResponse;
+};
+
+
+export type QueryExperienceWithSlotsArgs = {
+  experienceId: Scalars['Float'];
 };
 
 
@@ -311,6 +339,11 @@ export type QueryGetCheckoutSessionStatusArgs = {
 
 export type QueryGetSubscriptionStatusArgs = {
   customerId: Scalars['String'];
+};
+
+
+export type QueryPreSignedUrlArgs = {
+  presignedUrlInputs: PresignedUrlInput;
 };
 
 export type RecurrenceResponse = {
@@ -381,6 +414,14 @@ export enum TypeWine {
   Organico = 'ORGANICO',
   Biodinamico = 'BIODINAMICO',
   Natural = 'NATURAL'
+}
+
+/** Se pueden cargar imagenes para distintos elementos, usuarios, galerias de viñeros etc, etc */
+export enum UploadType {
+  Wineryalbum = 'WINERYALBUM',
+  Userprofilepicture = 'USERPROFILEPICTURE',
+  Experiencealbum = 'EXPERIENCEALBUM',
+  Winerylogo = 'WINERYLOGO'
 }
 
 export type UserInputs = {
@@ -513,6 +554,13 @@ export type GetSubscriptionStatusQueryVariables = Exact<{
 
 
 export type GetSubscriptionStatusQuery = { getSubscriptionStatus: string };
+
+export type PreSignedUrlQueryVariables = Exact<{
+  presignedUrlInputs: PresignedUrlInput;
+}>;
+
+
+export type PreSignedUrlQuery = { preSignedUrl: { errors?: Array<{ field: string, message: string }> | null | undefined, arrayUrl?: Array<{ getUrl?: string | null | undefined, putUrl?: string | null | undefined }> | null | undefined } };
 
 export type SubscriptionProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -738,6 +786,24 @@ export const GetSubscriptionStatusDocument = gql`
 
 export function useGetSubscriptionStatusQuery(options: Omit<Urql.UseQueryArgs<GetSubscriptionStatusQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetSubscriptionStatusQuery>({ query: GetSubscriptionStatusDocument, ...options });
+};
+export const PreSignedUrlDocument = gql`
+    query PreSignedUrl($presignedUrlInputs: PresignedUrlInput!) {
+  preSignedUrl(presignedUrlInputs: $presignedUrlInputs) {
+    errors {
+      field
+      message
+    }
+    arrayUrl {
+      getUrl
+      putUrl
+    }
+  }
+}
+    `;
+
+export function usePreSignedUrlQuery(options: Omit<Urql.UseQueryArgs<PreSignedUrlQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<PreSignedUrlQuery>({ query: PreSignedUrlDocument, ...options });
 };
 export const SubscriptionProductsDocument = gql`
     query SubscriptionProducts {

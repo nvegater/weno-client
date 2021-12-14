@@ -79,6 +79,11 @@ type FieldError {
   message: String!
 }
 
+type GetPreSignedUrlResponse {
+  arrayUrl: [PresignedResponse!]
+  errors: [FieldError!]
+}
+
 type Mutation {
   createCustomer(createCustomerInputs: CreateCustomerInputs!): CustomerResponse!
   createExperience(
@@ -99,6 +104,11 @@ type OnboardingResponse {
 
 type PaymentMetadata {
   username: String!
+}
+
+type PresignedResponse {
+  getUrl: String
+  putUrl: String
 }
 
 type Price {
@@ -129,9 +139,11 @@ type Query {
   allPictures: Int!
   allReservations: Int!
   allWineries: Int!
+  experienceWithSlots(experienceId: Float!): ExperienceResponse!
   getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
   getSubscriptionProducts: ProductsResponse!
   getSubscriptionStatus(customerId: String!): String!
+  preSignedUrl(presignedUrlInputs: PresignedUrlInput!): GetPreSignedUrlResponse!
   recurrentDates(
     createRecurrentDatesInputs: CreateRecurrentDatesInputs!
   ): RecurrenceResponse!
@@ -343,6 +355,14 @@ enum TypeWine {
   TINTO_JOVEN
 }
 
+"Se pueden cargar imagenes para distintos elementos, usuarios, galerias de viñeros etc, etc"
+enum UploadType {
+  EXPERIENCEALBUM
+  USERPROFILEPICTURE
+  WINERYALBUM
+  WINERYLOGO
+}
+
 "A winery is in an unique valley, valleys are not identifiable through addresses"
 enum Valley {
   CALAFIA
@@ -408,6 +428,17 @@ input GetWineryInputs {
 
 input PaymentMetadataInputs {
   username: String!
+}
+
+input PresignedUrlInput {
+  "opcional"
+  creatorUsername: String
+  "opcional"
+  experienceId: Float
+  fileNames: [String!]!
+  uploadType: UploadType!
+  "opcional"
+  wineryId: Float
 }
 
 input UserInputs {

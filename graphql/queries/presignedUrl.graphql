@@ -1,0 +1,12 @@
+query PreSignedUrl($presignedUrlInputs: PresignedUrlInput!) {
+  preSignedUrl(presignedUrlInputs: $presignedUrlInputs) {
+    errors {
+      field
+      message
+    }
+    arrayUrl {
+      getUrl
+      putUrl
+    }
+  }
+}
