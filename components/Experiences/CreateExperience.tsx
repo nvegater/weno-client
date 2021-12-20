@@ -222,6 +222,11 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
       ),
     },
   ];
+  // TODO add async function to validate that there are not server Errors
+  // https://react-hook-form.com/api/useform/handlesubmit
+  // Especially Errors while generating pre-Signed Urls
+  // Shouldnt Allow creation of experience if Images are not "savable"
+
   return (
     <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
       <Heading mb={8}>New Experience</Heading>
