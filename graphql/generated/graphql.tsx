@@ -123,6 +123,16 @@ export type ExperienceImage = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type ExperienceImageResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  experienceImages: Array<ExperienceImageUpload>;
+};
+
+export type ExperienceImageUpload = {
+  imageUrl: Scalars['String'];
+  coverPage: Scalars['Boolean'];
+};
+
 export type ExperienceResponse = {
   errors?: Maybe<Array<FieldError>>;
   experience?: Maybe<Experience>;
@@ -212,6 +222,7 @@ export type Mutation = {
   createWinery: WineryResponse;
   createCustomer: CustomerResponse;
   wineryOnboarding: OnboardingResponse;
+  saveExperienceImagesUrls: ExperienceImageResponse;
 };
 
 
@@ -234,6 +245,12 @@ export type MutationCreateCustomerArgs = {
 
 export type MutationWineryOnboardingArgs = {
   wineryAlias: Scalars['String'];
+};
+
+
+export type MutationSaveExperienceImagesUrlsArgs = {
+  preSignedUrls: Array<Scalars['String']>;
+  experienceId: Scalars['Int'];
 };
 
 export type OnboardingResponse = {
@@ -534,6 +551,14 @@ export type CreateWineryMutationVariables = Exact<{
 
 export type CreateWineryMutation = { createWinery: { sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, images?: Array<{ id: number, imageUrl: string, coverPage?: boolean | null | undefined }> | null | undefined, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> }> | null | undefined } | null | undefined } };
 
+export type SaveExperienceImagesUrlsMutationVariables = Exact<{
+  preSignedUrls: Array<Scalars['String']> | Scalars['String'];
+  experienceId: Scalars['Int'];
+}>;
+
+
+export type SaveExperienceImagesUrlsMutation = { saveExperienceImagesUrls: { errors?: Array<{ field: string, message: string }> | null | undefined, experienceImages: Array<{ imageUrl: string, coverPage: boolean }> } };
+
 export type WineryOnboardingMutationVariables = Exact<{
   wineryAlias: Scalars['String'];
 }>;
@@ -746,6 +771,27 @@ export const CreateWineryDocument = gql`
 
 export function useCreateWineryMutation() {
   return Urql.useMutation<CreateWineryMutation, CreateWineryMutationVariables>(CreateWineryDocument);
+};
+export const SaveExperienceImagesUrlsDocument = gql`
+    mutation SaveExperienceImagesUrls($preSignedUrls: [String!]!, $experienceId: Int!) {
+  saveExperienceImagesUrls(
+    preSignedUrls: $preSignedUrls
+    experienceId: $experienceId
+  ) {
+    errors {
+      field
+      message
+    }
+    experienceImages {
+      imageUrl
+      coverPage
+    }
+  }
+}
+    `;
+
+export function useSaveExperienceImagesUrlsMutation() {
+  return Urql.useMutation<SaveExperienceImagesUrlsMutation, SaveExperienceImagesUrlsMutationVariables>(SaveExperienceImagesUrlsDocument);
 };
 export const WineryOnboardingDocument = gql`
     mutation WineryOnboarding($wineryAlias: String!) {
