@@ -8,6 +8,7 @@ import {
 import { ContextHeader } from "../Authentication/useAuth";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
+import { getToastMessage } from "../utils/chakra-utils";
 
 // you should provide one of maxSizeMB, maxWidthOrHeight in the options
 const options = {
@@ -99,32 +100,11 @@ export const ExperienceImagesForm: FC<ExperienceImagesFormProps> = ({
           ) as Array<string>,
           serviceId: experienceId,
         });
-        toast({
-          title: "Saving Image",
-          description: "Processing changes",
-          status: "info",
-          duration: 5000,
-          isClosable: true,
-          position: "top",
-        });
+        toast(getToastMessage("processingChangesInfo"));
         if (!insertServiceImageResponse.data?.insertImageService.success) {
-          toast({
-            title: "Error",
-            description: "We couldnt upload your images",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-            position: "top",
-          });
+          toast(getToastMessage("uploadImageError"));
         }
-        toast({
-          title: "Ready",
-          description: "We saved your images",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-          position: "top",
-        });
+        toast(getToastMessage("imagesSavedSuccess"));
         router.reload();
       }
     };
