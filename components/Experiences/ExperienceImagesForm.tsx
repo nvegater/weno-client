@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
 import imageCompression from "browser-image-compression";
 import ExperienceGallery from "./ExperienceGallery";
 import {
@@ -9,6 +9,7 @@ import { ContextHeader } from "../Authentication/useAuth";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import { getToastMessage } from "../utils/chakra-utils";
+import { useEffectOnChange } from "../utils/react-utils";
 
 // you should provide one of maxSizeMB, maxWidthOrHeight in the options
 const options = {
@@ -77,7 +78,7 @@ export const ExperienceImagesForm: FC<ExperienceImagesFormProps> = ({
     }
   );
 
-  useEffect(() => {
+  useEffectOnChange(() => {
     const uploadingImageAfterRender = async () => {
       if (uploadImageResponse?.preSignedUrl?.arrayUrl) {
         const preSignedUrlsList = await Promise.all(
