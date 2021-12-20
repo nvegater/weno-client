@@ -289,6 +289,13 @@
   "exceptionDates": "Exceptions",
   "customExceptions": "Add custom exceptions",
   "create": "Create",
+  "recurrent": "Recurrent",
+  "startMessage": "You need a start date",
+  "endMessage": "You need an end date",
+  "needDuration": "You need a duration",
+  "longEvent": "Your event is too long",
+  "invalidDuration": "That's not a valid duration",
+  "add": "Add",
 
   "noUsername": "No username provided.",
   "noPassword": "No password provided.",
@@ -300,5 +307,8 @@
   "provideDescription": "Please enter a description",
   "descriptionLength": "Must have more than 10 characters",
   "yearLength": "Must contain exactly 4 digits",
-  "typesValidation": "Only valid for listed values"
+  "typesValidation": "Only valid for listed values",
+
+  "userId": "User ID",
+  "userNotFound": "User not found"
 }

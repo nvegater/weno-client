@@ -42,6 +42,7 @@ import {
 import { ContextHeader } from "../Authentication/useAuth";
 import { SampleDates } from "./SampleDates";
 import { BsFillEyeFill } from "react-icons/bs";
+import { useTranslation } from "react-i18next";
 
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
 const weekdaysArray: WeekdayStr[] = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
@@ -94,6 +95,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   const watchCustomDates = watch("customDates");
   const watchExceptions = watch("exceptions");
   const watchExceptionDays = watch("exceptionDays");
+  const [t] = useTranslation("global");
 
   const enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion =
     watchPeriodic === recurrent;
@@ -159,14 +161,14 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
       <RadioGroup
         control={control}
         name="typeOfSlot"
-        label="Recurrent"
+        label={t("recurrent")}
         elements={[{ name: oneTime }, { name: recurrent }, { name: allDay }]}
       />
       <HStack>
         <Controller
           control={control}
           rules={{
-            required: { value: true, message: "You need a start date" },
+            required: { value: true, message: t("startMessage") },
           }}
           name="startDateTime"
           render={({ field, fieldState }) => (
@@ -174,7 +176,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               isRequired={true}
               isInvalid={Boolean(fieldState.error)}
             >
-              <FormLabel htmlFor="startDateTime">Start</FormLabel>
+              <FormLabel htmlFor="startDateTime">{t("start")}</FormLabel>
               <DateTimePickerWeno
                 onDateTimeSelection={(date) => {
                   field.onChange(isoDateWithoutTimeZone(date));
@@ -195,14 +197,14 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             control={control}
             name="endDateTime"
             rules={{
-              required: { value: true, message: "You need an end date" },
+              required: { value: true, message: t("endMessage") },
             }}
             render={({ field, fieldState }) => (
               <FormControl
                 isRequired={true}
                 isInvalid={Boolean(fieldState.error)}
               >
-                <FormLabel htmlFor="endDateTime">End</FormLabel>
+                <FormLabel htmlFor="endDateTime">{t("end")}</FormLabel>
                 <DateTimePickerWeno
                   onDateTimeSelection={(date) => {
                     field.onChange(isoDateWithoutTimeZone(date));
@@ -225,9 +227,9 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
           name="durationInMinutes"
           defaultValue={0}
           rules={{
-            required: { value: true, message: "You need a duration" },
-            max: { value: 100000, message: "Your event is too long." },
-            min: { value: 1, message: "Thats not a valid duration" },
+            required: { value: true, message: t("needDuration") },
+            max: { value: 100000, message: t("longEvent") },
+            min: { value: 1, message: t("invalidDuration") },
           }}
           render={({ field, fieldState }) => {
             return (
@@ -277,7 +279,8 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             variant="secondaryWeno"
             size="navBarCTA"
           >
-            Add {customDateField.length > 0 ? "another" : "a"} custom date
+            {t("add")} {customDateField.length > 0 ? "another" : "a"} custom
+            date
           </Button>
           {customDateField.map((field, index) => (
             <Controller
