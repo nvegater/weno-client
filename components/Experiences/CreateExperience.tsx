@@ -28,7 +28,7 @@ import {
   mapEventType,
   mapSlotType,
   removeNonStringsFromArray,
-} from "../RegisterWinery/utils";
+} from "../utils/enum-utils";
 
 interface CreateExperienceProps {
   winery: WineryFragmentFragment;

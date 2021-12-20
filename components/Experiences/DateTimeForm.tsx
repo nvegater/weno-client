@@ -34,7 +34,7 @@ import {
   mapSlotType,
   removeNonStringsFromArray,
   weekdaysReverseMapping,
-} from "../RegisterWinery/utils";
+} from "../utils/enum-utils";
 import {
   CreateRecurrentDatesInputs,
   useRecurrentDatesQuery,

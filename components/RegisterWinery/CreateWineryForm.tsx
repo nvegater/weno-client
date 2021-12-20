@@ -28,7 +28,7 @@ import {
   removeNonStringsFromArray,
   valleyReverseMapping,
   wineTypeReverseMapping,
-} from "./utils";
+} from "../utils/enum-utils";
 import { ContextHeader } from "../Authentication/useAuth";
 import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorMessage } from "@hookform/error-message";
