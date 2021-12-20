@@ -42,10 +42,14 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
 
   const [, onboardWinery] = useWineryOnboardingMutation();
 
+  // TODO implement case when connected account is set up
   const handleOnboarding = async () => {
-    const { error, data } = await onboardWinery({
-      wineryAlias: winery.urlAlias,
-    });
+    const { error, data } = await onboardWinery(
+      {
+        wineryAlias: winery.urlAlias,
+      },
+      { ...contextHeader, requestPolicy: "network-only" }
+    );
     if (error) {
       console.log(error);
     } else {
