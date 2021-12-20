@@ -54,6 +54,16 @@ type ExperienceImage {
   updatedAt: DateTime!
 }
 
+type ExperienceImageResponse {
+  errors: [FieldError!]
+  experienceImages: [ExperienceImageUpload!]!
+}
+
+type ExperienceImageUpload {
+  coverPage: Boolean!
+  imageUrl: String!
+}
+
 type ExperienceResponse {
   dateWithTimes: [DateWithTimes!]
   errors: [FieldError!]
@@ -94,6 +104,10 @@ type Mutation {
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
   ): WineryResponse!
+  saveExperienceImagesUrls(
+    experienceId: Int!
+    preSignedUrls: [String!]!
+  ): ExperienceImageResponse!
   wineryOnboarding(wineryAlias: String!): OnboardingResponse!
 }
 

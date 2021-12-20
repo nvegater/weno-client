@@ -1,0 +1,18 @@
+mutation SaveExperienceImagesUrls(
+  $preSignedUrls: [String!]!
+  $experienceId: Int!
+) {
+  saveExperienceImagesUrls(
+    preSignedUrls: $preSignedUrls
+    experienceId: $experienceId
+  ) {
+    errors {
+      field
+      message
+    }
+    experienceImages {
+      imageUrl
+      coverPage
+    }
+  }
+}
