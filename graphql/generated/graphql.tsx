@@ -525,6 +525,8 @@ export type ExperienceFragmentFragment = { createdAt: any, id: number, title: st
 
 export type ExperienceImageFragmentFragment = { id: number, imageUrl: string, coverPage?: boolean | null | undefined };
 
+export type PreSignedUrlFragment = { getUrl?: string | null | undefined, putUrl?: string | null | undefined };
+
 export type PriceFragmentFragment = { id: string, type: string, currency: string, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined };
 
 export type ProductFragmentFragment = { id: string, name: string, description: string, images: Array<string>, unit_label: string, price: Array<{ id: string, type: string, currency: string, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined }> };
@@ -616,6 +618,12 @@ export const ErrorFragmentFragmentDoc = gql`
     fragment ErrorFragment on FieldError {
   field
   message
+}
+    `;
+export const PreSignedUrlFragmentDoc = gql`
+    fragment PreSignedUrl on PresignedResponse {
+  getUrl
+  putUrl
 }
     `;
 export const TiersFragmentFragmentDoc = gql`
@@ -837,16 +845,15 @@ export const PreSignedUrlDocument = gql`
     query PreSignedUrl($presignedUrlInputs: PresignedUrlInput!) {
   preSignedUrl(presignedUrlInputs: $presignedUrlInputs) {
     errors {
-      field
-      message
+      ...ErrorFragment
     }
     arrayUrl {
-      getUrl
-      putUrl
+      ...PreSignedUrl
     }
   }
 }
-    `;
+    ${ErrorFragmentFragmentDoc}
+${PreSignedUrlFragmentDoc}`;
 
 export function usePreSignedUrlQuery(options: Omit<Urql.UseQueryArgs<PreSignedUrlQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<PreSignedUrlQuery>({ query: PreSignedUrlDocument, ...options });

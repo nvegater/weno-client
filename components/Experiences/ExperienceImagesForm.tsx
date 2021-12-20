@@ -1,15 +1,21 @@
-import React, { FC, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
 import imageCompression from "browser-image-compression";
 import ExperienceGallery from "./ExperienceGallery";
 import {
+  PreSignedUrlFragment,
+  SaveExperienceImagesUrlsMutation,
+  SaveExperienceImagesUrlsMutationVariables,
   UploadType,
   usePreSignedUrlQuery,
+  useSaveExperienceImagesUrlsMutation,
 } from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import { getToastMessage } from "../utils/chakra-utils";
 import { useEffectOnChange } from "../utils/react-utils";
+import { UseFormSetError } from "react-hook-form";
+import { OperationContext, OperationResult } from "urql";
 
 // you should provide one of maxSizeMB, maxWidthOrHeight in the options
 const options = {
@@ -46,25 +52,85 @@ const uploadImage = (putURL: string, file: File) =>
     }
   });
 
+const uploadingImageAfterRender = async (
+  preSignedUrls: PreSignedUrlFragment[],
+  files: Array<File>,
+  experienceId: number,
+  setError: UseFormSetError<any>,
+  setSuccessUploading: Dispatch<SetStateAction<boolean>>,
+  saveImageUrls: (
+    variables?: SaveExperienceImagesUrlsMutationVariables,
+    context?: Partial<OperationContext>
+  ) => Promise<
+    OperationResult<
+      SaveExperienceImagesUrlsMutation,
+      SaveExperienceImagesUrlsMutationVariables
+    >
+  >,
+  contextHeader: ContextHeader
+) => {
+  const preSignedUrlsList = await Promise.all(
+    preSignedUrls.map(async (preSigned, index) => {
+      const uploadImageResult = await uploadImage(
+        preSigned.putUrl as string,
+        files[index]
+      );
+      return uploadImageResult ? preSigned.getUrl : null;
+    })
+  );
+  const { data: result, error } = await saveImageUrls(
+    {
+      preSignedUrls: preSignedUrlsList.filter(
+        (getUrl) => getUrl !== null
+      ) as Array<string>,
+      experienceId: experienceId,
+    },
+    { ...contextHeader, requestPolicy: "network-only" }
+  );
+  if (error) {
+    setError("submit", {
+      type: error.name,
+      message: error.message,
+    });
+  }
+  if (result && result.saveExperienceImagesUrls.errors !== null) {
+    setError(result.saveExperienceImagesUrls.errors[0].field, {
+      type: "Field error",
+      message: result.saveExperienceImagesUrls.errors[0].message,
+    });
+  }
+  if (
+    result &&
+    result.saveExperienceImagesUrls.experienceImages !== null &&
+    result.saveExperienceImagesUrls.experienceImages.length > 0
+  ) {
+    setSuccessUploading(true);
+  }
+};
+
 interface ExperienceImagesFormProps {
   pauseImageUpload: boolean;
   experienceId: null | number;
   contextHeader: ContextHeader;
+  setError: UseFormSetError<any>;
 }
 
 export const ExperienceImagesForm: FC<ExperienceImagesFormProps> = ({
   pauseImageUpload,
   contextHeader,
   experienceId,
+  setError,
 }) => {
   const router = useRouter();
 
   const toast = useToast();
 
   const [files, setFiles] = useState<Array<File>>([]);
+  const [localError, setLocalError] = useState(false);
+  const [successUploading, setSuccessUploading] = useState(false);
 
-  const [{ data: uploadImageResponse, fetching, error }] = usePreSignedUrlQuery(
-    {
+  const [{ data: uploadImageResponse, fetching, error: preSignedError }] =
+    usePreSignedUrlQuery({
       pause: pauseImageUpload || experienceId === null,
       variables: {
         presignedUrlInputs: {
@@ -75,49 +141,63 @@ export const ExperienceImagesForm: FC<ExperienceImagesFormProps> = ({
       },
       context: contextHeader,
       requestPolicy: "network-only",
-    }
-  );
+    });
 
   useEffectOnChange(() => {
-    const uploadingImageAfterRender = async () => {
-      if (uploadImageResponse?.preSignedUrl?.arrayUrl) {
-        const preSignedUrlsList = await Promise.all(
-          uploadImageResponse?.preSignedUrl?.arrayUrl?.map(
-            async (preSigned, index) => {
-              const uploadImageResult = await uploadImage(
-                preSigned.putUrl as string,
-                files[index]
-              );
-              return uploadImageResult ? preSigned.getUrl : null;
-            }
-          )
-        );
-        const insertServiceImage = async (props: any) => {
-          return {} as any;
-        };
-        const insertServiceImageResponse = await insertServiceImage({
-          urlImage: preSignedUrlsList.filter(
-            (getUrl) => getUrl !== null
-          ) as Array<string>,
-          serviceId: experienceId,
-        });
-        toast(getToastMessage("processingChangesInfo"));
-        if (!insertServiceImageResponse.data?.insertImageService.success) {
-          toast(getToastMessage("uploadImageError"));
-        }
-        toast(getToastMessage("imagesSavedSuccess"));
-        router.reload();
-      }
-    };
-    uploadingImageAfterRender();
+    if (preSignedError) {
+      setError("submit", {
+        type: preSignedError.name,
+        message: preSignedError.message,
+      });
+      setLocalError(true);
+    }
+    if (uploadImageResponse.preSignedUrl.errors !== null) {
+      setError(uploadImageResponse.preSignedUrl.errors[0].field, {
+        type: "Field error",
+        message: uploadImageResponse.preSignedUrl.errors[0].message,
+      });
+      setLocalError(true);
+    }
+  }, [preSignedError, setError, uploadImageResponse]);
+
+  const [, saveImageUrls] = useSaveExperienceImagesUrlsMutation();
+  useEffectOnChange(() => {
+    if (
+      !localError &&
+      uploadImageResponse &&
+      uploadImageResponse.preSignedUrl &&
+      uploadImageResponse.preSignedUrl.arrayUrl &&
+      uploadImageResponse.preSignedUrl.arrayUrl.length > 0
+    ) {
+      toast(getToastMessage("processingChangesInfo"));
+      uploadingImageAfterRender(
+        uploadImageResponse.preSignedUrl.arrayUrl,
+        files,
+        experienceId,
+        setError,
+        setSuccessUploading,
+        saveImageUrls,
+        contextHeader
+      );
+    } else {
+      setLocalError(true);
+    }
   }, [experienceId, files, router, toast, uploadImageResponse]);
+
+  useEffectOnChange(() => {
+    if (localError) {
+      toast(getToastMessage("uploadImageError"));
+    }
+    if (successUploading) {
+      toast(getToastMessage("imagesSavedSuccess"));
+      router.reload();
+    }
+  }, [toast]);
 
   return (
     <ExperienceGallery
-      allowEdit={!fetching && !error}
-      currentGallery={[]}
+      allowEdit={!fetching && !preSignedError}
       onGalleryChanged={(files) => setFiles([...files])}
-      onCoverChanged={() => {}}
     />
   );
 };

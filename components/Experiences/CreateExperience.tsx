@@ -217,6 +217,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
           pauseImageUpload={pauseImageUpload}
           experienceId={experienceId}
           contextHeader={contextHeader}
+          setError={setError}
         />
       ),
     },
