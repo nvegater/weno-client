@@ -10,13 +10,16 @@ import Link from "./components/link";
 
 // https://github.com/chakra-ui/chakra-ui/tree/main/packages/theme/src/foundations
 
-const overrides = {
+export default extendTheme({
   ...styles,
+  fonts: {
+    heading: "Open Sans",
+    body: "Work Sans",
+  },
   // Other foundational style overrides go here
   breakpoints,
   components: {
     Button,
     Link,
   },
-};
-export default extendTheme(overrides);
+});

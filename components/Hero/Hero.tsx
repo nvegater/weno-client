@@ -22,8 +22,8 @@ export const Hero = () => {
         as="section"
         bg="gradient.100"
         color="brand.100"
-        pt="7rem"
-        pb="2rem"
+        pt="3rem"
+        pb="1rem"
         borderBottomRadius="12px 12px"
       >
         <Box
@@ -35,16 +35,28 @@ export const Hero = () => {
             <Heading
               as="h1"
               size="3xl"
+              fontWeight="500"
+              maxW="48rem"
+              mx="auto"
+              lineHeight="1.2"
+              letterSpacing="10%"
+            >
+              Delight in
+            </Heading>
+            <Heading
+              as="h2"
+              size="4xl"
               fontWeight="extrabold"
               maxW="48rem"
               mx="auto"
               lineHeight="1.2"
-              letterSpacing="tight"
+              letterSpacing="normal"
+              color="brand.700"
             >
-              Just enjoy Enoturism
+              Enoturism
             </Heading>
             <Text fontSize="xl" mt="4" maxW="xl" mx="auto">
-              Weno is made for wine lovers & growers
+              Made for wine lovers & growers
             </Text>
           </Box>
 
@@ -53,9 +65,7 @@ export const Hero = () => {
             direction={{ base: "column", md: "row" }}
             mt="10"
             mb="20"
-            spacing="4"
             display="flex"
-            justifyContent="space-around"
           >
             <Button
               variant="primaryWeno"
