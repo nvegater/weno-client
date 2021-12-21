@@ -1,7 +1,6 @@
 import { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/provider";
 import theme from "../theme/index";
-import Fonts from "../theme/fonts/Fonts";
 
 import { SSRCookies, SSRKeycloakProvider } from "@react-keycloak/ssr";
 import { KeycloakConfig } from "keycloak-js";
@@ -31,7 +30,6 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   return (
     <SSRKeycloakProvider {...keycloakConfig}>
       <ChakraProvider theme={theme}>
-        <Fonts />
         <Component {...pageProps} />
       </ChakraProvider>
     </SSRKeycloakProvider>

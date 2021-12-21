@@ -19,18 +19,6 @@ const Home = () => {
       <Head>
         <title>Weno</title>
         <meta name="description" content="Weno" />
-        <link
-          rel="preload"
-          href="/custom-fonts/Gotham-Font/Gotham-Bold.otf"
-          as="font"
-          crossOrigin=""
-        />
-        <link
-          rel="preload"
-          href="/custom-fonts/Gotham-Font/GothamBook.ttf"
-          as="font"
-          crossOrigin=""
-        />
       </Head>
       <main>
         <WenoLayout
