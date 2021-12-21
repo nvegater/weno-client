@@ -27,7 +27,6 @@ const Register: FC<RegisterProps> = ({}) => {
   const router = useRouter();
 
   if (authenticated && isVisitor && tokenInfo) {
-    // TODO create customer based on the user
     router.push("/");
   }
 
