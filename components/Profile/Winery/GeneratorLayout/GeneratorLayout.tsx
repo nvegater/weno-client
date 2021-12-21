@@ -21,6 +21,7 @@ import { WineryFragmentFragment } from "../../../../graphql/generated/graphql";
 import { ContextHeader } from "../../../Authentication/useAuth";
 import { CreateExperience } from "../../../Experiences/CreateExperience";
 import { atom, useRecoilState } from "recoil";
+import { EditableExperiences } from "../../../Settings/Experiences/EditableExperiences";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -204,7 +205,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 />
               )}
               {subPage === GeneratorSubpage.EDIT_EXPERIENCE && (
-                <div>Edit experience</div>
+                <EditableExperiences />
               )}
               {subPage === GeneratorSubpage.PAST_EXPERIENCES && (
                 <div>Past experiences</div>
