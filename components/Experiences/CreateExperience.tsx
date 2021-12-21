@@ -47,7 +47,7 @@ export const degustation = "Degustation";
 export const pairing = "Pairing";
 export const concert = "Concert";
 
-const createdExperienceIdState = atom<number | null>({
+export const createdExperienceIdState = atom<number | null>({
   key: "createdExperienceId",
   default: null,
 });

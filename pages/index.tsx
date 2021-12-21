@@ -5,11 +5,15 @@ import useAuth from "../components/Authentication/useAuth";
 import { WenoLayout } from "../components/GeneralLayout/WenoLayout";
 import { Hero } from "../components/Hero/Hero";
 import { AuthWrapper } from "../components/Authentication/AuthWrapper";
-import { ExperiencesGrid } from "../components/Experiences/ExperiencesGrid";
 import React from "react";
+import {
+  ExperiencesGridLayout,
+  ExperiencesGridMode,
+} from "../components/Experiences/ExperiencesGridLayout";
 
 const Home = () => {
   const { authenticated, logout, login, tokenInfo } = useAuth();
+  // TODO retrieve experiences
   return (
     <div>
       <Head>
@@ -37,7 +41,10 @@ const Home = () => {
         >
           <Hero />
           <AuthWrapper>
-            <ExperiencesGrid />
+            <ExperiencesGridLayout
+              experiences={[]}
+              mode={ExperiencesGridMode.RESERVE}
+            />
           </AuthWrapper>
         </WenoLayout>
       </main>
