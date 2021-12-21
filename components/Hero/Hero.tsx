@@ -43,13 +43,7 @@ export const Hero = () => {
             >
               Just enjoy Enoturism
             </Heading>
-            <Text
-              fontSize="xl"
-              mt="4"
-              maxW="xl"
-              mx="auto"
-              fontFamily="GothamText"
-            >
+            <Text fontSize="xl" mt="4" maxW="xl" mx="auto">
               Weno is made for wine lovers & growers
             </Text>
           </Box>

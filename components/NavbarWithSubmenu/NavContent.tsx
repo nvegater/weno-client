@@ -20,13 +20,7 @@ import Link from "next/link";
 import { KeycloakLoginOptions } from "keycloak-js";
 
 const LogoText = (
-  <Text
-    ml={2}
-    fontFamily="GothamLogo"
-    color="brand.100"
-    fontSize="2xl"
-    fontWeight="700"
-  >
+  <Text ml={2} color="brand.100" fontSize="2xl" fontWeight="700">
     Weno
   </Text>
 );

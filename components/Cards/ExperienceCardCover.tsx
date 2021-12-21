@@ -31,13 +31,13 @@ const Card = (props: BlogProps) => {
       <Flex direction="column">
         <Flex px="4" py="3" height="48px">
           <LinkOverlay href={href}>
-            <Text fontFamily="GothamText">{title}</Text>
+            <Text>{title}</Text>
           </LinkOverlay>
         </Flex>
         <Img height="178" alt={title} src={media} />
         <Flex height="48px" px="2" py="3">
           <IoLocation color="brand.400" />
-          <Text fontFamily="GothamText" fontSize="13px" px="4">
+          <Text fontSize="13px" px="4">
             {description}
           </Text>
           <Icon
