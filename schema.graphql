@@ -150,7 +150,6 @@ type ProductsResponse {
 }
 
 type Query {
-  allPictures: Int!
   allReservations: Int!
   allWineries: Int!
   experienceWithSlots(experienceId: Float!): ExperienceResponse!

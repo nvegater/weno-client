@@ -323,7 +323,6 @@ export type ProductsResponse = {
 export type Query = {
   experienceWithSlots: ExperienceResponse;
   recurrentDates: RecurrenceResponse;
-  allPictures: Scalars['Int'];
   allReservations: Scalars['Int'];
   allWineries: Scalars['Int'];
   winery: WineryResponse;

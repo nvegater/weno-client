@@ -136,7 +136,10 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
 
   useEffect(() => {
     if (setAutoDuration) {
-      const diff = differenceInMinutes(watchEndDate, watchStartDate);
+      const diff = differenceInMinutes(
+        new Date(watchEndDate),
+        new Date(watchStartDate)
+      );
       setValue("durationInMinutes", diff);
     }
     if (disable__Duration_StartTime_EndDateTime__setAutoDuration) {
