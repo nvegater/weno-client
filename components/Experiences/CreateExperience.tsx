@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import {
   CreateExperienceInputs,
   CreateRecurrentDatesInputs,
@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -22,7 +23,6 @@ import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorSummary } from "../RegisterWinery/CreateWineryForm";
 import RadioGroup from "../Radio/RadioGroup";
 import { DateTimeForm } from "./DateTimeForm";
-import { ExperienceImagesForm } from "./ExperienceImagesForm";
 import {
   mapEventType,
   mapSlotType,
@@ -46,8 +46,6 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
   winery,
   contextHeader,
 }) => {
-  const [experienceId, setExperienceId] = useState<number>(-1);
-  const [pauseImageUpload, setPauseImageUpload] = useState(true);
   const {
     register,
     setError,
@@ -108,11 +106,9 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     }
     if (result && result.createExperience.experience !== null) {
       console.log("Success");
-      console.log(result.createExperience.experience);
+      // TODO do something with the created Experience
+      console.log(result.createExperience.experience.id);
       console.log(result.createExperience.dateWithTimes);
-      // Trigger image upload after succesfull experience Creation
-      setPauseImageUpload(false);
-      setExperienceId(result.createExperience.experience.id);
     }
   };
 
@@ -213,25 +209,24 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     {
       title: "Images",
       content: (
-        <ExperienceImagesForm
-          pauseImageUpload={pauseImageUpload}
-          experienceId={experienceId}
-          contextHeader={contextHeader}
-          setError={setError}
-        />
+        <Flex>
+          <Heading as="h3" size="sm">
+            Submit the form to upload images
+          </Heading>
+        </Flex>
       ),
     },
   ];
-  // TODO add async function to validate that there are not server Errors
-  // https://react-hook-form.com/api/useform/handlesubmit
-  // Especially Errors while generating pre-Signed Urls
-  // Shouldnt Allow creation of experience if Images are not "savable"
 
   return (
     <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
       <Heading mb={8}>New Experience</Heading>
       <Box mb={"3em"}>
-        <VerticalSteps steps={formSteps} isLoading={false} />
+        <VerticalSteps
+          steps={formSteps}
+          isLoading={false}
+          finalStepText="Click reset to verify your creation"
+        />
       </Box>
 
       <FormControl

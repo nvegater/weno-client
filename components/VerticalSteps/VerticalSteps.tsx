@@ -15,19 +15,21 @@ interface VerticalStepsProps {
   steps: Step[];
   isLoading: boolean;
   withSave?: boolean;
+  finalStepText?: string;
 }
 
 export const VerticalSteps: FC<VerticalStepsProps> = ({
   steps,
   isLoading,
   withSave = false,
+  finalStepText = "You completed the form",
 }) => {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
 
   return (
-    <Box minH="400px" minW="400px">
+    <Box minH="300px" minW="400px">
       <Steps activeStep={activeStep}>
         {steps.map((step, index) => (
           <Step key={step.title} title={step.title}>
@@ -67,7 +69,7 @@ export const VerticalSteps: FC<VerticalStepsProps> = ({
         spacing="4"
         shouldWrapChildren
       >
-        <Text>Completed steps</Text>
+        <Text>{finalStepText}</Text>
         <Button
           size="sm"
           onClick={reset}
