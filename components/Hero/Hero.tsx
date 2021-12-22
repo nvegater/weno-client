@@ -79,7 +79,7 @@ export const Hero = () => {
             >
               Register
             </Button>
-            <Button variant="secondaryWeno" size="heroWeno">
+            <Button size="heroWeno" variant="cta">
               <Link href="/subscriptions">Offer experiences</Link>
             </Button>
           </Stack>
