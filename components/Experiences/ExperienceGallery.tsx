@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { BiPhotoAlbum } from "react-icons/bi";
+import { useTranslation } from "react-i18next";
 
 const imgToBase64 = (file: File) =>
   new Promise((resolve, reject) => {
@@ -38,6 +39,7 @@ const ExperienceGallery: FC<WineryGalleryProps> = ({
   //  console.log("Rendering with following gallery: ", gallery);
   const inputFile = useRef<HTMLInputElement>(null);
   const LOADING = "LOADING";
+  const [t] = useTranslation("global");
   /**
    * cover and delete image variables
    */
@@ -104,7 +106,7 @@ const ExperienceGallery: FC<WineryGalleryProps> = ({
   return (
     <Box my={3} maxW="40em">
       <Heading size="lg" mb={2}>
-        Gallery
+        {t("gallery")}
       </Heading>
       <Flex my={4} wrap="wrap">
         {gallery?.map((image, index) => {
@@ -144,7 +146,7 @@ const ExperienceGallery: FC<WineryGalleryProps> = ({
                       fontSize="xs"
                       onClick={() => handleRemoveImage(image?.id as number)}
                     >
-                      Delete
+                      {t("delete")}
                     </Button>
                     {(image?.id as number) >= 0 && (
                       <Button
@@ -156,7 +158,7 @@ const ExperienceGallery: FC<WineryGalleryProps> = ({
                         border="1px"
                         fontSize="xs"
                       >
-                        Cover
+                        {t("cover")}
                       </Button>
                     )}
                   </Flex>
@@ -181,7 +183,7 @@ const ExperienceGallery: FC<WineryGalleryProps> = ({
               d="flex"
               flexDirection="column"
             >
-              Add photo
+              {t("addPhoto")}
             </Button>
             <Input
               ref={inputFile}

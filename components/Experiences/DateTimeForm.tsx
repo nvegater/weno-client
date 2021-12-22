@@ -279,8 +279,8 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             variant="secondaryWeno"
             size="navBarCTA"
           >
-            {t("add")} {customDateField.length > 0 ? "another" : "a"} custom
-            date
+            {t("add")} {customDateField.length > 0 ? t("another") : t("a")}{" "}
+            {t("customDate")}
           </Button>
           {customDateField.map((field, index) => (
             <Controller
@@ -299,7 +299,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                       removeCustomDate(index);
                     }}
                   >
-                    Remove
+                    {t("remove")}
                   </Button>
                 </HStack>
               )}
@@ -313,7 +313,9 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             variant="secondaryWeno"
             size="navBarCTA"
           >
-            Add {customExceptionField.length > 0 ? "another" : "an"} exception
+            {t("add")}{" "}
+            {customExceptionField.length > 0 ? t("another") : t("an")}{" "}
+            {t("exception")}
           </Button>
 
           {customExceptionField.map((field, index) => (
@@ -333,7 +335,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                       removeException(index);
                     }}
                   >
-                    Remove
+                    {t("remove")}
                   </Button>
                 </HStack>
               )}
@@ -342,7 +344,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
 
           <FormControl>
             <FormLabel htmlFor="exceptionDays" fontWeight="bold">
-              Exclude this days
+              {t("excludeDays")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {weekdaysArray.map((wd, index) => (
@@ -366,7 +368,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             size="heroWeno"
             rightIcon={<BsFillEyeFill />}
           >
-            Preview Dates
+            {t("previewDates")}
           </Button>
         </VStack>
       )}
@@ -374,7 +376,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Preview</ModalHeader>
+          <ModalHeader>{t("preview")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {recDatesQuery &&
@@ -384,12 +386,12 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                   datesWithTimes={recDatesQuery.recurrentDates.dateWithTimes}
                 />
               )}
-            {error && <Text>Select a valid recursion</Text>}
+            {error && <Text>{t("validRecursion")}</Text>}
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+              {t("close")}
             </Button>
           </ModalFooter>
         </ModalContent>
