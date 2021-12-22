@@ -175,7 +175,7 @@ NavBarProps) => {
           </Box>
         ))}
       </HStack>
-      <HStack spacing="8" minW="240px" justify="space-between">
+      <HStack spacing="8" justify="space-between">
         {!authenticated && <LoginButton loginFn={loginFn} isNavBar />}
         {authenticated && <LogoutButton logoutFn={logoutFn} isNavBar />}
       </HStack>
