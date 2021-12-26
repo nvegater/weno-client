@@ -46,12 +46,6 @@ import { BsFillEyeFill } from "react-icons/bs";
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
 const weekdaysArray: WeekdayStr[] = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
 
-export function isoDateWithoutTimeZone(date: Date) {
-  const timestamp = date.getTime() - date.getTimezoneOffset() * 60000;
-  const correctDate = new Date(timestamp);
-  return correctDate.toISOString();
-}
-
 interface DateTimeFormProps {
   control: Control<any>;
   watch: UseFormWatch<any>;
@@ -179,8 +173,10 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             >
               <FormLabel htmlFor="startDateTime">Start</FormLabel>
               <DateTimePickerWeno
+                removeTimeZone={true}
                 onDateTimeSelection={(date) => {
-                  field.onChange(isoDateWithoutTimeZone(date));
+                  // remove timezone is True so we pass only a string
+                  field.onChange(date);
                 }}
                 onlyDate={
                   disable__Duration_StartTime_EndDateTime__setAutoDuration
@@ -207,8 +203,9 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               >
                 <FormLabel htmlFor="endDateTime">End</FormLabel>
                 <DateTimePickerWeno
+                  removeTimeZone={true}
                   onDateTimeSelection={(date) => {
-                    field.onChange(isoDateWithoutTimeZone(date));
+                    field.onChange(date);
                   }}
                   endDatePeriodic={
                     enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion
@@ -290,6 +287,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               render={({ field }) => (
                 <HStack>
                   <DateTimePickerWeno
+                    removeTimeZone={true}
                     onDateTimeSelection={(date) => {
                       field.onChange(date);
                     }}
@@ -324,6 +322,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               render={({ field }) => (
                 <HStack>
                   <DateTimePickerWeno
+                    removeTimeZone={true}
                     onDateTimeSelection={(date) => {
                       field.onChange(date);
                     }}
