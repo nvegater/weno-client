@@ -1,0 +1,11 @@
+fragment WineryConfirmationFragment on Winery {
+  id
+  name
+  urlAlias
+  creatorEmail
+  subscription
+  stripe_customerId
+  accountId
+  accountCreatedTime
+  updatedAt
+}
