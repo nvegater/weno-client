@@ -11,6 +11,13 @@ type CheckoutSessionResponse {
   sessionUrl: String
 }
 
+"BefCur:null & AftCur:null => First Page N Results (N=limit) + AftCur:Y (if more results exist).BefCur:null & AftCur:Y => Page with N Results + BefCurY + AftCur:X (if more exist)BefCur:X & AftCur:null => End of the list.BefCur:X & AftCur:Y => Ignores X."
+type CursorPaginationResult {
+  afterCursor: String
+  beforeCursor: String
+  limit: Int
+}
+
 type Customer {
   email: String!
   name: String
@@ -95,6 +102,7 @@ type GetPreSignedUrlResponse {
 }
 
 type Mutation {
+  "Trigger: winery information Page. If called for the first time, updates the winery connected account creation dateOtherwise simply return the winery"
   confirmConnectedAccount(wineryAlias: String!): WineryResponse!
   createCustomer(createCustomerInputs: CreateCustomerInputs!): CustomerResponse!
   createExperience(
@@ -115,6 +123,13 @@ type Mutation {
 type OnboardingResponse {
   accountLinkUrl: String
   errors: [FieldError!]
+}
+
+type PaginatedExperiences {
+  errors: [FieldError!]
+  experiences: [Experience!]
+  paginationConfig: CursorPaginationResult!
+  totalExperiences: Float!
 }
 
 type PaymentMetadata {
@@ -153,7 +168,11 @@ type ProductsResponse {
 type Query {
   allReservations: Int!
   allWineries: Int!
+  editableExperiences(wineryId: Float!): PaginatedExperiences!
   experienceWithSlots(experienceId: Float!): ExperienceResponse!
+  experiences(
+    paginatedExperiencesInputs: PaginatedExperiencesInputs!
+  ): PaginatedExperiences!
   getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
   getSubscriptionProducts: ProductsResponse!
   getSubscriptionStatus(customerId: String!): String!
@@ -437,9 +456,42 @@ input CreateWineryInputs {
   yearlyWineProduction: Int
 }
 
+"BefCur:null & AftCur:null => First Page N Results (N=limit) + AftCur:Y (if more results exist).BefCur:null & AftCur:Y => Page with N Results + BefCurY + AftCur:X (if more exist)BefCur:X & AftCur:null => End of the list.BefCur:X & AftCur:Y => Ignores X."
+input CursorPaginationInput {
+  afterCursor: String
+  beforeCursor: String
+  limit: Int
+}
+
+input ExperiencesFilters {
+  experienceName: String
+  experienceType: [ExperienceType!]
+  valley: [Valley!]
+}
+
 input GetWineryInputs {
   creatorUsername: String
   urlAlias: String
+}
+
+"""
+Default:
+Sort from Newest to Oldest all the Table.
+It never exceeds the limit
+
+Optional:
+The cursor is a timestamp.
+Returns all the experiences after the given timestamp (with limit)
+If no cursor is provided, it will return all experiences newest First (with limit)
+
+Filters:
+If experience name is provided search without exact match (LIKE)
+ExperienceType: if null, All the experience Types. Otherwise ONLY the selected ones.
+Valleys: if null, All the Valleys. Otherwise ONLY the selected ones.
+"""
+input PaginatedExperiencesInputs {
+  experiencesFilters: ExperiencesFilters!
+  paginationConfig: CursorPaginationInput!
 }
 
 input PaymentMetadataInputs {

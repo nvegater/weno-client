@@ -22,6 +22,7 @@ import { ContextHeader } from "../../../Authentication/useAuth";
 import { CreateExperience } from "../../../Experiences/CreateExperience";
 import { atom, useRecoilState } from "recoil";
 import { EditableExperiences } from "../../../Settings/Experiences/EditableExperiences";
+import { AllExperiences } from "./AllExperiences";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -193,7 +194,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
               )}
               {subPage === GeneratorSubpage.EDIT_INFO && <div>Edit Winery</div>}
               {subPage === GeneratorSubpage.ALL_EXPERIENCES && (
-                <div>All experiences</div>
+                <AllExperiences />
               )}
               {subPage === GeneratorSubpage.SCHEDULE && (
                 <div>Experiences Calendar</div>

@@ -1,0 +1,13 @@
+fragment ExperienceWithoutSlots on Experience {
+  createdAt
+  id
+  title
+  description
+  pricePerPersonInDollars
+  wineryId
+  images {
+    ...ExperienceImageFragment
+  }
+  allAttendeesAllSlots
+  experienceType
+}
