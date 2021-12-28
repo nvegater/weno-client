@@ -1,7 +1,8 @@
 import React, { FC, useState } from "react";
 import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
+
 // styles are imported in the _app.tsx component
-function isoDateWithoutTimeZone(date: Date) {
+export function isoDateWithoutTimeZone(date: Date) {
   const timestamp = date.getTime() - date.getTimezoneOffset() * 60000;
   const correctDate = new Date(timestamp);
   return correctDate.toISOString();

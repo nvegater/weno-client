@@ -98,11 +98,9 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   const [fetchRecurrentDates, setFetchRecurrentDates] =
     useState<boolean>(false);
 
-  const startDateTime = new Date(watchStartDate);
-  const endDateTime = new Date(watchEndDate);
   const recurrentDatesInputs: CreateRecurrentDatesInputs = {
-    startDate: startDateTime,
-    endDate: endDateTime,
+    startDate: watchStartDate,
+    endDate: watchEndDate,
     durationInMinutes: parseInt(watchDuration),
     slotType: mapSlotType(watchPeriodic),
     customDates:
@@ -129,15 +127,20 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   });
 
   useEffect(() => {
-    if (setAutoDuration) {
+    if (setAutoDuration && watchStartDate && watchEndDate) {
       const diff = differenceInMinutes(
         new Date(watchEndDate),
         new Date(watchStartDate)
       );
       setValue("durationInMinutes", diff);
     }
-    if (disable__Duration_StartTime_EndDateTime__setAutoDuration) {
+    if (
+      disable__Duration_StartTime_EndDateTime__setAutoDuration &&
+      watchStartDate
+    ) {
       setValue("durationInMinutes", 24 * 60);
+      // it gets ignored anyway because is "allDay
+      setValue("endDateTime", watchStartDate);
     }
   }, [
     watchStartDate,
