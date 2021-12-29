@@ -86,24 +86,17 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
   });
 
   useEffect(() => {
-    if (data?.experiences?.errors || networkError) {
-      setPaginationConfig(DEFAULT_PAGINATION_CONFIG);
-      setExperiences([]);
-      return;
-    } else if (data?.experiences?.experiences?.length > 0) {
+    if (data && data.experiences.experiences) {
       const newExps = data?.experiences?.experiences;
       const newTitles = newExps.map((exp) => exp.title);
       const oldTitles = experiences.map((exp) => exp.title);
       if (!newTitles.some((newTitle) => oldTitles.includes(newTitle))) {
+        // update experiences if new request contains new titles
         setExperiences((e) => [...e, ...newExps]);
       }
     }
-  }, [
-    networkError,
-    data?.experiences?.errors,
-    data?.experiences?.experiences,
-    experiences,
-  ]);
+  }, [data, experiences]);
+
   const noMoreResults =
     data?.experiences?.paginationConfig?.beforeCursor === null &&
     data?.experiences?.paginationConfig?.afterCursor === null;
@@ -126,7 +119,7 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
           width="300px"
           isDisabled={noMoreResults}
           onClick={() => {
-            if (data.experiences.experiences.length > 0) {
+            if (experiences.length > 0) {
               handlePaginationRequest(
                 paginationConfig,
                 data.experiences.paginationConfig,
