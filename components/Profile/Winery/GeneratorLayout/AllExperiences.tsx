@@ -15,7 +15,7 @@ import {
   ExperienceWithoutSlotsFragment,
   useExperiencesQuery,
 } from "../../../../graphql/generated/graphql";
-import { Button } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 
 const DEFAULT_PAGINATION_CONFIG = {
   beforeCursor: null,
@@ -112,22 +112,25 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
         />
       )}
 
-      <Button
-        size="navBarCTA"
-        variant="cta"
-        isDisabled={noMoreResults}
-        onClick={() => {
-          if (data.experiences.experiences.length > 0) {
-            handlePaginationRequest(
-              paginationConfig,
-              data.experiences.paginationConfig,
-              setPaginationConfig
-            );
-          }
-        }}
-      >
-        {noMoreResults ? "No more results" : "Load more"}
-      </Button>
+      <Flex justifyContent="center">
+        <Button
+          size="navBarCTA"
+          variant="cta"
+          width="300px"
+          isDisabled={noMoreResults}
+          onClick={() => {
+            if (data.experiences.experiences.length > 0) {
+              handlePaginationRequest(
+                paginationConfig,
+                data.experiences.paginationConfig,
+                setPaginationConfig
+              );
+            }
+          }}
+        >
+          {noMoreResults ? "No more results" : "Load more"}
+        </Button>
+      </Flex>
     </>
   );
 };
