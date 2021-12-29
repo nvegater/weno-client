@@ -3,6 +3,8 @@ import { ReservationModal } from "../Modals/ReservationModal";
 import { EditExperienceModal } from "../Modals/EditExperienceModal";
 import { ExperienceModal } from "../Modals/ExperienceModal";
 import { ExperienceWithoutSlotsFragment } from "../../graphql/generated/graphql";
+import { ExperienceCardCover } from "../Cards/ExperienceCardCover";
+import { Box, Grid } from "@chakra-ui/react";
 
 export enum ExperiencesGridMode {
   EDIT,
@@ -34,9 +36,13 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
       {mode === ExperiencesGridMode.VIEW && (
         <ExperienceModal experienceId={1} />
       )}
-      {experiences.length === 0 && <div>No results found</div>}
-      {experiences.length > 0 &&
-        experiences.map((exp) => <div key={exp.title}>{exp.title}</div>)}
+      <Box maxW="100rem" marginInline="auto" paddingInline="2rem">
+        {experiences.length === 0 && <div>No results found</div>}
+        <Grid gridTemplateColumns="1fr 1fr 1fr">
+          {experiences.length > 0 &&
+            experiences.map((exp) => <ExperienceCardCover key={exp.title} />)}
+        </Grid>
+      </Box>
     </div>
   );
 };
