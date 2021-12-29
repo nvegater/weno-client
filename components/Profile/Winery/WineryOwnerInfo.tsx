@@ -1,12 +1,14 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Heading, Flex, Button, Text, Link } from "@chakra-ui/react";
 import {
   CardProperty,
   CardWithUserDetails,
 } from "../../Cards/CardWithUserDetails/CardWithUserDetails";
 import {
+  useConfirmConnectedAccountMutation,
   useGetSubscriptionStatusQuery,
   useWineryOnboardingMutation,
+  WineryConfirmationFragmentFragment,
   WineryFragmentFragment,
 } from "../../../graphql/generated/graphql";
 import { ContextHeader } from "../../Authentication/useAuth";
@@ -41,12 +43,50 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
     context: contextHeader,
   });
   const [t] = useTranslation("global");
-  const [, onboardWinery] = useWineryOnboardingMutation();
 
+  const [connectedAccountInfo, setConnectedAccountInfo] = useState<
+    CardProperty[]
+  >([]);
+
+  const [, onboardWinery] = useWineryOnboardingMutation();
+  const [, confirmConnectedAccount] = useConfirmConnectedAccountMutation();
+
+  useEffect(() => {
+    const confirmAccount = async () => {
+      const { error, data } = await confirmConnectedAccount(
+        {
+          wineryAlias: winery.urlAlias,
+        },
+        { ...contextHeader, requestPolicy: "network-only" }
+      );
+      if (data.confirmConnectedAccount.winery) {
+        const accountInfo: WineryConfirmationFragmentFragment =
+          data.confirmConnectedAccount.winery;
+        const date = new Date(0);
+        date.setUTCSeconds(accountInfo.accountCreatedTime);
+        const createdAt = `${timeFormatter.format(
+          date
+        )} - ${dateFormatter.format(date)}`;
+        setConnectedAccountInfo([
+          { name: "Account ID", value: accountInfo.accountId },
+          { name: "Created", value: createdAt },
+        ]);
+      } else {
+        console.error(error);
+      }
+    };
+
+    confirmAccount();
+  }, [confirmConnectedAccount, contextHeader, winery.urlAlias]);
+
+  // TODO implement case when connected account is set up
   const handleOnboarding = async () => {
-    const { error, data } = await onboardWinery({
-      wineryAlias: winery.urlAlias,
-    });
+    const { error, data } = await onboardWinery(
+      {
+        wineryAlias: winery.urlAlias,
+      },
+      { ...contextHeader, requestPolicy: "network-only" }
+    );
     if (error) {
       console.log(error);
     } else {
@@ -85,46 +125,57 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
         </Heading>
       </Flex>
 
-      <CardWithUserDetails properties={accountProps} title="Account" />
+      <CardWithUserDetails properties={accountProps} title="Weno Account" />
       <CardWithUserDetails
         properties={subscriptionProps}
         title={t("subscription")}
       />
 
-      <Flex justifyContent={[null, null, null, "center"]}>
-        <Heading as="h4" size="md">
-          {t("oneMoreStep")}
-        </Heading>
-      </Flex>
+      {connectedAccountInfo.length > 0 && (
+        <CardWithUserDetails
+          properties={connectedAccountInfo}
+          title="Stripe Connected Account"
+        />
+      )}
 
-      <Text
-        my={4}
-        mx={[0, 0, 0, "5em"]}
-        textAlign={[null, null, null, "center"]}
-      >
-        {t("securityAd")} <br /> {t("partneredWith")}{" "}
-        <Link
-          fontWeight="bold"
-          href="https://stripe.com/blog/stripe-launches-in-mexico"
-        >
-          Stripe
-        </Link>
-        {t("readMore")}{" "}
-        <Link href="https://stripe.com/en-mx/privacy">
-          {t("privacyPolicy")}
-        </Link>
-        .
-      </Text>
+      {connectedAccountInfo.length === 0 && (
+        <>
+          <Flex justifyContent={[null, null, null, "center"]}>
+            <Heading as="h4" size="md">
+              {t("oneMoreStep")}
+            </Heading>
+          </Flex>
 
-      <Flex justifyContent={[null, null, null, "center"]}>
-        <Button
-          variant="secondaryWeno"
-          size="heroWeno"
-          onClick={handleOnboarding}
-        >
-          {t("enableStripe")}
-        </Button>
-      </Flex>
+          <Text
+            my={4}
+            mx={[0, 0, 0, "5em"]}
+            textAlign={[null, null, null, "center"]}
+          >
+            {t("securityAd")} <br /> {t("partneredWith")}{" "}
+            <Link
+              fontWeight="bold"
+              href="https://stripe.com/blog/stripe-launches-in-mexico"
+            >
+              Stripe
+            </Link>
+            {t("readMore")}{" "}
+            <Link href="https://stripe.com/en-mx/privacy">
+              {t("privacyPolicy")}
+            </Link>
+            .
+          </Text>
+
+          <Flex justifyContent={[null, null, null, "center"]}>
+            <Button
+              variant="secondaryWeno"
+              size="heroWeno"
+              onClick={handleOnboarding}
+            >
+              {t("enableStripe")}
+            </Button>
+          </Flex>
+        </>
+      )}
     </section>
   );
 };

@@ -54,6 +54,16 @@ type ExperienceImage {
   updatedAt: DateTime!
 }
 
+type ExperienceImageResponse {
+  errors: [FieldError!]
+  experienceImages: [ExperienceImageUpload!]!
+}
+
+type ExperienceImageUpload {
+  coverPage: Boolean!
+  imageUrl: String!
+}
+
 type ExperienceResponse {
   dateWithTimes: [DateWithTimes!]
   errors: [FieldError!]
@@ -85,6 +95,7 @@ type GetPreSignedUrlResponse {
 }
 
 type Mutation {
+  confirmConnectedAccount(wineryAlias: String!): WineryResponse!
   createCustomer(createCustomerInputs: CreateCustomerInputs!): CustomerResponse!
   createExperience(
     createExperienceInputs: CreateExperienceInputs!
@@ -94,6 +105,10 @@ type Mutation {
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
   ): WineryResponse!
+  saveExperienceImagesUrls(
+    experienceId: Int!
+    preSignedUrls: [String!]!
+  ): ExperienceImageResponse!
   wineryOnboarding(wineryAlias: String!): OnboardingResponse!
 }
 
@@ -136,7 +151,6 @@ type ProductsResponse {
 }
 
 type Query {
-  allPictures: Int!
   allReservations: Int!
   allWineries: Int!
   experienceWithSlots(experienceId: Float!): ExperienceResponse!
@@ -182,6 +196,8 @@ type Tier {
 }
 
 type Winery {
+  "Time at which the connected account was created. Measured in seconds since the Unix epoch. The default -1 Means that the account is not created Yet"
+  accountCreatedTime: Float
   accountId: String
   amenities: [Amenity!]
   architecturalReferences: Boolean

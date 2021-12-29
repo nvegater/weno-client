@@ -21,13 +21,7 @@ import { KeycloakLoginOptions } from "keycloak-js";
 import { useTranslation } from "react-i18next";
 
 const LogoText = (
-  <Text
-    ml={2}
-    fontFamily="GothamLogo"
-    color="brand.100"
-    fontSize="2xl"
-    fontWeight="700"
-  >
+  <Text ml={2} color="brand.100" fontSize="2xl" fontWeight="700">
     Weno
   </Text>
 );
@@ -184,7 +178,7 @@ NavBarProps) => {
           </Box>
         ))}
       </HStack>
-      <HStack spacing="8" minW="240px" justify="space-between">
+      <HStack spacing="8" justify="space-between">
         {!authenticated && <LoginButton loginFn={loginFn} isNavBar />}
         {authenticated && <LogoutButton logoutFn={logoutFn} isNavBar />}
       </HStack>

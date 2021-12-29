@@ -1,13 +1,6 @@
-import {
-  Box,
-  Flex,
-  Img,
-  LinkOverlay,
-  Text,
-  useColorModeValue as mode,
-} from "@chakra-ui/react";
+import { Box, Flex, Img, LinkOverlay, Text } from "@chakra-ui/react";
 import React from "react";
-import { IoCalendar, IoPeople, IoLocation } from "react-icons/io5";
+import { IoCalendar, IoLocation, IoPeople } from "react-icons/io5";
 import { BsFillClockFill } from "react-icons/bs";
 
 interface BlogProps {
@@ -30,9 +23,7 @@ const IconLabel = (props: IconLabelProps) => {
   return (
     <Flex>
       {icon}
-      <Text px="3.5" fontFamily="GothamText">
-        {label}
-      </Text>
+      <Text px="3.5">{label}</Text>
     </Flex>
   );
 };
@@ -70,12 +61,7 @@ const Card = (props: BlogProps) => {
         <Flex direction="column" px="5">
           <Flex py="4">
             <LinkOverlay href={href}>
-              <Text
-                fontFamily="GothamLogo"
-                fontWeight="700"
-                color="brand.200"
-                fontSize="20px"
-              >
+              <Text fontWeight="700" color="brand.200" fontSize="20px">
                 {title}
               </Text>
             </LinkOverlay>
@@ -97,7 +83,7 @@ const Card = (props: BlogProps) => {
               icon={<IoPeople color="#BE5050" />}
             />
             <Flex justify="center" py="3">
-              <Text fontFamily="GothamText">Total: $4,000 MXN</Text>
+              <Text>Total: $4,000 MXN</Text>
             </Flex>
           </Flex>
         </Flex>

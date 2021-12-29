@@ -24,8 +24,8 @@ export const Hero = () => {
         as="section"
         bg="gradient.100"
         color="brand.100"
-        pt="7rem"
-        pb="2rem"
+        pt="3rem"
+        pb="1rem"
         borderBottomRadius="12px 12px"
       >
         <Box
@@ -37,22 +37,16 @@ export const Hero = () => {
             <Heading
               as="h1"
               size="3xl"
-              fontWeight="extrabold"
+              fontWeight="500"
               maxW="48rem"
               mx="auto"
               lineHeight="1.2"
-              letterSpacing="tight"
+              letterSpacing="10%"
             >
               {t("homeHeading")}
             </Heading>
-            <Text
-              fontSize="xl"
-              mt="4"
-              maxW="xl"
-              mx="auto"
-              fontFamily="GothamText"
-            >
-              {t("homeDescription")}
+            <Text fontSize="xl" mt="4" maxW="xl" mx="auto">
+              Made for wine lovers & growers
             </Text>
           </Box>
 
@@ -61,9 +55,7 @@ export const Hero = () => {
             direction={{ base: "column", md: "row" }}
             mt="10"
             mb="20"
-            spacing="4"
             display="flex"
-            justifyContent="space-around"
           >
             <Button
               variant="primaryWeno"
@@ -77,7 +69,7 @@ export const Hero = () => {
             >
               {t("register")}
             </Button>
-            <Button variant="secondaryWeno" size="heroWeno">
+            <Button size="heroWeno" variant="cta">
               <Link href="/subscriptions">{t("subscribe")}</Link>
             </Button>
           </Stack>

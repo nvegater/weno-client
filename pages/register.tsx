@@ -28,7 +28,6 @@ const Register: FC<RegisterProps> = ({}) => {
   const router = useRouter();
   const [t] = useTranslation("global");
   if (authenticated && isVisitor && tokenInfo) {
-    // TODO create customer based on the user
     router.push("/");
   }
 

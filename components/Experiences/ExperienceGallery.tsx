@@ -22,9 +22,9 @@ const imgToBase64 = (file: File) =>
 
 export interface WineryGalleryProps {
   allowEdit: boolean;
-  currentGallery: Array<any>;
   onGalleryChanged: (files: Array<File>) => void;
-  onCoverChanged: (imageService: any) => void;
+  onCoverChanged?: (imageService: any) => void;
+  currentGallery?: Array<any>;
 }
 const ExperienceGallery: FC<WineryGalleryProps> = ({
   allowEdit,

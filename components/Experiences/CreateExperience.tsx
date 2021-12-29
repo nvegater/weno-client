@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import {
   CreateExperienceInputs,
   CreateRecurrentDatesInputs,
@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import {
   Box,
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -29,6 +30,11 @@ import {
   mapSlotType,
   removeNonStringsFromArray,
 } from "../utils/enum-utils";
+import { atom, useSetRecoilState } from "recoil";
+import {
+  generatorNavigationState,
+  GeneratorSubpage,
+} from "../Profile/Winery/GeneratorLayout/GeneratorLayout";
 
 interface CreateExperienceProps {
   winery: WineryFragmentFragment;
@@ -43,12 +49,15 @@ export const degustation = "Degustation";
 export const pairing = "Pairing";
 export const concert = "Concert";
 
+export const createdExperienceIdState = atom<number | null>({
+  key: "createdExperienceId",
+  default: null,
+});
+
 export const CreateExperience: FC<CreateExperienceProps> = ({
   winery,
   contextHeader,
 }) => {
-  const [experienceId, setExperienceId] = useState<number>(-1);
-  const [pauseImageUpload, setPauseImageUpload] = useState(true);
   const {
     register,
     setError,
@@ -58,6 +67,9 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     setValue,
     formState: { errors, isSubmitting },
   } = useForm({ mode: "onTouched" });
+
+  const setCreatedExperienceId = useSetRecoilState(createdExperienceIdState);
+  const setSubpage = useSetRecoilState(generatorNavigationState);
 
   const [, createExperience] = useCreateExperienceMutation();
   const onSubmit = async (data) => {
@@ -108,12 +120,8 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
       });
     }
     if (result && result.createExperience.experience !== null) {
-      console.log("Success");
-      console.log(result.createExperience.experience);
-      console.log(result.createExperience.dateWithTimes);
-      // Trigger image upload after succesfull experience Creation
-      setPauseImageUpload(false);
-      setExperienceId(result.createExperience.experience.id);
+      setCreatedExperienceId(result.createExperience.experience.id);
+      setSubpage(GeneratorSubpage.EDIT_EXPERIENCE);
     }
   };
   const [t] = useTranslation("global");
@@ -215,19 +223,24 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     {
       title: t("images"),
       content: (
-        <ExperienceImagesForm
-          pauseImageUpload={pauseImageUpload}
-          experienceId={experienceId}
-          contextHeader={contextHeader}
-        />
+        <Flex>
+          <Heading as="h3" size="sm">
+            Submit the form to upload images
+          </Heading>
+        </Flex>
       ),
     },
   ];
+
   return (
     <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
       <Heading mb={8}>{t("newExperience")}</Heading>
       <Box mb={"3em"}>
-        <VerticalSteps steps={formSteps} isLoading={false} />
+        <VerticalSteps
+          steps={formSteps}
+          isLoading={false}
+          finalStepText="Click reset to verify your creation"
+        />
       </Box>
 
       <FormControl

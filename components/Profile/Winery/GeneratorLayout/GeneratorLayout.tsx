@@ -1,6 +1,6 @@
 import { Box, Flex, Stack } from "@chakra-ui/react";
 import * as React from "react";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { MobileMenuButton } from "./MobileMenuButton";
 import { ScrollArea } from "./ScrollArea";
 import { useMobileMenuState } from "./useMobileMenuState";
@@ -21,6 +21,8 @@ import { WineryFragmentFragment } from "../../../../graphql/generated/graphql";
 import { ContextHeader } from "../../../Authentication/useAuth";
 import { CreateExperience } from "../../../Experiences/CreateExperience";
 import { useTranslation } from "react-i18next";
+import { atom, useRecoilState } from "recoil";
+import { EditableExperiences } from "../../../Settings/Experiences/EditableExperiences";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -41,14 +43,19 @@ export interface GeneratorLayoutProps {
   contextHeader: ContextHeader;
 }
 
+export const generatorNavigationState = atom<GeneratorSubpage>({
+  key: "generatorNavigation",
+  default: GeneratorSubpage.WINERY_INFO,
+});
+
 export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
   winery,
   logoutFn,
   contextHeader,
 }) => {
   const { isOpen, toggle } = useMobileMenuState();
-  const [subPage, setSubPage] = useState(GeneratorSubpage.WINERY_INFO);
   const [t] = useTranslation("global");
+  const [subPage, setSubPage] = useRecoilState(generatorNavigationState);
 
   return (
     <Flex
@@ -200,7 +207,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 />
               )}
               {subPage === GeneratorSubpage.EDIT_EXPERIENCE && (
-                <div>{t("editExperience")}</div>
+                <EditableExperiences contextHeader={contextHeader} />
               )}
               {subPage === GeneratorSubpage.PAST_EXPERIENCES && (
                 <div>{t("pastExperiences")}</div>

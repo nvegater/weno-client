@@ -1,20 +1,32 @@
 import { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/provider";
 import theme from "../theme/index";
-import Fonts from "../theme/fonts/Fonts";
-
+import Fonts from "./theme/fonts/Fonts";
 import { SSRCookies, SSRKeycloakProvider } from "@react-keycloak/ssr";
 import { KeycloakConfig } from "keycloak-js";
 import React from "react";
-
+import "@fontsource/work-sans";
+import "@fontsource/open-sans";
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
 import esLang from "../public/locales/es/common.json";
 import enLang from "../public/locales/en/common.json";
-
 import "../components/DateTimePicker/Clock.css";
 import "../components/DateTimePicker/DateTimePicker.css";
 import "../components/DateTimePicker/Calendar.css";
+
+i18next.init({
+  interpolation: { escapeValue: false },
+  lng: "es",
+  resources: {
+    es: {
+      global: esLang,
+    },
+    en: {
+      global: enLang,
+    },
+  },
+});
 
 interface InitialProps {
   cookies: unknown;
@@ -53,6 +65,7 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
           <Fonts />
           <Component {...pageProps} />
         </I18nextProvider>
+        <Component {...pageProps} />
       </ChakraProvider>
     </SSRKeycloakProvider>
   );

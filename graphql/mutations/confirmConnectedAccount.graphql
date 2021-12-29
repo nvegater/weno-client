@@ -1,0 +1,11 @@
+mutation ConfirmConnectedAccount($wineryAlias: String!) {
+  confirmConnectedAccount(wineryAlias: $wineryAlias) {
+    errors {
+      field
+      message
+    }
+    winery {
+      ...WineryConfirmationFragment
+    }
+  }
+}
