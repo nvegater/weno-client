@@ -19,9 +19,9 @@ interface ExperiencesGridLayoutProps {
 
 export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   mode,
+  experiences,
 }) => {
-  // TODO show experiences from Props
-  //  Allow two options after selection (both options slots are retrievable): Reserve or Edit
+  //  TODO Allow two options after selection (both options slots are retrievable): Reserve or Edit
 
   return (
     <div>
@@ -34,6 +34,9 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
       {mode === ExperiencesGridMode.VIEW && (
         <ExperienceModal experienceId={1} />
       )}
+      {experiences.length === 0 && <div>No results found</div>}
+      {experiences.length > 0 &&
+        experiences.map((exp) => <div key={exp.title}>{exp.title}</div>)}
     </div>
   );
 };

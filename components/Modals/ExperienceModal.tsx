@@ -5,5 +5,5 @@ interface ExperienceModalProps {
 }
 
 export const ExperienceModal: FC<ExperienceModalProps> = ({}) => {
-  return <div>Hola</div>;
+  return <div>View Mode</div>;
 };
