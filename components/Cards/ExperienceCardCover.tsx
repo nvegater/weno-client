@@ -19,7 +19,13 @@ const Card = (props: BlogProps) => {
   };
 
   return (
-    <Box bg="brand.100" borderRadius="12px" w="274px" h="274px">
+    <Box
+      bg="brand.100"
+      borderRadius="12px"
+      w="274px"
+      h="274px"
+      filter="drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.1))"
+    >
       <Flex direction="column">
         <Flex px="4" py="3" height="48px">
           <LinkOverlay href={href}>
