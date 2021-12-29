@@ -92,9 +92,18 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
       return;
     } else if (data?.experiences?.experiences?.length > 0) {
       const newExps = data?.experiences?.experiences;
-      setExperiences((e) => [...e, ...newExps]);
+      const newTitles = newExps.map((exp) => exp.title);
+      const oldTitles = experiences.map((exp) => exp.title);
+      if (!newTitles.some((newTitle) => oldTitles.includes(newTitle))) {
+        setExperiences((e) => [...e, ...newExps]);
+      }
     }
-  }, [networkError, data?.experiences?.errors, data?.experiences?.experiences]);
+  }, [
+    networkError,
+    data?.experiences?.errors,
+    data?.experiences?.experiences,
+    experiences,
+  ]);
   const noMoreResults =
     data?.experiences?.paginationConfig?.beforeCursor === null &&
     data?.experiences?.paginationConfig?.afterCursor === null;

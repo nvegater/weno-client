@@ -1,9 +1,21 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { ReservationModal } from "../Modals/ReservationModal";
 import { EditExperienceModal } from "../Modals/EditExperienceModal";
 import { ExperienceModal } from "../Modals/ExperienceModal";
 import { ExperienceCardCover } from "../Cards/ExperienceCardCover";
-import { Box, Flex, Grid } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerFooter,
+  DrawerOverlay,
+  Flex,
+  Grid,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { PaginatedExperience } from "../../graphql/generated/graphql";
 
 export enum ExperiencesGridMode {
@@ -25,17 +37,37 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
 }) => {
   //  TODO Allow two options after selection (both options slots are retrievable): Reserve or Edit
 
+  const [experienceId, setExperienceId] = useState<number | null>();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <div>
-      {mode === ExperiencesGridMode.RESERVE && (
-        <ReservationModal experienceId={1} />
-      )}
-      {mode === ExperiencesGridMode.EDIT && (
-        <EditExperienceModal experienceId={1} />
-      )}
-      {mode === ExperiencesGridMode.VIEW && (
-        <ExperienceModal experienceId={1} />
-      )}
+      <>
+        <Drawer isOpen={isOpen} onClose={onClose}>
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerBody>
+              {mode === ExperiencesGridMode.RESERVE && (
+                <ReservationModal experienceId={experienceId} />
+              )}
+              {mode === ExperiencesGridMode.EDIT && (
+                <EditExperienceModal experienceId={experienceId} />
+              )}
+              {mode === ExperiencesGridMode.VIEW && (
+                <ExperienceModal experienceId={experienceId} />
+              )}
+            </DrawerBody>
+
+            <DrawerFooter>
+              <Button type="submit" form="my-form">
+                Save
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      </>
+
       <Box maxW="100rem">
         {experiences.length === 0 && <div>No results found</div>}
         <Grid
@@ -45,7 +77,11 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
           {experiences.length > 0 &&
             experiences.map((exp) => (
               <Flex justifyContent="center" key={exp.title}>
-                <ExperienceCardCover {...exp} />
+                <ExperienceCardCover
+                  {...exp}
+                  setExperienceId={setExperienceId}
+                  openModal={onOpen}
+                />
               </Flex>
             ))}
         </Grid>
