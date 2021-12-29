@@ -125,9 +125,21 @@ type OnboardingResponse {
   errors: [FieldError!]
 }
 
+type PaginatedExperience {
+  allAttendeesAllSlots: Int
+  createdAt: DateTime!
+  description: String!
+  experienceType: ExperienceType!
+  id: Int!
+  pricePerPersonInDollars: Float!
+  title: String!
+  wineryId: Int!
+  wineryName: String!
+}
+
 type PaginatedExperiences {
   errors: [FieldError!]
-  experiences: [Experience!]
+  experiences: [PaginatedExperience!]
   paginationConfig: CursorPaginationResult!
   totalExperiences: Float!
 }

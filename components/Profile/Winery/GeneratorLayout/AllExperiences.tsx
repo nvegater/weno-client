@@ -12,7 +12,7 @@ import {
 import {
   CursorPaginationInput,
   ExperiencesFilters,
-  ExperienceWithoutSlotsFragment,
+  PaginatedExperience,
   useExperiencesQuery,
 } from "../../../../graphql/generated/graphql";
 import { Button, Flex } from "@chakra-ui/react";
@@ -73,9 +73,7 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
   const [paginationConfig, setPaginationConfig] =
     useState<CursorPaginationInput>(DEFAULT_PAGINATION_CONFIG);
 
-  const [experiences, setExperiences] = useState<
-    ExperienceWithoutSlotsFragment[]
-  >([]);
+  const [experiences, setExperiences] = useState<PaginatedExperience[]>([]);
 
   const [{ data, fetching, error: networkError }] = useExperiencesQuery({
     variables: {
@@ -112,7 +110,7 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
         />
       )}
 
-      <Flex justifyContent="center">
+      <Flex justifyContent="center" mt={5}>
         <Button
           size="navBarCTA"
           variant="cta"

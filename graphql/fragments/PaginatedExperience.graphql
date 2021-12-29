@@ -1,13 +1,11 @@
-fragment ExperienceWithoutSlots on Experience {
+fragment PaginatedExperience on PaginatedExperience {
   createdAt
   id
   title
   description
   pricePerPersonInDollars
   wineryId
-  images {
-    ...ExperienceImageFragment
-  }
+  wineryName
   allAttendeesAllSlots
   experienceType
 }

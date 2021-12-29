@@ -1,21 +1,21 @@
 import { Flex, Icon, Img, Text, Tooltip } from "@chakra-ui/react";
 import { HiLocationMarker } from "react-icons/hi";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { FaHeart } from "react-icons/fa";
+import { PaginatedExperience } from "../../graphql/generated/graphql";
 
-interface BlogProps {
-  title: string;
-  media: string;
-  wineryName: string;
-}
-
-const Card = (props: BlogProps) => {
-  const { title, wineryName, media } = props;
+export const ExperienceCardCover: FC<PaginatedExperience> = ({
+  title,
+  wineryName,
+}) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const handlePress = () => {
     setIsFavorite(!isFavorite);
   };
+
+  const placeHolderImage =
+    "https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
 
   return (
     <Flex
@@ -33,7 +33,7 @@ const Card = (props: BlogProps) => {
           {title}
         </Text>
       </Tooltip>
-      <Img src={media} alt={title} width="100%" objectFit="cover" />
+      <Img src={placeHolderImage} alt={title} width="100%" objectFit="cover" />
       <Flex px="2" py="3" alignItems="center">
         <Icon as={HiLocationMarker} color="brand.400" boxSize="1.4rem" ml={1} />
         <Text fontSize="md" pr={4} pl={1}>
@@ -49,15 +49,5 @@ const Card = (props: BlogProps) => {
         />
       </Flex>
     </Flex>
-  );
-};
-
-export const ExperienceCardCover = () => {
-  return (
-    <Card
-      media="https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-      title="Wine Tasting"
-      wineryName="Winery Place"
-    />
   );
 };

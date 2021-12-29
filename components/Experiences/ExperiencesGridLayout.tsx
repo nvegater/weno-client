@@ -2,9 +2,9 @@ import React, { FC } from "react";
 import { ReservationModal } from "../Modals/ReservationModal";
 import { EditExperienceModal } from "../Modals/EditExperienceModal";
 import { ExperienceModal } from "../Modals/ExperienceModal";
-import { ExperienceWithoutSlotsFragment } from "../../graphql/generated/graphql";
 import { ExperienceCardCover } from "../Cards/ExperienceCardCover";
 import { Box, Flex, Grid } from "@chakra-ui/react";
+import { PaginatedExperience } from "../../graphql/generated/graphql";
 
 export enum ExperiencesGridMode {
   EDIT,
@@ -14,7 +14,7 @@ export enum ExperiencesGridMode {
 
 // TODO add props: Experiences
 interface ExperiencesGridLayoutProps {
-  experiences: ExperienceWithoutSlotsFragment[];
+  experiences: PaginatedExperience[];
   mode: ExperiencesGridMode;
   preSelectedExperienceId?: number;
 }
@@ -45,7 +45,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
           {experiences.length > 0 &&
             experiences.map((exp) => (
               <Flex justifyContent="center" key={exp.title}>
-                <ExperienceCardCover />
+                <ExperienceCardCover {...exp} />
               </Flex>
             ))}
         </Grid>

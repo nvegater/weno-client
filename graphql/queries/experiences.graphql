@@ -5,7 +5,7 @@ query Experiences($paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
       message
     }
     experiences {
-      ...ExperienceFragment
+      ...PaginatedExperience
     }
     totalExperiences
     paginationConfig {
