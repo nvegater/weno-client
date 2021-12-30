@@ -238,8 +238,8 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
       as="form"
       onSubmit={handleSubmit(onSubmit)}
       display="flex"
-      alignItems="start"
       pr={4}
+      alignItems={["start", "center"]}
     >
       <Heading mb={8}>New Experience</Heading>
       <Box mb={"3em"}>
