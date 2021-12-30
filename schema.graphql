@@ -137,9 +137,29 @@ type PaginatedExperience {
   wineryName: String!
 }
 
+type PaginatedExperienceWithSlots {
+  allAttendeesAllSlots: Int
+  createdAt: DateTime!
+  description: String!
+  experienceType: ExperienceType!
+  id: Int!
+  pricePerPersonInDollars: Float!
+  slots: [ExperienceSlot!]!
+  title: String!
+  wineryId: Int!
+  wineryName: String!
+}
+
 type PaginatedExperiences {
   errors: [FieldError!]
   experiences: [PaginatedExperience!]
+  paginationConfig: CursorPaginationResult!
+  totalExperiences: Float!
+}
+
+type PaginatedExperiencesWithSlots {
+  errors: [FieldError!]
+  experiences: [PaginatedExperienceWithSlots!]
   paginationConfig: CursorPaginationResult!
   totalExperiences: Float!
 }
@@ -180,7 +200,10 @@ type ProductsResponse {
 type Query {
   allReservations: Int!
   allWineries: Int!
-  editableExperiences(wineryId: Float!): PaginatedExperiences!
+  editableExperiences(
+    paginatedExperiencesInputs: PaginatedExperiencesInputs!
+    wineryId: Float!
+  ): PaginatedExperiencesWithSlots!
   experienceWithSlots(experienceId: Float!): ExperienceResponse!
   experiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
