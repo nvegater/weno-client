@@ -1,9 +1,9 @@
 import React, { FC } from "react";
 import {
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
-  HStack,
   useRadioGroup,
 } from "@chakra-ui/react";
 import RadioCard from "./RadioCard";
@@ -56,7 +56,7 @@ const RadioGroup: FC<{
       >
         {label}
       </FormLabel>
-      <HStack {...group}>
+      <Flex {...group} flexDirection={["column", "row"]}>
         {elements.map((value) => {
           const radio = getRadioProps({ value: value.name });
           return (
@@ -65,7 +65,7 @@ const RadioGroup: FC<{
             </RadioCard>
           );
         })}
-      </HStack>
+      </Flex>
       <FormErrorMessage>
         {errors[name] && errors[name].message}
       </FormErrorMessage>

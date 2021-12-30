@@ -12,6 +12,7 @@ import { DateTimePickerWeno } from "../DateTimePicker/DateTimePickerWeno";
 import {
   Button,
   Checkbox,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -162,7 +163,10 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
         label="Recurrent"
         elements={[{ name: oneTime }, { name: recurrent }, { name: allDay }]}
       />
-      <HStack>
+      <Flex
+        flexDirection={["column", "row"]}
+        justifyContent={["start", "space-between"]}
+      >
         <Controller
           control={control}
           rules={{
@@ -173,6 +177,8 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             <FormControl
               isRequired={true}
               isInvalid={Boolean(fieldState.error)}
+              pr={2}
+              pb={2}
             >
               <FormLabel htmlFor="startDateTime">Start</FormLabel>
               <DateTimePickerWeno
@@ -221,7 +227,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             )}
           />
         )}
-      </HStack>
+      </Flex>
       {!disable__Duration_StartTime_EndDateTime__setAutoDuration && (
         <Controller
           control={control}
@@ -255,6 +261,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                   value={field.value}
                   ref={field.ref}
                   isReadOnly={setAutoDuration}
+                  maxW="250px"
                 />
                 <FormErrorMessage>
                   {fieldState.error && fieldState.error.message}
@@ -280,7 +287,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             variant="secondaryWeno"
             size="navBarCTA"
           >
-            Add {customDateField.length > 0 ? "another" : "a"} custom date
+            Custom dates
           </Button>
           {customDateField.map((field, index) => (
             <Controller
@@ -314,7 +321,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             variant="secondaryWeno"
             size="navBarCTA"
           >
-            Add {customExceptionField.length > 0 ? "another" : "an"} exception
+            Exceptions
           </Button>
 
           {customExceptionField.map((field, index) => (

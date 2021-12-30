@@ -11,7 +11,6 @@ import {
   DrawerCloseButton,
   DrawerContent,
   DrawerFooter,
-  DrawerOverlay,
   Flex,
   Grid,
   useDisclosure,
@@ -42,31 +41,28 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
 
   return (
     <div>
-      <>
-        <Drawer isOpen={isOpen} onClose={onClose}>
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerBody>
-              {mode === ExperiencesGridMode.RESERVE && (
-                <ReservationModal experienceId={experienceId} />
-              )}
-              {mode === ExperiencesGridMode.EDIT && (
-                <EditExperienceModal experienceId={experienceId} />
-              )}
-              {mode === ExperiencesGridMode.VIEW && (
-                <ExperienceModal experienceId={experienceId} />
-              )}
-            </DrawerBody>
+      <Drawer isOpen={isOpen} onClose={onClose} placement="bottom" isFullHeight>
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerBody>
+            {mode === ExperiencesGridMode.RESERVE && (
+              <ReservationModal experienceId={experienceId} />
+            )}
+            {mode === ExperiencesGridMode.EDIT && (
+              <EditExperienceModal experienceId={experienceId} />
+            )}
+            {mode === ExperiencesGridMode.VIEW && (
+              <ExperienceModal experienceId={experienceId} />
+            )}
+          </DrawerBody>
 
-            <DrawerFooter>
-              <Button type="submit" form="my-form">
-                Save
-              </Button>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      </>
+          <DrawerFooter>
+            <Button type="submit" form="my-form">
+              Save
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
 
       <Box maxW="100rem">
         {experiences.length === 0 && <div>No results found</div>}

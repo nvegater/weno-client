@@ -19,7 +19,19 @@ import { Weno } from "../Hero/Brands";
 import Link from "next/link";
 import { KeycloakLoginOptions } from "keycloak-js";
 
-const LogoText = (
+const LogoTextSidebar = (
+  <Text
+    ml={2}
+    color="brand.100"
+    fontSize="2xl"
+    fontWeight="700"
+    visibility={["hidden", "visible"]}
+  >
+    Weno
+  </Text>
+);
+
+const LogoTextNavbar = (
   <Text ml={2} color="brand.100" fontSize="2xl" fontWeight="700">
     Weno
   </Text>
@@ -102,7 +114,7 @@ NavBarProps) => {
         <Link href="/" passHref={true}>
           <Flex alignItems="center" cursor="pointer">
             <Weno h="2.1em" w="2.1em" />
-            {LogoText}
+            {isOpen ? LogoTextNavbar : LogoTextSidebar}
           </Flex>
         </Link>
         {!isOpen && (
@@ -156,7 +168,7 @@ NavBarProps) => {
       <Link href="/" passHref={true}>
         <Flex alignItems="center" cursor="pointer">
           <Weno h="2.1em" w="2.1em" />
-          {LogoText}
+          {LogoTextNavbar}
         </Flex>
       </Link>
       <HStack

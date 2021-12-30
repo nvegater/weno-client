@@ -185,7 +185,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 <MobileMenuButton onClick={toggle} isOpen={isOpen} />
               </Flex>
             </Flex>
-            <Flex direction="column" flex="1" overflow="auto" px="10">
+            <Flex direction="column" flex="1" overflow="auto" px="5">
               {subPage === GeneratorSubpage.WINERY_INFO && (
                 <WineryOwnerInfo
                   winery={winery}

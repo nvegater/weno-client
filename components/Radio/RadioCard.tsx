@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { useRadio, Box, UseRadioProps } from "@chakra-ui/react";
+import { useRadio, Box, UseRadioProps, Heading } from "@chakra-ui/react";
 
 const RadioCard: FC<UseRadioProps> = (props) => {
   const { getInputProps, getCheckboxProps } = useRadio(props);
@@ -8,7 +8,7 @@ const RadioCard: FC<UseRadioProps> = (props) => {
   const checkbox = getCheckboxProps();
 
   return (
-    <Box as="label">
+    <Box as="label" pr={2} pb={2}>
       <input {...input} />
       <Box
         {...checkbox}
@@ -26,8 +26,11 @@ const RadioCard: FC<UseRadioProps> = (props) => {
         }}
         px={5}
         py={3}
+        maxW="200px"
+        display="flex"
+        justifyContent="center"
       >
-        {props.children}
+        <Heading size="xs">{props.children}</Heading>
       </Box>
     </Box>
   );
