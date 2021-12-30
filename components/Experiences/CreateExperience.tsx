@@ -250,29 +250,24 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
         />
       </Box>
 
-      <FormControl
-        isInvalid={Boolean(errors)}
-        display="flex"
-        justifyContent="center"
-        flexDir="column"
-      >
-        <FormErrorMessage>
-          <ErrorSummary errors={errors} />
-        </FormErrorMessage>
-      </FormControl>
-      <Box w="100%">
-        <Flex justifyContent="center" flexDir="column">
-          <Button
-            variant="secondaryWeno"
-            size="navBarCTA"
-            type="submit"
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-          >
-            Submit
-          </Button>
-        </Flex>
-      </Box>
+      <Flex justifyContent="center" alignItems="center" flexDir="column">
+        <Box>
+          <FormControl isInvalid={Boolean(errors)}>
+            <FormErrorMessage>
+              <ErrorSummary errors={errors} />
+            </FormErrorMessage>
+          </FormControl>
+        </Box>
+        <Button
+          variant="secondaryWeno"
+          size="navBarCTA"
+          type="submit"
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+        >
+          Submit
+        </Button>
+      </Flex>
     </VStack>
   );
 };
