@@ -1,77 +1,20 @@
-import React, {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   ExperiencesGridLayout,
   ExperiencesGridMode,
 } from "../../../Experiences/ExperiencesGridLayout";
 import {
-  CursorPaginationInput,
-  ExperiencesFilters,
   PaginatedExperience,
   useExperiencesQuery,
 } from "../../../../graphql/generated/graphql";
 import { Button, Flex } from "@chakra-ui/react";
-
-const DEFAULT_PAGINATION_CONFIG = {
-  beforeCursor: null,
-  afterCursor: null,
-  limit: 4,
-};
-
-const DEFAULT_FILTERS_CONFIG = {
-  valley: null,
-  experienceType: null,
-  experienceName: null,
-};
-
-const handlePaginationRequest = (
-  oldPaginationConfig: CursorPaginationInput,
-  newPaginationConfig: CursorPaginationInput,
-  updatePaginationConfig: Dispatch<SetStateAction<CursorPaginationInput>>
-) => {
-  let updateScheduled: boolean = false;
-  if (
-    isNewCursorConfig(
-      newPaginationConfig.beforeCursor,
-      newPaginationConfig.afterCursor,
-      oldPaginationConfig.beforeCursor,
-      oldPaginationConfig.afterCursor
-    )
-  ) {
-    updatePaginationConfig((oldConfig) => ({
-      limit: oldConfig.limit,
-      beforeCursor: newPaginationConfig.beforeCursor,
-      afterCursor: newPaginationConfig.afterCursor,
-    }));
-    updateScheduled = true;
-  }
-  return updateScheduled;
-};
+import useFiltersPagination from "../../../utils/useFiltersPagination";
 
 interface AllExperiencesProps {}
 
-function isNewCursorConfig(
-  newBeforeCursor: string | null,
-  newAfterCursor: string | null,
-  oldBeforeCursor: string | null,
-  oldAfterCursor: string | null
-) {
-  const isNewBeforeCursor = oldBeforeCursor !== newBeforeCursor;
-  const isNewAfterCursor = oldAfterCursor !== newAfterCursor;
-  return isNewAfterCursor || isNewBeforeCursor;
-}
-
 export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
-  const [experiencesFilters] = useState<ExperiencesFilters>(
-    DEFAULT_FILTERS_CONFIG
-  );
-  const [paginationConfig, setPaginationConfig] =
-    useState<CursorPaginationInput>(DEFAULT_PAGINATION_CONFIG);
+  const [paginationConfig, experiencesFilters, handlePaginationRequest] =
+    useFiltersPagination();
 
   const [experiences, setExperiences] = useState<PaginatedExperience[]>([]);
 
@@ -122,8 +65,7 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
             if (experiences.length > 0) {
               handlePaginationRequest(
                 paginationConfig,
-                data.experiences.paginationConfig,
-                setPaginationConfig
+                data.experiences.paginationConfig
               );
             }
           }}
