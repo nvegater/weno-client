@@ -1,7 +1,9 @@
 import React, { FC } from "react";
+import { ExperienceSlot } from "../../graphql/generated/graphql";
 
 interface EditExperienceModalProps {
   experienceId: number;
+  slots: ExperienceSlot[];
 }
 
 export const EditExperienceModal: FC<EditExperienceModalProps> = ({}) => {
