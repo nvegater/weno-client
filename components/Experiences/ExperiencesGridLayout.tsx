@@ -47,7 +47,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
 
   return (
     <div>
-      <Drawer isOpen={isOpen} onClose={onClose} placement="bottom" isFullHeight>
+      <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerBody>
