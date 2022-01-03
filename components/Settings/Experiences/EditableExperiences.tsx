@@ -9,18 +9,19 @@ import { createdExperienceIdState } from "../../Experiences/CreateExperience";
 import {
   PaginatedExperience,
   useEditableExperiencesQuery,
+  WineryFragmentFragment,
 } from "../../../graphql/generated/graphql";
 import useFiltersPagination from "../../utils/useFiltersPagination";
 import { Button, Flex } from "@chakra-ui/react";
 
 interface EditableExperiencesProps {
   contextHeader: ContextHeader;
-  wineryId: number;
+  winery: WineryFragmentFragment;
 }
 
 export const EditableExperiences: FC<EditableExperiencesProps> = ({
   contextHeader,
-  wineryId,
+  winery,
 }) => {
   const recentlyCreatedExperienceId = useRecoilValue(createdExperienceIdState);
   const autoSelectExperience = recentlyCreatedExperienceId !== null;
@@ -37,7 +38,7 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
           paginationConfig: { ...paginationConfig },
           experiencesFilters: { ...experiencesFilters },
         },
-        wineryId,
+        wineryId: winery.id,
       },
       requestPolicy: "network-only",
       context: contextHeader,
@@ -68,6 +69,7 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
       <ExperiencesGridLayout
         experiences={experiences}
         mode={ExperiencesGridMode.EDIT}
+        winery={winery}
         preSelectedExperienceId={
           autoSelectExperience
             ? recentlyCreatedExperienceId

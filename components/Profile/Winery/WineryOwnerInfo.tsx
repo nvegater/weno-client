@@ -12,20 +12,13 @@ import {
   WineryFragmentFragment,
 } from "../../../graphql/generated/graphql";
 import { ContextHeader } from "../../Authentication/useAuth";
+import { dateFormatter, timeFormatter } from "../../utils/dateTime-utils";
 
 interface WineryOwnerInfoProps {
   winery: WineryFragmentFragment;
   contextHeader: ContextHeader;
 }
 
-// https://nodejs.org/docs/latest-v12.x/api/intl.html
-const timeFormatter = Intl.DateTimeFormat("en", {
-  minute: "2-digit",
-  hour: "2-digit",
-});
-const dateFormatter = Intl.DateTimeFormat("en", {
-  dateStyle: "medium",
-});
 export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
   winery,
   contextHeader,

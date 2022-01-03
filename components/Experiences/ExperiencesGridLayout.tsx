@@ -18,6 +18,7 @@ import {
 import {
   PaginatedExperience,
   PaginatedExperienceWithSlots,
+  WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
 
 export enum ExperiencesGridMode {
@@ -30,12 +31,14 @@ interface ExperiencesGridLayoutProps {
   experiences: (PaginatedExperience | PaginatedExperienceWithSlots)[];
   mode: ExperiencesGridMode;
   preSelectedExperienceId?: number;
+  winery?: WineryFragmentFragment;
 }
 
 export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   mode,
   experiences,
   preSelectedExperienceId,
+  winery,
 }) => {
   const [experienceId, setExperienceId] = useState<number | undefined>(
     preSelectedExperienceId
@@ -55,6 +58,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
               <EditExperienceModal
                 experienceId={experienceId}
                 experiences={experiences as PaginatedExperienceWithSlots[]}
+                winery={winery}
               />
             )}
             {mode === ExperiencesGridMode.VIEW && (
