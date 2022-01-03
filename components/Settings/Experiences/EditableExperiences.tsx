@@ -69,7 +69,11 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
         experiences={experiences}
         mode={ExperiencesGridMode.EDIT}
         preSelectedExperienceId={
-          autoSelectExperience ? recentlyCreatedExperienceId : undefined
+          autoSelectExperience
+            ? recentlyCreatedExperienceId
+            : experiences.length > 0
+            ? experiences[0].id
+            : undefined
         }
       />
       <Flex justifyContent="center" mt={5}>

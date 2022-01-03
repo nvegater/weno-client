@@ -36,14 +36,13 @@ interface ExperiencesGridLayoutProps {
 export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   mode,
   experiences,
+  preSelectedExperienceId,
 }) => {
-  const [experienceId, setExperienceId] = useState<number | null>();
+  const [experienceId, setExperienceId] = useState<number | undefined>(
+    preSelectedExperienceId
+  );
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // TODO set slots from selected Experience if it has slots.
-  const slotsFromSelectedExperience = experiences.find(
-    (exp) => exp.id === experienceId
-  );
   return (
     <div>
       <Drawer isOpen={isOpen} onClose={onClose} placement="bottom" isFullHeight>
@@ -54,7 +53,10 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
               <ReservationModal experienceId={experienceId} />
             )}
             {mode === ExperiencesGridMode.EDIT && (
-              <EditExperienceModal experienceId={experienceId} slots={[]} />
+              <EditExperienceModal
+                experienceId={experienceId}
+                experiences={experiences as PaginatedExperienceWithSlots[]}
+              />
             )}
             {mode === ExperiencesGridMode.VIEW && (
               <ExperienceModal experienceId={experienceId} />

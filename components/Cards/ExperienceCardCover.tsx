@@ -1,10 +1,12 @@
-import { Flex, Icon, Img, Text, Tooltip, Box } from "@chakra-ui/react";
+import { Box, Flex, Icon, Img, Text, Tooltip } from "@chakra-ui/react";
 import { HiLocationMarker } from "react-icons/hi";
 import React, { FC, useState } from "react";
 import { FaHeart } from "react-icons/fa";
-import { PaginatedExperience } from "../../graphql/generated/graphql";
 
-interface ExperienceCardCoverProps extends PaginatedExperience {
+interface ExperienceCardCoverProps {
+  id: number;
+  title: string;
+  wineryName: string;
   setExperienceId: React.Dispatch<React.SetStateAction<number>>;
   openModal: () => void;
 }
