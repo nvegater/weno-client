@@ -1,10 +1,11 @@
 import { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/provider";
 import theme from "../theme/index";
-import Fonts from "./theme/fonts/Fonts";
+
 import { SSRCookies, SSRKeycloakProvider } from "@react-keycloak/ssr";
 import { KeycloakConfig } from "keycloak-js";
 import React from "react";
+
 import "@fontsource/work-sans";
 import "@fontsource/open-sans";
 import { I18nextProvider } from "react-i18next";
@@ -38,19 +39,6 @@ const keycloakCfg: KeycloakConfig = {
   clientId: "weno-frontend",
 };
 
-i18next.init({
-  interpolation: { escapeValue: false },
-  lng: "es",
-  resources: {
-    es: {
-      global: esLang,
-    },
-    en: {
-      global: enLang,
-    },
-  },
-});
-
 function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
   const keycloakConfig = {
     persistor: SSRCookies(cookies),
@@ -62,10 +50,8 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
     <SSRKeycloakProvider {...keycloakConfig}>
       <ChakraProvider theme={theme}>
         <I18nextProvider i18n={i18next}>
-          <Fonts />
           <Component {...pageProps} />
         </I18nextProvider>
-        <Component {...pageProps} />
       </ChakraProvider>
     </SSRKeycloakProvider>
   );
