@@ -3,6 +3,7 @@ import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
 
 // styles are imported in the _app.tsx component
 export function isoDateWithoutTimeZone(date: Date) {
+  // TODO MAybe replace with https://date-fns.org/v2.28.0/docs/formatISO
   const timestamp = date.getTime() - date.getTimezoneOffset() * 60000;
   const correctDate = new Date(timestamp);
   return correctDate.toISOString();
@@ -13,14 +14,14 @@ interface DateTimePickerProps {
   initialDate?: Date;
   removeTimeZone?: boolean;
   onlyDate?: boolean;
-  endDatePeriodic?: boolean;
+  includeTime?: boolean;
 }
 
 export const DateTimePickerWeno: FC<DateTimePickerProps> = ({
   onDateTimeSelection,
   initialDate,
   onlyDate = false,
-  endDatePeriodic = false,
+  includeTime = false,
   removeTimeZone = false,
 }) => {
   const [dateValue, setDateValue] = useState<Date>(
@@ -30,10 +31,10 @@ export const DateTimePickerWeno: FC<DateTimePickerProps> = ({
   let format: string | undefined;
 
   if (onlyDate) {
+    // This will set the time to 2022-01-05T00:00:00.000Z in the return value of date
     format = "dd/MM/yy";
   }
-  if (endDatePeriodic) {
-    // is this confusing ?
+  if (includeTime) {
     format = "H:mm dd/MM/yy";
   }
 

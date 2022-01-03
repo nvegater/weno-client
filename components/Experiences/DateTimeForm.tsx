@@ -216,7 +216,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                   onDateTimeSelection={(date) => {
                     field.onChange(date);
                   }}
-                  endDatePeriodic={
+                  includeTime={
                     enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion
                   }
                 />
