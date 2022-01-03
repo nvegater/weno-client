@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import {
   ExperienceSlot,
   PaginatedExperienceWithSlots,
@@ -12,6 +12,21 @@ interface EditExperienceModalProps {
   experiences: PaginatedExperienceWithSlots[];
 }
 
+function getSlotsFromDate(slots: Array<ExperienceSlot>, date: string) {
+  return slots.filter((slot) => {
+    const selectedDate = parseISO(date);
+    const slotDate = parseISO(slot.startDateTime);
+    return isSameDay(slotDate, selectedDate);
+  });
+}
+
+function getExperienceById(
+  experiences: PaginatedExperienceWithSlots[],
+  experienceId: number
+) {
+  return experiences.find((exp) => exp.id === experienceId);
+}
+
 export const EditExperienceModal: FC<EditExperienceModalProps> = ({
   experienceId,
   experiences,
@@ -20,18 +35,24 @@ export const EditExperienceModal: FC<EditExperienceModalProps> = ({
     formatISO(new Date(), { format: "extended" })
   );
 
-  const selectedExperience: PaginatedExperienceWithSlots | undefined =
-    experiences.find((exp) => exp.id === experienceId);
+  const selectedExperience: PaginatedExperienceWithSlots | undefined = useMemo(
+    () => getExperienceById(experiences, experienceId),
+    [experienceId, experiences]
+  );
 
-  const slotsFromSelectedExperience: Array<ExperienceSlot> = selectedExperience
-    ? selectedExperience.slots
-    : [];
+  const slotsFromDate: ExperienceSlot[] = useMemo(() => {
+    if (selectedExperience) {
+      return getSlotsFromDate(selectedExperience.slots, date);
+    } else {
+      return [];
+    }
+  }, [date, selectedExperience]);
 
-  const slotsFromDate = slotsFromSelectedExperience.filter((slot) => {
-    const selectedDate = parseISO(date);
-    const slotDate = parseISO(slot.startDateTime);
-    return isSameDay(slotDate, selectedDate);
-  });
+  useEffect(() => {
+    if (selectedExperience) {
+      setDate(selectedExperience.slots[0].startDateTime);
+    }
+  }, [selectedExperience]);
 
   return (
     <div>
