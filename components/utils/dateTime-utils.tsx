@@ -7,6 +7,13 @@ export const dateFormatter = Intl.DateTimeFormat("en", {
   dateStyle: "medium",
 });
 
-export const dateFormatterSimple = Intl.DateTimeFormat("en", {
+export const timeFormatterUTC = Intl.DateTimeFormat("en", {
+  minute: "2-digit",
+  hour: "2-digit",
+  timeZone: "UTC",
+});
+
+export const dateFormatterUTC = Intl.DateTimeFormat("en", {
   dateStyle: "medium",
+  timeZone: "UTC",
 });

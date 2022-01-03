@@ -2,18 +2,13 @@ import React, { FC, useEffect, useMemo, useState } from "react";
 import {
   ExperienceSlot,
   PaginatedExperienceWithSlots,
-  SlotType,
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
 import { DateTimePickerWeno } from "../DateTimePicker/DateTimePickerWeno";
 import { formatISO, isSameDay, parseISO } from "date-fns";
 import { Heading, Img } from "@chakra-ui/react";
 import { valleyReverseMapping } from "../utils/enum-utils";
-import {
-  dateFormatter,
-  dateFormatterSimple,
-  timeFormatter,
-} from "../utils/dateTime-utils";
+import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
 
 interface EditExperienceModalProps {
   experienceId: number;
@@ -34,26 +29,6 @@ function getExperienceById(
   experienceId: number
 ) {
   return experiences.find((exp) => exp.id === experienceId);
-}
-
-function formatSlotDates(
-  slotType: SlotType,
-  startDateTime: string,
-  endDateTime: string
-) {
-  if (slotType === SlotType.OneTime) {
-    return `${dateFormatterSimple.format(
-      parseISO(startDateTime)
-    )} from ${timeFormatter.format(
-      parseISO(startDateTime)
-    )} to ${timeFormatter.format(parseISO(endDateTime))}`;
-  } else if (slotType === SlotType.AllDay) {
-    return `${dateFormatter.format(parseISO(startDateTime))} - All day`;
-  } else {
-    return `${timeFormatter.format(
-      parseISO(startDateTime)
-    )} - ${timeFormatter.format(parseISO(endDateTime))}`;
-  }
 }
 
 const placeHolderImage =
@@ -98,6 +73,7 @@ export const EditExperienceModal: FC<EditExperienceModalProps> = ({
           <DateTimePickerWeno
             removeTimeZone={true}
             onlyDate={true}
+            initialDate={parseISO(selectedExperience.slots[0].startDateTime)}
             onDateTimeSelection={(date) => {
               setDate(date as string);
             }}
@@ -106,19 +82,11 @@ export const EditExperienceModal: FC<EditExperienceModalProps> = ({
       )}
 
       {slotsFromDate.length > 0 && (
-        <>
-          {slotsFromDate.map((slot) => {
-            return (
-              <div key={slot.id}>
-                {formatSlotDates(
-                  slot.slotType,
-                  slot.startDateTime,
-                  slot.endDateTime
-                )}
-              </div>
-            );
-          })}
-        </>
+        <SlotRadioGroup
+          name="rating"
+          slots={slotsFromDate}
+          onChange={(slotDateTimeStart) => console.log(slotDateTimeStart)}
+        />
       )}
     </div>
   );
