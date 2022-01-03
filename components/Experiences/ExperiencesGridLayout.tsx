@@ -26,7 +26,6 @@ export enum ExperiencesGridMode {
   VIEW,
 }
 
-// TODO add props: Experiences
 interface ExperiencesGridLayoutProps {
   experiences: (PaginatedExperience | PaginatedExperienceWithSlots)[];
   mode: ExperiencesGridMode;
