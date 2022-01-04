@@ -23,6 +23,7 @@ import { CreateExperience } from "../../../Experiences/CreateExperience";
 import { useTranslation } from "react-i18next";
 import { atom, useRecoilState } from "recoil";
 import { EditableExperiences } from "../../../Settings/Experiences/EditableExperiences";
+import { AllExperiences } from "./AllExperiences";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -186,7 +187,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 <MobileMenuButton onClick={toggle} isOpen={isOpen} />
               </Flex>
             </Flex>
-            <Flex direction="column" flex="1" overflow="auto" px="10">
+            <Flex direction="column" flex="1" overflow="auto" px="5">
               {subPage === GeneratorSubpage.WINERY_INFO && (
                 <WineryOwnerInfo
                   winery={winery}
@@ -195,7 +196,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
               )}
               {subPage === GeneratorSubpage.EDIT_INFO && <div>Edit Winery</div>}
               {subPage === GeneratorSubpage.ALL_EXPERIENCES && (
-                <div>{t("allExperiences")}</div>
+                <AllExperiences />
               )}
               {subPage === GeneratorSubpage.SCHEDULE && (
                 <div>{t("experiencesCalendar")}</div>
@@ -207,7 +208,10 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 />
               )}
               {subPage === GeneratorSubpage.EDIT_EXPERIENCE && (
-                <EditableExperiences contextHeader={contextHeader} />
+                <EditableExperiences
+                  contextHeader={contextHeader}
+                  wineryId={winery.id}
+                />
               )}
               {subPage === GeneratorSubpage.PAST_EXPERIENCES && (
                 <div>{t("pastExperiences")}</div>

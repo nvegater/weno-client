@@ -1,0 +1,11 @@
+fragment PaginatedExperience on PaginatedExperience {
+  createdAt
+  id
+  title
+  description
+  pricePerPersonInDollars
+  wineryId
+  wineryName
+  allAttendeesAllSlots
+  experienceType
+}

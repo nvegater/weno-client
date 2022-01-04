@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   ExperiencesGridLayout,
   ExperiencesGridMode,
@@ -6,28 +6,94 @@ import {
 import { ContextHeader } from "../../Authentication/useAuth";
 import { useRecoilValue } from "recoil";
 import { createdExperienceIdState } from "../../Experiences/CreateExperience";
+import {
+  PaginatedExperience,
+  useEditableExperiencesQuery,
+} from "../../../graphql/generated/graphql";
+import useFiltersPagination from "../../utils/useFiltersPagination";
+import { Button, Flex } from "@chakra-ui/react";
 
 interface EditableExperiencesProps {
   contextHeader: ContextHeader;
+  wineryId: number;
 }
 
 export const EditableExperiences: FC<EditableExperiencesProps> = ({
   contextHeader,
+  wineryId,
 }) => {
-  console.log(contextHeader);
   const recentlyCreatedExperienceId = useRecoilValue(createdExperienceIdState);
   const autoSelectExperience = recentlyCreatedExperienceId !== null;
-  // TODO select one of the experiences to Edit
-  // TODO Add Experiences Grid with ---> Select and Edit
 
-  // TODO retrieve experiences from winery and send them to the Grid Layout
-  return (
-    <ExperiencesGridLayout
-      experiences={[]}
-      mode={ExperiencesGridMode.EDIT}
-      preSelectedExperienceId={
-        autoSelectExperience ? recentlyCreatedExperienceId : undefined
+  const [paginationConfig, experiencesFilters, handlePaginationRequest] =
+    useFiltersPagination();
+
+  const [experiences, setExperiences] = useState<PaginatedExperience[]>([]);
+
+  const [{ data, fetching, error: networkError }] = useEditableExperiencesQuery(
+    {
+      variables: {
+        paginatedExperiencesInputs: {
+          paginationConfig: { ...paginationConfig },
+          experiencesFilters: { ...experiencesFilters },
+        },
+        wineryId,
+      },
+      requestPolicy: "network-only",
+      context: contextHeader,
+    }
+  );
+
+  useEffect(() => {
+    if (data && data.editableExperiences.experiences) {
+      const newExps = data?.editableExperiences?.experiences;
+      const newTitles = newExps.map((exp) => exp.title);
+      const oldTitles = experiences.map((exp) => exp.title);
+      if (!newTitles.some((newTitle) => oldTitles.includes(newTitle))) {
+        // update experiences if new request contains new titles
+        setExperiences((e) => [...e, ...newExps]);
       }
-    />
+    }
+  }, [data, experiences]);
+
+  const noMoreResults =
+    data?.editableExperiences?.paginationConfig?.beforeCursor === null &&
+    data?.editableExperiences?.paginationConfig?.afterCursor === null;
+
+  return (
+    <>
+      {fetching && <div>Generator Loading screen</div>}
+      {networkError && <div>Network Error screen</div>}
+      {data?.editableExperiences.errors && <div>Server Error screen</div>}
+      <ExperiencesGridLayout
+        experiences={experiences}
+        mode={ExperiencesGridMode.EDIT}
+        preSelectedExperienceId={
+          autoSelectExperience
+            ? recentlyCreatedExperienceId
+            : experiences.length > 0
+            ? experiences[0].id
+            : undefined
+        }
+      />
+      <Flex justifyContent="center" mt={5}>
+        <Button
+          size="navBarCTA"
+          variant="cta"
+          width="300px"
+          isDisabled={noMoreResults}
+          onClick={() => {
+            if (experiences.length > 0) {
+              handlePaginationRequest(
+                paginationConfig,
+                data.editableExperiences.paginationConfig
+              );
+            }
+          }}
+        >
+          {noMoreResults ? "No more results" : "Load more"}
+        </Button>
+      </Flex>
+    </>
   );
 };

@@ -40,11 +40,13 @@ const Button = {
       fontSize: "xs",
     },
     sideBarCTA: {
-      minWidth: "372px",
-      height: "79px",
+      minWidth: "350px",
+      width: "370px",
+      height: "75px",
     },
     navBarCTA: {
-      minWidth: "125px",
+      minWidth: "100px",
+      width: ["100px", "125px"],
       height: "34px",
       fontSize: "xs",
     },

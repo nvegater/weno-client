@@ -1,65 +1,74 @@
-import { Box, Flex, Icon, Img, LinkOverlay, Text } from "@chakra-ui/react";
-import { IoLocation } from "react-icons/io5";
-import React, { useState } from "react";
-import { BsSuitHeartFill } from "react-icons/bs";
+import { Box, Flex, Icon, Img, Text, Tooltip } from "@chakra-ui/react";
+import { HiLocationMarker } from "react-icons/hi";
+import React, { FC, useState } from "react";
+import { FaHeart } from "react-icons/fa";
 
-interface BlogProps {
+interface ExperienceCardCoverProps {
+  id: number;
   title: string;
-  href: string;
-  media: string;
-  description: string;
+  wineryName: string;
+  setExperienceId: React.Dispatch<React.SetStateAction<number>>;
+  openModal: () => void;
 }
 
-const Card = (props: BlogProps) => {
-  const { title, href, description, media } = props;
+export const ExperienceCardCover: FC<ExperienceCardCoverProps> = ({
+  id,
+  title,
+  wineryName,
+  setExperienceId,
+  openModal,
+}) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const handlePress = () => {
+  const handleFavoriteSelection = () => {
     setIsFavorite(!isFavorite);
   };
 
+  const placeHolderImage =
+    "https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
+
+  const handleExperienceClick = () => {
+    setExperienceId(id);
+    openModal();
+  };
   return (
-    <Box
-      as="section"
+    <Flex
       bg="brand.100"
       borderRadius="12px"
-      width={"274px"}
-      height={"274px"}
-      position="relative"
-      display="flex"
+      w="274px"
+      filter="drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.1))"
+      direction="column"
     >
-      <Flex direction="column">
-        <Flex px="4" py="3" height="48px">
-          <LinkOverlay href={href}>
-            <Text>{title}</Text>
-          </LinkOverlay>
-        </Flex>
-        <Img height="178" alt={title} src={media} />
-        <Flex height="48px" px="2" py="3">
-          <IoLocation color="brand.400" />
-          <Text fontSize="13px" px="4">
-            {description}
+      <Box onClick={handleExperienceClick}>
+        <Tooltip
+          label={title}
+          aria-label={"tooltip from experience called" + title}
+        >
+          <Text py={2} px={4} fontSize="lg" isTruncated>
+            {title}
           </Text>
-          <Icon
-            as={BsSuitHeartFill}
-            position="relative"
-            left="100px"
-            onClick={() => handlePress()}
-            color={isFavorite ? "brand.200" : "brand.400"}
-          />
-        </Flex>
+        </Tooltip>
+        <Img
+          src={placeHolderImage}
+          alt={title}
+          width="100%"
+          objectFit="cover"
+        />
+      </Box>
+      <Flex px="2" py="3" alignItems="center">
+        <Icon as={HiLocationMarker} color="brand.400" boxSize="1.4rem" ml={1} />
+        <Text fontSize="md" pr={4} pl={1}>
+          {wineryName}
+        </Text>
+        <Icon
+          as={FaHeart}
+          marginLeft="auto"
+          mr={2}
+          onClick={handleFavoriteSelection}
+          color={isFavorite ? "brand.500" : "brand.200"}
+          boxSize="1.3rem"
+        />
       </Flex>
-    </Box>
-  );
-};
-
-export const ExperienceCardCover = () => {
-  return (
-    <Card
-      media="https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-      title="Wine Tasting"
-      description="Winery Place"
-      href="#"
-    />
+    </Flex>
   );
 };

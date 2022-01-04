@@ -130,7 +130,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     {
       title: t("experienceDetails"),
       content: (
-        <VStack spacing="24px" mt={4} mb={8}>
+        <VStack spacing="24px">
           <FormControl isInvalid={errors.title} isRequired={true}>
             <Input
               type="text"
@@ -140,6 +140,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
                 minLength: 3,
                 maxLength: 50,
               })}
+              maxW="250px"
             />
             <FormErrorMessage>
               {errors.title && errors.title.message}
@@ -157,6 +158,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
                   message: t("descriptionMessage"),
                 },
               })}
+              maxW="250px"
             />
             <FormErrorMessage>
               {errors.description && errors.description.message}
@@ -171,6 +173,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
               {...register("pricePerPersonInMxn", {
                 valueAsNumber: true,
               })}
+              maxW="250px"
             />
             <FormErrorMessage>
               {errors.pricePerPersonInMxn && errors.pricePerPersonInMxn.message}
@@ -188,6 +191,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
                 max: { value: 2022, message: t("lateDate") },
                 min: { value: 0, message: t("earlyDate") },
               })}
+              maxW="250px"
             />
             <FormErrorMessage>
               {errors.limitOfAttendees && errors.limitOfAttendees.message}
@@ -233,7 +237,13 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
   ];
 
   return (
-    <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
+    <VStack
+      as="form"
+      onSubmit={handleSubmit(onSubmit)}
+      display="flex"
+      pr={4}
+      alignItems={["start", "center"]}
+    >
       <Heading mb={8}>{t("newExperience")}</Heading>
       <Box mb={"3em"}>
         <VerticalSteps
@@ -243,25 +253,24 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
         />
       </Box>
 
-      <FormControl
-        isInvalid={Boolean(errors)}
-        display="flex"
-        justifyContent="center"
-      >
-        <FormErrorMessage>
-          <ErrorSummary errors={errors} />
-        </FormErrorMessage>
-      </FormControl>
-
-      <Button
-        variant="secondaryWeno"
-        type="submit"
-        isLoading={isSubmitting}
-        mt={"3em"}
-        disabled={isSubmitting}
-      >
-        {t("submit")}
-      </Button>
+      <Flex justifyContent="center" alignItems="center" flexDir="column">
+        <Box>
+          <FormControl isInvalid={Boolean(errors)}>
+            <FormErrorMessage>
+              <ErrorSummary errors={errors} />
+            </FormErrorMessage>
+          </FormControl>
+        </Box>
+        <Button
+          variant="secondaryWeno"
+          size="navBarCTA"
+          type="submit"
+          isLoading={isSubmitting}
+          disabled={isSubmitting}
+        >
+          {t("submit")}
+        </Button>
+      </Flex>
     </VStack>
   );
 };

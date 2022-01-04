@@ -1,0 +1,15 @@
+query Experiences($paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
+  experiences(paginatedExperiencesInputs: $paginatedExperiencesInputs) {
+    errors {
+      field
+      message
+    }
+    experiences {
+      ...PaginatedExperience
+    }
+    totalExperiences
+    paginationConfig {
+      ...PaginationResultFragment
+    }
+  }
+}

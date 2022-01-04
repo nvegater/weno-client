@@ -12,6 +12,7 @@ import { DateTimePickerWeno } from "../DateTimePicker/DateTimePickerWeno";
 import {
   Button,
   Checkbox,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -100,11 +101,9 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   const [fetchRecurrentDates, setFetchRecurrentDates] =
     useState<boolean>(false);
 
-  const startDateTime = new Date(watchStartDate);
-  const endDateTime = new Date(watchEndDate);
   const recurrentDatesInputs: CreateRecurrentDatesInputs = {
-    startDate: startDateTime,
-    endDate: endDateTime,
+    startDate: watchStartDate,
+    endDate: watchEndDate,
     durationInMinutes: parseInt(watchDuration),
     slotType: mapSlotType(watchPeriodic),
     customDates:
@@ -131,15 +130,20 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   });
 
   useEffect(() => {
-    if (setAutoDuration) {
+    if (setAutoDuration && watchStartDate && watchEndDate) {
       const diff = differenceInMinutes(
         new Date(watchEndDate),
         new Date(watchStartDate)
       );
       setValue("durationInMinutes", diff);
     }
-    if (disable__Duration_StartTime_EndDateTime__setAutoDuration) {
+    if (
+      disable__Duration_StartTime_EndDateTime__setAutoDuration &&
+      watchStartDate
+    ) {
       setValue("durationInMinutes", 24 * 60);
+      // it gets ignored anyway because is "allDay
+      setValue("endDateTime", watchStartDate);
     }
   }, [
     watchStartDate,
@@ -161,7 +165,10 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
         label={t("recurrent")}
         elements={[{ name: oneTime }, { name: recurrent }, { name: allDay }]}
       />
-      <HStack>
+      <Flex
+        flexDirection={["column", "row"]}
+        justifyContent={["start", "space-between"]}
+      >
         <Controller
           control={control}
           rules={{
@@ -172,6 +179,8 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             <FormControl
               isRequired={true}
               isInvalid={Boolean(fieldState.error)}
+              pr={2}
+              pb={2}
             >
               <FormLabel htmlFor="startDateTime">{t("start")}</FormLabel>
               <DateTimePickerWeno
@@ -209,7 +218,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                   onDateTimeSelection={(date) => {
                     field.onChange(date);
                   }}
-                  endDatePeriodic={
+                  includeTime={
                     enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion
                   }
                 />
@@ -220,7 +229,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             )}
           />
         )}
-      </HStack>
+      </Flex>
       {!disable__Duration_StartTime_EndDateTime__setAutoDuration && (
         <Controller
           control={control}
@@ -254,6 +263,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                   value={field.value}
                   ref={field.ref}
                   isReadOnly={setAutoDuration}
+                  maxW="250px"
                 />
                 <FormErrorMessage>
                   {fieldState.error && fieldState.error.message}
@@ -279,7 +289,6 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             variant="secondaryWeno"
             size="navBarCTA"
           >
-            {t("add")} {customDateField.length > 0 ? t("another") : t("a")}{" "}
             {t("customDate")}
           </Button>
           {customDateField.map((field, index) => (
@@ -314,8 +323,6 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             variant="secondaryWeno"
             size="navBarCTA"
           >
-            {t("add")}{" "}
-            {customExceptionField.length > 0 ? t("another") : t("an")}{" "}
             {t("exception")}
           </Button>
 

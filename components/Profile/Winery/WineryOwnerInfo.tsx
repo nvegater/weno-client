@@ -59,7 +59,7 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
         },
         { ...contextHeader, requestPolicy: "network-only" }
       );
-      if (data.confirmConnectedAccount.winery) {
+      if (data?.confirmConnectedAccount.winery) {
         const accountInfo: WineryConfirmationFragmentFragment =
           data.confirmConnectedAccount.winery;
         const date = new Date(0);

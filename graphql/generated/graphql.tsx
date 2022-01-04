@@ -80,6 +80,20 @@ export type CreateWineryInputs = {
   covidLabel: Scalars['Boolean'];
 };
 
+/** BefCur:null & AftCur:null => First Page N Results (N=limit) + AftCur:Y (if more results exist).BefCur:null & AftCur:Y => Page with N Results + BefCurY + AftCur:X (if more exist)BefCur:X & AftCur:null => End of the list.BefCur:X & AftCur:Y => Ignores X. */
+export type CursorPaginationInput = {
+  afterCursor?: Maybe<Scalars['String']>;
+  beforeCursor?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+/** BefCur:null & AftCur:null => First Page N Results (N=limit) + AftCur:Y (if more results exist).BefCur:null & AftCur:Y => Page with N Results + BefCurY + AftCur:X (if more exist)BefCur:X & AftCur:null => End of the list.BefCur:X & AftCur:Y => Ignores X. */
+export type CursorPaginationResult = {
+  afterCursor?: Maybe<Scalars['String']>;
+  beforeCursor?: Maybe<Scalars['String']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
 export type Customer = {
   email: Scalars['String'];
   paymentMetadata: PaymentMetadata;
@@ -160,6 +174,12 @@ export enum ExperienceType {
   Concert = 'CONCERT'
 }
 
+export type ExperiencesFilters = {
+  valley?: Maybe<Array<Valley>>;
+  experienceType?: Maybe<Array<ExperienceType>>;
+  experienceName?: Maybe<Scalars['String']>;
+};
+
 export type FieldError = {
   field: Scalars['String'];
   message: Scalars['String'];
@@ -220,6 +240,7 @@ export enum Grape {
 export type Mutation = {
   createExperience: ExperienceResponse;
   createWinery: WineryResponse;
+  /** Trigger: winery information Page. If called for the first time, updates the winery connected account creation dateOtherwise simply return the winery */
   confirmConnectedAccount: WineryResponse;
   createCustomer: CustomerResponse;
   wineryOnboarding: OnboardingResponse;
@@ -270,6 +291,65 @@ export enum OtherServices {
   Restaurante = 'RESTAURANTE',
   BarraDeAlimentos = 'BARRA_DE_ALIMENTOS'
 }
+
+export type PaginatedExperience = {
+  id: Scalars['Int'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  experienceType: ExperienceType;
+  allAttendeesAllSlots?: Maybe<Scalars['Int']>;
+  pricePerPersonInDollars: Scalars['Float'];
+  wineryId: Scalars['Int'];
+  wineryName: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+};
+
+export type PaginatedExperienceWithSlots = {
+  id: Scalars['Int'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  experienceType: ExperienceType;
+  allAttendeesAllSlots?: Maybe<Scalars['Int']>;
+  pricePerPersonInDollars: Scalars['Float'];
+  wineryId: Scalars['Int'];
+  wineryName: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  slots: Array<ExperienceSlot>;
+};
+
+export type PaginatedExperiences = {
+  errors?: Maybe<Array<FieldError>>;
+  experiences?: Maybe<Array<PaginatedExperience>>;
+  totalExperiences: Scalars['Float'];
+  paginationConfig: CursorPaginationResult;
+};
+
+/**
+ * Default:
+ * Sort from Newest to Oldest all the Table.
+ * It never exceeds the limit
+ *
+ * Optional:
+ * The cursor is a timestamp.
+ * Returns all the experiences after the given timestamp (with limit)
+ * If no cursor is provided, it will return all experiences newest First (with limit)
+ *
+ * Filters:
+ * If experience name is provided search without exact match (LIKE)
+ * ExperienceType: if null, All the experience Types. Otherwise ONLY the selected ones.
+ * Valleys: if null, All the Valleys. Otherwise ONLY the selected ones.
+ */
+export type PaginatedExperiencesInputs = {
+  paginationConfig: CursorPaginationInput;
+  experiencesFilters: ExperiencesFilters;
+};
+
+export type PaginatedExperiencesWithSlots = {
+  errors?: Maybe<Array<FieldError>>;
+  experiences?: Maybe<Array<PaginatedExperienceWithSlots>>;
+  totalExperiences: Scalars['Float'];
+  paginationConfig: CursorPaginationResult;
+};
 
 export type PaymentMetadata = {
   username: Scalars['String'];
@@ -329,6 +409,8 @@ export type ProductsResponse = {
 export type Query = {
   experienceWithSlots: ExperienceResponse;
   recurrentDates: RecurrenceResponse;
+  experiences: PaginatedExperiences;
+  editableExperiences: PaginatedExperiencesWithSlots;
   allReservations: Scalars['Int'];
   allWineries: Scalars['Int'];
   winery: WineryResponse;
@@ -346,6 +428,17 @@ export type QueryExperienceWithSlotsArgs = {
 
 export type QueryRecurrentDatesArgs = {
   createRecurrentDatesInputs: CreateRecurrentDatesInputs;
+};
+
+
+export type QueryExperiencesArgs = {
+  paginatedExperiencesInputs: PaginatedExperiencesInputs;
+};
+
+
+export type QueryEditableExperiencesArgs = {
+  paginatedExperiencesInputs: PaginatedExperiencesInputs;
+  wineryId: Scalars['Float'];
 };
 
 
@@ -532,6 +625,12 @@ export type ExperienceFragmentFragment = { createdAt: any, id: number, title: st
 
 export type ExperienceImageFragmentFragment = { id: number, imageUrl: string, coverPage?: boolean | null | undefined };
 
+export type PaginatedExperienceFragment = { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType };
+
+export type PaginatedExperienceWithSlotFragment = { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> };
+
+export type PaginationResultFragmentFragment = { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined };
+
 export type PreSignedUrlFragment = { getUrl?: string | null | undefined, putUrl?: string | null | undefined };
 
 export type PriceFragmentFragment = { id: string, type: string, currency: string, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined };
@@ -591,6 +690,21 @@ export type RecurrentDatesQueryVariables = Exact<{
 
 export type RecurrentDatesQuery = { recurrentDates: { dateWithTimes?: Array<{ date: any, times: Array<any> }> | null | undefined, errors?: Array<{ field: string }> | null | undefined } };
 
+export type EditableExperiencesQueryVariables = Exact<{
+  wineryId: Scalars['Float'];
+  paginatedExperiencesInputs: PaginatedExperiencesInputs;
+}>;
+
+
+export type EditableExperiencesQuery = { editableExperiences: { totalExperiences: number, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined } } };
+
+export type ExperiencesQueryVariables = Exact<{
+  paginatedExperiencesInputs: PaginatedExperiencesInputs;
+}>;
+
+
+export type ExperiencesQuery = { experiences: { totalExperiences: number, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined } } };
+
 export type GetSubscriptionStatusQueryVariables = Exact<{
   customerId: Scalars['String'];
 }>;
@@ -636,6 +750,55 @@ export const ErrorFragmentFragmentDoc = gql`
   message
 }
     `;
+export const PaginatedExperienceFragmentDoc = gql`
+    fragment PaginatedExperience on PaginatedExperience {
+  createdAt
+  id
+  title
+  description
+  pricePerPersonInDollars
+  wineryId
+  wineryName
+  allAttendeesAllSlots
+  experienceType
+}
+    `;
+export const SlotFragmentFragmentDoc = gql`
+    fragment SlotFragment on ExperienceSlot {
+  id
+  startDateTime
+  endDateTime
+  durationInMinutes
+  limitOfAttendees
+  noOfAttendees
+  slotType
+  createdAt
+  updatedAt
+}
+    `;
+export const PaginatedExperienceWithSlotFragmentDoc = gql`
+    fragment PaginatedExperienceWithSlot on PaginatedExperienceWithSlots {
+  createdAt
+  id
+  title
+  description
+  pricePerPersonInDollars
+  wineryId
+  wineryName
+  allAttendeesAllSlots
+  experienceType
+  slots {
+    ...SlotFragment
+  }
+}
+    ${SlotFragmentFragmentDoc}`;
+export const PaginationResultFragmentFragmentDoc = gql`
+    fragment PaginationResultFragment on CursorPaginationResult {
+  beforeCursor
+  afterCursor
+  limit
+}
+    `;
 export const PreSignedUrlFragmentDoc = gql`
     fragment PreSignedUrl on PresignedResponse {
   getUrl
@@ -678,19 +841,6 @@ export const ExperienceImageFragmentFragmentDoc = gql`
   id
   imageUrl
   coverPage
-}
-    `;
-export const SlotFragmentFragmentDoc = gql`
-    fragment SlotFragment on ExperienceSlot {
-  id
-  startDateTime
-  endDateTime
-  durationInMinutes
-  limitOfAttendees
-  noOfAttendees
-  slotType
-  createdAt
-  updatedAt
 }
     `;
 export const ExperienceFragmentFragmentDoc = gql`
@@ -877,6 +1027,53 @@ export const RecurrentDatesDocument = gql`
 
 export function useRecurrentDatesQuery(options: Omit<Urql.UseQueryArgs<RecurrentDatesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<RecurrentDatesQuery>({ query: RecurrentDatesDocument, ...options });
+};
+export const EditableExperiencesDocument = gql`
+    query EditableExperiences($wineryId: Float!, $paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
+  editableExperiences(
+    wineryId: $wineryId
+    paginatedExperiencesInputs: $paginatedExperiencesInputs
+  ) {
+    errors {
+      field
+      message
+    }
+    experiences {
+      ...PaginatedExperienceWithSlot
+    }
+    totalExperiences
+    paginationConfig {
+      ...PaginationResultFragment
+    }
+  }
+}
+    ${PaginatedExperienceWithSlotFragmentDoc}
+${PaginationResultFragmentFragmentDoc}`;
+
+export function useEditableExperiencesQuery(options: Omit<Urql.UseQueryArgs<EditableExperiencesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<EditableExperiencesQuery>({ query: EditableExperiencesDocument, ...options });
+};
+export const ExperiencesDocument = gql`
+    query Experiences($paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
+  experiences(paginatedExperiencesInputs: $paginatedExperiencesInputs) {
+    errors {
+      field
+      message
+    }
+    experiences {
+      ...PaginatedExperience
+    }
+    totalExperiences
+    paginationConfig {
+      ...PaginationResultFragment
+    }
+  }
+}
+    ${PaginatedExperienceFragmentDoc}
+${PaginationResultFragmentFragmentDoc}`;
+
+export function useExperiencesQuery(options: Omit<Urql.UseQueryArgs<ExperiencesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ExperiencesQuery>({ query: ExperiencesDocument, ...options });
 };
 export const GetSubscriptionStatusDocument = gql`
     query GetSubscriptionStatus($customerId: String!) {

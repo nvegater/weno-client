@@ -1,0 +1,21 @@
+query EditableExperiences(
+  $wineryId: Float!
+  $paginatedExperiencesInputs: PaginatedExperiencesInputs!
+) {
+  editableExperiences(
+    wineryId: $wineryId
+    paginatedExperiencesInputs: $paginatedExperiencesInputs
+  ) {
+    errors {
+      field
+      message
+    }
+    experiences {
+      ...PaginatedExperienceWithSlot
+    }
+    totalExperiences
+    paginationConfig {
+      ...PaginationResultFragment
+    }
+  }
+}
