@@ -5,9 +5,9 @@ import theme from "../theme/index";
 import { SSRCookies, SSRKeycloakProvider } from "@react-keycloak/ssr";
 import { KeycloakConfig } from "keycloak-js";
 import React from "react";
-
 import "@fontsource/work-sans";
 import "@fontsource/open-sans";
+import { initReactI18next } from "react-i18next";
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
 import esLang from "../public/locales/es/common.json";
@@ -16,8 +16,7 @@ import "../components/DateTimePicker/Clock.css";
 import "../components/DateTimePicker/DateTimePicker.css";
 import "../components/DateTimePicker/Calendar.css";
 
-i18next.init({
-  interpolation: { escapeValue: false },
+i18next.use(initReactI18next).init({
   lng: "es",
   resources: {
     es: {
@@ -26,6 +25,10 @@ i18next.init({
     en: {
       global: enLang,
     },
+  },
+  keySeparator: false,
+  interpolation: {
+    escapeValue: false,
   },
 });
 
