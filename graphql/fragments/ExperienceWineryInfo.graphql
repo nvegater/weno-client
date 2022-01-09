@@ -1,0 +1,4 @@
+fragment ExperienceWineryInfo on Winery {
+  name
+  valley
+}

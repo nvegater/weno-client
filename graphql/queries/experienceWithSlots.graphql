@@ -1,0 +1,21 @@
+query ExperienceWithSlots($experienceId: Float!) {
+  experienceWithSlots(experienceId: $experienceId) {
+    experience {
+      createdAt
+      id
+      title
+      description
+      pricePerPersonInDollars
+      experienceType
+      images {
+        ...ExperienceImageFragment
+      }
+      winery {
+        ...ExperienceWineryInfo
+      }
+      slots {
+        ...SlotFragment
+      }
+    }
+  }
+}
