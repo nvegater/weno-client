@@ -422,6 +422,7 @@ export type Query = {
 
 
 export type QueryExperienceWithSlotsArgs = {
+  onlyBookableSlots: Scalars['Boolean'];
   experienceId: Scalars['Float'];
 };
 
@@ -702,6 +703,7 @@ export type EditableExperiencesQuery = { editableExperiences: { totalExperiences
 
 export type ExperienceWithSlotsQueryVariables = Exact<{
   experienceId: Scalars['Float'];
+  onlyBookableSlots: Scalars['Boolean'];
 }>;
 
 
@@ -1069,8 +1071,11 @@ export function useEditableExperiencesQuery(options: Omit<Urql.UseQueryArgs<Edit
   return Urql.useQuery<EditableExperiencesQuery>({ query: EditableExperiencesDocument, ...options });
 };
 export const ExperienceWithSlotsDocument = gql`
-    query ExperienceWithSlots($experienceId: Float!) {
-  experienceWithSlots(experienceId: $experienceId) {
+    query ExperienceWithSlots($experienceId: Float!, $onlyBookableSlots: Boolean!) {
+  experienceWithSlots(
+    experienceId: $experienceId
+    onlyBookableSlots: $onlyBookableSlots
+  ) {
     experience {
       createdAt
       id

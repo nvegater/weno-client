@@ -9,7 +9,10 @@ export const ReservationModal: FC<ReservationModalProps> = ({
   experienceId,
 }) => {
   const [{ data, fetching, error: networkError }] = useExperienceWithSlotsQuery(
-    { variables: { experienceId }, requestPolicy: "network-only" }
+    {
+      variables: { experienceId, onlyBookableSlots: true },
+      requestPolicy: "network-only",
+    }
   );
   console.log(data);
   return <div>Hola</div>;

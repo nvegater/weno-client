@@ -1,5 +1,8 @@
-query ExperienceWithSlots($experienceId: Float!) {
-  experienceWithSlots(experienceId: $experienceId) {
+query ExperienceWithSlots($experienceId: Float!, $onlyBookableSlots: Boolean!) {
+  experienceWithSlots(
+    experienceId: $experienceId
+    onlyBookableSlots: $onlyBookableSlots
+  ) {
     experience {
       createdAt
       id

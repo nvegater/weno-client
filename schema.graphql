@@ -204,7 +204,10 @@ type Query {
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
     wineryId: Float!
   ): PaginatedExperiencesWithSlots!
-  experienceWithSlots(experienceId: Float!): ExperienceResponse!
+  experienceWithSlots(
+    experienceId: Float!
+    onlyBookableSlots: Boolean!
+  ): ExperienceResponse!
   experiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
   ): PaginatedExperiences!
