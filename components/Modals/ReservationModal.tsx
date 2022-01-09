@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { useExperienceWithSlotsQuery } from "../../graphql/generated/graphql";
+import { ExperienceModalLayout } from "./ExperienceModalLayout";
 
 interface ReservationModalProps {
   experienceId: number;
@@ -15,5 +16,16 @@ export const ReservationModal: FC<ReservationModalProps> = ({
     }
   );
   console.log(data);
-  return <div>Hola</div>;
+  return (
+    <>
+      {data && data.experienceWithSlots.experience && (
+        <ExperienceModalLayout
+          experienceTitle={data.experienceWithSlots.experience.title}
+          wineryName={data.experienceWithSlots.experience.winery.name}
+          wineryValley={data.experienceWithSlots.experience.winery.valley}
+          images={data.experienceWithSlots.experience.images}
+        />
+      )}
+    </>
+  );
 };
