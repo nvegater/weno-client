@@ -12,7 +12,7 @@ import {
   WineryFragmentFragment,
 } from "../../../graphql/generated/graphql";
 import useFiltersPagination from "../../utils/useFiltersPagination";
-import { Button, Flex } from "@chakra-ui/react";
+import { LoadMoreButton } from "../../Experiences/LoadMoreButton";
 
 interface EditableExperiencesProps {
   contextHeader: ContextHeader;
@@ -63,8 +63,6 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
 
   return (
     <>
-      {fetching && <div>Generator Loading screen</div>}
-      {networkError && <div>Network Error screen</div>}
       {data?.editableExperiences.errors && <div>Server Error screen</div>}
       <ExperiencesGridLayout
         experiences={experiences}
@@ -77,25 +75,16 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
             ? experiences[0].id
             : undefined
         }
+        fetching={fetching}
+        networkError={networkError}
       />
-      <Flex justifyContent="center" mt={5}>
-        <Button
-          size="navBarCTA"
-          variant="cta"
-          width="300px"
-          isDisabled={noMoreResults}
-          onClick={() => {
-            if (experiences.length > 0) {
-              handlePaginationRequest(
-                paginationConfig,
-                data.editableExperiences.paginationConfig
-              );
-            }
-          }}
-        >
-          {noMoreResults ? "No more results" : "Load more"}
-        </Button>
-      </Flex>
+      <LoadMoreButton
+        disableButton={noMoreResults}
+        noOfExperiences={experiences.length}
+        handlePaginationRequest={handlePaginationRequest}
+        paginationConfig={paginationConfig}
+        newPaginationConfig={data.editableExperiences.paginationConfig}
+      />
     </>
   );
 };

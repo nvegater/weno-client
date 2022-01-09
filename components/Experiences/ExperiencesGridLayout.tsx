@@ -14,10 +14,9 @@ import {
   Flex,
   Grid,
   Heading,
-  Icon,
+  Skeleton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ImFilter } from "react-icons/im";
 import {
   PaginatedExperience,
   PaginatedExperienceWithSlots,
@@ -35,6 +34,9 @@ interface ExperiencesGridLayoutProps {
   mode: ExperiencesGridMode;
   preSelectedExperienceId?: number;
   winery?: WineryFragmentFragment;
+  fetching?: boolean;
+  networkError?: any;
+  serverError?: any;
 }
 
 export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
@@ -42,6 +44,9 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   experiences,
   preSelectedExperienceId,
   winery,
+  fetching,
+  networkError,
+  serverError,
 }) => {
   const [experienceId, setExperienceId] = useState<number | undefined>(
     preSelectedExperienceId
@@ -49,7 +54,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box p={5}>
+    <Box>
       <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
         <DrawerContent>
           <DrawerCloseButton />
@@ -77,24 +82,31 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
         </DrawerContent>
       </Drawer>
 
-      <Flex justifyContent="space-between">
-        <Heading as="h1" color="brand.200" fontWeight="700" size="2xl">
-          Experiences
-        </Heading>
-        <Icon as={ImFilter} w={6} h={6} color="brand.300" mt={2} />
-      </Flex>
-
       <Box maxW="100rem" mt={8}>
-        {experiences.length === 0 && (
+        {experiences.length === 0 && !fetching && (
           <Heading as="h2" size="sm" color="brand.200" textAlign="center">
             No results found
           </Heading>
         )}
+
+        {networkError && !fetching && experiences.length === 0 && (
+          <Heading as="h2" size="sm" color="brand.200" textAlign="center">
+            An error has ocurred
+          </Heading>
+        )}
+
+        {serverError && !fetching && experiences.length === 0 && (
+          <Heading as="h2" size="sm" color="brand.200" textAlign="center">
+            An error in our servers has ocurred
+          </Heading>
+        )}
+
         <Grid
           gridTemplateColumns="repeat(auto-fit, minmax(274px, 1fr))"
           gap={3}
         >
           {experiences.length > 0 &&
+            !fetching &&
             experiences.map((exp) => (
               <Flex justifyContent="center" key={exp.title}>
                 <ExperienceCardCover
@@ -103,6 +115,17 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
                   openModal={onOpen}
                 />
               </Flex>
+            ))}
+          {fetching &&
+            [1, 2, 3, 4, 5].map((no) => (
+              <Box key={no} p={5} borderRadius="12px">
+                <Skeleton
+                  startColor="brand.400"
+                  endColor="#D23F80"
+                  height="200px"
+                  borderRadius="12px"
+                />
+              </Box>
             ))}
         </Grid>
       </Box>
