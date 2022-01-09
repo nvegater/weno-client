@@ -4,7 +4,6 @@ import { withUrqlClient } from "next-urql";
 import useAuth from "../components/Authentication/useAuth";
 import { WenoLayout } from "../components/GeneralLayout/WenoLayout";
 import { Hero } from "../components/Hero/Hero";
-import { AuthWrapper } from "../components/Authentication/AuthWrapper";
 import React from "react";
 import {
   ExperiencesGridLayout,
@@ -28,15 +27,12 @@ const Home = () => {
           tokenInfo={tokenInfo}
         >
           <Hero />
-          <AuthWrapper>
-            <ExperiencesGridLayout
-              experiences={[]}
-              mode={ExperiencesGridMode.RESERVE}
-            />
-          </AuthWrapper>
+          <ExperiencesGridLayout
+            experiences={[]}
+            mode={ExperiencesGridMode.RESERVE}
+          />
         </WenoLayout>
       </main>
-      <footer>Footer</footer>
     </div>
   );
 };
