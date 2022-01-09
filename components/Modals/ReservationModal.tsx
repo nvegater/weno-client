@@ -31,6 +31,7 @@ export const ReservationModal: FC<ReservationModalProps> = ({
               data.experienceWithSlots.experience.slots[0].startDateTime
             }
             slots={data.experienceWithSlots.experience.slots}
+            price={data.experienceWithSlots.experience.pricePerPersonInDollars}
           />
         )}
       {data && data.experienceWithSlots.errors && (

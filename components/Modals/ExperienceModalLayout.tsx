@@ -12,6 +12,7 @@ import { DateTimePickerWeno } from "../DateTimePicker/DateTimePickerWeno";
 import { parseISO } from "date-fns";
 import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
 import { getSlotsFromDate } from "./EditExperienceModal";
+import { InputNumberBox } from "../InputFields/InputNumberBox";
 
 interface ExperienceModalLayoutProps {
   experienceTitle: string;
@@ -20,6 +21,7 @@ interface ExperienceModalLayoutProps {
   slots: SlotFragmentFragment[];
   startDateTime: string;
   images?: ExperienceImageFragmentFragment[];
+  price: number;
 }
 
 const placeHolderImage =
@@ -32,10 +34,13 @@ export const ExperienceModalLayout: FC<ExperienceModalLayoutProps> = ({
   wineryValley,
   startDateTime,
   slots,
+  price,
 }) => {
   const coverImage = images ? images.find((i) => i.coverPage) : null;
 
   const [date, setDate] = useState<string>(startDateTime);
+
+  const [totalPrice, setTotalPrice] = useState<number>(price);
 
   const slotsFromDate: SlotFragmentFragment[] = useMemo(() => {
     return getSlotsFromDate(slots, date);
@@ -77,6 +82,17 @@ export const ExperienceModalLayout: FC<ExperienceModalLayoutProps> = ({
           onChange={(slotDateTimeStart) => console.log(slotDateTimeStart)}
         />
       )}
+
+      <Flex mt={8} justifyContent="space-around">
+        <InputNumberBox
+          onValueUpdate={(val) => {
+            setTotalPrice(price * val);
+          }}
+        />
+        <Heading fontSize="md" as="h4" fontWeight="500" my={5}>
+          Total: {totalPrice}$
+        </Heading>
+      </Flex>
     </Box>
   );
 };
