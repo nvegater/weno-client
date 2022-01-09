@@ -13,8 +13,11 @@ import {
   DrawerFooter,
   Flex,
   Grid,
+  Heading,
+  Icon,
   useDisclosure,
 } from "@chakra-ui/react";
+import { ImFilter } from "react-icons/im";
 import {
   PaginatedExperience,
   PaginatedExperienceWithSlots,
@@ -46,7 +49,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <div>
+    <Box p={5}>
       <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
         <DrawerContent>
           <DrawerCloseButton />
@@ -74,8 +77,19 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
         </DrawerContent>
       </Drawer>
 
-      <Box maxW="100rem">
-        {experiences.length === 0 && <div>No results found</div>}
+      <Flex justifyContent="space-between">
+        <Heading as="h1" color="brand.200" fontWeight="700" size="2xl">
+          Experiences
+        </Heading>
+        <Icon as={ImFilter} w={6} h={6} color="brand.300" mt={2} />
+      </Flex>
+
+      <Box maxW="100rem" mt={8}>
+        {experiences.length === 0 && (
+          <Heading as="h2" size="sm" color="brand.200" textAlign="center">
+            No results found
+          </Heading>
+        )}
         <Grid
           gridTemplateColumns="repeat(auto-fit, minmax(274px, 1fr))"
           gap={3}
@@ -92,6 +106,6 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
             ))}
         </Grid>
       </Box>
-    </div>
+    </Box>
   );
 };
