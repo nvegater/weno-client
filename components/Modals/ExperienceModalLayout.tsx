@@ -1,17 +1,24 @@
-import React, { FC } from "react";
+import React, { FC, useMemo, useState } from "react";
 import { Box, Flex, Heading, Icon, Img } from "@chakra-ui/react";
 import {
   ExperienceImageFragmentFragment,
+  SlotFragmentFragment,
   Valley,
 } from "../../graphql/generated/graphql";
 import { FavoriteExperience } from "../Experiences/FavoriteExperience";
 import { valleyReverseMapping } from "../utils/enum-utils";
 import { GrMap } from "react-icons/gr";
+import { DateTimePickerWeno } from "../DateTimePicker/DateTimePickerWeno";
+import { parseISO } from "date-fns";
+import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
+import { getSlotsFromDate } from "./EditExperienceModal";
 
 interface ExperienceModalLayoutProps {
   experienceTitle: string;
   wineryName: string;
   wineryValley: Valley;
+  slots: SlotFragmentFragment[];
+  startDateTime: string;
   images?: ExperienceImageFragmentFragment[];
 }
 
@@ -23,8 +30,16 @@ export const ExperienceModalLayout: FC<ExperienceModalLayoutProps> = ({
   images,
   wineryName,
   wineryValley,
+  startDateTime,
+  slots,
 }) => {
   const coverImage = images ? images.find((i) => i.coverPage) : null;
+
+  const [date, setDate] = useState<string>(startDateTime);
+
+  const slotsFromDate: SlotFragmentFragment[] = useMemo(() => {
+    return getSlotsFromDate(slots, date);
+  }, [date, slots]);
 
   return (
     <Box>
@@ -43,6 +58,25 @@ export const ExperienceModalLayout: FC<ExperienceModalLayoutProps> = ({
         </Heading>
         <Icon as={GrMap} color="brand.300" boxSize="1.1rem" ml={1} mb={1} />
       </Flex>
+      <Heading fontSize="md" as="h4" fontWeight="500" my={5}>
+        Select a date:
+      </Heading>
+      <DateTimePickerWeno
+        removeTimeZone={true}
+        onlyDate={true}
+        initialDate={parseISO(startDateTime)}
+        onDateTimeSelection={(date) => {
+          setDate(date as string);
+        }}
+      />
+
+      {slotsFromDate.length > 0 && (
+        <SlotRadioGroup
+          name="rating"
+          slots={slotsFromDate}
+          onChange={(slotDateTimeStart) => console.log(slotDateTimeStart)}
+        />
+      )}
     </Box>
   );
 };

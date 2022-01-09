@@ -20,5 +20,8 @@ query ExperienceWithSlots($experienceId: Float!, $onlyBookableSlots: Boolean!) {
         ...SlotFragment
       }
     }
+    errors {
+      ...ErrorFragment
+    }
   }
 }

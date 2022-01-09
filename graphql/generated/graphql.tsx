@@ -707,7 +707,7 @@ export type ExperienceWithSlotsQueryVariables = Exact<{
 }>;
 
 
-export type ExperienceWithSlotsQuery = { experienceWithSlots: { experience?: { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, experienceType: ExperienceType, images?: Array<{ id: number, imageUrl: string, coverPage?: boolean | null | undefined }> | null | undefined, winery: { name: string, valley: Valley }, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> } | null | undefined } };
+export type ExperienceWithSlotsQuery = { experienceWithSlots: { experience?: { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, experienceType: ExperienceType, images?: Array<{ id: number, imageUrl: string, coverPage?: boolean | null | undefined }> | null | undefined, winery: { name: string, valley: Valley }, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> } | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
 
 export type ExperiencesQueryVariables = Exact<{
   paginatedExperiencesInputs: PaginatedExperiencesInputs;
@@ -1093,11 +1093,15 @@ export const ExperienceWithSlotsDocument = gql`
         ...SlotFragment
       }
     }
+    errors {
+      ...ErrorFragment
+    }
   }
 }
     ${ExperienceImageFragmentFragmentDoc}
 ${ExperienceWineryInfoFragmentDoc}
-${SlotFragmentFragmentDoc}`;
+${SlotFragmentFragmentDoc}
+${ErrorFragmentFragmentDoc}`;
 
 export function useExperienceWithSlotsQuery(options: Omit<Urql.UseQueryArgs<ExperienceWithSlotsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ExperienceWithSlotsQuery>({ query: ExperienceWithSlotsDocument, ...options });

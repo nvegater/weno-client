@@ -16,15 +16,25 @@ export const ReservationModal: FC<ReservationModalProps> = ({
     }
   );
   console.log(data);
+
   return (
     <>
-      {data && data.experienceWithSlots.experience && (
-        <ExperienceModalLayout
-          experienceTitle={data.experienceWithSlots.experience.title}
-          wineryName={data.experienceWithSlots.experience.winery.name}
-          wineryValley={data.experienceWithSlots.experience.winery.valley}
-          images={data.experienceWithSlots.experience.images}
-        />
+      {data &&
+        data.experienceWithSlots.errors == null &&
+        data.experienceWithSlots.experience && (
+          <ExperienceModalLayout
+            experienceTitle={data.experienceWithSlots.experience.title}
+            wineryName={data.experienceWithSlots.experience.winery.name}
+            wineryValley={data.experienceWithSlots.experience.winery.valley}
+            images={data.experienceWithSlots.experience.images}
+            startDateTime={
+              data.experienceWithSlots.experience.slots[0].startDateTime
+            }
+            slots={data.experienceWithSlots.experience.slots}
+          />
+        )}
+      {data && data.experienceWithSlots.errors && (
+        <>Errors: {data.experienceWithSlots.errors[0].message}</>
       )}
     </>
   );

@@ -1,7 +1,10 @@
 import { Grid, StackProps, useRadioGroup, Box, Flex } from "@chakra-ui/react";
 import * as React from "react";
 import { SlotRadioOption } from "./SlotRadioOption";
-import { ExperienceSlot, SlotType } from "../../../graphql/generated/graphql";
+import {
+  SlotFragmentFragment,
+  SlotType,
+} from "../../../graphql/generated/graphql";
 import { dateFormatterUTC, timeFormatterUTC } from "../../utils/dateTime-utils";
 import { parseISO } from "date-fns";
 import { useMemo } from "react";
@@ -30,7 +33,7 @@ function formatSlotDates(
 interface RadioGroupProps extends Omit<StackProps, "onChange"> {
   name: string;
   onChange: (value: string) => void;
-  slots: ExperienceSlot[];
+  slots: SlotFragmentFragment[];
 }
 
 export const SlotRadioGroup = (props: RadioGroupProps) => {

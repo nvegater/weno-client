@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import {
-  ExperienceSlot,
   PaginatedExperienceWithSlots,
+  SlotFragmentFragment,
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
 import { DateTimePickerWeno } from "../DateTimePicker/DateTimePickerWeno";
@@ -16,7 +16,10 @@ interface EditExperienceModalProps {
   winery: WineryFragmentFragment;
 }
 
-function getSlotsFromDate(slots: Array<ExperienceSlot>, date: string) {
+export function getSlotsFromDate(
+  slots: Array<SlotFragmentFragment>,
+  date: string
+) {
   return slots.filter((slot) => {
     const selectedDate = parseISO(date);
     const slotDate = parseISO(slot.startDateTime);
@@ -48,7 +51,7 @@ export const EditExperienceModal: FC<EditExperienceModalProps> = ({
     [experienceId, experiences]
   );
 
-  const slotsFromDate: ExperienceSlot[] = useMemo(() => {
+  const slotsFromDate: SlotFragmentFragment[] = useMemo(() => {
     if (selectedExperience) {
       return getSlotsFromDate(selectedExperience.slots, date);
     } else {
