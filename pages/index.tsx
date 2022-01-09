@@ -86,7 +86,7 @@ const Home = () => {
             noOfExperiences={experiences.length}
             handlePaginationRequest={handlePaginationRequest}
             paginationConfig={paginationConfig}
-            newPaginationConfig={data.experiences.paginationConfig}
+            newPaginationConfig={data?.experiences?.paginationConfig}
           />
         </WenoLayout>
       </main>

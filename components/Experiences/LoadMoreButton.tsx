@@ -8,7 +8,7 @@ interface LoadMoreButtonProps {
   noOfExperiences: number;
   handlePaginationRequest: HandlePaginationRequestFn;
   paginationConfig: CursorPaginationInput;
-  newPaginationConfig: CursorPaginationInput;
+  newPaginationConfig?: CursorPaginationInput;
 }
 
 export const LoadMoreButton: FC<LoadMoreButtonProps> = ({
