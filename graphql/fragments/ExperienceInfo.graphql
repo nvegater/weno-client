@@ -1,0 +1,8 @@
+fragment ExperienceInfo on Experience {
+  createdAt
+  id
+  title
+  description
+  pricePerPersonInDollars
+  experienceType
+}

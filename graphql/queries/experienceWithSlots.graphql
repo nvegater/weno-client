@@ -4,12 +4,7 @@ query ExperienceWithSlots($experienceId: Float!, $onlyBookableSlots: Boolean!) {
     onlyBookableSlots: $onlyBookableSlots
   ) {
     experience {
-      createdAt
-      id
-      title
-      description
-      pricePerPersonInDollars
-      experienceType
+      ...ExperienceInfo
       images {
         ...ExperienceImageFragment
       }

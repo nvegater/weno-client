@@ -626,6 +626,8 @@ export type ExperienceFragmentFragment = { createdAt: any, id: number, title: st
 
 export type ExperienceImageFragmentFragment = { id: number, imageUrl: string, coverPage?: boolean | null | undefined };
 
+export type ExperienceInfoFragment = { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, experienceType: ExperienceType };
+
 export type ExperienceWineryInfoFragment = { name: string, valley: Valley };
 
 export type PaginatedExperienceFragment = { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType };
@@ -759,6 +761,16 @@ export const ErrorFragmentFragmentDoc = gql`
     fragment ErrorFragment on FieldError {
   field
   message
+}
+    `;
+export const ExperienceInfoFragmentDoc = gql`
+    fragment ExperienceInfo on Experience {
+  createdAt
+  id
+  title
+  description
+  pricePerPersonInDollars
+  experienceType
 }
     `;
 export const ExperienceWineryInfoFragmentDoc = gql`
@@ -1077,12 +1089,7 @@ export const ExperienceWithSlotsDocument = gql`
     onlyBookableSlots: $onlyBookableSlots
   ) {
     experience {
-      createdAt
-      id
-      title
-      description
-      pricePerPersonInDollars
-      experienceType
+      ...ExperienceInfo
       images {
         ...ExperienceImageFragment
       }
@@ -1098,7 +1105,8 @@ export const ExperienceWithSlotsDocument = gql`
     }
   }
 }
-    ${ExperienceImageFragmentFragmentDoc}
+    ${ExperienceInfoFragmentDoc}
+${ExperienceImageFragmentFragmentDoc}
 ${ExperienceWineryInfoFragmentDoc}
 ${SlotFragmentFragmentDoc}
 ${ErrorFragmentFragmentDoc}`;
