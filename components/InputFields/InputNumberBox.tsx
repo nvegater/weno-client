@@ -5,11 +5,21 @@ import {
   InputGroup,
   InputLeftElement,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { BsPeopleFill } from "react-icons/bs";
 
-export const InputNumberBox = () => {
+interface InputNumberBoxProps {
+  onValueUpdate?: (value: number) => void;
+}
+
+export const InputNumberBox: FC<InputNumberBoxProps> = ({ onValueUpdate }) => {
   const [value, setValue] = useState(1);
+
+  useEffect(() => {
+    if (onValueUpdate) {
+      onValueUpdate(value);
+    }
+  }, [onValueUpdate, value]);
 
   return (
     <HStack maxW="180px">

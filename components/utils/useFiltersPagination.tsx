@@ -27,7 +27,7 @@ function isNewCursorConfig(
   return isNewAfterCursor || isNewBeforeCursor;
 }
 
-type HandlePaginationRequestFn = (
+export type HandlePaginationRequestFn = (
   oldPaginationConfig: CursorPaginationInput,
   newPaginationConfig: CursorPaginationInput
 ) => boolean;

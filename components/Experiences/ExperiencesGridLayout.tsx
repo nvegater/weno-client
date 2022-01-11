@@ -13,11 +13,14 @@ import {
   DrawerFooter,
   Flex,
   Grid,
+  Heading,
+  Skeleton,
   useDisclosure,
 } from "@chakra-ui/react";
 import {
   PaginatedExperience,
   PaginatedExperienceWithSlots,
+  WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
 
 export enum ExperiencesGridMode {
@@ -30,12 +33,20 @@ interface ExperiencesGridLayoutProps {
   experiences: (PaginatedExperience | PaginatedExperienceWithSlots)[];
   mode: ExperiencesGridMode;
   preSelectedExperienceId?: number;
+  winery?: WineryFragmentFragment;
+  fetching?: boolean;
+  networkError?: any;
+  serverError?: any;
 }
 
 export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   mode,
   experiences,
   preSelectedExperienceId,
+  winery,
+  fetching,
+  networkError,
+  serverError,
 }) => {
   const [experienceId, setExperienceId] = useState<number | undefined>(
     preSelectedExperienceId
@@ -43,8 +54,8 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <div>
-      <Drawer isOpen={isOpen} onClose={onClose} placement="bottom" isFullHeight>
+    <Box>
+      <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerBody>
@@ -55,6 +66,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
               <EditExperienceModal
                 experienceId={experienceId}
                 experiences={experiences as PaginatedExperienceWithSlots[]}
+                winery={winery}
               />
             )}
             {mode === ExperiencesGridMode.VIEW && (
@@ -70,13 +82,31 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
         </DrawerContent>
       </Drawer>
 
-      <Box maxW="100rem">
-        {experiences.length === 0 && <div>No results found</div>}
+      <Box maxW="100rem" mt={8}>
+        {experiences.length === 0 && !fetching && (
+          <Heading as="h2" size="sm" color="brand.200" textAlign="center">
+            No results found
+          </Heading>
+        )}
+
+        {networkError && !fetching && experiences.length === 0 && (
+          <Heading as="h2" size="sm" color="brand.200" textAlign="center">
+            An error has ocurred
+          </Heading>
+        )}
+
+        {serverError && !fetching && experiences.length === 0 && (
+          <Heading as="h2" size="sm" color="brand.200" textAlign="center">
+            An error in our servers has ocurred
+          </Heading>
+        )}
+
         <Grid
           gridTemplateColumns="repeat(auto-fit, minmax(274px, 1fr))"
           gap={3}
         >
           {experiences.length > 0 &&
+            !fetching &&
             experiences.map((exp) => (
               <Flex justifyContent="center" key={exp.title}>
                 <ExperienceCardCover
@@ -86,8 +116,19 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
                 />
               </Flex>
             ))}
+          {fetching &&
+            [1, 2, 3, 4, 5].map((no) => (
+              <Box key={no} p={5} borderRadius="12px">
+                <Skeleton
+                  startColor="brand.400"
+                  endColor="#D23F80"
+                  height="200px"
+                  borderRadius="12px"
+                />
+              </Box>
+            ))}
         </Grid>
       </Box>
-    </div>
+    </Box>
   );
 };
