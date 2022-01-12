@@ -5,12 +5,10 @@ import { ExperienceModal } from "../Modals/ExperienceModal";
 import { ExperienceCardCover } from "../Cards/ExperienceCardCover";
 import {
   Box,
-  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerFooter,
   Flex,
   Grid,
   Heading,
@@ -73,12 +71,6 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
               <ExperienceModal experienceId={experienceId} />
             )}
           </DrawerBody>
-
-          <DrawerFooter>
-            <Button type="submit" form="my-form">
-              Save
-            </Button>
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
 

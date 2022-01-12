@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useExperienceWithSlotsQuery } from "../../graphql/generated/graphql";
-import { ExperienceModalLayout } from "./ExperienceModalLayout";
+import { Reservation } from "./Reservation";
 import { Heading } from "@chakra-ui/react";
 
 interface ReservationModalProps {
@@ -21,7 +21,7 @@ export const ReservationModal: FC<ReservationModalProps> = ({
     <>
       {data?.experienceWithSlots.errors == null &&
         data?.experienceWithSlots.experience && (
-          <ExperienceModalLayout
+          <Reservation
             experienceWineryInfo={data.experienceWithSlots.experience.winery}
             slots={data.experienceWithSlots.experience.slots}
             images={data.experienceWithSlots.experience.images}

@@ -7,7 +7,7 @@ import {
 } from "../../../graphql/generated/graphql";
 import { dateFormatterUTC, timeFormatterUTC } from "../../utils/dateTime-utils";
 import { parseISO } from "date-fns";
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 function formatSlotDates(
   slotType: SlotType,
   startDateTime: string,
@@ -36,8 +36,12 @@ interface RadioGroupProps extends Omit<StackProps, "onChange"> {
   slots: SlotFragmentFragment[];
 }
 
-export const SlotRadioGroup = (props: RadioGroupProps) => {
-  const { name, slots, onChange, ...rest } = props;
+export const SlotRadioGroup: FC<RadioGroupProps> = ({
+  name,
+  slots,
+  onChange,
+  ...rest
+}) => {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name,
     onChange,
@@ -57,10 +61,8 @@ export const SlotRadioGroup = (props: RadioGroupProps) => {
     [slots]
   );
 
-  console.log(slots);
-
   return (
-    <Box maxW="100rem" p={4}>
+    <Box maxW="100rem">
       <Grid
         gridTemplateColumns="repeat(auto-fit, minmax(200px, 1fr))"
         gap={3}

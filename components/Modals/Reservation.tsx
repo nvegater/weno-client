@@ -1,5 +1,5 @@
 import React, { FC, useMemo, useState } from "react";
-import { Box, Flex, Heading, Icon, Img } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Icon, Img } from "@chakra-ui/react";
 import {
   ExperienceImageFragmentFragment,
   ExperienceInfoFragment,
@@ -27,7 +27,7 @@ interface ExperienceModalLayoutProps {
 const placeHolderImage =
   "https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
 
-export const ExperienceModalLayout: FC<ExperienceModalLayoutProps> = ({
+export const Reservation: FC<ExperienceModalLayoutProps> = ({
   images,
   startDateTime,
   slots,
@@ -91,9 +91,21 @@ export const ExperienceModalLayout: FC<ExperienceModalLayoutProps> = ({
             setTotalPrice(experienceInfo.pricePerPersonInDollars * val);
           }}
         />
-        <Heading fontSize="md" as="h4" fontWeight="500" my={5}>
-          Total: {totalPrice}$
+        <Heading fontSize="md" as="h4" fontWeight="600" my={5}>
+          Total: {totalPrice}$MXN
         </Heading>
+      </Flex>
+
+      <Flex justifyContent="center" my={8}>
+        <Button
+          size="heroWeno"
+          variant="cta"
+          onClick={() => {
+            console.log(totalPrice, date);
+          }}
+        >
+          Book
+        </Button>
       </Flex>
     </Box>
   );
