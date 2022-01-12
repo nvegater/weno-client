@@ -43,8 +43,21 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
   );
 
   const slotsFromDate: SlotFragmentFragment[] = useMemo(() => {
-    return getSlotsFromDate(slots, date);
+    const unsortedSlotsFromDate = getSlotsFromDate(slots, date);
+    unsortedSlotsFromDate.sort(function (a, b) {
+      // Turn your strings into dates, and then subtract them
+      // to get a value that is either negative, positive, or zero.
+      return (
+        new Date(parseISO(a.startDateTime)).getTime() -
+        new Date(parseISO(b.startDateTime)).getTime()
+      );
+    });
+    return unsortedSlotsFromDate;
   }, [date, slots]);
+
+  const [selectedSlot, setSelectedSlot] = useState<SlotFragmentFragment>(
+    slotsFromDate[0]
+  );
 
   return (
     <Box>
@@ -80,7 +93,12 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
           <SlotRadioGroup
             name="rating"
             slots={slotsFromDate}
-            onChange={(slotDateTimeStart) => console.log(slotDateTimeStart)}
+            onChange={(slotStartDate) => {
+              const slot = slotsFromDate.find(
+                (slot) => slot.startDateTime === slotStartDate
+              );
+              setSelectedSlot(slot);
+            }}
           />
         )}
       </Box>
@@ -101,7 +119,10 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
           size="heroWeno"
           variant="cta"
           onClick={() => {
-            console.log(totalPrice, date);
+            const noOfVisitors =
+              totalPrice / experienceInfo.pricePerPersonInDollars;
+            // TODO send this to booking mutation and redirect user to stripes page
+            console.log(totalPrice, selectedSlot, noOfVisitors);
           }}
         >
           Book

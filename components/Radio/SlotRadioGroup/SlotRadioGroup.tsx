@@ -1,5 +1,6 @@
-import { Grid, StackProps, useRadioGroup, Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Grid, StackProps, useRadioGroup } from "@chakra-ui/react";
 import * as React from "react";
+import { FC } from "react";
 import { SlotRadioOption } from "./SlotRadioOption";
 import {
   SlotFragmentFragment,
@@ -7,7 +8,7 @@ import {
 } from "../../../graphql/generated/graphql";
 import { dateFormatterUTC, timeFormatterUTC } from "../../utils/dateTime-utils";
 import { parseISO } from "date-fns";
-import { FC, useMemo } from "react";
+
 function formatSlotDates(
   slotType: SlotType,
   startDateTime: string,
@@ -48,19 +49,6 @@ export const SlotRadioGroup: FC<RadioGroupProps> = ({
     defaultValue: slots[0].startDateTime,
   });
 
-  const sortedSlots = useMemo(
-    () =>
-      slots.sort(function (a, b) {
-        // Turn your strings into dates, and then subtract them
-        // to get a value that is either negative, positive, or zero.
-        return (
-          new Date(parseISO(a.startDateTime)).getTime() -
-          new Date(parseISO(b.startDateTime)).getTime()
-        );
-      }),
-    [slots]
-  );
-
   return (
     <Box maxW="100rem">
       <Grid
@@ -69,7 +57,7 @@ export const SlotRadioGroup: FC<RadioGroupProps> = ({
         overflowY="hidden"
         {...getRootProps(rest)}
       >
-        {sortedSlots.map((slot) => (
+        {slots.map((slot) => (
           <Flex justifyContent="center" key={slot.id}>
             <SlotRadioOption {...getRadioProps({ value: slot.startDateTime })}>
               {formatSlotDates(
