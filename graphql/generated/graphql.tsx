@@ -411,6 +411,7 @@ export type Query = {
   recurrentDates: RecurrenceResponse;
   experiences: PaginatedExperiences;
   editableExperiences: PaginatedExperiencesWithSlots;
+  bookableExperiences: PaginatedExperiences;
   allReservations: Scalars['Int'];
   allWineries: Scalars['Int'];
   winery: WineryResponse;
@@ -440,6 +441,11 @@ export type QueryExperiencesArgs = {
 export type QueryEditableExperiencesArgs = {
   paginatedExperiencesInputs: PaginatedExperiencesInputs;
   wineryId: Scalars['Float'];
+};
+
+
+export type QueryBookableExperiencesArgs = {
+  paginatedExperiencesInputs: PaginatedExperiencesInputs;
 };
 
 
@@ -694,6 +700,13 @@ export type RecurrentDatesQueryVariables = Exact<{
 
 
 export type RecurrentDatesQuery = { recurrentDates: { dateWithTimes?: Array<{ date: any, times: Array<any> }> | null | undefined, errors?: Array<{ field: string }> | null | undefined } };
+
+export type BookableExperiencesQueryVariables = Exact<{
+  paginatedExperiencesInputs: PaginatedExperiencesInputs;
+}>;
+
+
+export type BookableExperiencesQuery = { bookableExperiences: { totalExperiences: number, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined } } };
 
 export type EditableExperiencesQueryVariables = Exact<{
   wineryId: Scalars['Float'];
@@ -1057,6 +1070,28 @@ export const RecurrentDatesDocument = gql`
 export function useRecurrentDatesQuery(options: Omit<Urql.UseQueryArgs<RecurrentDatesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<RecurrentDatesQuery>({ query: RecurrentDatesDocument, ...options });
 };
+export const BookableExperiencesDocument = gql`
+    query BookableExperiences($paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
+  bookableExperiences(paginatedExperiencesInputs: $paginatedExperiencesInputs) {
+    errors {
+      ...ErrorFragment
+    }
+    experiences {
+      ...PaginatedExperience
+    }
+    totalExperiences
+    paginationConfig {
+      ...PaginationResultFragment
+    }
+  }
+}
+    ${ErrorFragmentFragmentDoc}
+${PaginatedExperienceFragmentDoc}
+${PaginationResultFragmentFragmentDoc}`;
+
+export function useBookableExperiencesQuery(options: Omit<Urql.UseQueryArgs<BookableExperiencesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<BookableExperiencesQuery>({ query: BookableExperiencesDocument, ...options });
+};
 export const EditableExperiencesDocument = gql`
     query EditableExperiences($wineryId: Float!, $paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
   editableExperiences(
@@ -1118,8 +1153,7 @@ export const ExperiencesDocument = gql`
     query Experiences($paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
   experiences(paginatedExperiencesInputs: $paginatedExperiencesInputs) {
     errors {
-      field
-      message
+      ...ErrorFragment
     }
     experiences {
       ...PaginatedExperience
@@ -1130,7 +1164,8 @@ export const ExperiencesDocument = gql`
     }
   }
 }
-    ${PaginatedExperienceFragmentDoc}
+    ${ErrorFragmentFragmentDoc}
+${PaginatedExperienceFragmentDoc}
 ${PaginationResultFragmentFragmentDoc}`;
 
 export function useExperiencesQuery(options: Omit<Urql.UseQueryArgs<ExperiencesQueryVariables>, 'query'> = {}) {

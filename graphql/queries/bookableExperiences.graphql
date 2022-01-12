@@ -1,5 +1,7 @@
-query Experiences($paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
-  experiences(paginatedExperiencesInputs: $paginatedExperiencesInputs) {
+query BookableExperiences(
+  $paginatedExperiencesInputs: PaginatedExperiencesInputs!
+) {
+  bookableExperiences(paginatedExperiencesInputs: $paginatedExperiencesInputs) {
     errors {
       ...ErrorFragment
     }

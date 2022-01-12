@@ -200,6 +200,9 @@ type ProductsResponse {
 type Query {
   allReservations: Int!
   allWineries: Int!
+  bookableExperiences(
+    paginatedExperiencesInputs: PaginatedExperiencesInputs!
+  ): PaginatedExperiences!
   editableExperiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
     wineryId: Float!

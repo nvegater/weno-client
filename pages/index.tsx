@@ -11,7 +11,7 @@ import {
 } from "../components/Experiences/ExperiencesGridLayout";
 import {
   PaginatedExperience,
-  useExperiencesQuery,
+  useBookableExperiencesQuery,
 } from "../graphql/generated/graphql";
 import useFiltersPagination from "../components/utils/useFiltersPagination";
 import { Flex, Heading, Icon } from "@chakra-ui/react";
@@ -26,19 +26,21 @@ const Home = () => {
 
   const [experiences, setExperiences] = useState<PaginatedExperience[]>([]);
 
-  const [{ data, fetching, error: networkError }] = useExperiencesQuery({
-    variables: {
-      paginatedExperiencesInputs: {
-        paginationConfig: { ...paginationConfig },
-        experiencesFilters: { ...experiencesFilters },
+  const [{ data, fetching, error: networkError }] = useBookableExperiencesQuery(
+    {
+      variables: {
+        paginatedExperiencesInputs: {
+          paginationConfig: { ...paginationConfig },
+          experiencesFilters: { ...experiencesFilters },
+        },
       },
-    },
-    requestPolicy: "network-only",
-  });
+      requestPolicy: "network-only",
+    }
+  );
 
   useEffect(() => {
-    if (data && data.experiences.experiences) {
-      const newExps = data?.experiences?.experiences;
+    if (data?.bookableExperiences.experiences) {
+      const newExps = data?.bookableExperiences?.experiences;
       const newTitles = newExps.map((exp) => exp.title);
       const oldTitles = experiences.map((exp) => exp.title);
       if (!newTitles.some((newTitle) => oldTitles.includes(newTitle))) {
@@ -49,8 +51,8 @@ const Home = () => {
   }, [data, experiences]);
 
   const noMoreResults =
-    data?.experiences?.paginationConfig?.beforeCursor === null &&
-    data?.experiences?.paginationConfig?.afterCursor === null;
+    data?.bookableExperiences?.paginationConfig?.beforeCursor === null &&
+    data?.bookableExperiences?.paginationConfig?.afterCursor === null;
 
   return (
     <div>
@@ -86,7 +88,7 @@ const Home = () => {
             noOfExperiences={experiences.length}
             handlePaginationRequest={handlePaginationRequest}
             paginationConfig={paginationConfig}
-            newPaginationConfig={data?.experiences?.paginationConfig}
+            newPaginationConfig={data?.bookableExperiences?.paginationConfig}
           />
         </WenoLayout>
       </main>
