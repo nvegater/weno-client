@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import useAuth from "../../components/Authentication/useAuth";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../graphql/urqlProvider";
-import { Flex, Heading } from "@chakra-ui/react";
+import { Flex, Heading, Link } from "@chakra-ui/react";
 import { WenoLayout } from "../../components/GeneralLayout/WenoLayout";
 import useVerifySession from "../../components/Authentication/useVerifySession";
 import { WineryProfile } from "../../components/Profile/Winery/WineryProfile";
@@ -24,11 +24,14 @@ const Winery = () => {
     isOwner,
   } = useAuth();
 
-  const { loadingVerification, verificationError, isVerified } =
-    useVerifySession({
-      sessionId: session_id === undefined ? null : session_id,
-      contextHeader,
-    });
+  const {
+    loadingVerification,
+    verificationError,
+    isVerified,
+    retryVerificationLink,
+  } = useVerifySession({
+    sessionId: session_id === undefined ? null : session_id,
+  });
 
   return (
     <WenoLayout
@@ -69,6 +72,13 @@ const Winery = () => {
             Your session is invalid
           </Heading>
         </Flex>
+      )}
+
+      {retryVerificationLink && (
+        <Heading>
+          Your booking is not complete ... you can finish it{" "}
+          <Link href={retryVerificationLink}>here</Link>
+        </Heading>
       )}
 
       {wineryAlias && authenticated && (

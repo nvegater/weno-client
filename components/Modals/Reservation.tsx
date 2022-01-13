@@ -61,17 +61,17 @@ async function handleBookingLinkRequest(
   username?: string
 ) {
   const noOfVisitors = totalPrice / experienceInfo.pricePerPersonInDollars;
-  // TODO create order success and order cancelled pages.
-  console.log(totalPrice, selectedSlot, noOfVisitors);
+  const webpageBase = window.location.origin;
+  const redirectUri = webpageBase + "/order";
   const { data, error } = await getCheckoutLink({
     createCustomerInputs: {
       email: email,
       paymentMetadata: username ? { username } : null,
     },
     slotId: selectedSlot.id,
-    cancelUrl: "",
-    successUrl: "",
-    noOfVisitors: 0,
+    cancelUrl: webpageBase + "/",
+    successUrl: redirectUri + "/success",
+    noOfVisitors: noOfVisitors,
   });
 
   if (error) {
