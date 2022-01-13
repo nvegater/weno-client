@@ -3,7 +3,9 @@ import { UseToastOptions } from "@chakra-ui/react";
 type ToastMessageType =
   | "uploadImageError"
   | "processingChangesInfo"
-  | "imagesSavedSuccess";
+  | "imagesSavedSuccess"
+  | "bookingNotPossibleServerError"
+  | "bookingFailed";
 
 export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
   let toastOpts: UseToastOptions = {
@@ -44,6 +46,27 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
         duration: 5000,
         isClosable: true,
         position: "top",
+      };
+      break;
+    case "bookingNotPossibleServerError":
+      toastOpts = {
+        title: "Booking failed",
+        description: "There seems to be a connection error",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      };
+      break;
+    case "bookingFailed":
+      toastOpts = {
+        title: "Booking failed",
+        description:
+          "There was an error in our servers. We apologize for the inconvenience",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
       };
   }
   return {

@@ -1,10 +1,21 @@
 import React, { FC, useMemo, useState } from "react";
-import { Box, Button, Flex, Heading, Icon, Img } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  Img,
+  useToast,
+} from "@chakra-ui/react";
 import {
   ExperienceImageFragmentFragment,
   ExperienceInfoFragment,
   ExperienceWineryInfoFragment,
+  GetCheckoutLinkMutation,
+  GetCheckoutLinkMutationVariables,
   SlotFragmentFragment,
+  useGetCheckoutLinkMutation,
   Valley,
 } from "../../graphql/generated/graphql";
 import { FavoriteExperience } from "../Experiences/FavoriteExperience";
@@ -15,6 +26,8 @@ import { parseISO } from "date-fns";
 import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
 import { getSlotsFromDate } from "./EditExperienceModal";
 import { InputNumberBox } from "../InputFields/InputNumberBox";
+import { getToastMessage } from "../utils/chakra-utils";
+import { OperationContext, OperationResult } from "urql";
 
 interface ExperienceModalLayoutProps {
   experienceWineryInfo: ExperienceWineryInfoFragment;
@@ -26,6 +39,50 @@ interface ExperienceModalLayoutProps {
 
 const placeHolderImage =
   "https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
+
+function handleBookingLinkRequest(
+  totalPrice: number,
+  experienceInfo: ExperienceInfoFragment,
+  selectedSlot: SlotFragmentFragment,
+  getCheckoutLink: (
+    variables?: GetCheckoutLinkMutationVariables,
+    context?: Partial<OperationContext>
+  ) => Promise<
+    OperationResult<GetCheckoutLinkMutation, GetCheckoutLinkMutationVariables>
+  >,
+  toast
+) {
+  return async () => {
+    const noOfVisitors = totalPrice / experienceInfo.pricePerPersonInDollars;
+    // TODO send this to booking mutation and redirect user to stripes page
+    // TODO create order success and order cancelled pages.
+    console.log(totalPrice, selectedSlot, noOfVisitors);
+    const { data, error } = await getCheckoutLink({
+      createCustomerInputs: {
+        email: "",
+        paymentMetadata: { username: "" },
+      },
+      slotId: selectedSlot.id,
+      cancelUrl: "",
+      successUrl: "",
+      noOfVisitors: 0,
+    });
+
+    if (error) {
+      toast(getToastMessage("bookingFailed"));
+      console.log(error);
+    }
+
+    if (data?.getCheckoutLink.errors != null) {
+      toast(getToastMessage("bookingNotPossibleServerError"));
+      console.log(data.getCheckoutLink.errors);
+    }
+
+    if (data?.getCheckoutLink.errors == null) {
+      window.location.href = data.getCheckoutLink.link;
+    }
+  };
+}
 
 export const Reservation: FC<ExperienceModalLayoutProps> = ({
   images,
@@ -58,6 +115,10 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
   const [selectedSlot, setSelectedSlot] = useState<SlotFragmentFragment>(
     slotsFromDate[0]
   );
+
+  const [, getCheckoutLink] = useGetCheckoutLinkMutation();
+
+  const toast = useToast();
 
   return (
     <Box>
@@ -118,12 +179,13 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
         <Button
           size="heroWeno"
           variant="cta"
-          onClick={() => {
-            const noOfVisitors =
-              totalPrice / experienceInfo.pricePerPersonInDollars;
-            // TODO send this to booking mutation and redirect user to stripes page
-            console.log(totalPrice, selectedSlot, noOfVisitors);
-          }}
+          onClick={handleBookingLinkRequest(
+            totalPrice,
+            experienceInfo,
+            selectedSlot,
+            getCheckoutLink,
+            toast
+          )}
         >
           Book
         </Button>

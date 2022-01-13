@@ -5,6 +5,11 @@ schema {
   mutation: Mutation
 }
 
+type CheckoutLinkResponse {
+  errors: [FieldError!]
+  link: String
+}
+
 type CheckoutSessionResponse {
   errors: [FieldError!]
   sessionStatus: String
@@ -18,14 +23,17 @@ type CursorPaginationResult {
   limit: Int
 }
 
-type Customer {
+type CustomerDts {
+  createdAt: DateTime!
   email: String!
-  name: String
-  paymentMetadata: PaymentMetadata!
+  id: String!
+  stripeCustomerId: String!
+  updatedAt: DateTime!
+  username: String
 }
 
 type CustomerResponse {
-  customer: Customer
+  customer: CustomerDts
   errors: [FieldError!]
 }
 
@@ -86,6 +94,7 @@ type ExperienceSlot {
   id: Int!
   limitOfAttendees: Int!
   noOfAttendees: Int
+  pricePerPersonInDollars: Float!
   slotType: SlotType!
   startDateTime: DateTime!
   updatedAt: DateTime!
@@ -113,6 +122,14 @@ type Mutation {
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
   ): WineryResponse!
+  getCheckoutLink(
+    cancelUrl: String!
+    createCustomerInputs: CreateCustomerInputs!
+    noOfVisitors: Float!
+    slotId: Float!
+    successUrl: String!
+  ): CheckoutLinkResponse!
+  reserveAsGuest: Boolean!
   saveExperienceImagesUrls(
     experienceId: Int!
     preSignedUrls: [String!]!
@@ -162,10 +179,6 @@ type PaginatedExperiencesWithSlots {
   experiences: [PaginatedExperienceWithSlots!]
   paginationConfig: CursorPaginationResult!
   totalExperiences: Float!
-}
-
-type PaymentMetadata {
-  username: String!
 }
 
 type PresignedResponse {
@@ -455,9 +468,10 @@ enum Valley {
 "The javascript `Date` as string. Type represents date and time as the ISO Date string."
 scalar DateTime
 
+"If customer has metadata, it means it is a registered user and It has an username.But Customers dont need to be registered. They can book events as guests, thats why the metadata prop is nullable"
 input CreateCustomerInputs {
   email: String!
-  paymentMetadata: PaymentMetadataInputs!
+  paymentMetadata: PaymentMetadataInputs
 }
 
 input CreateExperienceInputs {

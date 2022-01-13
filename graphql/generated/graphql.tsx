@@ -32,15 +32,21 @@ export enum Amenity {
   ActividadesEnVinedo = 'ACTIVIDADES_EN_VINEDO'
 }
 
+export type CheckoutLinkResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  link?: Maybe<Scalars['String']>;
+};
+
 export type CheckoutSessionResponse = {
   errors?: Maybe<Array<FieldError>>;
   sessionStatus?: Maybe<Scalars['String']>;
   sessionUrl?: Maybe<Scalars['String']>;
 };
 
+/** If customer has metadata, it means it is a registered user and It has an username.But Customers dont need to be registered. They can book events as guests, thats why the metadata prop is nullable */
 export type CreateCustomerInputs = {
   email: Scalars['String'];
-  paymentMetadata: PaymentMetadataInputs;
+  paymentMetadata?: Maybe<PaymentMetadataInputs>;
 };
 
 export type CreateExperienceInputs = {
@@ -94,15 +100,18 @@ export type CursorPaginationResult = {
   limit?: Maybe<Scalars['Int']>;
 };
 
-export type Customer = {
+export type CustomerDts = {
+  id: Scalars['String'];
+  stripeCustomerId: Scalars['String'];
   email: Scalars['String'];
-  paymentMetadata: PaymentMetadata;
-  name?: Maybe<Scalars['String']>;
+  username?: Maybe<Scalars['String']>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type CustomerResponse = {
   errors?: Maybe<Array<FieldError>>;
-  customer?: Maybe<Customer>;
+  customer?: Maybe<CustomerDts>;
 };
 
 export type DateWithTimes = {
@@ -161,6 +170,7 @@ export type ExperienceSlot = {
   durationInMinutes: Scalars['Int'];
   noOfAttendees?: Maybe<Scalars['Int']>;
   limitOfAttendees: Scalars['Int'];
+  pricePerPersonInDollars: Scalars['Float'];
   experienceId: Scalars['Float'];
   experience: Experience;
   createdAt: Scalars['DateTime'];
@@ -239,10 +249,12 @@ export enum Grape {
 
 export type Mutation = {
   createExperience: ExperienceResponse;
+  reserveAsGuest: Scalars['Boolean'];
   createWinery: WineryResponse;
   /** Trigger: winery information Page. If called for the first time, updates the winery connected account creation dateOtherwise simply return the winery */
   confirmConnectedAccount: WineryResponse;
   createCustomer: CustomerResponse;
+  getCheckoutLink: CheckoutLinkResponse;
   wineryOnboarding: OnboardingResponse;
   saveExperienceImagesUrls: ExperienceImageResponse;
 };
@@ -266,6 +278,15 @@ export type MutationConfirmConnectedAccountArgs = {
 
 
 export type MutationCreateCustomerArgs = {
+  createCustomerInputs: CreateCustomerInputs;
+};
+
+
+export type MutationGetCheckoutLinkArgs = {
+  cancelUrl: Scalars['String'];
+  successUrl: Scalars['String'];
+  noOfVisitors: Scalars['Float'];
+  slotId: Scalars['Float'];
   createCustomerInputs: CreateCustomerInputs;
 };
 
@@ -349,10 +370,6 @@ export type PaginatedExperiencesWithSlots = {
   experiences?: Maybe<Array<PaginatedExperienceWithSlots>>;
   totalExperiences: Scalars['Float'];
   paginationConfig: CursorPaginationResult;
-};
-
-export type PaymentMetadata = {
-  username: Scalars['String'];
 };
 
 export type PaymentMetadataInputs = {
@@ -678,6 +695,17 @@ export type CreateWineryMutationVariables = Exact<{
 
 
 export type CreateWineryMutation = { createWinery: { sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, images?: Array<{ id: number, imageUrl: string, coverPage?: boolean | null | undefined }> | null | undefined, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> }> | null | undefined } | null | undefined } };
+
+export type GetCheckoutLinkMutationVariables = Exact<{
+  createCustomerInputs: CreateCustomerInputs;
+  slotId: Scalars['Float'];
+  cancelUrl: Scalars['String'];
+  successUrl: Scalars['String'];
+  noOfVisitors: Scalars['Float'];
+}>;
+
+
+export type GetCheckoutLinkMutation = { getCheckoutLink: { link?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
 
 export type SaveExperienceImagesUrlsMutationVariables = Exact<{
   preSignedUrls: Array<Scalars['String']> | Scalars['String'];
@@ -1017,6 +1045,26 @@ export const CreateWineryDocument = gql`
 
 export function useCreateWineryMutation() {
   return Urql.useMutation<CreateWineryMutation, CreateWineryMutationVariables>(CreateWineryDocument);
+};
+export const GetCheckoutLinkDocument = gql`
+    mutation GetCheckoutLink($createCustomerInputs: CreateCustomerInputs!, $slotId: Float!, $cancelUrl: String!, $successUrl: String!, $noOfVisitors: Float!) {
+  getCheckoutLink(
+    createCustomerInputs: $createCustomerInputs
+    slotId: $slotId
+    cancelUrl: $cancelUrl
+    successUrl: $successUrl
+    noOfVisitors: $noOfVisitors
+  ) {
+    errors {
+      ...ErrorFragment
+    }
+    link
+  }
+}
+    ${ErrorFragmentFragmentDoc}`;
+
+export function useGetCheckoutLinkMutation() {
+  return Urql.useMutation<GetCheckoutLinkMutation, GetCheckoutLinkMutationVariables>(GetCheckoutLinkDocument);
 };
 export const SaveExperienceImagesUrlsDocument = gql`
     mutation SaveExperienceImagesUrls($preSignedUrls: [String!]!, $experienceId: Int!) {
