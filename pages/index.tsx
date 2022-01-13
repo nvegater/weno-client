@@ -19,7 +19,7 @@ import { ImFilter } from "react-icons/im";
 import { LoadMoreButton } from "../components/Experiences/LoadMoreButton";
 
 const Home = () => {
-  const { authenticated, logout, login, tokenInfo } = useAuth();
+  const { authenticated, logout, login, register, tokenInfo } = useAuth();
 
   const [paginationConfig, experiencesFilters, handlePaginationRequest] =
     useFiltersPagination();
@@ -67,7 +67,7 @@ const Home = () => {
           authenticated={authenticated}
           tokenInfo={tokenInfo}
         >
-          <Hero />
+          <Hero authenticated={authenticated} register={register} />
 
           <Flex justifyContent="space-between" p={5}>
             <Heading as="h1" color="brand.200" fontWeight="700" size="2xl">

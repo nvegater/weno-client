@@ -1,12 +1,14 @@
 import { Box, Button, Heading, Stack, Text } from "@chakra-ui/react";
 import * as React from "react";
-import { useKeycloak } from "@react-keycloak/ssr";
-import { KeycloakInstance } from "keycloak-js";
+import { FC } from "react";
 import Link from "next/link";
 
-export const Hero = () => {
-  const { keycloak, initialized } = useKeycloak<KeycloakInstance>();
+interface HeroProps {
+  authenticated: boolean;
+  register: (options?: Keycloak.KeycloakLoginOptions) => void;
+}
 
+export const Hero: FC<HeroProps> = ({ authenticated, register }) => {
   return (
     <Box
       as="section"
@@ -56,9 +58,9 @@ export const Hero = () => {
           variant="primaryWeno"
           size="heroWeno"
           onClick={() => {
-            if (initialized && !keycloak.authenticated) {
+            if (!authenticated) {
               const webpageBase = window.location.origin;
-              keycloak.register({ redirectUri: webpageBase + "/register" });
+              register({ redirectUri: webpageBase + "/register" });
             }
           }}
         >

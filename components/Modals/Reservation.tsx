@@ -3,9 +3,14 @@ import {
   Box,
   Button,
   Flex,
+  FormControl,
+  FormErrorMessage,
+  FormHelperText,
+  FormLabel,
   Heading,
   Icon,
   Img,
+  Input,
   useToast,
 } from "@chakra-ui/react";
 import {
@@ -28,6 +33,7 @@ import { getSlotsFromDate } from "./EditExperienceModal";
 import { InputNumberBox } from "../InputFields/InputNumberBox";
 import { getToastMessage } from "../utils/chakra-utils";
 import { OperationContext, OperationResult } from "urql";
+import useAuth from "../Authentication/useAuth";
 
 interface ExperienceModalLayoutProps {
   experienceWineryInfo: ExperienceWineryInfoFragment;
@@ -40,7 +46,7 @@ interface ExperienceModalLayoutProps {
 const placeHolderImage =
   "https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
 
-function handleBookingLinkRequest(
+async function handleBookingLinkRequest(
   totalPrice: number,
   experienceInfo: ExperienceInfoFragment,
   selectedSlot: SlotFragmentFragment,
@@ -50,38 +56,37 @@ function handleBookingLinkRequest(
   ) => Promise<
     OperationResult<GetCheckoutLinkMutation, GetCheckoutLinkMutationVariables>
   >,
-  toast
+  toast,
+  email: string,
+  username?: string
 ) {
-  return async () => {
-    const noOfVisitors = totalPrice / experienceInfo.pricePerPersonInDollars;
-    // TODO send this to booking mutation and redirect user to stripes page
-    // TODO create order success and order cancelled pages.
-    console.log(totalPrice, selectedSlot, noOfVisitors);
-    const { data, error } = await getCheckoutLink({
-      createCustomerInputs: {
-        email: "",
-        paymentMetadata: { username: "" },
-      },
-      slotId: selectedSlot.id,
-      cancelUrl: "",
-      successUrl: "",
-      noOfVisitors: 0,
-    });
+  const noOfVisitors = totalPrice / experienceInfo.pricePerPersonInDollars;
+  // TODO create order success and order cancelled pages.
+  console.log(totalPrice, selectedSlot, noOfVisitors);
+  const { data, error } = await getCheckoutLink({
+    createCustomerInputs: {
+      email: email,
+      paymentMetadata: username ? { username } : null,
+    },
+    slotId: selectedSlot.id,
+    cancelUrl: "",
+    successUrl: "",
+    noOfVisitors: 0,
+  });
 
-    if (error) {
-      toast(getToastMessage("bookingFailed"));
-      console.log(error);
-    }
+  if (error) {
+    toast(getToastMessage("bookingFailed"));
+    console.log(error);
+  }
 
-    if (data?.getCheckoutLink.errors != null) {
-      toast(getToastMessage("bookingNotPossibleServerError"));
-      console.log(data.getCheckoutLink.errors);
-    }
+  if (data?.getCheckoutLink.errors != null) {
+    toast(getToastMessage("bookingNotPossibleServerError"));
+    console.log(data.getCheckoutLink.errors);
+  }
 
-    if (data?.getCheckoutLink.errors == null) {
-      window.location.href = data.getCheckoutLink.link;
-    }
-  };
+  if (data?.getCheckoutLink.errors == null) {
+    window.location.href = data.getCheckoutLink.link;
+  }
 }
 
 export const Reservation: FC<ExperienceModalLayoutProps> = ({
@@ -91,6 +96,12 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
   experienceWineryInfo,
   experienceInfo,
 }) => {
+  const { authenticated, register, tokenInfo } = useAuth();
+
+  const [submittingBooking, setSubmittingBooking] = useState(false);
+  const [requestGuestEmail, setRequestGuestEmail] = useState(false);
+  const [guestEmail, setGuestEmail] = useState("");
+
   const coverImage = images ? images.find((i) => i.coverPage) : null;
 
   const [date, setDate] = useState<string>(startDateTime);
@@ -175,20 +186,106 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
         </Heading>
       </Flex>
 
-      <Flex justifyContent="center" my={8}>
-        <Button
-          size="heroWeno"
-          variant="cta"
-          onClick={handleBookingLinkRequest(
-            totalPrice,
-            experienceInfo,
-            selectedSlot,
-            getCheckoutLink,
-            toast
-          )}
-        >
-          Book
-        </Button>
+      <Flex justifyContent={authenticated ? "center" : "space-between"} my={10}>
+        {authenticated && (
+          <Button
+            variant="primaryWeno"
+            size="heroWeno"
+            onClick={async () => {
+              await handleBookingLinkRequest(
+                totalPrice,
+                experienceInfo,
+                selectedSlot,
+                getCheckoutLink,
+                toast,
+                tokenInfo.email,
+                tokenInfo.preferred_username
+              );
+            }}
+          >
+            Book
+          </Button>
+        )}
+        {!authenticated && (
+          <>
+            {!requestGuestEmail && (
+              <>
+                <Button
+                  variant="primaryWeno"
+                  size="heroWeno"
+                  onClick={() => {
+                    setRequestGuestEmail(true);
+                  }}
+                >
+                  Book as a guest
+                </Button>
+
+                <Button
+                  size="heroWeno"
+                  variant="cta"
+                  onClick={() => {
+                    if (!authenticated) {
+                      const webpageBase = window.location.origin;
+                      register({ redirectUri: webpageBase + "/register" });
+                    }
+                  }}
+                >
+                  Register and book
+                </Button>
+              </>
+            )}
+
+            {requestGuestEmail && (
+              <FormControl
+                display="flex"
+                flexDirection="column"
+                isInvalid={guestEmail === ""}
+                isRequired
+              >
+                <FormLabel htmlFor="guestEmail">
+                  We only need your email
+                </FormLabel>
+                <Input
+                  type="email"
+                  name="guestEmail"
+                  onChange={(e) => {
+                    setGuestEmail(e.target.value);
+                  }}
+                />
+                <Button
+                  size="heroWeno"
+                  isLoading={submittingBooking}
+                  variant="cta"
+                  my={2}
+                  onClick={async () => {
+                    const isValidEmail = guestEmail !== "";
+                    if (isValidEmail) {
+                      setSubmittingBooking(true);
+                      await handleBookingLinkRequest(
+                        totalPrice,
+                        experienceInfo,
+                        selectedSlot,
+                        getCheckoutLink,
+                        toast,
+                        guestEmail
+                      );
+                      setSubmittingBooking(false);
+                    }
+                  }}
+                >
+                  Book
+                </Button>
+                {guestEmail !== "" ? (
+                  <FormHelperText>
+                    Its where you will receive the booking information
+                  </FormHelperText>
+                ) : (
+                  <FormErrorMessage>Email is required.</FormErrorMessage>
+                )}
+              </FormControl>
+            )}
+          </>
+        )}
       </Flex>
     </Box>
   );
