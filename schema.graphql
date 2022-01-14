@@ -12,7 +12,8 @@ type CheckoutLinkResponse {
 
 type CheckoutSessionResponse {
   errors: [FieldError!]
-  sessionStatus: String
+  payment_status: String
+  reservationIds: [Int!]
   sessionUrl: String
 }
 
@@ -51,7 +52,6 @@ type Experience {
   id: Int!
   images: [ExperienceImage!]
   pricePerPersonInDollars: Float!
-  reservations: [Reservation!]
   slots: [ExperienceSlot!]!
   title: String!
   updatedAt: DateTime!
@@ -95,6 +95,7 @@ type ExperienceSlot {
   limitOfAttendees: Int!
   noOfAttendees: Int
   pricePerPersonInDollars: Float!
+  reservations: [Reservation!]
   slotType: SlotType!
   startDateTime: DateTime!
   updatedAt: DateTime!
@@ -118,6 +119,7 @@ type Mutation {
     createExperienceInputs: CreateExperienceInputs!
     createRecurrentDatesInputs: CreateRecurrentDatesInputs!
   ): ExperienceResponse!
+  createReservation: Boolean!
   createWinery(
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
@@ -126,10 +128,9 @@ type Mutation {
     cancelUrl: String!
     createCustomerInputs: CreateCustomerInputs!
     noOfVisitors: Float!
-    slotId: Float!
+    slotIds: [Int!]!
     successUrl: String!
   ): CheckoutLinkResponse!
-  reserveAsGuest: Boolean!
   saveExperienceImagesUrls(
     experienceId: Int!
     preSignedUrls: [String!]!
@@ -244,20 +245,18 @@ type RecurrenceResponse {
 
 type Reservation {
   createdAt: DateTime!
+  email: String!
   endDateTime: DateTime!
-  experience: Experience!
-  experienceId: Int!
   id: Int!
   noOfAttendees: Int!
-  orderId: String!
-  paymentCreationDateTime: String!
-  paymentUpdateDateTime: String!
+  paymentStatus: String!
   pricePerPersonInDollars: Float!
+  slot: ExperienceSlot!
+  slotId: Int!
   startDateTime: DateTime!
-  status: String!
   title: String!
   updatedAt: DateTime!
-  userId: String!
+  username: String
 }
 
 type Tier {

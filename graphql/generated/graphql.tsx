@@ -39,8 +39,9 @@ export type CheckoutLinkResponse = {
 
 export type CheckoutSessionResponse = {
   errors?: Maybe<Array<FieldError>>;
-  sessionStatus?: Maybe<Scalars['String']>;
   sessionUrl?: Maybe<Scalars['String']>;
+  payment_status?: Maybe<Scalars['String']>;
+  reservationIds?: Maybe<Array<Scalars['Int']>>;
 };
 
 /** If customer has metadata, it means it is a registered user and It has an username.But Customers dont need to be registered. They can book events as guests, thats why the metadata prop is nullable */
@@ -131,7 +132,6 @@ export type Experience = {
   images?: Maybe<Array<ExperienceImage>>;
   wineryId: Scalars['Int'];
   winery: Winery;
-  reservations?: Maybe<Array<Reservation>>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
@@ -173,6 +173,7 @@ export type ExperienceSlot = {
   pricePerPersonInDollars: Scalars['Float'];
   experienceId: Scalars['Float'];
   experience: Experience;
+  reservations?: Maybe<Array<Reservation>>;
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
@@ -249,7 +250,7 @@ export enum Grape {
 
 export type Mutation = {
   createExperience: ExperienceResponse;
-  reserveAsGuest: Scalars['Boolean'];
+  createReservation: Scalars['Boolean'];
   createWinery: WineryResponse;
   /** Trigger: winery information Page. If called for the first time, updates the winery connected account creation dateOtherwise simply return the winery */
   confirmConnectedAccount: WineryResponse;
@@ -286,7 +287,7 @@ export type MutationGetCheckoutLinkArgs = {
   cancelUrl: Scalars['String'];
   successUrl: Scalars['String'];
   noOfVisitors: Scalars['Float'];
-  slotId: Scalars['Float'];
+  slotIds: Array<Scalars['Int']>;
   createCustomerInputs: CreateCustomerInputs;
 };
 
@@ -493,17 +494,15 @@ export type RecurrenceResponse = {
 export type Reservation = {
   id: Scalars['Int'];
   title: Scalars['String'];
-  userId: Scalars['String'];
-  startDateTime: Scalars['DateTime'];
-  endDateTime: Scalars['DateTime'];
+  email: Scalars['String'];
+  username?: Maybe<Scalars['String']>;
   noOfAttendees: Scalars['Int'];
   pricePerPersonInDollars: Scalars['Float'];
-  orderId: Scalars['String'];
-  paymentCreationDateTime: Scalars['String'];
-  paymentUpdateDateTime: Scalars['String'];
-  status: Scalars['String'];
-  experienceId: Scalars['Int'];
-  experience: Experience;
+  paymentStatus: Scalars['String'];
+  slotId: Scalars['Int'];
+  slot: ExperienceSlot;
+  startDateTime: Scalars['DateTime'];
+  endDateTime: Scalars['DateTime'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
 };
@@ -698,7 +697,7 @@ export type CreateWineryMutation = { createWinery: { sessionUrl?: string | null 
 
 export type GetCheckoutLinkMutationVariables = Exact<{
   createCustomerInputs: CreateCustomerInputs;
-  slotId: Scalars['Float'];
+  slotIds: Array<Scalars['Int']> | Scalars['Int'];
   cancelUrl: Scalars['String'];
   successUrl: Scalars['String'];
   noOfVisitors: Scalars['Float'];
@@ -783,7 +782,7 @@ export type GetCheckoutSessionStatusQueryVariables = Exact<{
 }>;
 
 
-export type GetCheckoutSessionStatusQuery = { getCheckoutSessionStatus: { sessionStatus?: string | null | undefined, sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
+export type GetCheckoutSessionStatusQuery = { getCheckoutSessionStatus: { reservationIds?: Array<number> | null | undefined, payment_status?: string | null | undefined, sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
 
 export type WineryQueryVariables = Exact<{
   getWineryInputs: GetWineryInputs;
@@ -1047,10 +1046,10 @@ export function useCreateWineryMutation() {
   return Urql.useMutation<CreateWineryMutation, CreateWineryMutationVariables>(CreateWineryDocument);
 };
 export const GetCheckoutLinkDocument = gql`
-    mutation GetCheckoutLink($createCustomerInputs: CreateCustomerInputs!, $slotId: Float!, $cancelUrl: String!, $successUrl: String!, $noOfVisitors: Float!) {
+    mutation GetCheckoutLink($createCustomerInputs: CreateCustomerInputs!, $slotIds: [Int!]!, $cancelUrl: String!, $successUrl: String!, $noOfVisitors: Float!) {
   getCheckoutLink(
     createCustomerInputs: $createCustomerInputs
-    slotId: $slotId
+    slotIds: $slotIds
     cancelUrl: $cancelUrl
     successUrl: $successUrl
     noOfVisitors: $noOfVisitors
@@ -1287,7 +1286,8 @@ export const GetCheckoutSessionStatusDocument = gql`
       field
       message
     }
-    sessionStatus
+    reservationIds
+    payment_status
     sessionUrl
   }
 }

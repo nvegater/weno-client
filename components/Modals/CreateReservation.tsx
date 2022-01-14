@@ -42,7 +42,7 @@ async function handleBookingLinkRequest(
       email: email,
       paymentMetadata: username ? { username } : null,
     },
-    slotId: selectedSlot.id,
+    slotIds: [selectedSlot.id],
     cancelUrl: webpageBase + "/",
     successUrl: redirectUri + "/success",
     noOfVisitors: noOfVisitors,

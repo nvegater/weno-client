@@ -19,11 +19,16 @@ const Success = () => {
     verificationError,
     isVerified,
     retryVerificationLink,
+    reservationIds,
   } = useVerifySession({
     sessionId: session_id === undefined ? null : session_id,
   });
 
   // TODO Make Booking Reservation Confirmation and send an email
+
+  // use Reserve Mutation -> with username from tokenInfo if logged in or without it
+
+  console.log(reservationIds);
 
   return (
     <WenoLayout
@@ -46,18 +51,19 @@ const Success = () => {
           </Heading>
         </Flex>
       )}
-      {isVerified && (
-        <Flex justifyContent="center" m={5}>
-          <Heading>
-            Thanks for your booking. We are sending a confirmation email
-          </Heading>
-        </Flex>
-      )}
       {retryVerificationLink && (
         <Heading>
           Your booking is not complete ... you can finish it{" "}
           <Link href={retryVerificationLink}>here</Link>
         </Heading>
+      )}
+      {isVerified && (
+        <Flex justifyContent="center" m={5}>
+          <Heading>
+            Thank you for your booking. Your reservation details and
+            confirmation email will arrive in a second....
+          </Heading>
+        </Flex>
       )}
     </WenoLayout>
   );

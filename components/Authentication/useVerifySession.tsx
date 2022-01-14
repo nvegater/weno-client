@@ -10,6 +10,7 @@ interface UseVerifySessionHookResult {
   verificationError: boolean;
   isVerified: boolean;
   retryVerificationLink: string | null;
+  reservationIds: number[];
 }
 
 type UseVerifySessionHook = (
@@ -24,6 +25,7 @@ const useVerifySession: UseVerifySessionHook = ({ sessionId }) => {
 
   const [retryVerificationLink, setRetryVerificationLink] = useState(null);
 
+  const [reservationIds, setReservationIds] = useState<number[]>([]);
   const [
     {
       data: checkoutSession,
@@ -39,14 +41,17 @@ const useVerifySession: UseVerifySessionHook = ({ sessionId }) => {
   });
 
   useEffect(() => {
-    if (checkoutSession?.getCheckoutSessionStatus.sessionStatus === "open") {
+    if (checkoutSession?.getCheckoutSessionStatus.payment_status === "unpaid") {
       setRetryVerificationLink(
         checkoutSession?.getCheckoutSessionStatus.sessionUrl
       );
     } else if (
-      checkoutSession?.getCheckoutSessionStatus.sessionStatus === "complete"
+      checkoutSession?.getCheckoutSessionStatus.payment_status === "paid"
     ) {
       setSessionVerification(true);
+      const reservationIds = checkoutSession?.getCheckoutSessionStatus
+        .reservationIds as number[];
+      setReservationIds(reservationIds);
     }
   }, [checkoutSession]);
 
@@ -55,6 +60,7 @@ const useVerifySession: UseVerifySessionHook = ({ sessionId }) => {
     verificationError: Boolean(checkoutSessionError),
     isVerified: sessionVerification,
     retryVerificationLink,
+    reservationIds,
   };
 };
 

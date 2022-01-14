@@ -1,13 +1,13 @@
 mutation GetCheckoutLink(
   $createCustomerInputs: CreateCustomerInputs!
-  $slotId: Float!
+  $slotIds: [Int!]!
   $cancelUrl: String!
   $successUrl: String!
   $noOfVisitors: Float!
 ) {
   getCheckoutLink(
     createCustomerInputs: $createCustomerInputs
-    slotId: $slotId
+    slotIds: $slotIds
     cancelUrl: $cancelUrl
     successUrl: $successUrl
     noOfVisitors: $noOfVisitors
