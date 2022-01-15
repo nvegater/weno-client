@@ -19,16 +19,12 @@ const Success = () => {
     verificationError,
     isVerified,
     retryVerificationLink,
-    reservationIds,
+    reservations,
   } = useVerifySession({
     sessionId: session_id === undefined ? null : session_id,
   });
 
-  // TODO Make Booking Reservation Confirmation and send an email
-
-  // use Reserve Mutation -> with username from tokenInfo if logged in or without it
-
-  console.log(reservationIds);
+  console.log(reservations);
 
   return (
     <WenoLayout

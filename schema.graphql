@@ -13,7 +13,7 @@ type CheckoutLinkResponse {
 type CheckoutSessionResponse {
   errors: [FieldError!]
   payment_status: String
-  reservationIds: [Int!]
+  reservations: [ReservationDts!]
   sessionUrl: String
 }
 
@@ -252,6 +252,21 @@ type Reservation {
   paymentStatus: String!
   pricePerPersonInDollars: Float!
   slot: ExperienceSlot!
+  slotId: Int!
+  startDateTime: DateTime!
+  title: String!
+  updatedAt: DateTime!
+  username: String
+}
+
+type ReservationDts {
+  createdAt: DateTime!
+  email: String!
+  endDateTime: DateTime!
+  id: Int!
+  noOfAttendees: Int!
+  paymentStatus: String!
+  pricePerPersonInDollars: Float!
   slotId: Int!
   startDateTime: DateTime!
   title: String!
@@ -545,6 +560,8 @@ Valleys: if null, All the Valleys. Otherwise ONLY the selected ones.
 """
 input PaginatedExperiencesInputs {
   experiencesFilters: ExperiencesFilters!
+  getUpcomingSlots: Boolean
+  onlyWithAvailableSeats: Boolean
   paginationConfig: CursorPaginationInput!
 }
 

@@ -4,7 +4,9 @@ query GetCheckoutSessionStatus($sessionId: String!) {
       field
       message
     }
-    reservationIds
+    reservations {
+      ...Reservation
+    }
     payment_status
     sessionUrl
   }

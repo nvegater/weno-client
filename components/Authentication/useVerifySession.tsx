@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { useGetCheckoutSessionStatusQuery } from "../../graphql/generated/graphql";
+import {
+  ReservationFragment,
+  useGetCheckoutSessionStatusQuery,
+} from "../../graphql/generated/graphql";
 
 interface UseVerifySessionHookProps {
   sessionId: string | null | string[];
@@ -10,7 +13,7 @@ interface UseVerifySessionHookResult {
   verificationError: boolean;
   isVerified: boolean;
   retryVerificationLink: string | null;
-  reservationIds: number[];
+  reservations: ReservationFragment[] | null;
 }
 
 type UseVerifySessionHook = (
@@ -25,7 +28,6 @@ const useVerifySession: UseVerifySessionHook = ({ sessionId }) => {
 
   const [retryVerificationLink, setRetryVerificationLink] = useState(null);
 
-  const [reservationIds, setReservationIds] = useState<number[]>([]);
   const [
     {
       data: checkoutSession,
@@ -49,9 +51,6 @@ const useVerifySession: UseVerifySessionHook = ({ sessionId }) => {
       checkoutSession?.getCheckoutSessionStatus.payment_status === "paid"
     ) {
       setSessionVerification(true);
-      const reservationIds = checkoutSession?.getCheckoutSessionStatus
-        .reservationIds as number[];
-      setReservationIds(reservationIds);
     }
   }, [checkoutSession]);
 
@@ -60,7 +59,9 @@ const useVerifySession: UseVerifySessionHook = ({ sessionId }) => {
     verificationError: Boolean(checkoutSessionError),
     isVerified: sessionVerification,
     retryVerificationLink,
-    reservationIds,
+    reservations: sessionVerification
+      ? checkoutSession.getCheckoutSessionStatus.reservations
+      : null,
   };
 };
 
