@@ -257,6 +257,7 @@ type Reservation {
   title: String!
   updatedAt: DateTime!
   username: String
+  wineryName: String!
 }
 
 type ReservationDts {
@@ -272,6 +273,7 @@ type ReservationDts {
   title: String!
   updatedAt: DateTime!
   username: String
+  wineryName: String!
 }
 
 type Tier {

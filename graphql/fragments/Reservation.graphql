@@ -11,4 +11,5 @@ fragment Reservation on ReservationDts {
   title
   updatedAt
   username
+  wineryName
 }

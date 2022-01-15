@@ -497,6 +497,7 @@ export type Reservation = {
   id: Scalars['Int'];
   title: Scalars['String'];
   email: Scalars['String'];
+  wineryName: Scalars['String'];
   username?: Maybe<Scalars['String']>;
   noOfAttendees: Scalars['Int'];
   pricePerPersonInDollars: Scalars['Float'];
@@ -522,6 +523,7 @@ export type ReservationDts = {
   endDateTime: Scalars['DateTime'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  wineryName: Scalars['String'];
 };
 
 /** Languages supported by the Wineries */
@@ -681,7 +683,7 @@ export type PriceFragmentFragment = { id: string, type: string, currency: string
 
 export type ProductFragmentFragment = { id: string, name: string, description: string, images: Array<string>, unit_label: string, price: Array<{ id: string, type: string, currency: string, tiers?: Array<{ flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined }> | null | undefined }> };
 
-export type ReservationFragment = { createdAt: any, email: string, endDateTime: any, id: number, noOfAttendees: number, paymentStatus: string, pricePerPersonInDollars: number, slotId: number, startDateTime: any, title: string, updatedAt: any, username?: string | null | undefined };
+export type ReservationFragment = { createdAt: any, email: string, endDateTime: any, id: number, noOfAttendees: number, paymentStatus: string, pricePerPersonInDollars: number, slotId: number, startDateTime: any, title: string, updatedAt: any, username?: string | null | undefined, wineryName: string };
 
 export type SlotFragmentFragment = { id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any };
 
@@ -801,7 +803,7 @@ export type GetCheckoutSessionStatusQueryVariables = Exact<{
 }>;
 
 
-export type GetCheckoutSessionStatusQuery = { getCheckoutSessionStatus: { payment_status?: string | null | undefined, sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, reservations?: Array<{ createdAt: any, email: string, endDateTime: any, id: number, noOfAttendees: number, paymentStatus: string, pricePerPersonInDollars: number, slotId: number, startDateTime: any, title: string, updatedAt: any, username?: string | null | undefined }> | null | undefined } };
+export type GetCheckoutSessionStatusQuery = { getCheckoutSessionStatus: { payment_status?: string | null | undefined, sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, reservations?: Array<{ createdAt: any, email: string, endDateTime: any, id: number, noOfAttendees: number, paymentStatus: string, pricePerPersonInDollars: number, slotId: number, startDateTime: any, title: string, updatedAt: any, username?: string | null | undefined, wineryName: string }> | null | undefined } };
 
 export type WineryQueryVariables = Exact<{
   getWineryInputs: GetWineryInputs;
@@ -938,6 +940,7 @@ export const ReservationFragmentDoc = gql`
   title
   updatedAt
   username
+  wineryName
 }
     `;
 export const ExperienceImageFragmentFragmentDoc = gql`
