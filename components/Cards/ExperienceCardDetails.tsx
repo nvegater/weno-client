@@ -1,4 +1,12 @@
-import { Box, Flex, Img, LinkOverlay, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  Grid,
+  Img,
+  LinkOverlay,
+  Text,
+} from "@chakra-ui/react";
 import React from "react";
 import { IoCalendar, IoLocation, IoPeople } from "react-icons/io5";
 import { BsFillClockFill } from "react-icons/bs";
@@ -22,8 +30,8 @@ const IconLabel = (props: IconLabelProps) => {
   const { label, icon } = props;
   return (
     <Flex>
-      {icon}
-      <Text px="3.5">{label}</Text>
+      <Center color="white">{icon}</Center>
+      <Text pl="3.5">{label}</Text>
     </Flex>
   );
 };
@@ -32,31 +40,23 @@ const Card = (props: BlogProps) => {
   const { title, date, place, href, time, totalPeople, media } = props;
 
   return (
-    <Box
-      as="section"
-      borderRadius="12px"
-      width={"274px"}
-      position="relative"
-      display="flex"
-    >
-      <Box position="relative" display="inline-block">
-        <Img
-          height="274"
-          objectFit="cover"
-          alt={title}
-          src={media}
-          borderRadius="12px"
-        />
-      </Box>
+    <Grid borderRadius="12px" minW={"274px"} flexDirection="column">
+      <Img
+        alt={title}
+        src={media}
+        borderTopRadius="12px"
+        width="100%"
+        objectFit="cover"
+        px="2px"
+        gridColumnStart={1}
+        gridRowStart={1}
+      />
       <Box
-        as="section"
-        bg="brand.100"
         borderRadius="12px"
-        width={"274px"}
-        height={"288px"}
-        position="absolute"
-        bottom="-192px"
-        display="flex"
+        bg="brand.100"
+        gridColumnStart={1}
+        gridRowStart={1}
+        mt="10rem"
       >
         <Flex direction="column" px="5">
           <Flex py="4">
@@ -88,7 +88,7 @@ const Card = (props: BlogProps) => {
           </Flex>
         </Flex>
       </Box>
-    </Box>
+    </Grid>
   );
 };
 
