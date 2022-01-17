@@ -40,32 +40,29 @@ const Card = (props: BlogProps) => {
   const { title, date, place, href, time, totalPeople, media } = props;
 
   return (
-    <Grid borderRadius="12px" minW={"274px"} flexDirection="column">
+    <Grid borderRadius="12px" maxW="274px" flexDirection="column">
       <Img
         alt={title}
         src={media}
         borderTopRadius="12px"
         width="100%"
         objectFit="cover"
-        px="2px"
         gridColumnStart={1}
         gridRowStart={1}
       />
       <Box
-        borderRadius="12px"
+        borderRadius="14px"
         bg="brand.100"
         gridColumnStart={1}
         gridRowStart={1}
         mt="10rem"
       >
-        <Flex direction="column" px="5">
-          <Flex py="4">
-            <LinkOverlay href={href}>
-              <Text fontWeight="700" color="brand.200" fontSize="20px">
-                {title}
-              </Text>
-            </LinkOverlay>
-          </Flex>
+        <Flex flexDirection="column" px="5">
+          <LinkOverlay href={href}>
+            <Text fontWeight="700" color="brand.200" fontSize="20px" py="4">
+              {title}
+            </Text>
+          </LinkOverlay>
           <Flex
             flexDirection="column"
             justifyContent="space-around"
