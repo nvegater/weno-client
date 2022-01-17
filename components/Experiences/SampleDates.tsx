@@ -37,11 +37,11 @@ const timeFormatterOptions: DateTimeFormatOptions = {
 };
 const dateFormatter = new Intl.DateTimeFormat(undefined, timeFormatterOptions);
 
-function formatDateTime(date: Date) {
+export function formatDateTime(date: Date) {
   return dateFormatter.format(date);
 }
 
-function formatDate(date: Date) {
+export function formatDate(date: Date) {
   return date.toLocaleDateString("en-US", {
     month: "long",
     day: "2-digit",

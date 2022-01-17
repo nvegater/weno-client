@@ -6,6 +6,7 @@ import useVerifySession from "../../components/Authentication/useVerifySession";
 import { Flex, Heading, Link } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../graphql/urqlProvider";
+import { ReservationConfirmation } from "../../components/Orders/ReservationConfirmation";
 
 const Success = () => {
   const router = useRouter();
@@ -55,10 +56,7 @@ const Success = () => {
       )}
       {isVerified && (
         <Flex justifyContent="center" m={5}>
-          <Heading>
-            Thank you for your booking. Your reservation details and
-            confirmation email will arrive in a second....
-          </Heading>
+          <ReservationConfirmation reservations={reservations} />
         </Flex>
       )}
     </WenoLayout>

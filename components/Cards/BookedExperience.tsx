@@ -10,8 +10,9 @@ import {
 import React from "react";
 import { IoCalendar, IoLocation, IoPeople } from "react-icons/io5";
 import { BsFillClockFill } from "react-icons/bs";
+import { formatDate, formatDateTime } from "../Experiences/SampleDates";
 
-interface BlogProps {
+interface BookedExperienceProps {
   date: string;
   title: string;
   place: string;
@@ -19,6 +20,7 @@ interface BlogProps {
   time: string;
   totalPeople: string;
   media: string;
+  total: string;
 }
 
 interface IconLabelProps {
@@ -36,8 +38,8 @@ const IconLabel = (props: IconLabelProps) => {
   );
 };
 
-const Card = (props: BlogProps) => {
-  const { title, date, place, href, time, totalPeople, media } = props;
+const BookedExperience = (props: BookedExperienceProps) => {
+  const { title, date, place, href, time, totalPeople, media, total } = props;
 
   return (
     <Grid borderRadius="12px" maxW="274px" flexDirection="column">
@@ -69,10 +71,13 @@ const Card = (props: BlogProps) => {
             height="100%"
             gridRowGap="1"
           >
-            <IconLabel label={date} icon={<IoCalendar color="#BE5050" />} />
+            <IconLabel
+              label={formatDate(new Date(date))}
+              icon={<IoCalendar color="#BE5050" />}
+            />
             <IconLabel label={place} icon={<IoLocation color="#BE5050" />} />
             <IconLabel
-              label={time}
+              label={formatDateTime(new Date(time))}
               icon={<BsFillClockFill color="#BE5050" />}
             />
             <IconLabel
@@ -80,7 +85,7 @@ const Card = (props: BlogProps) => {
               icon={<IoPeople color="#BE5050" />}
             />
             <Flex justify="center" py="3">
-              <Text>Total: $4,000 MXN</Text>
+              <Text>Total: ${total} MXN</Text>
             </Flex>
           </Flex>
         </Flex>
@@ -89,16 +94,4 @@ const Card = (props: BlogProps) => {
   );
 };
 
-export const ExperienceCardDetails = () => {
-  return (
-    <Card
-      date="October, Sat 21st, 2021 "
-      href="#"
-      title="Wine Tasting"
-      place="Santo Tomas"
-      time="19:00 hrs"
-      totalPeople="2 people"
-      media="https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
-    />
-  );
-};
+export default BookedExperience;
