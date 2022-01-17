@@ -23,12 +23,14 @@ import { CreateExperience } from "../../../Experiences/CreateExperience";
 import { atom, useRecoilState } from "recoil";
 import { EditableExperiences } from "../../../Settings/Experiences/EditableExperiences";
 import { AllExperiences } from "./AllExperiences";
+import { Gallery } from "../../../Images/Gallery";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
   EDIT_INFO,
   ALL_EXPERIENCES,
   SCHEDULE,
+  GALLERY,
   NEW_EXPERIENCE,
   EDIT_EXPERIENCE,
   PAST_EXPERIENCES,
@@ -116,6 +118,13 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                   active={subPage === GeneratorSubpage.SCHEDULE}
                 />
                 <NavItem
+                  icon={<BiEnvelope />}
+                  label="Gallery"
+                  subPage={GeneratorSubpage.GALLERY}
+                  setSubPage={setSubPage}
+                  active={subPage === GeneratorSubpage.GALLERY}
+                />
+                <NavItem
                   icon={<BiPurchaseTagAlt />}
                   label="New experience"
                   subPage={GeneratorSubpage.NEW_EXPERIENCE}
@@ -198,6 +207,9 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
               )}
               {subPage === GeneratorSubpage.SCHEDULE && (
                 <div>Experiences Calendar</div>
+              )}
+              {subPage === GeneratorSubpage.GALLERY && (
+                <Gallery wineryAlias={winery.urlAlias} />
               )}
               {subPage === GeneratorSubpage.NEW_EXPERIENCE && (
                 <CreateExperience
