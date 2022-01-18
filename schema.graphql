@@ -69,16 +69,6 @@ type ExperienceImage {
   updatedAt: DateTime!
 }
 
-type ExperienceImageResponse {
-  errors: [FieldError!]
-  experienceImages: [ExperienceImageUpload!]!
-}
-
-type ExperienceImageUpload {
-  coverPage: Boolean!
-  imageUrl: String!
-}
-
 type ExperienceResponse {
   dateWithTimes: [DateWithTimes!]
   errors: [FieldError!]
@@ -131,10 +121,13 @@ type Mutation {
     slotIds: [Int!]!
     successUrl: String!
   ): CheckoutLinkResponse!
-  saveExperienceImagesUrls(
-    experienceId: Int!
-    preSignedUrls: [String!]!
-  ): ExperienceImageResponse!
+  preSignedUrl(
+    creatorUsername: String
+    fileNames: [String!]!
+    uploadType: UploadType!
+    wineryAlias: String
+    wineryId: Int
+  ): GetPreSignedUrlResponse!
   wineryOnboarding(wineryAlias: String!): OnboardingResponse!
 }
 
@@ -183,6 +176,7 @@ type PaginatedExperiencesWithSlots {
 }
 
 type PresignedResponse {
+  errors: [FieldError!]
   getUrl: String
   putUrl: String
 }
@@ -231,7 +225,6 @@ type Query {
   getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
   getSubscriptionProducts: ProductsResponse!
   getSubscriptionStatus(customerId: String!): String!
-  preSignedUrl(presignedUrlInputs: PresignedUrlInput!): GetPreSignedUrlResponse!
   recurrentDates(
     createRecurrentDatesInputs: CreateRecurrentDatesInputs!
   ): RecurrenceResponse!
@@ -333,6 +326,7 @@ type WineryImage {
   imageUrl: String!
   updatedAt: DateTime!
   winery: Winery!
+  wineryAlias: String!
   wineryId: Float!
 }
 
@@ -462,10 +456,9 @@ enum TypeWine {
 
 "Se pueden cargar imagenes para distintos elementos, usuarios, galerias de viñeros etc, etc"
 enum UploadType {
-  EXPERIENCEALBUM
-  USERPROFILEPICTURE
-  WINERYALBUM
-  WINERYLOGO
+  USER_PIC
+  WINERY_LOGO
+  WINERY_PIC
 }
 
 "A winery is in an unique valley, valleys are not identifiable through addresses"
@@ -569,17 +562,6 @@ input PaginatedExperiencesInputs {
 
 input PaymentMetadataInputs {
   username: String!
-}
-
-input PresignedUrlInput {
-  "opcional"
-  creatorUsername: String
-  "opcional"
-  experienceId: Float
-  fileNames: [String!]!
-  uploadType: UploadType!
-  "opcional"
-  wineryId: Float
 }
 
 input UserInputs {

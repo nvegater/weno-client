@@ -1,0 +1,26 @@
+mutation GetPresignedUrls(
+  $creatorUsername: String
+  $fileNames: [String!]!
+  $uploadType: UploadType!
+  $wineryAlias: String
+  $wineryId: Int
+) {
+  preSignedUrl(
+    creatorUsername: $creatorUsername
+    fileNames: $fileNames
+    uploadType: $uploadType
+    wineryAlias: $wineryAlias
+    wineryId: $wineryId
+  ) {
+    arrayUrl {
+      getUrl
+      putUrl
+      errors {
+        ...ErrorFragment
+      }
+    }
+    errors {
+      ...ErrorFragment
+    }
+  }
+}

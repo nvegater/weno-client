@@ -146,16 +146,6 @@ export type ExperienceImage = {
   updatedAt: Scalars['DateTime'];
 };
 
-export type ExperienceImageResponse = {
-  errors?: Maybe<Array<FieldError>>;
-  experienceImages: Array<ExperienceImageUpload>;
-};
-
-export type ExperienceImageUpload = {
-  imageUrl: Scalars['String'];
-  coverPage: Scalars['Boolean'];
-};
-
 export type ExperienceResponse = {
   errors?: Maybe<Array<FieldError>>;
   experience?: Maybe<Experience>;
@@ -257,7 +247,7 @@ export type Mutation = {
   createCustomer: CustomerResponse;
   getCheckoutLink: CheckoutLinkResponse;
   wineryOnboarding: OnboardingResponse;
-  saveExperienceImagesUrls: ExperienceImageResponse;
+  preSignedUrl: GetPreSignedUrlResponse;
 };
 
 
@@ -297,9 +287,12 @@ export type MutationWineryOnboardingArgs = {
 };
 
 
-export type MutationSaveExperienceImagesUrlsArgs = {
-  preSignedUrls: Array<Scalars['String']>;
-  experienceId: Scalars['Int'];
+export type MutationPreSignedUrlArgs = {
+  creatorUsername?: Maybe<Scalars['String']>;
+  wineryAlias?: Maybe<Scalars['String']>;
+  wineryId?: Maybe<Scalars['Int']>;
+  uploadType: UploadType;
+  fileNames: Array<Scalars['String']>;
 };
 
 export type OnboardingResponse = {
@@ -382,17 +375,7 @@ export type PaymentMetadataInputs = {
 export type PresignedResponse = {
   getUrl?: Maybe<Scalars['String']>;
   putUrl?: Maybe<Scalars['String']>;
-};
-
-export type PresignedUrlInput = {
-  fileNames: Array<Scalars['String']>;
-  uploadType: UploadType;
-  /** opcional */
-  wineryId?: Maybe<Scalars['Float']>;
-  /** opcional */
-  experienceId?: Maybe<Scalars['Float']>;
-  /** opcional */
-  creatorUsername?: Maybe<Scalars['String']>;
+  errors?: Maybe<Array<FieldError>>;
 };
 
 export type Price = {
@@ -438,7 +421,6 @@ export type Query = {
   getSubscriptionProducts: ProductsResponse;
   getCheckoutSessionStatus: CheckoutSessionResponse;
   getSubscriptionStatus: Scalars['String'];
-  preSignedUrl: GetPreSignedUrlResponse;
 };
 
 
@@ -481,11 +463,6 @@ export type QueryGetCheckoutSessionStatusArgs = {
 
 export type QueryGetSubscriptionStatusArgs = {
   customerId: Scalars['String'];
-};
-
-
-export type QueryPreSignedUrlArgs = {
-  presignedUrlInputs: PresignedUrlInput;
 };
 
 export type RecurrenceResponse = {
@@ -575,10 +552,9 @@ export enum TypeWine {
 
 /** Se pueden cargar imagenes para distintos elementos, usuarios, galerias de viñeros etc, etc */
 export enum UploadType {
-  Wineryalbum = 'WINERYALBUM',
-  Userprofilepicture = 'USERPROFILEPICTURE',
-  Experiencealbum = 'EXPERIENCEALBUM',
-  Winerylogo = 'WINERYLOGO'
+  WineryPic = 'WINERY_PIC',
+  WineryLogo = 'WINERY_LOGO',
+  UserPic = 'USER_PIC'
 }
 
 export type UserInputs = {
@@ -646,6 +622,7 @@ export type Winery = {
 export type WineryImage = {
   id: Scalars['Float'];
   wineryId: Scalars['Float'];
+  wineryAlias: Scalars['String'];
   winery: Winery;
   imageUrl: Scalars['String'];
   coverPage?: Maybe<Scalars['Boolean']>;
@@ -727,13 +704,16 @@ export type GetCheckoutLinkMutationVariables = Exact<{
 
 export type GetCheckoutLinkMutation = { getCheckoutLink: { link?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
 
-export type SaveExperienceImagesUrlsMutationVariables = Exact<{
-  preSignedUrls: Array<Scalars['String']> | Scalars['String'];
-  experienceId: Scalars['Int'];
+export type GetPresignedUrlsMutationVariables = Exact<{
+  creatorUsername?: Maybe<Scalars['String']>;
+  fileNames: Array<Scalars['String']> | Scalars['String'];
+  uploadType: UploadType;
+  wineryAlias?: Maybe<Scalars['String']>;
+  wineryId?: Maybe<Scalars['Int']>;
 }>;
 
 
-export type SaveExperienceImagesUrlsMutation = { saveExperienceImagesUrls: { errors?: Array<{ field: string, message: string }> | null | undefined, experienceImages: Array<{ imageUrl: string, coverPage: boolean }> } };
+export type GetPresignedUrlsMutation = { preSignedUrl: { arrayUrl?: Array<{ getUrl?: string | null | undefined, putUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined }> | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
 
 export type WineryOnboardingMutationVariables = Exact<{
   wineryAlias: Scalars['String'];
@@ -785,13 +765,6 @@ export type GetSubscriptionStatusQueryVariables = Exact<{
 
 
 export type GetSubscriptionStatusQuery = { getSubscriptionStatus: string };
-
-export type PreSignedUrlQueryVariables = Exact<{
-  presignedUrlInputs: PresignedUrlInput;
-}>;
-
-
-export type PreSignedUrlQuery = { preSignedUrl: { errors?: Array<{ field: string, message: string }> | null | undefined, arrayUrl?: Array<{ getUrl?: string | null | undefined, putUrl?: string | null | undefined }> | null | undefined } };
 
 export type SubscriptionProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1103,26 +1076,31 @@ export const GetCheckoutLinkDocument = gql`
 export function useGetCheckoutLinkMutation() {
   return Urql.useMutation<GetCheckoutLinkMutation, GetCheckoutLinkMutationVariables>(GetCheckoutLinkDocument);
 };
-export const SaveExperienceImagesUrlsDocument = gql`
-    mutation SaveExperienceImagesUrls($preSignedUrls: [String!]!, $experienceId: Int!) {
-  saveExperienceImagesUrls(
-    preSignedUrls: $preSignedUrls
-    experienceId: $experienceId
+export const GetPresignedUrlsDocument = gql`
+    mutation GetPresignedUrls($creatorUsername: String, $fileNames: [String!]!, $uploadType: UploadType!, $wineryAlias: String, $wineryId: Int) {
+  preSignedUrl(
+    creatorUsername: $creatorUsername
+    fileNames: $fileNames
+    uploadType: $uploadType
+    wineryAlias: $wineryAlias
+    wineryId: $wineryId
   ) {
-    errors {
-      field
-      message
+    arrayUrl {
+      getUrl
+      putUrl
+      errors {
+        ...ErrorFragment
+      }
     }
-    experienceImages {
-      imageUrl
-      coverPage
+    errors {
+      ...ErrorFragment
     }
   }
 }
-    `;
+    ${ErrorFragmentFragmentDoc}`;
 
-export function useSaveExperienceImagesUrlsMutation() {
-  return Urql.useMutation<SaveExperienceImagesUrlsMutation, SaveExperienceImagesUrlsMutationVariables>(SaveExperienceImagesUrlsDocument);
+export function useGetPresignedUrlsMutation() {
+  return Urql.useMutation<GetPresignedUrlsMutation, GetPresignedUrlsMutationVariables>(GetPresignedUrlsDocument);
 };
 export const WineryOnboardingDocument = gql`
     mutation WineryOnboarding($wineryAlias: String!) {
@@ -1264,23 +1242,6 @@ export const GetSubscriptionStatusDocument = gql`
 
 export function useGetSubscriptionStatusQuery(options: Omit<Urql.UseQueryArgs<GetSubscriptionStatusQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetSubscriptionStatusQuery>({ query: GetSubscriptionStatusDocument, ...options });
-};
-export const PreSignedUrlDocument = gql`
-    query PreSignedUrl($presignedUrlInputs: PresignedUrlInput!) {
-  preSignedUrl(presignedUrlInputs: $presignedUrlInputs) {
-    errors {
-      ...ErrorFragment
-    }
-    arrayUrl {
-      ...PreSignedUrl
-    }
-  }
-}
-    ${ErrorFragmentFragmentDoc}
-${PreSignedUrlFragmentDoc}`;
-
-export function usePreSignedUrlQuery(options: Omit<Urql.UseQueryArgs<PreSignedUrlQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<PreSignedUrlQuery>({ query: PreSignedUrlDocument, ...options });
 };
 export const SubscriptionProductsDocument = gql`
     query SubscriptionProducts {
