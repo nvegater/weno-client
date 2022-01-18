@@ -3,7 +3,7 @@ import { FormControl, Image, Input } from "@chakra-ui/react";
 
 interface PreviewImageProps {}
 
-export const PreviewImage: FC<PreviewImageProps> = ({}) => {
+export const InputImageWithPreview: FC<PreviewImageProps> = () => {
   const [previewImage, setPreviewImage] = useState<string>("");
 
   function handleOnChange(changeEvent): void {

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { Button, FormControl, Input } from "@chakra-ui/react";
-import { PreviewImage } from "./PreviewImage";
+import { InputImageWithPreview } from "./InputImageWithPreview";
 import {
   UploadType,
   useGetPresignedUrlsMutation,
@@ -74,7 +74,7 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
 
   return (
     <FormControlImages setFile={setFile} setFileName={setFileName}>
-      <PreviewImage />
+      <InputImageWithPreview />
       <FormControl isRequired>
         <Input
           my={1}
