@@ -19,6 +19,7 @@ export const Gallery: FC<GalleryProps> = ({
   wineryId,
   contextHeader,
 }) => {
+  // TODO get images from winery
   return (
     <Grid gridTemplateColumns="repeat(auto-fit, minmax(274px, 1fr))" gap={3}>
       {images_const.map((imageUrl, index) => {

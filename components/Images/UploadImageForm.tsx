@@ -11,20 +11,23 @@ import { FormControlImages } from "./FormControlImages";
 async function uploadFileWithPreSignedUrl(
   file: File,
   uploadUrl: string
-): Promise<void> {
-  await fetch(uploadUrl, {
-    method: "PUT",
-    body: file,
-    headers: {
-      "Content-Type": file.type,
-      "x-amz-acl": "public-read",
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": "true",
-    },
-  }).then((r) => {
-    if (!r.ok) {
-      throw new Error("HTTP status " + r.status);
-    }
+): Promise<boolean> {
+  return new Promise(async (resolve, reject) => {
+    await fetch(uploadUrl, {
+      method: "PUT",
+      body: file,
+      headers: {
+        "Content-Type": file.type,
+        "x-amz-acl": "public-read",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+      },
+    }).then((r) => {
+      if (!r.ok) {
+        reject(false);
+      }
+      resolve(true);
+    });
   });
 }
 
@@ -63,7 +66,13 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
         if (uploadUrl?.errors?.length > 0 || uploadUrl.putUrl == null) {
           return;
         }
-        await uploadFileWithPreSignedUrl(file, uploadUrl!.putUrl);
+        const isUploaded = await uploadFileWithPreSignedUrl(
+          file,
+          uploadUrl!.putUrl
+        );
+        if (isUploaded) {
+          // TODO save images in the DB
+        }
       }
       setLoading(false);
       setFileName("");
