@@ -2,33 +2,22 @@ import React, { FC, FormEvent, ReactNode } from "react";
 import { FormControl } from "@chakra-ui/react";
 
 interface FileInputsCleanerProps {
-  setFile: React.Dispatch<React.SetStateAction<File>>;
-  setFileName: React.Dispatch<React.SetStateAction<string>>;
+  setFileOnSubmit: React.Dispatch<React.SetStateAction<File>>;
   children: ReactNode;
 }
 
 export const FormControlImages: FC<FileInputsCleanerProps> = ({
-  setFile,
-  setFileName,
+  setFileOnSubmit,
   children,
 }) => {
-  const getInputValuesAfterSubmit = (e: FormEvent<HTMLDivElement>) => {
+  const getFile = (e: FormEvent<HTMLDivElement>) => {
     const event = e as unknown as FormEvent<HTMLFormElement>;
     const fileInput = Array.from(event.currentTarget.elements).find(
       // @ts-ignore
       (element) => element.name === "file"
     );
-
-    const fileNameInput = Array.from(event.currentTarget.elements).find(
-      // @ts-ignore
-      (element) => element.name === "fileName"
-    );
     const formFileInput = fileInput as HTMLInputElement;
-    const formFileNameInput = fileNameInput as HTMLInputElement;
-
-    // This triggers the useEffect down There to get the pre-signed urls
-    setFile(formFileInput.files.item(0));
-    setFileName(formFileNameInput.value);
+    setFileOnSubmit(formFileInput.files.item(0));
   };
 
   return (
@@ -37,7 +26,7 @@ export const FormControlImages: FC<FileInputsCleanerProps> = ({
       method="post"
       onSubmit={(event) => {
         event.preventDefault();
-        getInputValuesAfterSubmit(event);
+        getFile(event);
       }}
       display="flex"
       justifyContent="center"

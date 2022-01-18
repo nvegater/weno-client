@@ -44,6 +44,7 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
   const [fileName, setFileName] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [resetImage, setResetImage] = useState(false);
 
   useEffect(() => {
     const asyncFn = async () => {
@@ -63,18 +64,23 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
           return;
         }
         await uploadFileWithPreSignedUrl(file, uploadUrl!.putUrl);
-        setLoading(false);
       }
+      setLoading(false);
+      setFileName("");
+      setResetImage(true);
     };
     if (!loading && fileName) {
       setLoading(true);
       asyncFn();
     }
-  }, [file, fileName]);
+  }, [file]);
 
   return (
-    <FormControlImages setFile={setFile} setFileName={setFileName}>
-      <InputImageWithPreview />
+    <FormControlImages setFileOnSubmit={setFile}>
+      <InputImageWithPreview
+        resetImage={resetImage}
+        setResetImage={setResetImage}
+      />
       <FormControl isRequired>
         <Input
           my={1}
@@ -82,6 +88,10 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
           name="fileName"
           id="fileName"
           placeholder="Image name"
+          onChange={(e) => {
+            setFileName(e.target.value);
+          }}
+          value={fileName}
         />
       </FormControl>
       <Button type="submit" isLoading={loading}>
