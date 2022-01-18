@@ -209,7 +209,11 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 <div>Experiences Calendar</div>
               )}
               {subPage === GeneratorSubpage.GALLERY && (
-                <Gallery wineryAlias={winery.urlAlias} />
+                <Gallery
+                  wineryAlias={winery.urlAlias}
+                  wineryId={winery.id}
+                  contextHeader={contextHeader}
+                />
               )}
               {subPage === GeneratorSubpage.NEW_EXPERIENCE && (
                 <CreateExperience
