@@ -36,7 +36,7 @@ export const InputImageWithPreview: FC<PreviewImageProps> = ({
         ref.current.value = "";
       }
     }
-  }, [resetImage]);
+  }, [resetImage, setResetImage]);
 
   return (
     <>
