@@ -55,7 +55,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box>
+    <Box mx={[null, null, 10, 20]}>
       <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
         <DrawerContent>
           <DrawerCloseButton />

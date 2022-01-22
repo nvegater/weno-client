@@ -71,7 +71,11 @@ const Home = () => {
         >
           <Hero authenticated={authenticated} register={register} />
 
-          <Flex justifyContent="space-between" p={5}>
+          <Flex
+            justifyContent={["space-between", null, null, "space-around"]}
+            py={5}
+            mx={[10, 10, 10, 20]}
+          >
             <Heading as="h1" color="brand.200" fontWeight="700" size="2xl">
               Experiences
             </Heading>
