@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
-import { Center, Flex, Grid, Heading, Image } from "@chakra-ui/react";
+import { Center, Flex, Grid, Heading } from "@chakra-ui/react";
 import { ContextHeader } from "../Authentication/useAuth";
 import { UploadImageForm } from "./UploadImageForm";
 import { useWineryImagesQuery } from "../../graphql/generated/graphql";
+import { ImageOptions } from "./ImageOptions";
 
 interface GalleryProps {
   wineryAlias: string;
@@ -30,42 +31,36 @@ export const Gallery: FC<GalleryProps> = ({
   }, [data]);
 
   return (
-    <Grid gridTemplateColumns="repeat(auto-fit, minmax(274px, 1fr))" gap={3}>
-      {error && (
-        <Flex justifyContent="center" m={5}>
-          <Heading as="h2" size="xl">
-            Error downloading images
-          </Heading>
-        </Flex>
-      )}
-      {fetching && (
-        <Flex justifyContent="center" m={5}>
-          <Heading as="h2" size="xl">
-            Fetching your images
-          </Heading>
-        </Flex>
-      )}
-      {images.map((image, index) => {
-        return (
-          <Image
-            key={index}
-            src={image}
-            alt={index.toString()}
-            boxSize="250px"
-            objectFit="cover"
-            m={5}
-            borderRadius="12px"
+    <>
+      <Grid gridTemplateColumns="repeat(auto-fit, minmax(274px, 1fr))" gap={3}>
+        {error && (
+          <Flex justifyContent="center" m={5}>
+            <Heading as="h2" size="xl">
+              Error downloading images
+            </Heading>
+          </Flex>
+        )}
+        {fetching && (
+          <Flex justifyContent="center" m={5}>
+            <Heading as="h2" size="xl">
+              Fetching your images
+            </Heading>
+          </Flex>
+        )}
+        {images.map((image, index) => {
+          return <ImageOptions key={index} imageUrl={image} />;
+        })}
+      </Grid>
+      <Flex justifyContent="center" alignItems="center">
+        <Center>
+          <UploadImageForm
+            wineryAlias={wineryAlias}
+            wineryId={wineryId}
+            contextHeader={contextHeader}
+            setImages={setImages}
           />
-        );
-      })}
-      <Center>
-        <UploadImageForm
-          wineryAlias={wineryAlias}
-          wineryId={wineryId}
-          contextHeader={contextHeader}
-          setImages={setImages}
-        />
-      </Center>
-    </Grid>
+        </Center>
+      </Flex>
+    </>
   );
 };
