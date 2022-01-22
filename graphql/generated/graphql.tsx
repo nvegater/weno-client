@@ -187,6 +187,7 @@ export type FieldError = {
 };
 
 export type GetImage = {
+  id: Scalars['Int'];
   imageName: Scalars['String'];
   getUrl: Scalars['String'];
 };
@@ -250,7 +251,7 @@ export type ImageGalleryResponse = {
 
 export type InsertImageResponse = {
   errors?: Maybe<Array<FieldError>>;
-  imageNames?: Maybe<Array<Scalars['String']>>;
+  images?: Maybe<Array<GetImage>>;
 };
 
 export type Mutation = {
@@ -679,7 +680,7 @@ export type ExperienceInfoFragment = { createdAt: any, id: number, title: string
 
 export type ExperienceWineryInfoFragment = { name: string, valley: Valley };
 
-export type GetImageFragment = { imageName: string, getUrl: string };
+export type GetImageFragment = { id: number, imageName: string, getUrl: string };
 
 export type PaginatedExperienceFragment = { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType };
 
@@ -755,7 +756,7 @@ export type SaveImagesMutationVariables = Exact<{
 }>;
 
 
-export type SaveImagesMutation = { saveImages: { imageNames?: Array<string> | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
+export type SaveImagesMutation = { saveImages: { errors?: Array<{ field: string, message: string }> | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined } };
 
 export type WineryOnboardingMutationVariables = Exact<{
   wineryAlias: Scalars['String'];
@@ -833,7 +834,7 @@ export type WineryImagesQueryVariables = Exact<{
 }>;
 
 
-export type WineryImagesQuery = { wineryImages: { errors?: Array<{ field: string, message: string }> | null | undefined, gallery?: Array<{ imageName: string, getUrl: string }> | null | undefined } };
+export type WineryImagesQuery = { wineryImages: { errors?: Array<{ field: string, message: string }> | null | undefined, gallery?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined } };
 
 export const DateWithTimesFragmentDoc = gql`
     fragment DateWithTimes on DateWithTimes {
@@ -865,6 +866,7 @@ export const ExperienceWineryInfoFragmentDoc = gql`
     `;
 export const GetImageFragmentDoc = gql`
     fragment GetImage on GetImage {
+  id
   imageName
   getUrl
 }
@@ -1168,10 +1170,13 @@ export const SaveImagesDocument = gql`
     errors {
       ...ErrorFragment
     }
-    imageNames
+    images {
+      ...GetImage
+    }
   }
 }
-    ${ErrorFragmentFragmentDoc}`;
+    ${ErrorFragmentFragmentDoc}
+${GetImageFragmentDoc}`;
 
 export function useSaveImagesMutation() {
   return Urql.useMutation<SaveImagesMutation, SaveImagesMutationVariables>(SaveImagesDocument);

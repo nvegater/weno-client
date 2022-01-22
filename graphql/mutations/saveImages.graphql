@@ -11,6 +11,8 @@ mutation SaveImages(
     errors {
       ...ErrorFragment
     }
-    imageNames
+    images {
+      ...GetImage
+    }
   }
 }

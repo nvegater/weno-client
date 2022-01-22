@@ -8,6 +8,7 @@ import React, {
 import { Button, Flex, FormControl, Heading, Input } from "@chakra-ui/react";
 import { InputImageWithPreview } from "./InputImageWithPreview";
 import {
+  GetImage,
   UploadType,
   useGetPresignedUrlsMutation,
   useSaveImagesMutation,
@@ -42,7 +43,7 @@ interface UploadImageFormProps {
   wineryAlias: string;
   wineryId: number;
   contextHeader: ContextHeader;
-  setImages: Dispatch<SetStateAction<string[]>>;
+  setImages: Dispatch<SetStateAction<GetImage[]>>;
 }
 
 export const UploadImageForm: FC<UploadImageFormProps> = ({
@@ -96,13 +97,14 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
             },
             { ...contextHeader, requestPolicy: "network-only" }
           );
-          const getUrl = data.preSignedUrl.arrayUrl[0].getUrl;
           if (error) {
             setError(error);
             return;
           }
-          setSavedImageNames([savedImage.saveImages.imageNames]);
-          setImages((images) => [...images, getUrl]);
+          setSavedImageNames([
+            savedImage.saveImages.images.map((i) => i.imageName),
+          ]);
+          setImages((images) => [...images, ...savedImage.saveImages.images]);
         }
       }
       setLoading(false);

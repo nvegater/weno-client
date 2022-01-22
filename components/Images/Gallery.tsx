@@ -2,7 +2,10 @@ import React, { FC, useEffect, useState } from "react";
 import { Center, Flex, Grid, Heading } from "@chakra-ui/react";
 import { ContextHeader } from "../Authentication/useAuth";
 import { UploadImageForm } from "./UploadImageForm";
-import { useWineryImagesQuery } from "../../graphql/generated/graphql";
+import {
+  GetImage,
+  useWineryImagesQuery,
+} from "../../graphql/generated/graphql";
 import { ImageOptions } from "./ImageOptions";
 
 interface GalleryProps {
@@ -22,11 +25,11 @@ export const Gallery: FC<GalleryProps> = ({
     requestPolicy: "network-only",
   });
 
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<GetImage[]>([]);
 
   useEffect(() => {
     if (data?.wineryImages.gallery) {
-      setImages(data.wineryImages.gallery.map((img) => img.getUrl));
+      setImages(data.wineryImages.gallery);
     }
   }, [data]);
 
@@ -47,8 +50,14 @@ export const Gallery: FC<GalleryProps> = ({
             </Heading>
           </Flex>
         )}
-        {images.map((image, index) => {
-          return <ImageOptions key={index} imageUrl={image} />;
+        {images.map((image) => {
+          return (
+            <ImageOptions
+              key={image.id}
+              imageUrl={image.getUrl}
+              imageId={image.id}
+            />
+          );
         })}
       </Grid>
       <Flex justifyContent="center" alignItems="center">

@@ -11,9 +11,10 @@ import { RiPlayListAddLine } from "react-icons/Ri";
 
 interface ImageOptionsProps {
   imageUrl: string;
+  imageId: number;
 }
 
-export const ImageOptions: FC<ImageOptionsProps> = ({ imageUrl }) => {
+export const ImageOptions: FC<ImageOptionsProps> = ({ imageId, imageUrl }) => {
   // TODO add To experience Mutation and useAsCoverPicture Mutation
   // Add Side
   return (
