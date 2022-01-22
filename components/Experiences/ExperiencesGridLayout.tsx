@@ -108,6 +108,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
                   {...exp}
                   setExperienceId={setExperienceId}
                   openModal={onOpen}
+                  image={exp.images[0]}
                 />
               </Flex>
             ))}

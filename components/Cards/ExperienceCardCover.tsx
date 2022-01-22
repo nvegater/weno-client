@@ -1,11 +1,13 @@
 import { Box, Flex, Heading, Img, Tooltip } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { FavoriteExperience } from "../Experiences/FavoriteExperience";
+import { GetImageFragment } from "../../graphql/generated/graphql";
 
 interface ExperienceCardCoverProps {
   id: number;
   title: string;
   wineryName: string;
+  image: GetImageFragment;
   setExperienceId: React.Dispatch<React.SetStateAction<number>>;
   openModal: () => void;
 }
@@ -16,6 +18,7 @@ export const ExperienceCardCover: FC<ExperienceCardCoverProps> = ({
   wineryName,
   setExperienceId,
   openModal,
+  image,
 }) => {
   const placeHolderImage =
     "https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
@@ -49,9 +52,11 @@ export const ExperienceCardCover: FC<ExperienceCardCoverProps> = ({
           </Heading>
         </Tooltip>
         <Img
-          src={placeHolderImage}
+          src={image?.getUrl ? image.getUrl : placeHolderImage}
           alt={title}
-          width="100%"
+          boxSize="250px"
+          h="220px"
+          w="100%"
           objectFit="cover"
         />
       </Box>

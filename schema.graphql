@@ -179,6 +179,7 @@ type PaginatedExperience {
   description: String!
   experienceType: ExperienceType!
   id: Int!
+  images: [GetImage!]
   pricePerPersonInDollars: Float!
   slots: [ExperienceSlot!]
   title: String!

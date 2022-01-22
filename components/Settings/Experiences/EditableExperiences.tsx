@@ -86,7 +86,7 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
         noOfExperiences={experiences.length}
         handlePaginationRequest={handlePaginationRequest}
         paginationConfig={paginationConfig}
-        newPaginationConfig={data.editableExperiences.paginationConfig}
+        newPaginationConfig={data?.editableExperiences?.paginationConfig}
       />
     </>
   );
