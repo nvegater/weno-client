@@ -48,10 +48,15 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
     if (error) {
       setMessage(error.message);
     }
-    if (imagesData.addImageToExperience.errors) {
+    if (
+      imagesData?.addImageToExperience &&
+      imagesData.addImageToExperience.errors
+    ) {
       setMessage(imagesData.addImageToExperience.errors[0].message);
     }
-    const images = imagesData.addImageToExperience.images;
+    const images = imagesData?.addImageToExperience
+      ? imagesData.addImageToExperience.images
+      : [];
     if (images.length > 0) {
       setMessage(`${images[0].imageName} was added to ${title}`);
     }
@@ -61,9 +66,17 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
       <DrawerContent>
         <DrawerCloseButton />
         <DrawerBody>
-          <Heading as="h1" color="brand.200" fontWeight="700" size="xl" my={8}>
-            Add this image:
-          </Heading>
+          {message === null && (
+            <Heading
+              as="h1"
+              color="brand.200"
+              fontWeight="700"
+              size="xl"
+              my={8}
+            >
+              Add this image:
+            </Heading>
+          )}
 
           <Image
             src={imageUrl}
@@ -73,9 +86,18 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
             m={5}
             borderRadius="12px"
           />
-          <Heading as="h2" color="brand.200" fontWeight="700" size="md" my={8}>
-            To this experience:
-          </Heading>
+
+          {message === null && (
+            <Heading
+              as="h2"
+              color="brand.200"
+              fontWeight="700"
+              size="md"
+              my={8}
+            >
+              To this experience:
+            </Heading>
+          )}
 
           {message && (
             <Flex justifyContent="center" m={5}>
