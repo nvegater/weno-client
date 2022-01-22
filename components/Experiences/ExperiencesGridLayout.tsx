@@ -16,8 +16,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import {
-  PaginatedExperience,
-  PaginatedExperienceWithSlots,
+  PaginatedExperienceFragment,
+  PaginatedExperienceLightFragment,
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
 
@@ -28,7 +28,10 @@ export enum ExperiencesGridMode {
 }
 
 interface ExperiencesGridLayoutProps {
-  experiences: (PaginatedExperience | PaginatedExperienceWithSlots)[];
+  experiences: (
+    | PaginatedExperienceFragment
+    | PaginatedExperienceLightFragment
+  )[];
   mode: ExperiencesGridMode;
   preSelectedExperienceId?: number;
   winery?: WineryFragmentFragment;
@@ -63,7 +66,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
             {mode === ExperiencesGridMode.EDIT && (
               <EditExperienceModal
                 experienceId={experienceId}
-                experiences={experiences as PaginatedExperienceWithSlots[]}
+                experiences={experiences as PaginatedExperienceFragment[]}
                 winery={winery}
               />
             )}

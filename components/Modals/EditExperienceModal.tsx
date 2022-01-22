@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import {
-  PaginatedExperienceWithSlots,
+  PaginatedExperienceFragment,
   SlotFragmentFragment,
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
@@ -12,7 +12,7 @@ import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
 
 interface EditExperienceModalProps {
   experienceId: number;
-  experiences: PaginatedExperienceWithSlots[];
+  experiences: PaginatedExperienceFragment[];
   winery: WineryFragmentFragment;
 }
 
@@ -28,7 +28,7 @@ export function getSlotsFromDate(
 }
 
 function getExperienceById(
-  experiences: PaginatedExperienceWithSlots[],
+  experiences: PaginatedExperienceFragment[],
   experienceId: number
 ) {
   return experiences.find((exp) => exp.id === experienceId);
@@ -46,7 +46,7 @@ export const EditExperienceModal: FC<EditExperienceModalProps> = ({
     formatISO(new Date(), { format: "extended" })
   );
 
-  const selectedExperience: PaginatedExperienceWithSlots | undefined = useMemo(
+  const selectedExperience: PaginatedExperienceFragment | undefined = useMemo(
     () => getExperienceById(experiences, experienceId),
     [experienceId, experiences]
   );

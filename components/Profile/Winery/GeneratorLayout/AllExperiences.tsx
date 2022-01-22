@@ -4,7 +4,7 @@ import {
   ExperiencesGridMode,
 } from "../../../Experiences/ExperiencesGridLayout";
 import {
-  PaginatedExperience,
+  PaginatedExperienceLightFragment,
   useExperiencesQuery,
 } from "../../../../graphql/generated/graphql";
 import { Button, Flex } from "@chakra-ui/react";
@@ -16,7 +16,9 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
   const [paginationConfig, experiencesFilters, handlePaginationRequest] =
     useFiltersPagination();
 
-  const [experiences, setExperiences] = useState<PaginatedExperience[]>([]);
+  const [experiences, setExperiences] = useState<
+    PaginatedExperienceLightFragment[]
+  >([]);
 
   const [{ data, fetching, error: networkError }] = useExperiencesQuery({
     variables: {

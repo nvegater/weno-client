@@ -10,7 +10,7 @@ import {
   ExperiencesGridMode,
 } from "../components/Experiences/ExperiencesGridLayout";
 import {
-  PaginatedExperience,
+  PaginatedExperienceLightFragment,
   useBookableExperiencesQuery,
 } from "../graphql/generated/graphql";
 import useFiltersPagination from "../components/utils/useFiltersPagination";
@@ -24,7 +24,9 @@ const Home = () => {
   const [paginationConfig, experiencesFilters, handlePaginationRequest] =
     useFiltersPagination();
 
-  const [experiences, setExperiences] = useState<PaginatedExperience[]>([]);
+  const [experiences, setExperiences] = useState<
+    PaginatedExperienceLightFragment[]
+  >([]);
 
   const [{ data, fetching, error: networkError }] = useBookableExperiencesQuery(
     {

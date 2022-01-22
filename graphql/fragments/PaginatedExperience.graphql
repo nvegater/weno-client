@@ -8,4 +8,19 @@ fragment PaginatedExperience on PaginatedExperience {
   wineryName
   allAttendeesAllSlots
   experienceType
+  slots {
+    ...SlotFragment
+  }
+}
+
+fragment PaginatedExperienceLight on PaginatedExperience {
+  createdAt
+  id
+  title
+  description
+  pricePerPersonInDollars
+  wineryId
+  wineryName
+  allAttendeesAllSlots
+  experienceType
 }

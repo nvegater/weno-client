@@ -7,7 +7,7 @@ import { ContextHeader } from "../../Authentication/useAuth";
 import { useRecoilValue } from "recoil";
 import { createdExperienceIdState } from "../../Experiences/CreateExperience";
 import {
-  PaginatedExperience,
+  PaginatedExperienceFragment,
   useEditableExperiencesQuery,
   WineryFragmentFragment,
 } from "../../../graphql/generated/graphql";
@@ -29,7 +29,9 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
   const [paginationConfig, experiencesFilters, handlePaginationRequest] =
     useFiltersPagination();
 
-  const [experiences, setExperiences] = useState<PaginatedExperience[]>([]);
+  const [experiences, setExperiences] = useState<PaginatedExperienceFragment[]>(
+    []
+  );
 
   const [{ data, fetching, error: networkError }] = useEditableExperiencesQuery(
     {
@@ -47,7 +49,8 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
 
   useEffect(() => {
     if (data && data.editableExperiences.experiences) {
-      const newExps = data?.editableExperiences?.experiences;
+      const newExps: PaginatedExperienceFragment[] =
+        data?.editableExperiences?.experiences;
       const newTitles = newExps.map((exp) => exp.title);
       const oldTitles = experiences.map((exp) => exp.title);
       if (!newTitles.some((newTitle) => oldTitles.includes(newTitle))) {
