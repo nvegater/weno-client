@@ -65,7 +65,10 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
 
   return (
     <Box>
-      <Img src={images ? coverImage.getUrl : placeHolderImage} alt={"any"} />
+      <Img
+        src={coverImage ? coverImage.getUrl : placeHolderImage}
+        alt={`image from ${experienceInfo.title}`}
+      />
 
       <Heading as="h1" color="brand.200" fontWeight="700" size="2xl" mt={8}>
         {experienceInfo.title}
