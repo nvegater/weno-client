@@ -1,9 +1,16 @@
-import React, { FC, useEffect, useState } from "react";
-import { Button, FormControl, Input } from "@chakra-ui/react";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+import { Button, Flex, FormControl, Heading, Input } from "@chakra-ui/react";
 import { InputImageWithPreview } from "./InputImageWithPreview";
 import {
   UploadType,
   useGetPresignedUrlsMutation,
+  useSaveImagesMutation,
 } from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
 import { FormControlImages } from "./FormControlImages";
@@ -35,15 +42,20 @@ interface UploadImageFormProps {
   wineryAlias: string;
   wineryId: number;
   contextHeader: ContextHeader;
+  setImages: Dispatch<SetStateAction<string[]>>;
 }
 
 export const UploadImageForm: FC<UploadImageFormProps> = ({
   wineryAlias,
   wineryId,
   contextHeader,
+  setImages,
 }) => {
   const [, getPresignedUrls] = useGetPresignedUrlsMutation();
+  const [, saveImages] = useSaveImagesMutation();
 
+  const [savedImageNames, setSavedImageNames] = useState([]);
+  const [error, setError] = useState<any>(null);
   const [fileName, setFileName] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -52,18 +64,23 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
   useEffect(() => {
     const asyncFn = async () => {
       const fileExtension = file.name.split(".").pop();
+      const imageNames = [`${fileName}.${fileExtension}`];
       const { error, data } = await getPresignedUrls(
         {
           wineryId: wineryId,
           wineryAlias: wineryAlias,
           uploadType: UploadType.WineryPic,
-          fileNames: [`${fileName}.${fileExtension}`],
+          fileNames: imageNames,
         },
         { ...contextHeader, requestPolicy: "network-only" }
       );
-      if (data && !error) {
+      if (error) {
+        setError(error);
+      }
+      if (data) {
         const uploadUrl = data.preSignedUrl.arrayUrl[0];
         if (uploadUrl?.errors?.length > 0 || uploadUrl.putUrl == null) {
+          setError(uploadUrl?.errors[0]);
           return;
         }
         const isUploaded = await uploadFileWithPreSignedUrl(
@@ -71,8 +88,21 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
           uploadUrl!.putUrl
         );
         if (isUploaded) {
-          // TODO save images in the DB
-          console.log();
+          const { error, data: savedImage } = await saveImages(
+            {
+              wineryId: wineryId,
+              wineryAlias: wineryAlias,
+              imageNames,
+            },
+            { ...contextHeader, requestPolicy: "network-only" }
+          );
+          const getUrl = data.preSignedUrl.arrayUrl[0].getUrl;
+          if (error) {
+            setError(error);
+            return;
+          }
+          setSavedImageNames([savedImage.saveImages.imageNames]);
+          setImages((images) => [...images, getUrl]);
         }
       }
       setLoading(false);
@@ -104,9 +134,25 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
           value={fileName}
         />
       </FormControl>
-      <Button type="submit" isLoading={loading}>
-        Upload File
-      </Button>
+      {!error && (
+        <Button type="submit" isLoading={loading}>
+          Upload File
+        </Button>
+      )}
+      {savedImageNames.length > 0 && (
+        <Flex justifyContent="center" m={5} flexDirection="column">
+          <Heading as="h2" size="xl" my={4}>
+            Uploaded:{" "}
+          </Heading>
+          {savedImageNames.map((name, index) => {
+            return (
+              <Heading as="h3" key={index} size="md">
+                {name}
+              </Heading>
+            );
+          })}
+        </Flex>
+      )}
     </FormControlImages>
   );
 };

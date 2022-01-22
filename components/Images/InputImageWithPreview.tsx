@@ -50,7 +50,16 @@ export const InputImageWithPreview: FC<PreviewImageProps> = ({
           ref={ref}
         />
       </FormControl>
-      {previewImage !== "" && <Image src={previewImage} alt="uploaded image" />}
+      {previewImage !== "" && (
+        <Image
+          src={previewImage}
+          boxSize="250px"
+          objectFit="cover"
+          m={5}
+          borderRadius="12px"
+          alt="uploaded image"
+        />
+      )}
     </>
   );
 };
