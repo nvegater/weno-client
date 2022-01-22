@@ -8,6 +8,7 @@ fragment PaginatedExperience on PaginatedExperience {
   wineryName
   allAttendeesAllSlots
   experienceType
+  valley
   images {
     ...GetImage
   }
@@ -26,6 +27,7 @@ fragment PaginatedExperienceLight on PaginatedExperience {
   wineryName
   allAttendeesAllSlots
   experienceType
+  valley
   images {
     ...GetImage
   }

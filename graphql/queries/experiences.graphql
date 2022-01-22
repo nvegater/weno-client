@@ -4,7 +4,7 @@ query Experiences($paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
       ...ErrorFragment
     }
     experiences {
-      ...PaginatedExperience
+      ...PaginatedExperienceLight
     }
     totalExperiences
     paginationConfig {

@@ -1,5 +1,0 @@
-fragment ExperienceImageFragment on ExperienceImage {
-  id
-  imageName
-  coverPage
-}

@@ -79,7 +79,7 @@ type ExperienceListItem {
 type ExperienceResponse {
   dateWithTimes: [DateWithTimes!]
   errors: [FieldError!]
-  experience: Experience
+  experience: PaginatedExperience
 }
 
 type ExperienceSlot {
@@ -183,6 +183,7 @@ type PaginatedExperience {
   pricePerPersonInDollars: Float!
   slots: [ExperienceSlot!]
   title: String!
+  valley: Valley
   wineryId: Int!
   wineryName: String!
 }

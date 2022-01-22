@@ -22,7 +22,8 @@ export const ReservationModal: FC<ReservationModalProps> = ({
       {data?.experienceWithSlots.errors == null &&
         data?.experienceWithSlots.experience && (
           <Reservation
-            experienceWineryInfo={data.experienceWithSlots.experience.winery}
+            wineryName={data.experienceWithSlots.experience.wineryName}
+            valley={data.experienceWithSlots.experience.valley}
             slots={data.experienceWithSlots.experience.slots}
             images={data.experienceWithSlots.experience.images}
             experienceInfo={data.experienceWithSlots.experience}

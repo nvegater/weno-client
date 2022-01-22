@@ -1,9 +1,8 @@
 import React, { FC, useMemo, useState } from "react";
 import { Box, Flex, Heading, Icon, Img } from "@chakra-ui/react";
 import {
-  ExperienceImageFragmentFragment,
   ExperienceInfoFragment,
-  ExperienceWineryInfoFragment,
+  GetImage,
   SlotFragmentFragment,
   Valley,
 } from "../../graphql/generated/graphql";
@@ -18,9 +17,10 @@ import { InputNumberBox } from "../InputFields/InputNumberBox";
 import { CreateReservation } from "./CreateReservation";
 
 interface ExperienceModalLayoutProps {
-  experienceWineryInfo: ExperienceWineryInfoFragment;
+  valley: Valley;
+  wineryName: string;
   slots: SlotFragmentFragment[];
-  images?: ExperienceImageFragmentFragment[];
+  images?: GetImage[];
   startDateTime: string;
   experienceInfo: ExperienceInfoFragment;
 }
@@ -32,10 +32,13 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
   images,
   startDateTime,
   slots,
-  experienceWineryInfo,
+  valley,
+  wineryName,
   experienceInfo,
 }) => {
-  const coverImage = images ? images.find((i) => i.coverPage) : null;
+  const coverImage = images ? images[0] : null;
+
+  console.log(images);
 
   const [date, setDate] = useState<string>(startDateTime);
 
@@ -62,18 +65,15 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
 
   return (
     <Box>
-      <Img
-        src={coverImage ? coverImage.imageName : placeHolderImage}
-        alt={"any"}
-      />
+      <Img src={images ? coverImage.getUrl : placeHolderImage} alt={"any"} />
 
       <Heading as="h1" color="brand.200" fontWeight="700" size="2xl" mt={8}>
         {experienceInfo.title}
       </Heading>
-      <FavoriteExperience text={experienceWineryInfo.name} />
+      <FavoriteExperience text={wineryName} />
       <Flex justifyContent="center">
         <Heading as="h3" fontSize="sm" fontWeight="600" color="brand.600">
-          {valleyReverseMapping(experienceWineryInfo.valley)} {"Valley"}
+          {valleyReverseMapping(valley)} {"Valley"}
         </Heading>
         <Icon as={GrMap} color="brand.300" boxSize="1.1rem" ml={1} mb={1} />
       </Flex>
