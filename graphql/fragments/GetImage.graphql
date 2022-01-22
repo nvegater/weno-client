@@ -1,4 +1,4 @@
 fragment GetImage on GetImage {
-  imageKey
+  imageName
   getUrl
 }

@@ -1,8 +1,16 @@
-mutation SaveImages($wineryId: Int!, $imageKeys: [String!]!) {
-  saveImages(wineryId: $wineryId, imageKeys: $imageKeys) {
+mutation SaveImages(
+  $wineryId: Int!
+  $wineryAlias: String!
+  $imageNames: [String!]!
+) {
+  saveImages(
+    wineryId: $wineryId
+    wineryAlias: $wineryAlias
+    imageNames: $imageNames
+  ) {
     errors {
       ...ErrorFragment
     }
-    imageKeys
+    imageNames
   }
 }

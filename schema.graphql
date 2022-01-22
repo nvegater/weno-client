@@ -65,7 +65,7 @@ type ExperienceImage {
   experience: Experience!
   experienceId: Float!
   id: Float!
-  imageKey: String!
+  imageName: String!
   updatedAt: DateTime!
 }
 
@@ -98,7 +98,7 @@ type FieldError {
 
 type GetImage {
   getUrl: String!
-  imageKey: String!
+  imageName: String!
 }
 
 type GetPreSignedUrlResponse {
@@ -113,7 +113,7 @@ type ImageGalleryResponse {
 
 type InsertImageResponse {
   errors: [FieldError!]
-  imageKeys: [String!]
+  imageNames: [String!]
 }
 
 type Mutation {
@@ -143,8 +143,11 @@ type Mutation {
     wineryAlias: String
     wineryId: Int
   ): GetPreSignedUrlResponse!
-  saveImages(imageKeys: [String!]!, wineryId: Int): InsertImageResponse!
-  wineryImages(wineryAlias: String, wineryId: Int): ImageGalleryResponse!
+  saveImages(
+    imageNames: [String!]!
+    wineryAlias: String
+    wineryId: Int
+  ): InsertImageResponse!
   wineryOnboarding(wineryAlias: String!): OnboardingResponse!
 }
 
@@ -195,6 +198,7 @@ type PaginatedExperiencesWithSlots {
 type PresignedResponse {
   errors: [FieldError!]
   getUrl: String
+  imageName: String!
   putUrl: String
 }
 
@@ -246,6 +250,7 @@ type Query {
     createRecurrentDatesInputs: CreateRecurrentDatesInputs!
   ): RecurrenceResponse!
   winery(getWineryInputs: GetWineryInputs!): WineryResponse!
+  wineryImages(wineryAlias: String, wineryId: Int): ImageGalleryResponse!
 }
 
 type RecurrenceResponse {
@@ -340,7 +345,7 @@ type WineryImage {
   coverPage: Boolean
   createdAt: DateTime!
   id: Float!
-  imageKey: String!
+  imageName: String!
   updatedAt: DateTime!
   winery: Winery!
   wineryAlias: String!
