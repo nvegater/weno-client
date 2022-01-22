@@ -69,6 +69,13 @@ type ExperienceImage {
   updatedAt: DateTime!
 }
 
+type ExperienceListItem {
+  experienceType: ExperienceType!
+  id: Int!
+  imageCount: Int!
+  title: String!
+}
+
 type ExperienceResponse {
   dateWithTimes: [DateWithTimes!]
   errors: [FieldError!]
@@ -89,6 +96,11 @@ type ExperienceSlot {
   slotType: SlotType!
   startDateTime: DateTime!
   updatedAt: DateTime!
+}
+
+type ExperiencesList {
+  errors: [FieldError!]
+  experiencesList: [ExperienceListItem!]
 }
 
 type FieldError {
@@ -118,6 +130,10 @@ type InsertImageResponse {
 }
 
 type Mutation {
+  addImageToExperience(
+    experienceId: Int
+    wineryImageId: Int
+  ): InsertImageResponse!
   "Trigger: winery information Page. If called for the first time, updates the winery connected account creation dateOtherwise simply return the winery"
   confirmConnectedAccount(wineryAlias: String!): WineryResponse!
   createCustomer(createCustomerInputs: CreateCustomerInputs!): CustomerResponse!
@@ -244,6 +260,7 @@ type Query {
   experiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
   ): PaginatedExperiences!
+  experiencesList: ExperiencesList!
   getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
   getSubscriptionProducts: ProductsResponse!
   getSubscriptionStatus(customerId: String!): String!

@@ -1,0 +1,13 @@
+mutation AddImageToExperience($experienceId: Int!, $wineryImageId: Int!) {
+  addImageToExperience(
+    experienceId: $experienceId
+    wineryImageId: $wineryImageId
+  ) {
+    errors {
+      ...ErrorFragment
+    }
+    images {
+      ...GetImage
+    }
+  }
+}
