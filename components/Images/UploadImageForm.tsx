@@ -72,6 +72,7 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
         );
         if (isUploaded) {
           // TODO save images in the DB
+          console.log();
         }
       }
       setLoading(false);

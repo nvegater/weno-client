@@ -1,0 +1,8 @@
+mutation SaveImages($wineryId: Int!, $imageKeys: [String!]!) {
+  saveImages(wineryId: $wineryId, imageKeys: $imageKeys) {
+    errors {
+      ...ErrorFragment
+    }
+    imageKeys
+  }
+}

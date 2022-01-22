@@ -1,5 +1,5 @@
 fragment ExperienceImageFragment on ExperienceImage {
   id
-  imageUrl
+  imageKey
   coverPage
 }

@@ -65,7 +65,7 @@ type ExperienceImage {
   experience: Experience!
   experienceId: Float!
   id: Float!
-  imageUrl: String!
+  imageKey: String!
   updatedAt: DateTime!
 }
 
@@ -96,9 +96,24 @@ type FieldError {
   message: String!
 }
 
+type GetImage {
+  getUrl: String!
+  imageKey: String!
+}
+
 type GetPreSignedUrlResponse {
   arrayUrl: [PresignedResponse!]
   errors: [FieldError!]
+}
+
+type ImageGalleryResponse {
+  errors: [FieldError!]
+  gallery: [GetImage!]
+}
+
+type InsertImageResponse {
+  errors: [FieldError!]
+  imageKeys: [String!]
 }
 
 type Mutation {
@@ -128,6 +143,8 @@ type Mutation {
     wineryAlias: String
     wineryId: Int
   ): GetPreSignedUrlResponse!
+  saveImages(imageKeys: [String!]!, wineryId: Int): InsertImageResponse!
+  wineryImages(wineryAlias: String, wineryId: Int): ImageGalleryResponse!
   wineryOnboarding(wineryAlias: String!): OnboardingResponse!
 }
 
@@ -323,7 +340,7 @@ type WineryImage {
   coverPage: Boolean
   createdAt: DateTime!
   id: Float!
-  imageUrl: String!
+  imageKey: String!
   updatedAt: DateTime!
   winery: Winery!
   wineryAlias: String!

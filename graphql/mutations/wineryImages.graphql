@@ -1,0 +1,10 @@
+mutation WineryImages($wineryId: Int!, $wineryAlias: String!) {
+  wineryImages(wineryId: $wineryId, wineryAlias: $wineryAlias) {
+    errors {
+      ...ErrorFragment
+    }
+    gallery {
+      ...GetImage
+    }
+  }
+}
