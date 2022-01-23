@@ -38,9 +38,8 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
       variables: {
         paginatedExperiencesInputs: {
           paginationConfig: { ...paginationConfig },
-          experiencesFilters: { ...experiencesFilters },
+          experiencesFilters: { ...experiencesFilters, wineryIds: [winery.id] },
         },
-        wineryId: winery.id,
       },
       requestPolicy: "network-only",
       context: contextHeader,

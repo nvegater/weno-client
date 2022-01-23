@@ -22,6 +22,7 @@ type CursorPaginationResult {
   afterCursor: String
   beforeCursor: String
   limit: Int
+  moreResults: Boolean!
 }
 
 type CustomerDts {
@@ -234,7 +235,6 @@ type Query {
   ): PaginatedExperiences!
   editableExperiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
-    wineryId: Float!
   ): PaginatedExperiences!
   experienceWithSlots(
     experienceId: Float!
@@ -554,6 +554,7 @@ input ExperiencesFilters {
   experienceName: String
   experienceType: [ExperienceType!]
   valley: [Valley!]
+  wineryIds: [Int!]
 }
 
 input GetWineryInputs {

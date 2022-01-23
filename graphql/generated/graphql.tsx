@@ -99,6 +99,7 @@ export type CursorPaginationResult = {
   afterCursor?: Maybe<Scalars['String']>;
   beforeCursor?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
+  moreResults: Scalars['Boolean'];
 };
 
 export type CustomerDts = {
@@ -186,6 +187,7 @@ export type ExperiencesFilters = {
   valley?: Maybe<Array<Valley>>;
   experienceType?: Maybe<Array<ExperienceType>>;
   experienceName?: Maybe<Scalars['String']>;
+  wineryIds?: Maybe<Array<Scalars['Int']>>;
 };
 
 export type ExperiencesList = {
@@ -471,7 +473,6 @@ export type QueryExperiencesArgs = {
 
 export type QueryEditableExperiencesArgs = {
   paginatedExperiencesInputs: PaginatedExperiencesInputs;
-  wineryId: Scalars['Float'];
 };
 
 
@@ -685,7 +686,7 @@ export type PaginatedExperienceFragment = { createdAt: any, id: number, title: s
 
 export type PaginatedExperienceLightFragment = { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined };
 
-export type PaginationResultFragmentFragment = { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined };
+export type PaginationResultFragmentFragment = { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined, moreResults: boolean };
 
 export type PreSignedUrlFragment = { getUrl?: string | null | undefined, putUrl?: string | null | undefined };
 
@@ -784,15 +785,14 @@ export type BookableExperiencesQueryVariables = Exact<{
 }>;
 
 
-export type BookableExperiencesQuery = { bookableExperiences: { totalExperiences: number, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined } } };
+export type BookableExperiencesQuery = { bookableExperiences: { totalExperiences: number, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined, moreResults: boolean } } };
 
 export type EditableExperiencesQueryVariables = Exact<{
-  wineryId: Scalars['Float'];
   paginatedExperiencesInputs: PaginatedExperiencesInputs;
 }>;
 
 
-export type EditableExperiencesQuery = { editableExperiences: { totalExperiences: number, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined, slots?: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> | null | undefined }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined } } };
+export type EditableExperiencesQuery = { editableExperiences: { totalExperiences: number, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined, slots?: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> | null | undefined }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined, moreResults: boolean } } };
 
 export type ExperienceWithSlotsQueryVariables = Exact<{
   experienceId: Scalars['Float'];
@@ -807,7 +807,7 @@ export type ExperiencesQueryVariables = Exact<{
 }>;
 
 
-export type ExperiencesQuery = { experiences: { totalExperiences: number, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined } } };
+export type ExperiencesQuery = { experiences: { totalExperiences: number, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined, moreResults: boolean } } };
 
 export type ExperiencesListQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -941,6 +941,7 @@ export const PaginationResultFragmentFragmentDoc = gql`
   beforeCursor
   afterCursor
   limit
+  moreResults
 }
     `;
 export const PreSignedUrlFragmentDoc = gql`
@@ -1246,11 +1247,8 @@ export function useBookableExperiencesQuery(options: Omit<Urql.UseQueryArgs<Book
   return Urql.useQuery<BookableExperiencesQuery>({ query: BookableExperiencesDocument, ...options });
 };
 export const EditableExperiencesDocument = gql`
-    query EditableExperiences($wineryId: Float!, $paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
-  editableExperiences(
-    wineryId: $wineryId
-    paginatedExperiencesInputs: $paginatedExperiencesInputs
-  ) {
+    query EditableExperiences($paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
+  editableExperiences(paginatedExperiencesInputs: $paginatedExperiencesInputs) {
     errors {
       field
       message

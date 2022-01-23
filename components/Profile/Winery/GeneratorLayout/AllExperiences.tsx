@@ -42,9 +42,6 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
     }
   }, [data, experiences]);
 
-  const noMoreResults =
-    data?.experiences?.paginationConfig?.beforeCursor === null &&
-    data?.experiences?.paginationConfig?.afterCursor === null;
   return (
     <>
       {fetching && <div>Generator Loading screen</div>}
@@ -62,7 +59,7 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
           size="navBarCTA"
           variant="cta"
           width="300px"
-          isDisabled={noMoreResults}
+          isDisabled={!Boolean(data?.experiences?.paginationConfig.moreResults)}
           onClick={() => {
             if (experiences.length > 0) {
               handlePaginationRequest(
@@ -72,7 +69,9 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
             }
           }}
         >
-          {noMoreResults ? "No more results" : "Load more"}
+          {!Boolean(data?.experiences?.paginationConfig.moreResults)
+            ? "No more results"
+            : "Load more"}
         </Button>
       </Flex>
     </>
