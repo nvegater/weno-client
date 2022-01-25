@@ -59,10 +59,6 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
     }
   }, [data, experiences]);
 
-  const noMoreResults =
-    data?.editableExperiences?.paginationConfig?.beforeCursor === null &&
-    data?.editableExperiences?.paginationConfig?.afterCursor === null;
-
   return (
     <>
       {data?.editableExperiences.errors && <div>Server Error screen</div>}
@@ -81,7 +77,9 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
         networkError={networkError}
       />
       <LoadMoreButton
-        disableButton={noMoreResults}
+        disableButton={
+          !Boolean(data?.editableExperiences?.paginationConfig?.moreResults)
+        }
         noOfExperiences={experiences.length}
         handlePaginationRequest={handlePaginationRequest}
         paginationConfig={paginationConfig}

@@ -52,10 +52,6 @@ const Home = () => {
     }
   }, [data, experiences]);
 
-  const noMoreResults =
-    data?.bookableExperiences?.paginationConfig?.beforeCursor === null &&
-    data?.bookableExperiences?.paginationConfig?.afterCursor === null;
-
   return (
     <div>
       <Head>
@@ -90,7 +86,9 @@ const Home = () => {
           />
 
           <LoadMoreButton
-            disableButton={noMoreResults}
+            disableButton={
+              !Boolean(data?.bookableExperiences?.paginationConfig?.moreResults)
+            }
             noOfExperiences={experiences.length}
             handlePaginationRequest={handlePaginationRequest}
             paginationConfig={paginationConfig}
