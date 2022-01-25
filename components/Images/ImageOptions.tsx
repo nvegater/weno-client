@@ -8,7 +8,7 @@ import {
   MenuList,
   useDisclosure,
 } from "@chakra-ui/react";
-import { RiPlayListAddLine } from "react-icons/Ri";
+import { RiPlayListAddLine } from "react-icons/ri";
 import { ExperiencesListModal } from "./ExperiencesListModal";
 import { ContextHeader } from "../Authentication/useAuth";
 
