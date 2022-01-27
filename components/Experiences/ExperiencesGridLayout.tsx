@@ -22,6 +22,7 @@ import {
   PaginatedExperienceWithSlots,
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
+import { useTranslation } from "react-i18next";
 
 export enum ExperiencesGridMode {
   EDIT,
@@ -52,6 +53,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
     preSelectedExperienceId
   );
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [t] = useTranslation("global");
 
   return (
     <Box>
@@ -76,7 +78,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
 
           <DrawerFooter>
             <Button type="submit" form="my-form">
-              Save
+              {t("save")}
             </Button>
           </DrawerFooter>
         </DrawerContent>
@@ -85,19 +87,19 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
       <Box maxW="100rem" mt={8}>
         {experiences.length === 0 && !fetching && (
           <Heading as="h2" size="sm" color="brand.200" textAlign="center">
-            No results found
+            {t("noResults")}
           </Heading>
         )}
 
         {networkError && !fetching && experiences.length === 0 && (
           <Heading as="h2" size="sm" color="brand.200" textAlign="center">
-            An error has ocurred
+            {t("errorOccurred")}
           </Heading>
         )}
 
         {serverError && !fetching && experiences.length === 0 && (
           <Heading as="h2" size="sm" color="brand.200" textAlign="center">
-            An error in our servers has ocurred
+            {t("serverErrorOccurred")}
           </Heading>
         )}
 

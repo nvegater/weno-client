@@ -1,4 +1,5 @@
 import { UseToastOptions } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 type ToastMessageType =
   | "uploadImageError"
@@ -6,6 +7,7 @@ type ToastMessageType =
   | "imagesSavedSuccess";
 
 export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
+  const [t] = useTranslation("global");
   let toastOpts: UseToastOptions = {
     title: "default message",
     description: "Not a real description",
@@ -19,7 +21,7 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
     case "uploadImageError":
       toastOpts = {
         title: "Error",
-        description: "We couldnt upload your images",
+        description: t("uploadImageError"),
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -28,8 +30,8 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
       break;
     case "processingChangesInfo":
       toastOpts = {
-        title: "Saving Image",
-        description: "Processing changes",
+        title: t("savingImage"),
+        description: t("processingChanges"),
         status: "info",
         duration: 5000,
         isClosable: true,
@@ -38,8 +40,8 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
       break;
     case "imagesSavedSuccess":
       toastOpts = {
-        title: "Ready",
-        description: "We saved your images",
+        title: t("ready"),
+        description: t("imagesSaved"),
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -48,7 +50,7 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
   }
   return {
     title: "Error",
-    description: "We couldnt upload your images",
+    description: t("uploadImageError"),
     status: "error",
     duration: 5000,
     isClosable: true,

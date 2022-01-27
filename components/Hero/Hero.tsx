@@ -30,7 +30,7 @@ export const Hero = () => {
         lineHeight="1.2"
         letterSpacing="10%"
       >
-        Delight in
+        {t("delightIn")}
       </Heading>
       <Heading
         as="h2"
@@ -42,10 +42,10 @@ export const Hero = () => {
         letterSpacing="normal"
         color="brand.700"
       >
-        Enoturism
+        {t("enoturism")}
       </Heading>
       <Text fontSize="xl" mt="4" maxW="xl" mx="auto">
-        Made for wine lovers & growers
+        {t("madeForWine")}
       </Text>
 
       <Stack
@@ -64,10 +64,10 @@ export const Hero = () => {
             }
           }}
         >
-          Register
+          {t("register")}
         </Button>
         <Button size="heroWeno" variant="cta">
-          <Link href="/subscriptions">Offer experiences</Link>
+          <Link href="/subscriptions">{t("offerExperiences")}</Link>
         </Button>
       </Stack>
     </Box>

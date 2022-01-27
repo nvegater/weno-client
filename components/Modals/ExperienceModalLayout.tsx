@@ -13,6 +13,7 @@ import { parseISO } from "date-fns";
 import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
 import { getSlotsFromDate } from "./EditExperienceModal";
 import { InputNumberBox } from "../InputFields/InputNumberBox";
+import { useTranslation } from "react-i18next";
 
 interface ExperienceModalLayoutProps {
   experienceTitle: string;
@@ -41,6 +42,7 @@ export const ExperienceModalLayout: FC<ExperienceModalLayoutProps> = ({
   const [date, setDate] = useState<string>(startDateTime);
 
   const [totalPrice, setTotalPrice] = useState<number>(price);
+  const [t] = useTranslation("global");
 
   const slotsFromDate: SlotFragmentFragment[] = useMemo(() => {
     return getSlotsFromDate(slots, date);
@@ -64,7 +66,7 @@ export const ExperienceModalLayout: FC<ExperienceModalLayoutProps> = ({
         <Icon as={GrMap} color="brand.300" boxSize="1.1rem" ml={1} mb={1} />
       </Flex>
       <Heading fontSize="md" as="h4" fontWeight="500" my={5}>
-        Select a date:
+        {t("selectDate")}
       </Heading>
       <DateTimePickerWeno
         removeTimeZone={true}
@@ -90,7 +92,7 @@ export const ExperienceModalLayout: FC<ExperienceModalLayoutProps> = ({
           }}
         />
         <Heading fontSize="md" as="h4" fontWeight="500" my={5}>
-          Total: {totalPrice}$
+          {t("total")} {totalPrice}$
         </Heading>
       </Flex>
     </Box>

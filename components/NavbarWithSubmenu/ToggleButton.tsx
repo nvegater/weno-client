@@ -1,5 +1,6 @@
 import { Box, Center, chakra, VisuallyHidden } from "@chakra-ui/react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const Bar = chakra("span", {
   baseStyle: {
@@ -49,6 +50,7 @@ interface ToggleButtonProps {
 
 export const ToggleButton = (props: ToggleButtonProps) => {
   const { isOpen, onClick } = props;
+  const [t] = useTranslation("global");
   return (
     <Center
       marginStart="-6"
@@ -60,7 +62,7 @@ export const ToggleButton = (props: ToggleButtonProps) => {
       onClick={onClick}
     >
       <ToggleIcon active={isOpen} />
-      <VisuallyHidden>Toggle Menu</VisuallyHidden>
+      <VisuallyHidden>{t("toggleMenu")}</VisuallyHidden>
     </Center>
   );
 };

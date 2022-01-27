@@ -2,6 +2,7 @@ import { HandlePaginationRequestFn } from "../utils/useFiltersPagination";
 import { CursorPaginationInput } from "../../graphql/generated/graphql";
 import React, { FC } from "react";
 import { Button, Flex } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 interface LoadMoreButtonProps {
   disableButton: boolean;
@@ -18,6 +19,7 @@ export const LoadMoreButton: FC<LoadMoreButtonProps> = ({
   paginationConfig,
   newPaginationConfig,
 }) => {
+  const [t] = useTranslation("global");
   return (
     <Flex justifyContent="center" mt={5}>
       <Button
@@ -31,7 +33,7 @@ export const LoadMoreButton: FC<LoadMoreButtonProps> = ({
           }
         }}
       >
-        {disableButton ? "No more results" : "Load more"}
+        {disableButton ? t("noMoreResults") : t("loadMore")}
       </Button>
     </Flex>
   );

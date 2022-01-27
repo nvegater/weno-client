@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import RadioCard from "./RadioCard";
 import { Control, useController } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 export type RadioElement = { name: string };
 type FormElementsUsingRadiogroup = {
@@ -15,6 +16,7 @@ type FormElementsUsingRadiogroup = {
   eventType?: string;
   typeOfSlot?: string;
 };
+const [t] = useTranslation("global");
 const RadioGroup: FC<{
   control: Control<FormElementsUsingRadiogroup>;
   label: string;
@@ -37,7 +39,7 @@ const RadioGroup: FC<{
     control,
     defaultValue: elements.length > 0 ? elements[0].name : undefined,
     name: name,
-    rules: { required: { value: true, message: "Required field" } },
+    rules: { required: { value: true, message: t("requiredField") } },
   });
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: field.name,
@@ -45,14 +47,13 @@ const RadioGroup: FC<{
     value: field.value,
     defaultValue: field.value,
   });
-
   const group = getRootProps();
 
   return (
     <FormControl isRequired={isRequired} isInvalid={!!errors[name]} mb={6}>
       <FormLabel
         htmlFor={name}
-        visibility={isVisibleLabel ? "visible" : "hidden"}
+        visibility={isVisibleLabel ? t("visible") : t("hidden")}
       >
         {label}
       </FormLabel>

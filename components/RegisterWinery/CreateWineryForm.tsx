@@ -119,7 +119,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
               type="text"
               placeholder={t("wineryName")}
               {...register("name", {
-                required: "Please enter the name of your winery",
+                required: { value: true, message: t("wineryNameMessage") },
                 minLength: 3,
                 maxLength: 50,
               })}
@@ -134,10 +134,10 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
               type="text"
               placeholder={t("wineryDescription")}
               {...register("description", {
-                required: "Please enter a description",
+                required: { value: true, message: t("descriptionText") },
                 minLength: {
                   value: 20,
-                  message: "Please enter at least 20 characters",
+                  message: t("descriptionMessage"),
                 },
               })}
             />
@@ -154,7 +154,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
                 type="text"
                 placeholder="url alias"
                 {...register("urlAlias", {
-                  required: "Please enter an alias",
+                  required: { value: true, message: t("aliasText") },
                   minLength: {
                     value: 6,
                     message: t("minAlias"),
@@ -290,14 +290,14 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             {t("covid19Checkbox")}
           </Checkbox>
           <Text>
-            Read more{" "}
+            {t("read+")}{" "}
             <ChakraLink
               href="https://www.who.int/water_sanitation_health/hygiene/settings/hvchap8.pdf"
               color="teal.500"
               target="_blank"
             >
               {" "}
-              here
+              {t("here")}
             </ChakraLink>
           </Text>
         </FormControl>

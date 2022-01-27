@@ -136,7 +136,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
               type="text"
               placeholder={t("title")}
               {...register("title", {
-                required: "Please enter the title of your event",
+                required: { value: true, message: t("titleDescription") },
                 minLength: 3,
                 maxLength: 50,
               })}
@@ -152,7 +152,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
               type="text"
               placeholder={t("describeEvent")}
               {...register("description", {
-                required: "Please enter a description",
+                required: { value: true, message: t("descriptionText") },
                 minLength: {
                   value: 20,
                   message: t("descriptionMessage"),
@@ -213,7 +213,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
       ),
     },
     {
-      title: "Dates and frequency",
+      title: t("datesFrequency"),
       content: (
         <DateTimeForm
           control={control}
@@ -229,7 +229,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
       content: (
         <Flex>
           <Heading as="h3" size="sm">
-            Submit the form to upload images
+            {t("submitForImages")}
           </Heading>
         </Flex>
       ),
@@ -249,7 +249,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
         <VerticalSteps
           steps={formSteps}
           isLoading={false}
-          finalStepText="Click reset to verify your creation"
+          finalStepText={t("resetInstructions")}
         />
       </Box>
 

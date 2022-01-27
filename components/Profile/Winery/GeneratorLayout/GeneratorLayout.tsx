@@ -194,7 +194,9 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                   contextHeader={contextHeader}
                 />
               )}
-              {subPage === GeneratorSubpage.EDIT_INFO && <div>Edit Winery</div>}
+              {subPage === GeneratorSubpage.EDIT_INFO && (
+                <div>{t("editWinery")}</div>
+              )}
               {subPage === GeneratorSubpage.ALL_EXPERIENCES && (
                 <AllExperiences />
               )}

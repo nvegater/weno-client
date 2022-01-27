@@ -248,16 +248,12 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               >
                 <FormLabel htmlFor="durationInMinutes">
                   {enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion
-                    ? "Duration in minutes (for each event)"
-                    : "Duration in minutes"}
+                    ? t("eventDuration")
+                    : t("durationMinutes")}
                 </FormLabel>
                 <Input
                   type="number"
-                  placeholder={
-                    setAutoDuration
-                      ? "Select Start & End to display duration"
-                      : "e.g. 60"
-                  }
+                  placeholder={setAutoDuration ? t("autoDuration") : t("sixty")}
                   onChange={field.onChange}
                   name={field.name}
                   value={field.value}

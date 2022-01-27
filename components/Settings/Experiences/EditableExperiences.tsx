@@ -13,6 +13,7 @@ import {
 } from "../../../graphql/generated/graphql";
 import useFiltersPagination from "../../utils/useFiltersPagination";
 import { LoadMoreButton } from "../../Experiences/LoadMoreButton";
+import { useTranslation } from "react-i18next";
 
 interface EditableExperiencesProps {
   contextHeader: ContextHeader;
@@ -25,7 +26,7 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
 }) => {
   const recentlyCreatedExperienceId = useRecoilValue(createdExperienceIdState);
   const autoSelectExperience = recentlyCreatedExperienceId !== null;
-
+  const [t] = useTranslation("global");
   const [paginationConfig, experiencesFilters, handlePaginationRequest] =
     useFiltersPagination();
 
@@ -63,7 +64,7 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
 
   return (
     <>
-      {data?.editableExperiences.errors && <div>Server Error screen</div>}
+      {data?.editableExperiences.errors && <div>{t("serverError")}</div>}
       <ExperiencesGridLayout
         experiences={experiences}
         mode={ExperiencesGridMode.EDIT}

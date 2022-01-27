@@ -9,6 +9,7 @@ import {
 } from "../../../../graphql/generated/graphql";
 import { Button, Flex } from "@chakra-ui/react";
 import useFiltersPagination from "../../../utils/useFiltersPagination";
+import { useTranslation } from "react-i18next";
 
 interface AllExperiencesProps {}
 
@@ -17,6 +18,7 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
     useFiltersPagination();
 
   const [experiences, setExperiences] = useState<PaginatedExperience[]>([]);
+  const [t] = useTranslation("global");
 
   const [{ data, fetching, error: networkError }] = useExperiencesQuery({
     variables: {
