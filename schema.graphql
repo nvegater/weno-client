@@ -281,7 +281,6 @@ type ReservationDts {
   createdAt: DateTime!
   email: String!
   endDateTime: DateTime!
-  experienceId: Int!
   getUrl: String
   id: Int!
   noOfAttendees: Int!

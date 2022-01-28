@@ -533,7 +533,6 @@ export type ReservationDts = {
   pricePerPersonInDollars: Scalars['Float'];
   paymentStatus: Scalars['String'];
   slotId: Scalars['Int'];
-  experienceId: Scalars['Int'];
   startDateTime: Scalars['DateTime'];
   endDateTime: Scalars['DateTime'];
   createdAt: Scalars['DateTime'];
