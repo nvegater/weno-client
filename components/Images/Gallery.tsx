@@ -56,6 +56,7 @@ export const Gallery: FC<GalleryProps> = ({
               key={image.id}
               imageUrl={image.getUrl}
               imageId={image.id}
+              wineryId={wineryId}
               contextHeader={contextHeader}
             />
           );

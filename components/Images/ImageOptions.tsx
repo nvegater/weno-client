@@ -15,6 +15,7 @@ import { ContextHeader } from "../Authentication/useAuth";
 interface ImageOptionsProps {
   imageUrl: string;
   imageId: number;
+  wineryId: number;
   contextHeader: ContextHeader;
 }
 
@@ -22,6 +23,7 @@ export const ImageOptions: FC<ImageOptionsProps> = ({
   imageId,
   imageUrl,
   contextHeader,
+  wineryId,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -38,6 +40,7 @@ export const ImageOptions: FC<ImageOptionsProps> = ({
         imageId={imageId}
         imageUrl={imageUrl}
         contextHeader={contextHeader}
+        wineryId={wineryId}
       />
       <Menu>
         <MenuButton>

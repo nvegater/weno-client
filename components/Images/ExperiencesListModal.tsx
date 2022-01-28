@@ -22,6 +22,7 @@ interface ExperiencesListModalProps {
   onClose: () => void;
   imageId: number;
   imageUrl: string;
+  wineryId: number;
   contextHeader: ContextHeader;
 }
 
@@ -30,12 +31,18 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
   onClose,
   imageUrl,
   imageId,
+  wineryId,
   contextHeader,
 }) => {
   const [, addImageToExperience] = useAddImageToExperienceMutation();
-  const [{ data, fetching, error: experiencesError }] =
-    useExperiencesListQuery();
-  const [message, setMessage] = useState<string | null>();
+  const [{ data, fetching, error: experiencesError }] = useExperiencesListQuery(
+    {
+      variables: { wineryId },
+      context: contextHeader,
+      requestPolicy: "network-only",
+    }
+  );
+  const [message, setMessage] = useState<string | null>(null);
 
   async function handleSelection(experienceId: number, title: string) {
     const { data: imagesData, error } = await addImageToExperience(
@@ -95,7 +102,7 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
               size="md"
               my={8}
             >
-              To this experience:
+              To one experience:
             </Heading>
           )}
 
@@ -123,7 +130,7 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
           {data?.experiencesList.errors && (
             <Flex justifyContent="center" m={5}>
               <Heading as="h2" size="xl">
-                Error retrieving experiences
+                {data.experiencesList.errors[0].message}
               </Heading>
             </Flex>
           )}

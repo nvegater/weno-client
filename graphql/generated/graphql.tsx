@@ -481,6 +481,11 @@ export type QueryBookableExperiencesArgs = {
 };
 
 
+export type QueryExperiencesListArgs = {
+  wineryId: Scalars['Int'];
+};
+
+
 export type QueryWineryArgs = {
   getWineryInputs: GetWineryInputs;
 };
@@ -811,7 +816,9 @@ export type ExperiencesQueryVariables = Exact<{
 
 export type ExperiencesQuery = { experiences: { totalExperiences?: number | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined, moreResults: boolean } } };
 
-export type ExperiencesListQueryVariables = Exact<{ [key: string]: never; }>;
+export type ExperiencesListQueryVariables = Exact<{
+  wineryId: Scalars['Int'];
+}>;
 
 
 export type ExperiencesListQuery = { experiencesList: { errors?: Array<{ field: string, message: string }> | null | undefined, experiencesList?: Array<{ id: number, title: string, experienceType: ExperienceType, imageCount: number }> | null | undefined } };
@@ -1314,8 +1321,8 @@ export function useExperiencesQuery(options: Omit<Urql.UseQueryArgs<ExperiencesQ
   return Urql.useQuery<ExperiencesQuery>({ query: ExperiencesDocument, ...options });
 };
 export const ExperiencesListDocument = gql`
-    query ExperiencesList {
-  experiencesList {
+    query ExperiencesList($wineryId: Int!) {
+  experiencesList(wineryId: $wineryId) {
     errors {
       ...ErrorFragment
     }
