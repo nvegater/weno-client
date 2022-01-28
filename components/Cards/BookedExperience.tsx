@@ -47,7 +47,9 @@ const BookedExperience = (props: BookedExperienceProps) => {
         alt={title}
         src={media}
         borderTopRadius="12px"
-        width="100%"
+        boxSize="250px"
+        h="220px"
+        w="100%"
         objectFit="cover"
         gridColumnStart={1}
         gridRowStart={1}

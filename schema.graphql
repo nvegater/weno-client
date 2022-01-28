@@ -193,7 +193,7 @@ type PaginatedExperiences {
   errors: [FieldError!]
   experiences: [PaginatedExperience!]
   paginationConfig: CursorPaginationResult!
-  totalExperiences: Float!
+  totalExperiences: Float
 }
 
 type PresignedResponse {
@@ -263,6 +263,7 @@ type Reservation {
   createdAt: DateTime!
   email: String!
   endDateTime: DateTime!
+  experienceId: Int!
   id: Int!
   noOfAttendees: Int!
   paymentStatus: String!
@@ -280,6 +281,8 @@ type ReservationDts {
   createdAt: DateTime!
   email: String!
   endDateTime: DateTime!
+  experienceId: Int!
+  getUrl: String
   id: Int!
   noOfAttendees: Int!
   paymentStatus: String!

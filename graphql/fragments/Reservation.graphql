@@ -12,4 +12,5 @@ fragment Reservation on ReservationDts {
   updatedAt
   username
   wineryName
+  getUrl
 }

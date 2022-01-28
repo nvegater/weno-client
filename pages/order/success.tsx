@@ -25,8 +25,6 @@ const Success = () => {
     sessionId: session_id === undefined ? null : session_id,
   });
 
-  console.log(reservations);
-
   return (
     <WenoLayout
       loginFn={login}

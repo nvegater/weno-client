@@ -38,8 +38,6 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
 }) => {
   const coverImage = images ? images[0] : null;
 
-  console.log(images);
-
   const [date, setDate] = useState<string>(startDateTime);
 
   const [totalPrice, setTotalPrice] = useState<number>(

@@ -24,7 +24,7 @@ export const ReservationConfirmation: FC<ReservationProps> = ({
       {reservations.map((res) => (
         <BookedExperience
           key={res.id}
-          media={placeHolder}
+          media={res.getUrl ? res.getUrl : placeHolder}
           title={res.title}
           date={res.startDateTime}
           place={res.wineryName}
