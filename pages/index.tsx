@@ -17,9 +17,12 @@ import useFiltersPagination from "../components/utils/useFiltersPagination";
 import { Flex, Heading, Icon } from "@chakra-ui/react";
 import { ImFilter } from "react-icons/im";
 import { LoadMoreButton } from "../components/Experiences/LoadMoreButton";
+import { Filters } from "../components/Filters/Filters";
 
 const Home = () => {
   const { authenticated, logout, login, register, tokenInfo } = useAuth();
+
+  const [openFilters, setOpenFilters] = useState<boolean>(false);
 
   const [paginationConfig, experiencesFilters, handlePaginationRequest] =
     useFiltersPagination();
@@ -75,8 +78,19 @@ const Home = () => {
             <Heading as="h1" color="brand.200" fontWeight="700" size="2xl">
               Experiences
             </Heading>
-            <Icon as={ImFilter} w={6} h={6} color="brand.300" mt={2} />
+            <Icon
+              as={ImFilter}
+              w={6}
+              h={6}
+              color="brand.300"
+              mt={2}
+              onClick={() => {
+                setOpenFilters(!openFilters);
+              }}
+            />
           </Flex>
+
+          {openFilters && <Filters />}
 
           <ExperiencesGridLayout
             experiences={experiences}

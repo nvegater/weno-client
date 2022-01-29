@@ -13,6 +13,8 @@ import "../components/DateTimePicker/Clock.css";
 import "../components/DateTimePicker/DateTimePicker.css";
 import "../components/DateTimePicker/Calendar.css";
 
+import "../components/DateTimePicker/DatePicker/datePicker.css";
+
 interface InitialProps {
   cookies: unknown;
 }

@@ -44,6 +44,19 @@ export const mapEventType = (formExperienceType: string): ExperienceType => {
   }
 };
 
+export const experienceTypeReverseMapping = (
+  formExperienceType: ExperienceType
+): string => {
+  switch (formExperienceType) {
+    case ExperienceType.Degustation:
+      return "Degustation";
+    case ExperienceType.WineDinnerPairing:
+      return "Pairing";
+    case ExperienceType.Concert:
+      return "Concert";
+  }
+};
+
 export const productionTypeReverseMapping = (value: ProductionType) => {
   switch (value) {
     case ProductionType.Comercial:
