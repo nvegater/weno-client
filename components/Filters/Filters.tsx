@@ -15,6 +15,7 @@ import {
 import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
 
 interface FiltersSubmitForm {
   valley: Valley;
@@ -30,6 +31,7 @@ export const Filters: FC<FiltersProps> = ({}) => {
 
   const [startDate, setStartDate] = useState(now);
   const [endDate, setEndDate] = useState(null);
+  const [t] = useTranslation("global");
 
   const {
     handleSubmit,
@@ -66,7 +68,7 @@ export const Filters: FC<FiltersProps> = ({}) => {
               </option>
             ))}
           </Select>
-          <FormHelperText>Valleys in Ensenada</FormHelperText>
+          <FormHelperText>{t("ensenadaValleys")}</FormHelperText>
         </FormControl>
 
         <FormControl my={3} mx={[null, null, 5]}>
@@ -79,7 +81,7 @@ export const Filters: FC<FiltersProps> = ({}) => {
             dateFormat="dd MMM"
             selectsRange
           />
-          <FormHelperText>Select dates</FormHelperText>
+          <FormHelperText>{t("selectDates")}</FormHelperText>
         </FormControl>
       </Flex>
 
@@ -109,7 +111,7 @@ export const Filters: FC<FiltersProps> = ({}) => {
           rightIcon={<AiOutlineSearch />}
           mt={5}
         >
-          Search
+          {t("search")}
         </Button>
       </Flex>
     </Flex>

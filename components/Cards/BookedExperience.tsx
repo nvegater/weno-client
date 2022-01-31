@@ -11,6 +11,7 @@ import React from "react";
 import { IoCalendar, IoLocation, IoPeople } from "react-icons/io5";
 import { BsFillClockFill } from "react-icons/bs";
 import { formatDate, formatDateTime } from "../Experiences/SampleDates";
+import { useTranslation } from "react-i18next";
 
 interface BookedExperienceProps {
   date: string;
@@ -40,7 +41,7 @@ const IconLabel = (props: IconLabelProps) => {
 
 const BookedExperience = (props: BookedExperienceProps) => {
   const { title, date, place, href, time, totalPeople, media, total } = props;
-
+  const [t] = useTranslation("global");
   return (
     <Grid borderRadius="12px" maxW="274px" flexDirection="column">
       <Img
@@ -87,7 +88,9 @@ const BookedExperience = (props: BookedExperienceProps) => {
               icon={<IoPeople color="#BE5050" />}
             />
             <Flex justify="center" py="3">
-              <Text>Total: ${total} MXN</Text>
+              <Text>
+                {t("total")}: ${total} MXN
+              </Text>
             </Flex>
           </Flex>
         </Flex>

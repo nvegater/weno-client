@@ -3,6 +3,7 @@
 
   "aboutUs": "About us",
   "accountSettings": "Account Settings",
+  "addThisImage": "Add this image: ",
   "errorOccurred": "An error has ocurred",
   "serverErrorOccurred": "An error in our servers has ocurred",
   "addPhoto": "Add photo",
@@ -50,6 +51,8 @@
   "english": "English",
   "enoturism": "Enoturism",
   "error": "Error",
+  "errorDownloadingImages": "Error downloading images",
+  "errorRetrieving": "Error retrieving experiences",
   "eventType": "Event Type",
   "experiences": "Experiences",
   "experiencesCalendar": "Experiences Calendar",
@@ -57,6 +60,7 @@
   "exception": "exception",
   "excludeDays": "Exclude these days",
 
+  "fetchingImages": "Fetching your images",
   "foundationYear": "Foundation Year",
 
   "gallery": "Gallery",
@@ -73,6 +77,7 @@
   "wineryDescription": "How would you describe your winery...",
   "covid19Checkbox": "Hygiene measures are in place",
 
+  "imags": "images",
   "images": "Images",
   "imageSizeError": "Image Size error",
   "intermediateSubscription": "Intermediate",
@@ -81,10 +86,12 @@
   "language": "Language",
   "attendeesLimit": "Limit of attendees",
   "loadMore": "Load more",
+  "loadingExperiences": "Loading experiences",
   "loading": "Loading...",
   "location": "Location",
   "loginDetails": "Login details",
   "logIn": "Log In",
+  "logInPlease": "Login Please",
   "needToLogin": "Log in to see winery information...",
   "logOut": "Log Out",
 
@@ -135,8 +142,10 @@
   "saveChanges": "Save Changes",
   "savingImage": "Saving Image",
   "schedule": "Schedule",
+  "search": "Search",
   "validRecursion": "Select a valid recursion",
   "selectDate": "Select a date: ",
+  "selectDates": "Select dates",
   "autoDuration": "Select Start & End to display duration",
   "serverError": "Server Error screen",
   "urlError": "Something is wrong with the URL",
@@ -153,6 +162,7 @@
   "onlyRegisteredUsers": "This page is only available for registered users",
   "tier": "Tier",
   "title": "Title",
+  "toOneExperience": "To one experience: ",
   "toggleMenu": "Toggle Menu",
   "total": "Total: ",
 
@@ -162,8 +172,10 @@
   "username": "Username",
 
   "valley": "Valley",
+  "ensenadaValleys": "Valleys in Ensenada",
   "visible": "Visible",
 
+  "addedTo": "was added to",
   "processingCredentials": "We are processing your credentials",
   "fetchingInformation": "We are fetching the winery information",
   "uploadImageError": "We couldnt upload your images",

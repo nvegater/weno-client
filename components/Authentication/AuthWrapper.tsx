@@ -53,7 +53,7 @@ export const AuthWrapper: FC<AuthWrapperProps> = ({ children }) => {
           )}
           {!keycloak.authenticated && (
             <>
-              <div>Login pls</div>
+              <div>{t("LogInPlease")}</div>
               <button onClick={() => keycloak.login()} color="red">
                 {t("LogIn")}
               </button>

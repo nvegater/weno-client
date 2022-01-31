@@ -7,6 +7,7 @@ import {
   useWineryImagesQuery,
 } from "../../graphql/generated/graphql";
 import { ImageOptions } from "./ImageOptions";
+import { useTranslation } from "react-i18next";
 
 interface GalleryProps {
   wineryAlias: string;
@@ -26,6 +27,7 @@ export const Gallery: FC<GalleryProps> = ({
   });
 
   const [images, setImages] = useState<GetImage[]>([]);
+  const [t] = useTranslation("global");
 
   useEffect(() => {
     if (data?.wineryImages.gallery) {
@@ -39,14 +41,14 @@ export const Gallery: FC<GalleryProps> = ({
         {error && (
           <Flex justifyContent="center" m={5}>
             <Heading as="h2" size="xl">
-              Error downloading images
+              {t("errorDownloadingImages")}
             </Heading>
           </Flex>
         )}
         {fetching && (
           <Flex justifyContent="center" m={5}>
             <Heading as="h2" size="xl">
-              Fetching your images
+              {t("fetchingImages")}
             </Heading>
           </Flex>
         )}

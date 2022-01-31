@@ -16,6 +16,7 @@ import {
   useExperiencesListQuery,
 } from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
+import { useTranslation } from "react-i18next";
 
 interface ExperiencesListModalProps {
   isOpen: boolean;
@@ -43,6 +44,7 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
     }
   );
   const [message, setMessage] = useState<string | null>(null);
+  const [t] = useTranslation("global");
 
   async function handleSelection(experienceId: number, title: string) {
     const { data: imagesData, error } = await addImageToExperience(
@@ -65,7 +67,7 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
       ? imagesData.addImageToExperience.images
       : [];
     if (images.length > 0) {
-      setMessage(`${images[0].imageName} was added to ${title}`);
+      setMessage(`${images[0].imageName} ${t("addedTo")} ${title}`);
     }
   }
   return (
@@ -81,7 +83,7 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
               size="xl"
               my={8}
             >
-              Add this image:
+              {t("addThisImage")}
             </Heading>
           )}
 
@@ -102,7 +104,7 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
               size="md"
               my={8}
             >
-              To one experience:
+              {t("toOneExperience")}
             </Heading>
           )}
 
@@ -116,14 +118,14 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
           {fetching && (
             <Flex justifyContent="center" m={5}>
               <Heading as="h2" size="xl">
-                Loading experiences
+                {t("loadingExperiences")}
               </Heading>
             </Flex>
           )}
           {experiencesError && (
             <Flex justifyContent="center" m={5}>
               <Heading as="h2" size="xl">
-                Error retrieving experiences
+                {t("errorRetrieving")}
               </Heading>
             </Flex>
           )}
@@ -150,7 +152,9 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
                   onClick={() => handleSelection(exp.id, exp.title)}
                 >
                   <Heading fontSize="xl">{exp.title}</Heading>
-                  <Text mt={4}>{exp.imageCount + " "} images</Text>
+                  <Text mt={4}>
+                    {exp.imageCount + " "} {t("imags")}
+                  </Text>
                 </Box>
               ))}
             </Stack>
