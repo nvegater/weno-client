@@ -576,21 +576,23 @@ export type Tier = {
 
 /** Types of wine produced by a winery */
 export enum TypeWine {
-  BlancoJoven = 'BLANCO_JOVEN',
+  Blanco = 'BLANCO',
   BlancoConBarrica = 'BLANCO_CON_BARRICA',
   Rosado = 'ROSADO',
-  TintoJoven = 'TINTO_JOVEN',
-  TintoCrianzaBarrica = 'TINTO_CRIANZA_BARRICA',
+  TintoCrianza = 'TINTO_CRIANZA',
+  TintoReserva = 'TINTO_RESERVA',
+  TintoGranReserva = 'TINTO_GRAN_RESERVA',
   GenerosoFortificado = 'GENEROSO_FORTIFICADO',
   Espumoso = 'ESPUMOSO',
+  Cosecha = 'COSECHA',
   Naranja = 'NARANJA',
   Dulce = 'DULCE',
-  Cosecha = 'COSECHA',
-  ConmemorativoEdiLimitada = 'CONMEMORATIVO_EDI_LIMITADA',
+  Natural = 'NATURAL',
+  Conmemorativo = 'CONMEMORATIVO',
   ExclusivoVentaLocal = 'EXCLUSIVO_VENTA_LOCAL',
   Organico = 'ORGANICO',
   Biodinamico = 'BIODINAMICO',
-  Natural = 'NATURAL'
+  Otro = 'OTRO'
 }
 
 /** Se pueden cargar imagenes para distintos elementos, usuarios, galerias de viñeros etc, etc */
