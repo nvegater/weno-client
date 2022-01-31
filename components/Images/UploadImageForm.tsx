@@ -15,6 +15,7 @@ import {
 } from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
 import { FormControlImages } from "./FormControlImages";
+import { useTranslation } from "react-i18next";
 
 async function uploadFileWithPreSignedUrl(
   file: File,
@@ -61,6 +62,7 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [resetImage, setResetImage] = useState(false);
+  const [t] = useTranslation("global");
 
   useEffect(() => {
     const asyncFn = async () => {
@@ -138,13 +140,13 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
       </FormControl>
       {!error && (
         <Button type="submit" isLoading={loading}>
-          Upload File
+          {t("uploadFile")}
         </Button>
       )}
       {savedImageNames.length > 0 && (
         <Flex justifyContent="center" m={5} flexDirection="column">
           <Heading as="h2" size="xl" my={4}>
-            Uploaded:{" "}
+            {t("uploaded")}
           </Heading>
           {savedImageNames.map((name, index) => {
             return (

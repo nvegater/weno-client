@@ -19,6 +19,7 @@ import {
 } from "../../graphql/generated/graphql";
 import { OperationContext, OperationResult } from "urql";
 import { getToastMessage } from "../utils/chakra-utils";
+import { useTranslation } from "react-i18next";
 
 async function handleBookingLinkRequest(
   totalPrice: number,
@@ -81,6 +82,7 @@ export const CreateReservation: FC<CreateReservationProps> = ({
   const [guestEmail, setGuestEmail] = useState("");
 
   const [, getCheckoutLink] = useGetCheckoutLinkMutation();
+  const [t] = useTranslation("global");
 
   const toast = useToast();
   return (
@@ -101,7 +103,7 @@ export const CreateReservation: FC<CreateReservationProps> = ({
             );
           }}
         >
-          Book
+          {t("book")}
         </Button>
       )}
       {!authenticated && (
@@ -115,7 +117,7 @@ export const CreateReservation: FC<CreateReservationProps> = ({
                   setRequestGuestEmail(true);
                 }}
               >
-                Book as a guest
+                {t("bookAsGuest")}Book as a guest
               </Button>
 
               <Button
@@ -128,7 +130,7 @@ export const CreateReservation: FC<CreateReservationProps> = ({
                   }
                 }}
               >
-                Register and book
+                {t("registerAndBook")}Register and book
               </Button>
             </>
           )}
@@ -141,7 +143,7 @@ export const CreateReservation: FC<CreateReservationProps> = ({
               isRequired
             >
               <FormLabel htmlFor="guestEmail">
-                We only need your email
+                {t("requireEmail")}We only need your email
               </FormLabel>
               <Input
                 type="email"
@@ -171,7 +173,7 @@ export const CreateReservation: FC<CreateReservationProps> = ({
                   }
                 }}
               >
-                Book
+                {t("book")}
               </Button>
               {guestEmail !== "" ? (
                 <FormHelperText>

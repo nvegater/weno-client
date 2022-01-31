@@ -11,6 +11,7 @@ import {
 import { RiPlayListAddLine } from "react-icons/ri";
 import { ExperiencesListModal } from "./ExperiencesListModal";
 import { ContextHeader } from "../Authentication/useAuth";
+import { useTranslation } from "react-i18next";
 
 interface ImageOptionsProps {
   imageUrl: string;
@@ -26,6 +27,7 @@ export const ImageOptions: FC<ImageOptionsProps> = ({
   wineryId,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [t] = useTranslation("global");
 
   return (
     <Flex
@@ -47,9 +49,9 @@ export const ImageOptions: FC<ImageOptionsProps> = ({
           <RiPlayListAddLine />
         </MenuButton>
         <MenuList>
-          <MenuItem onClick={() => onOpen()}>Add to experience</MenuItem>
-          <MenuItem>Use as cover picture</MenuItem>
-          <MenuItem>Delete</MenuItem>
+          <MenuItem onClick={() => onOpen()}>{t("addToExperience")}</MenuItem>
+          <MenuItem>{t("useAsCover")}</MenuItem>
+          <MenuItem>{t("delete")}</MenuItem>
         </MenuList>
       </Menu>
       <Image
