@@ -19,17 +19,17 @@ interface VerticalStepsProps {
   finalStepText?: string;
 }
 
-const [t] = useTranslation("global");
 export const VerticalSteps: FC<VerticalStepsProps> = ({
   steps,
   isLoading,
   withSave = false,
-  finalStepText = t("formCompleted"),
+  finalStepText,
 }) => {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
-
+  const [t] = useTranslation("global");
+  finalStepText = t("formCompleted");
   return (
     <Box minH="300px" minW="400px">
       <Steps activeStep={activeStep}>

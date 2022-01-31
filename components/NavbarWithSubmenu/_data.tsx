@@ -12,9 +12,9 @@ export interface Link {
 }
 
 export const links: Link[] = [
-  { label: "Home", href: "#" },
+  { label: "home", href: "#" },
   {
-    label: "Experiences",
+    label: "experiences",
     href: "#",
     /*    children: [
       {
@@ -39,7 +39,7 @@ export const links: Link[] = [
     ],*/
   },
   {
-    label: "Wineries",
+    label: "wineries",
     /*    children: [
       {
         label: "Get Help",
@@ -62,5 +62,5 @@ export const links: Link[] = [
       },
     ],*/
   },
-  { label: "About us", href: "#" },
+  { label: "aboutUs", href: "#" },
 ];

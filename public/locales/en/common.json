@@ -1,6 +1,7 @@
 {
   "sixty": "e.g. 60",
 
+  "aboutUs": "About us",
   "accountSettings": "Account Settings",
   "errorOccurred": "An error has ocurred",
   "serverErrorOccurred": "An error in our servers has ocurred",
@@ -127,7 +128,6 @@
   "recurrent": "Recurrent",
   "register": "Register",
   "remove": "Remove",
-  "requiredField": "Required field",
   "reset": "Reset",
   "resetInstructions": "Click reset to verify your creation",
 
@@ -170,6 +170,7 @@
   "savedImages": "We saved your images",
   "securityAd": "We want to help you earn money in the most secure way while always being up to date with new regulations.",
   "wineType": "Wine Type",
+  "wineries": "Wineries",
   "wineryInformation": "Winery Information",
   "wineryName": "Winery Name",
 

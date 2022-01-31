@@ -1,6 +1,7 @@
 {
   "sixty": "ej. 60",
 
+  "aboutUs": "Acerca de nosotros",
   "accountSettings": "Configuración de la cuenta",
   "errorOccurred": "Ha ocurrido un error",
   "serverErrorOccurred": "Ha ocurrido un error en nuestros servidores",
@@ -127,7 +128,6 @@
   "recurrent": "Recurrente",
   "register": "Registrarse",
   "remove": "Eliminar",
-  "requiredField": "Campo requerido",
   "reset": "Reiniciar",
   "resetInstructions": "Presione reiniciar para verificar su creación",
 
@@ -170,6 +170,7 @@
   "savedImages": "Hemos guardado tus imagenes",
   "securityAd": "Queremos ayudarte a ganar dinero de la forma mas segura mientras te mantenemos actualizado con las nuevas normas",
   "wineType": "Tipo de vino",
+  "wineries": "Viñedos",
   "wineryInformation": "Información del viñedo",
   "wineryName": "Nombre del viñedo",
 

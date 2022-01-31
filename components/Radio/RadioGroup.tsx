@@ -16,7 +16,7 @@ type FormElementsUsingRadiogroup = {
   eventType?: string;
   typeOfSlot?: string;
 };
-const [t] = useTranslation("global");
+
 const RadioGroup: FC<{
   control: Control<FormElementsUsingRadiogroup>;
   label: string;
@@ -39,7 +39,7 @@ const RadioGroup: FC<{
     control,
     defaultValue: elements.length > 0 ? elements[0].name : undefined,
     name: name,
-    rules: { required: { value: true, message: t("requiredField") } },
+    rules: { required: { value: true, message: "This field is required" } },
   });
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: field.name,
@@ -47,6 +47,7 @@ const RadioGroup: FC<{
     value: field.value,
     defaultValue: field.value,
   });
+  const [t] = useTranslation("global");
   const group = getRootProps();
 
   return (

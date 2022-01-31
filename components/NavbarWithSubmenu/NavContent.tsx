@@ -102,6 +102,7 @@ const MobileNavContext = ({
 //preferred_username,
 NavBarProps) => {
   const { isOpen, onToggle } = useDisclosure();
+  const [t] = useTranslation("global");
   return (
     <>
       {/*NavBar (closed SideBar)-------------------------------------------*/}
@@ -139,7 +140,7 @@ NavBarProps) => {
             {link.children ? (
               <Submenu.Mobile link={link} />
             ) : (
-              <NavLink.Mobile href={link.href}>{link.label}</NavLink.Mobile>
+              <NavLink.Mobile href={link.href}>{t(link.label)}</NavLink.Mobile>
             )}
           </Box>
         ))}
@@ -161,6 +162,7 @@ const DesktopNavContent = ({
 //email,
 //preferred_username,
 NavBarProps) => {
+  const [t] = useTranslation("global");
   return (
     <Flex
       className="nav-content__desktop"
@@ -185,7 +187,9 @@ NavBarProps) => {
             {link.children ? (
               <Submenu.Desktop link={link} />
             ) : (
-              <NavLink.Desktop href={link.href}>{link.label}</NavLink.Desktop>
+              <NavLink.Desktop href={link.href}>
+                {t(link.label)}
+              </NavLink.Desktop>
             )}
           </Box>
         ))}
