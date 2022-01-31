@@ -1,0 +1,18 @@
+mutation SaveImages(
+  $wineryId: Int!
+  $wineryAlias: String!
+  $imageNames: [String!]!
+) {
+  saveImages(
+    wineryId: $wineryId
+    wineryAlias: $wineryAlias
+    imageNames: $imageNames
+  ) {
+    errors {
+      ...ErrorFragment
+    }
+    images {
+      ...GetImage
+    }
+  }
+}

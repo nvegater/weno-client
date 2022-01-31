@@ -16,6 +16,7 @@ import enLang from "../public/locales/en/common.json";
 import "../components/DateTimePicker/Clock.css";
 import "../components/DateTimePicker/DateTimePicker.css";
 import "../components/DateTimePicker/Calendar.css";
+import "../components/DateTimePicker/DatePicker/datePicker.css";
 
 i18next.use(initReactI18next).init({
   lng: "es",

@@ -28,6 +28,7 @@ const Register: FC<RegisterProps> = ({}) => {
   const router = useRouter();
   const [t] = useTranslation("global");
   if (authenticated && isVisitor && tokenInfo) {
+    // TODO REdirect to user Profile if its a visitor
     router.push("/");
   }
 
@@ -55,6 +56,7 @@ const Register: FC<RegisterProps> = ({}) => {
         `/winery/${data.winery.winery.urlAlias}`
       );
     }
+    // TODO REdirect to user Profile if its a visitor
   }, [data, isOwner, router]);
 
   if (error) {

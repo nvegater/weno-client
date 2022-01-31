@@ -1,0 +1,6 @@
+fragment ExperienceListItem on ExperienceListItem {
+  id
+  title
+  experienceType
+  imageCount
+}

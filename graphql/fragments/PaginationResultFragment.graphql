@@ -2,4 +2,5 @@ fragment PaginationResultFragment on CursorPaginationResult {
   beforeCursor
   afterCursor
   limit
+  moreResults
 }

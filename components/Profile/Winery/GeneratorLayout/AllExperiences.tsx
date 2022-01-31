@@ -4,7 +4,7 @@ import {
   ExperiencesGridMode,
 } from "../../../Experiences/ExperiencesGridLayout";
 import {
-  PaginatedExperience,
+  PaginatedExperienceLightFragment,
   useExperiencesQuery,
 } from "../../../../graphql/generated/graphql";
 import { Button, Flex } from "@chakra-ui/react";
@@ -16,9 +16,10 @@ interface AllExperiencesProps {}
 export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
   const [paginationConfig, experiencesFilters, handlePaginationRequest] =
     useFiltersPagination();
-
-  const [experiences, setExperiences] = useState<PaginatedExperience[]>([]);
   const [t] = useTranslation("global");
+  const [experiences, setExperiences] = useState<
+    PaginatedExperienceLightFragment[]
+  >([]);
 
   const [{ data, fetching, error: networkError }] = useExperiencesQuery({
     variables: {
@@ -42,9 +43,6 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
     }
   }, [data, experiences]);
 
-  const noMoreResults =
-    data?.experiences?.paginationConfig?.beforeCursor === null &&
-    data?.experiences?.paginationConfig?.afterCursor === null;
   return (
     <>
       {fetching && <div>Generator Loading screen</div>}
@@ -62,7 +60,7 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
           size="navBarCTA"
           variant="cta"
           width="300px"
-          isDisabled={noMoreResults}
+          isDisabled={!Boolean(data?.experiences?.paginationConfig.moreResults)}
           onClick={() => {
             if (experiences.length > 0) {
               handlePaginationRequest(
@@ -72,7 +70,9 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
             }
           }}
         >
-          {noMoreResults ? "No more results" : "Load more"}
+          {!Boolean(data?.experiences?.paginationConfig.moreResults)
+            ? "No more results"
+            : "Load more"}
         </Button>
       </Flex>
     </>

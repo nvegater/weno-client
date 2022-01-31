@@ -1,0 +1,16 @@
+fragment Reservation on ReservationDts {
+  createdAt
+  email
+  endDateTime
+  id
+  noOfAttendees
+  paymentStatus
+  pricePerPersonInDollars
+  slotId
+  startDateTime
+  title
+  updatedAt
+  username
+  wineryName
+  getUrl
+}

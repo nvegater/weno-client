@@ -24,12 +24,14 @@ import { useTranslation } from "react-i18next";
 import { atom, useRecoilState } from "recoil";
 import { EditableExperiences } from "../../../Settings/Experiences/EditableExperiences";
 import { AllExperiences } from "./AllExperiences";
+import { Gallery } from "../../../Images/Gallery";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
   EDIT_INFO,
   ALL_EXPERIENCES,
   SCHEDULE,
+  GALLERY,
   NEW_EXPERIENCE,
   EDIT_EXPERIENCE,
   PAST_EXPERIENCES,
@@ -118,6 +120,13 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                   active={subPage === GeneratorSubpage.SCHEDULE}
                 />
                 <NavItem
+                  icon={<BiEnvelope />}
+                  label="Gallery"
+                  subPage={GeneratorSubpage.GALLERY}
+                  setSubPage={setSubPage}
+                  active={subPage === GeneratorSubpage.GALLERY}
+                />
+                <NavItem
                   icon={<BiPurchaseTagAlt />}
                   label={t("newExperience")}
                   subPage={GeneratorSubpage.NEW_EXPERIENCE}
@@ -202,6 +211,13 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
               )}
               {subPage === GeneratorSubpage.SCHEDULE && (
                 <div>{t("experiencesCalendar")}</div>
+              )}
+              {subPage === GeneratorSubpage.GALLERY && (
+                <Gallery
+                  wineryAlias={winery.urlAlias}
+                  wineryId={winery.id}
+                  contextHeader={contextHeader}
+                />
               )}
               {subPage === GeneratorSubpage.NEW_EXPERIENCE && (
                 <CreateExperience

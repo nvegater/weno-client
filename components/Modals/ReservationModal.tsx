@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { useExperienceWithSlotsQuery } from "../../graphql/generated/graphql";
-import { ExperienceModalLayout } from "./ExperienceModalLayout";
+import { Reservation } from "./Reservation";
+import { Heading } from "@chakra-ui/react";
 
 interface ReservationModalProps {
   experienceId: number;
@@ -15,27 +16,34 @@ export const ReservationModal: FC<ReservationModalProps> = ({
       requestPolicy: "network-only",
     }
   );
-  console.log(data);
 
   return (
     <>
-      {data &&
-        data.experienceWithSlots.errors == null &&
-        data.experienceWithSlots.experience && (
-          <ExperienceModalLayout
-            experienceTitle={data.experienceWithSlots.experience.title}
-            wineryName={data.experienceWithSlots.experience.winery.name}
-            wineryValley={data.experienceWithSlots.experience.winery.valley}
+      {data?.experienceWithSlots.errors == null &&
+        data?.experienceWithSlots.experience && (
+          <Reservation
+            wineryName={data.experienceWithSlots.experience.wineryName}
+            valley={data.experienceWithSlots.experience.valley}
+            slots={data.experienceWithSlots.experience.slots}
             images={data.experienceWithSlots.experience.images}
+            experienceInfo={data.experienceWithSlots.experience}
             startDateTime={
               data.experienceWithSlots.experience.slots[0].startDateTime
             }
-            slots={data.experienceWithSlots.experience.slots}
-            price={data.experienceWithSlots.experience.pricePerPersonInDollars}
           />
         )}
-      {data && data.experienceWithSlots.errors && (
-        <>Errors: {data.experienceWithSlots.errors[0].message}</>
+      {data?.experienceWithSlots.errors && !fetching && (
+        <Heading as="h2" size="sm" color="brand.200" textAlign="center" mt={8}>
+          {data?.experienceWithSlots.errors[0].field === "slots"
+            ? "There are no slots available for this Experience"
+            : "An unexpected error occurred in our servers. Please get in touch with us"}
+        </Heading>
+      )}
+      {networkError && !fetching && (
+        <Heading as="h2" size="sm" color="brand.200" textAlign="center">
+          Oh oh, something is wrong with the network or connection to our
+          servers.
+        </Heading>
       )}
     </>
   );

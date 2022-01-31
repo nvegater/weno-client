@@ -12,9 +12,6 @@ fragment WineryFragment on Winery {
   creatorUsername
   description
   enologoName
-  experiences {
-    ...ExperienceFragment
-  }
   foundationYear
   googleMapsUrl
   handicappedFriendly

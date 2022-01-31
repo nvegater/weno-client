@@ -7,7 +7,7 @@ import { ContextHeader } from "../../Authentication/useAuth";
 import { useRecoilValue } from "recoil";
 import { createdExperienceIdState } from "../../Experiences/CreateExperience";
 import {
-  PaginatedExperience,
+  PaginatedExperienceFragment,
   useEditableExperiencesQuery,
   WineryFragmentFragment,
 } from "../../../graphql/generated/graphql";
@@ -30,16 +30,17 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
   const [paginationConfig, experiencesFilters, handlePaginationRequest] =
     useFiltersPagination();
 
-  const [experiences, setExperiences] = useState<PaginatedExperience[]>([]);
+  const [experiences, setExperiences] = useState<PaginatedExperienceFragment[]>(
+    []
+  );
 
   const [{ data, fetching, error: networkError }] = useEditableExperiencesQuery(
     {
       variables: {
         paginatedExperiencesInputs: {
           paginationConfig: { ...paginationConfig },
-          experiencesFilters: { ...experiencesFilters },
+          experiencesFilters: { ...experiencesFilters, wineryIds: [winery.id] },
         },
-        wineryId: winery.id,
       },
       requestPolicy: "network-only",
       context: contextHeader,
@@ -48,7 +49,8 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
 
   useEffect(() => {
     if (data && data.editableExperiences.experiences) {
-      const newExps = data?.editableExperiences?.experiences;
+      const newExps: PaginatedExperienceFragment[] =
+        data?.editableExperiences?.experiences;
       const newTitles = newExps.map((exp) => exp.title);
       const oldTitles = experiences.map((exp) => exp.title);
       if (!newTitles.some((newTitle) => oldTitles.includes(newTitle))) {
@@ -57,10 +59,6 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
       }
     }
   }, [data, experiences]);
-
-  const noMoreResults =
-    data?.editableExperiences?.paginationConfig?.beforeCursor === null &&
-    data?.editableExperiences?.paginationConfig?.afterCursor === null;
 
   return (
     <>
@@ -80,11 +78,13 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
         networkError={networkError}
       />
       <LoadMoreButton
-        disableButton={noMoreResults}
+        disableButton={
+          !Boolean(data?.editableExperiences?.paginationConfig?.moreResults)
+        }
         noOfExperiences={experiences.length}
         handlePaginationRequest={handlePaginationRequest}
         paginationConfig={paginationConfig}
-        newPaginationConfig={data.editableExperiences.paginationConfig}
+        newPaginationConfig={data?.editableExperiences?.paginationConfig}
       />
     </>
   );

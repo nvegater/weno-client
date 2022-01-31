@@ -1,0 +1,20 @@
+mutation GetCheckoutLink(
+  $createCustomerInputs: CreateCustomerInputs!
+  $slotIds: [Int!]!
+  $cancelUrl: String!
+  $successUrl: String!
+  $noOfVisitors: Float!
+) {
+  getCheckoutLink(
+    createCustomerInputs: $createCustomerInputs
+    slotIds: $slotIds
+    cancelUrl: $cancelUrl
+    successUrl: $successUrl
+    noOfVisitors: $noOfVisitors
+  ) {
+    errors {
+      ...ErrorFragment
+    }
+    link
+  }
+}

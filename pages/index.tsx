@@ -10,35 +10,42 @@ import {
   ExperiencesGridMode,
 } from "../components/Experiences/ExperiencesGridLayout";
 import {
-  PaginatedExperience,
-  useExperiencesQuery,
+  PaginatedExperienceLightFragment,
+  useBookableExperiencesQuery,
 } from "../graphql/generated/graphql";
 import useFiltersPagination from "../components/utils/useFiltersPagination";
 import { Flex, Heading, Icon } from "@chakra-ui/react";
 import { ImFilter } from "react-icons/im";
 import { LoadMoreButton } from "../components/Experiences/LoadMoreButton";
+import { Filters } from "../components/Filters/Filters";
 
 const Home = () => {
-  const { authenticated, logout, login, tokenInfo } = useAuth();
+  const { authenticated, logout, login, register, tokenInfo } = useAuth();
+
+  const [openFilters, setOpenFilters] = useState<boolean>(false);
 
   const [paginationConfig, experiencesFilters, handlePaginationRequest] =
     useFiltersPagination();
 
-  const [experiences, setExperiences] = useState<PaginatedExperience[]>([]);
+  const [experiences, setExperiences] = useState<
+    PaginatedExperienceLightFragment[]
+  >([]);
 
-  const [{ data, fetching, error: networkError }] = useExperiencesQuery({
-    variables: {
-      paginatedExperiencesInputs: {
-        paginationConfig: { ...paginationConfig },
-        experiencesFilters: { ...experiencesFilters },
+  const [{ data, fetching, error: networkError }] = useBookableExperiencesQuery(
+    {
+      variables: {
+        paginatedExperiencesInputs: {
+          paginationConfig: { ...paginationConfig },
+          experiencesFilters: { ...experiencesFilters },
+        },
       },
-    },
-    requestPolicy: "network-only",
-  });
+      requestPolicy: "network-only",
+    }
+  );
 
   useEffect(() => {
-    if (data && data.experiences.experiences) {
-      const newExps = data?.experiences?.experiences;
+    if (data?.bookableExperiences.experiences) {
+      const newExps = data?.bookableExperiences?.experiences;
       const newTitles = newExps.map((exp) => exp.title);
       const oldTitles = experiences.map((exp) => exp.title);
       if (!newTitles.some((newTitle) => oldTitles.includes(newTitle))) {
@@ -47,10 +54,6 @@ const Home = () => {
       }
     }
   }, [data, experiences]);
-
-  const noMoreResults =
-    data?.experiences?.paginationConfig?.beforeCursor === null &&
-    data?.experiences?.paginationConfig?.afterCursor === null;
 
   return (
     <div>
@@ -65,14 +68,29 @@ const Home = () => {
           authenticated={authenticated}
           tokenInfo={tokenInfo}
         >
-          <Hero />
+          <Hero authenticated={authenticated} register={register} />
 
-          <Flex justifyContent="space-between" p={5}>
+          <Flex
+            justifyContent={["space-between", null, null, "space-around"]}
+            py={5}
+            mx={[10, 10, 10, 20]}
+          >
             <Heading as="h1" color="brand.200" fontWeight="700" size="2xl">
               Experiences
             </Heading>
-            <Icon as={ImFilter} w={6} h={6} color="brand.300" mt={2} />
+            <Icon
+              as={ImFilter}
+              w={6}
+              h={6}
+              color="brand.300"
+              mt={2}
+              onClick={() => {
+                setOpenFilters(!openFilters);
+              }}
+            />
           </Flex>
+
+          {openFilters && <Filters />}
 
           <ExperiencesGridLayout
             experiences={experiences}
@@ -82,11 +100,13 @@ const Home = () => {
           />
 
           <LoadMoreButton
-            disableButton={noMoreResults}
+            disableButton={
+              !Boolean(data?.bookableExperiences?.paginationConfig?.moreResults)
+            }
             noOfExperiences={experiences.length}
             handlePaginationRequest={handlePaginationRequest}
             paginationConfig={paginationConfig}
-            newPaginationConfig={data?.experiences?.paginationConfig}
+            newPaginationConfig={data?.bookableExperiences?.paginationConfig}
           />
         </WenoLayout>
       </main>

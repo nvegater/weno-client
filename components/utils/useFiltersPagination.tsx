@@ -7,7 +7,7 @@ import {
 const DEFAULT_PAGINATION_CONFIG = {
   beforeCursor: null,
   afterCursor: null,
-  limit: 4,
+  limit: 10,
 };
 
 const DEFAULT_FILTERS_CONFIG = {

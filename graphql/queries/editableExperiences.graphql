@@ -1,17 +1,13 @@
 query EditableExperiences(
-  $wineryId: Float!
   $paginatedExperiencesInputs: PaginatedExperiencesInputs!
 ) {
-  editableExperiences(
-    wineryId: $wineryId
-    paginatedExperiencesInputs: $paginatedExperiencesInputs
-  ) {
+  editableExperiences(paginatedExperiencesInputs: $paginatedExperiencesInputs) {
     errors {
       field
       message
     }
     experiences {
-      ...PaginatedExperienceWithSlot
+      ...PaginatedExperience
     }
     totalExperiences
     paginationConfig {

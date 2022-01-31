@@ -5,12 +5,10 @@ import { ExperienceModal } from "../Modals/ExperienceModal";
 import { ExperienceCardCover } from "../Cards/ExperienceCardCover";
 import {
   Box,
-  Button,
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerFooter,
   Flex,
   Grid,
   Heading,
@@ -18,8 +16,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import {
-  PaginatedExperience,
-  PaginatedExperienceWithSlots,
+  PaginatedExperienceFragment,
+  PaginatedExperienceLightFragment,
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
 import { useTranslation } from "react-i18next";
@@ -31,7 +29,10 @@ export enum ExperiencesGridMode {
 }
 
 interface ExperiencesGridLayoutProps {
-  experiences: (PaginatedExperience | PaginatedExperienceWithSlots)[];
+  experiences: (
+    | PaginatedExperienceFragment
+    | PaginatedExperienceLightFragment
+  )[];
   mode: ExperiencesGridMode;
   preSelectedExperienceId?: number;
   winery?: WineryFragmentFragment;
@@ -56,7 +57,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   const [t] = useTranslation("global");
 
   return (
-    <Box>
+    <Box mx={[null, null, 10, 20]}>
       <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
         <DrawerContent>
           <DrawerCloseButton />
@@ -67,7 +68,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
             {mode === ExperiencesGridMode.EDIT && (
               <EditExperienceModal
                 experienceId={experienceId}
-                experiences={experiences as PaginatedExperienceWithSlots[]}
+                experiences={experiences as PaginatedExperienceFragment[]}
                 winery={winery}
               />
             )}
@@ -75,12 +76,6 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
               <ExperienceModal experienceId={experienceId} />
             )}
           </DrawerBody>
-
-          <DrawerFooter>
-            <Button type="submit" form="my-form">
-              {t("save")}
-            </Button>
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
 
@@ -115,6 +110,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
                   {...exp}
                   setExperienceId={setExperienceId}
                   openModal={onOpen}
+                  image={exp.images[0]}
                 />
               </Flex>
             ))}

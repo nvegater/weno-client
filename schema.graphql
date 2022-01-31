@@ -5,9 +5,15 @@ schema {
   mutation: Mutation
 }
 
+type CheckoutLinkResponse {
+  errors: [FieldError!]
+  link: String
+}
+
 type CheckoutSessionResponse {
   errors: [FieldError!]
-  sessionStatus: String
+  payment_status: String
+  reservations: [ReservationDts!]
   sessionUrl: String
 }
 
@@ -16,16 +22,20 @@ type CursorPaginationResult {
   afterCursor: String
   beforeCursor: String
   limit: Int
+  moreResults: Boolean!
 }
 
-type Customer {
+type CustomerDts {
+  createdAt: DateTime!
   email: String!
-  name: String
-  paymentMetadata: PaymentMetadata!
+  id: String!
+  stripeCustomerId: String!
+  updatedAt: DateTime!
+  username: String
 }
 
 type CustomerResponse {
-  customer: Customer
+  customer: CustomerDts
   errors: [FieldError!]
 }
 
@@ -43,7 +53,6 @@ type Experience {
   id: Int!
   images: [ExperienceImage!]
   pricePerPersonInDollars: Float!
-  reservations: [Reservation!]
   slots: [ExperienceSlot!]!
   title: String!
   updatedAt: DateTime!
@@ -57,24 +66,21 @@ type ExperienceImage {
   experience: Experience!
   experienceId: Float!
   id: Float!
-  imageUrl: String!
+  imageName: String!
   updatedAt: DateTime!
 }
 
-type ExperienceImageResponse {
-  errors: [FieldError!]
-  experienceImages: [ExperienceImageUpload!]!
-}
-
-type ExperienceImageUpload {
-  coverPage: Boolean!
-  imageUrl: String!
+type ExperienceListItem {
+  experienceType: ExperienceType!
+  id: Int!
+  imageCount: Int!
+  title: String!
 }
 
 type ExperienceResponse {
   dateWithTimes: [DateWithTimes!]
   errors: [FieldError!]
-  experience: Experience
+  experience: PaginatedExperience
 }
 
 type ExperienceSlot {
@@ -86,9 +92,16 @@ type ExperienceSlot {
   id: Int!
   limitOfAttendees: Int!
   noOfAttendees: Int
+  pricePerPersonInDollars: Float!
+  reservations: [Reservation!]
   slotType: SlotType!
   startDateTime: DateTime!
   updatedAt: DateTime!
+}
+
+type ExperiencesList {
+  errors: [FieldError!]
+  experiencesList: [ExperienceListItem!]
 }
 
 type FieldError {
@@ -96,12 +109,32 @@ type FieldError {
   message: String!
 }
 
+type GetImage {
+  getUrl: String!
+  id: Int!
+  imageName: String!
+}
+
 type GetPreSignedUrlResponse {
   arrayUrl: [PresignedResponse!]
   errors: [FieldError!]
 }
 
+type ImageGalleryResponse {
+  errors: [FieldError!]
+  gallery: [GetImage!]
+}
+
+type InsertImageResponse {
+  errors: [FieldError!]
+  images: [GetImage!]
+}
+
 type Mutation {
+  addImageToExperience(
+    experienceId: Int
+    wineryImageId: Int
+  ): InsertImageResponse!
   "Trigger: winery information Page. If called for the first time, updates the winery connected account creation dateOtherwise simply return the winery"
   confirmConnectedAccount(wineryAlias: String!): WineryResponse!
   createCustomer(createCustomerInputs: CreateCustomerInputs!): CustomerResponse!
@@ -109,14 +142,30 @@ type Mutation {
     createExperienceInputs: CreateExperienceInputs!
     createRecurrentDatesInputs: CreateRecurrentDatesInputs!
   ): ExperienceResponse!
+  createReservation: Boolean!
   createWinery(
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
   ): WineryResponse!
-  saveExperienceImagesUrls(
-    experienceId: Int!
-    preSignedUrls: [String!]!
-  ): ExperienceImageResponse!
+  getCheckoutLink(
+    cancelUrl: String!
+    createCustomerInputs: CreateCustomerInputs!
+    noOfVisitors: Float!
+    slotIds: [Int!]!
+    successUrl: String!
+  ): CheckoutLinkResponse!
+  preSignedUrl(
+    creatorUsername: String
+    fileNames: [String!]!
+    uploadType: UploadType!
+    wineryAlias: String
+    wineryId: Int
+  ): GetPreSignedUrlResponse!
+  saveImages(
+    imageNames: [String!]!
+    wineryAlias: String
+    wineryId: Int
+  ): InsertImageResponse!
   wineryOnboarding(wineryAlias: String!): OnboardingResponse!
 }
 
@@ -131,21 +180,11 @@ type PaginatedExperience {
   description: String!
   experienceType: ExperienceType!
   id: Int!
+  images: [GetImage!]
   pricePerPersonInDollars: Float!
+  slots: [ExperienceSlot!]
   title: String!
-  wineryId: Int!
-  wineryName: String!
-}
-
-type PaginatedExperienceWithSlots {
-  allAttendeesAllSlots: Int
-  createdAt: DateTime!
-  description: String!
-  experienceType: ExperienceType!
-  id: Int!
-  pricePerPersonInDollars: Float!
-  slots: [ExperienceSlot!]!
-  title: String!
+  valley: Valley
   wineryId: Int!
   wineryName: String!
 }
@@ -154,22 +193,13 @@ type PaginatedExperiences {
   errors: [FieldError!]
   experiences: [PaginatedExperience!]
   paginationConfig: CursorPaginationResult!
-  totalExperiences: Float!
-}
-
-type PaginatedExperiencesWithSlots {
-  errors: [FieldError!]
-  experiences: [PaginatedExperienceWithSlots!]
-  paginationConfig: CursorPaginationResult!
-  totalExperiences: Float!
-}
-
-type PaymentMetadata {
-  username: String!
+  totalExperiences: Float
 }
 
 type PresignedResponse {
+  errors: [FieldError!]
   getUrl: String
+  imageName: String!
   putUrl: String
 }
 
@@ -200,10 +230,12 @@ type ProductsResponse {
 type Query {
   allReservations: Int!
   allWineries: Int!
+  bookableExperiences(
+    paginatedExperiencesInputs: PaginatedExperiencesInputs!
+  ): PaginatedExperiences!
   editableExperiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
-    wineryId: Float!
-  ): PaginatedExperiencesWithSlots!
+  ): PaginatedExperiences!
   experienceWithSlots(
     experienceId: Float!
     onlyBookableSlots: Boolean!
@@ -211,14 +243,15 @@ type Query {
   experiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
   ): PaginatedExperiences!
+  experiencesList(wineryId: Int!): ExperiencesList!
   getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
   getSubscriptionProducts: ProductsResponse!
   getSubscriptionStatus(customerId: String!): String!
-  preSignedUrl(presignedUrlInputs: PresignedUrlInput!): GetPreSignedUrlResponse!
   recurrentDates(
     createRecurrentDatesInputs: CreateRecurrentDatesInputs!
   ): RecurrenceResponse!
   winery(getWineryInputs: GetWineryInputs!): WineryResponse!
+  wineryImages(wineryAlias: String, wineryId: Int): ImageGalleryResponse!
 }
 
 type RecurrenceResponse {
@@ -228,20 +261,37 @@ type RecurrenceResponse {
 
 type Reservation {
   createdAt: DateTime!
+  email: String!
   endDateTime: DateTime!
-  experience: Experience!
   experienceId: Int!
   id: Int!
   noOfAttendees: Int!
-  orderId: String!
-  paymentCreationDateTime: String!
-  paymentUpdateDateTime: String!
+  paymentStatus: String!
   pricePerPersonInDollars: Float!
+  slot: ExperienceSlot!
+  slotId: Int!
   startDateTime: DateTime!
-  status: String!
   title: String!
   updatedAt: DateTime!
-  userId: String!
+  username: String
+  wineryName: String!
+}
+
+type ReservationDts {
+  createdAt: DateTime!
+  email: String!
+  endDateTime: DateTime!
+  getUrl: String
+  id: Int!
+  noOfAttendees: Int!
+  paymentStatus: String!
+  pricePerPersonInDollars: Float!
+  slotId: Int!
+  startDateTime: DateTime!
+  title: String!
+  updatedAt: DateTime!
+  username: String
+  wineryName: String!
 }
 
 type Tier {
@@ -298,9 +348,10 @@ type WineryImage {
   coverPage: Boolean
   createdAt: DateTime!
   id: Float!
-  imageUrl: String!
+  imageName: String!
   updatedAt: DateTime!
   winery: Winery!
+  wineryAlias: String!
   wineryId: Float!
 }
 
@@ -430,10 +481,9 @@ enum TypeWine {
 
 "Se pueden cargar imagenes para distintos elementos, usuarios, galerias de viñeros etc, etc"
 enum UploadType {
-  EXPERIENCEALBUM
-  USERPROFILEPICTURE
-  WINERYALBUM
-  WINERYLOGO
+  USER_PIC
+  WINERY_LOGO
+  WINERY_PIC
 }
 
 "A winery is in an unique valley, valleys are not identifiable through addresses"
@@ -452,9 +502,10 @@ enum Valley {
 "The javascript `Date` as string. Type represents date and time as the ISO Date string."
 scalar DateTime
 
+"If customer has metadata, it means it is a registered user and It has an username.But Customers dont need to be registered. They can book events as guests, thats why the metadata prop is nullable"
 input CreateCustomerInputs {
   email: String!
-  paymentMetadata: PaymentMetadataInputs!
+  paymentMetadata: PaymentMetadataInputs
 }
 
 input CreateExperienceInputs {
@@ -505,6 +556,7 @@ input ExperiencesFilters {
   experienceName: String
   experienceType: [ExperienceType!]
   valley: [Valley!]
+  wineryIds: [Int!]
 }
 
 input GetWineryInputs {
@@ -529,22 +581,13 @@ Valleys: if null, All the Valleys. Otherwise ONLY the selected ones.
 """
 input PaginatedExperiencesInputs {
   experiencesFilters: ExperiencesFilters!
+  getUpcomingSlots: Boolean
+  onlyWithAvailableSeats: Boolean
   paginationConfig: CursorPaginationInput!
 }
 
 input PaymentMetadataInputs {
   username: String!
-}
-
-input PresignedUrlInput {
-  "opcional"
-  creatorUsername: String
-  "opcional"
-  experienceId: Float
-  fileNames: [String!]!
-  uploadType: UploadType!
-  "opcional"
-  wineryId: Float
 }
 
 input UserInputs {
