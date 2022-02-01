@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { useExperienceWithSlotsQuery } from "../../graphql/generated/graphql";
 import { Reservation } from "./Reservation";
 import { Heading } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 interface ReservationModalProps {
   experienceId: number;
@@ -16,6 +17,7 @@ export const ReservationModal: FC<ReservationModalProps> = ({
       requestPolicy: "network-only",
     }
   );
+  const [t] = useTranslation("global");
 
   return (
     <>
@@ -35,14 +37,13 @@ export const ReservationModal: FC<ReservationModalProps> = ({
       {data?.experienceWithSlots.errors && !fetching && (
         <Heading as="h2" size="sm" color="brand.200" textAlign="center" mt={8}>
           {data?.experienceWithSlots.errors[0].field === "slots"
-            ? "There are no slots available for this Experience"
-            : "An unexpected error occurred in our servers. Please get in touch with us"}
+            ? t("noSlotsAvailable")
+            : t("unexpectedError")}
         </Heading>
       )}
       {networkError && !fetching && (
         <Heading as="h2" size="sm" color="brand.200" textAlign="center">
-          Oh oh, something is wrong with the network or connection to our
-          servers.
+          {t("wrongConnectionToServers")}
         </Heading>
       )}
     </>

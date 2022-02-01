@@ -9,6 +9,7 @@ import { formatISO, isSameDay, parseISO } from "date-fns";
 import { Heading, Img } from "@chakra-ui/react";
 import { valleyReverseMapping } from "../utils/enum-utils";
 import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
+import { useTranslation } from "react-i18next";
 
 interface EditExperienceModalProps {
   experienceId: number;
@@ -58,6 +59,7 @@ export const EditExperienceModal: FC<EditExperienceModalProps> = ({
       return [];
     }
   }, [date, selectedExperience]);
+  const [t] = useTranslation("global");
 
   useEffect(() => {
     if (selectedExperience) {
@@ -72,7 +74,7 @@ export const EditExperienceModal: FC<EditExperienceModalProps> = ({
       <Heading as="h2">{valleyReverseMapping(winery.valley)}</Heading>
       {selectedExperience.slots.length > 1 && (
         <>
-          <Heading as="h3">Select a date</Heading>
+          <Heading as="h3">{t("selectDate")}</Heading>
           <DateTimePickerWeno
             removeTimeZone={true}
             onlyDate={true}

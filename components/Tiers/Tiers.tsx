@@ -12,6 +12,7 @@ import { PricingCard } from "./PricingCard";
 import { FC } from "react";
 import { ProductFragmentFragment } from "../../graphql/generated/graphql";
 import useAuth from "../Authentication/useAuth";
+import { useTranslation } from "react-i18next";
 
 const FeatureItem: React.FC = ({ children }) => (
   <HStack>
@@ -36,6 +37,7 @@ export const Tiers: FC<TiersProps> = ({ products }) => {
       register({ redirectUri: webpageBase + "/register" });
     }
   };
+  const [t] = useTranslation("global");
   return (
     <Box as="section" bg={mode("gray.50", "gray.800")} py="20">
       <Box
@@ -51,7 +53,7 @@ export const Tiers: FC<TiersProps> = ({ products }) => {
             mb="3"
             color={mode("gray.600", "gray.400")}
           >
-            Pricing
+            {t("pricing")}
           </Text>
           <Heading
             as="h1"
@@ -59,7 +61,7 @@ export const Tiers: FC<TiersProps> = ({ products }) => {
             fontWeight="extrabold"
             letterSpacing="tight"
           >
-            Choose your favourite plan
+            {t("choosePlan")}
           </Heading>
           <Text mt="6" fontSize="xl" color={mode("gray.600", "gray.400")}>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Velit
@@ -132,22 +134,16 @@ export const Tiers: FC<TiersProps> = ({ products }) => {
             fontWeight="bold"
             letterSpacing="wide"
           >
-            Features & Services
+            {t("featuresServices")}
           </Text>
           <Text fontSize="3xl" mt="2" fontWeight="bold">
-            Included in all plans
+            {t("includedAllPlans")}
           </Text>
           <SimpleGrid columns={{ base: 1, lg: 2 }} mt="5" spacing="5">
-            <FeatureItem>Pre-approvals & role-based control</FeatureItem>
-            <FeatureItem>
-              Easy onboarding, training and dedicated support
-            </FeatureItem>
-            <FeatureItem>
-              Individual limits and policies for each person
-            </FeatureItem>
-            <FeatureItem>
-              Full visibility over all payments in real time
-            </FeatureItem>
+            <FeatureItem>{t("preApprovals")}</FeatureItem>
+            <FeatureItem>{t("easyOnboarding")}</FeatureItem>
+            <FeatureItem>{t("individualLimits")}</FeatureItem>
+            <FeatureItem>{t("fullVisibility")}</FeatureItem>
           </SimpleGrid>
         </Box>
       </Box>

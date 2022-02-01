@@ -7,6 +7,7 @@ import { Flex, Heading, Link } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../graphql/urqlProvider";
 import { ReservationConfirmation } from "../../components/Orders/ReservationConfirmation";
+import { useTranslation } from "react-i18next";
 
 const Success = () => {
   const router = useRouter();
@@ -14,6 +15,7 @@ const Success = () => {
   const { session_id } = router.query;
 
   const { authenticated, logout, login, tokenInfo } = useAuth();
+  const [t] = useTranslation("global");
 
   const {
     loadingVerification,
@@ -35,21 +37,21 @@ const Success = () => {
       {loadingVerification && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
-            Stripe is sending us your booking information....
+            {t("receivingBookingInformation")}
           </Heading>
         </Flex>
       )}
       {verificationError && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
-            That is not a valid session
+            {t("notValidSession")}
           </Heading>
         </Flex>
       )}
       {retryVerificationLink && (
         <Heading>
-          Your booking is not complete ... you can finish it{" "}
-          <Link href={retryVerificationLink}>here</Link>
+          {t("incompleteBooking")}
+          <Link href={retryVerificationLink}>{t("here")}</Link>
         </Heading>
       )}
       {isVerified && (

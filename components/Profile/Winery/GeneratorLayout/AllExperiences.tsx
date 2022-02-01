@@ -71,8 +71,8 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
           }}
         >
           {!Boolean(data?.experiences?.paginationConfig.moreResults)
-            ? "No more results"
-            : "Load more"}
+            ? t("noMoreResults")
+            : t("loadMore")}
         </Button>
       </Flex>
     </>

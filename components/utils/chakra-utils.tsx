@@ -11,8 +11,8 @@ type ToastMessageType =
 export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
   const [t] = useTranslation("global");
   let toastOpts: UseToastOptions = {
-    title: "default message",
-    description: "Not a real description",
+    title: t("defaultMessage"),
+    description: t("notRealDescription"),
     status: "warning",
     duration: 1000,
     isClosable: true,
@@ -52,8 +52,8 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
       break;
     case "bookingNotPossibleServerError":
       toastOpts = {
-        title: "Booking failed",
-        description: "There seems to be a connection error",
+        title: t("bookingFailed"),
+        description: t("connectionErrors"),
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -63,8 +63,7 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
     case "bookingFailed":
       toastOpts = {
         title: "Booking failed",
-        description:
-          "There was an error in our servers. We apologize for the inconvenience",
+        description: t("errorApologize"),
         status: "error",
         duration: 5000,
         isClosable: true,

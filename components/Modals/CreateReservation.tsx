@@ -117,7 +117,7 @@ export const CreateReservation: FC<CreateReservationProps> = ({
                   setRequestGuestEmail(true);
                 }}
               >
-                {t("bookAsGuest")}Book as a guest
+                {t("bookAsGuest")}
               </Button>
 
               <Button
@@ -130,7 +130,7 @@ export const CreateReservation: FC<CreateReservationProps> = ({
                   }
                 }}
               >
-                {t("registerAndBook")}Register and book
+                {t("registerAndBook")}
               </Button>
             </>
           )}
@@ -142,9 +142,7 @@ export const CreateReservation: FC<CreateReservationProps> = ({
               isInvalid={guestEmail === ""}
               isRequired
             >
-              <FormLabel htmlFor="guestEmail">
-                {t("requireEmail")}We only need your email
-              </FormLabel>
+              <FormLabel htmlFor="guestEmail">{t("requireEmail")}</FormLabel>
               <Input
                 type="email"
                 name="guestEmail"
@@ -176,11 +174,9 @@ export const CreateReservation: FC<CreateReservationProps> = ({
                 {t("book")}
               </Button>
               {guestEmail !== "" ? (
-                <FormHelperText>
-                  Its where you will receive the booking information
-                </FormHelperText>
+                <FormHelperText>{t("whereReceiveInformation")}</FormHelperText>
               ) : (
-                <FormErrorMessage>Email is required.</FormErrorMessage>
+                <FormErrorMessage>{t("emailRequired")}</FormErrorMessage>
               )}
             </FormControl>
           )}

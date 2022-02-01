@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { ReservationFragment } from "../../graphql/generated/graphql";
 import BookedExperience from "../Cards/BookedExperience";
 import { Flex, Heading } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 interface ReservationProps {
   reservations: ReservationFragment[];
@@ -13,13 +14,15 @@ const placeHolder =
 export const ReservationConfirmation: FC<ReservationProps> = ({
   reservations,
 }) => {
+  const [t] = useTranslation("global");
   return (
     <Flex justifyContent="center" m={5} flexDirection="column">
       <Heading as="h1" size="xl" my={4}>
-        Thanks for booking!
+        {t("thanksForBooking")}
       </Heading>
       <Heading as="h2" size="lg" my={4}>
-        Your reservation{reservations.length > 1 ? "s" : ""}:{" "}
+        {t("yourReservation")}
+        {reservations.length > 1 ? t("plural") : ""}:{" "}
       </Heading>
       {reservations.map((res) => (
         <BookedExperience

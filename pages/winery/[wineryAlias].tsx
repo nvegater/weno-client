@@ -77,7 +77,7 @@ const Winery = () => {
 
       {retryVerificationLink && (
         <Heading>
-          Your booking is not complete ... you can finish it{" "}
+          {t("incompleteBooking")}
           <Link href={retryVerificationLink}>here</Link>
         </Heading>
       )}
