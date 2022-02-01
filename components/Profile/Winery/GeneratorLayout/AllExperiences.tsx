@@ -7,13 +7,13 @@ import {
   PaginatedExperienceLightFragment,
   useExperiencesQuery,
 } from "../../../../graphql/generated/graphql";
-import { Button, Flex } from "@chakra-ui/react";
 import useFiltersPagination from "../../../utils/useFiltersPagination";
+import { LoadMoreButton } from "../../../Experiences/LoadMoreButton";
 
 interface AllExperiencesProps {}
 
 export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
-  const [paginationConfig, experiencesFilters, handlePaginationRequest] =
+  const [paginationConfig, experiencesFilters, , handlePaginationRequest] =
     useFiltersPagination();
 
   const [experiences, setExperiences] = useState<
@@ -40,6 +40,9 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
         setExperiences((e) => [...e, ...newExps]);
       }
     }
+    if (data?.experiences.errors) {
+      setExperiences([]);
+    }
   }, [data, experiences]);
 
   return (
@@ -53,27 +56,15 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
           mode={ExperiencesGridMode.VIEW}
         />
       )}
-
-      <Flex justifyContent="center" mt={5}>
-        <Button
-          size="navBarCTA"
-          variant="cta"
-          width="300px"
-          isDisabled={!Boolean(data?.experiences?.paginationConfig.moreResults)}
-          onClick={() => {
-            if (experiences.length > 0) {
-              handlePaginationRequest(
-                paginationConfig,
-                data.experiences.paginationConfig
-              );
-            }
-          }}
-        >
-          {!Boolean(data?.experiences?.paginationConfig.moreResults)
-            ? "No more results"
-            : "Load more"}
-        </Button>
-      </Flex>
+      <LoadMoreButton
+        disableButton={
+          !Boolean(data?.experiences?.paginationConfig?.moreResults)
+        }
+        noOfExperiences={experiences.length}
+        handlePaginationRequest={handlePaginationRequest}
+        paginationConfig={paginationConfig}
+        newPaginationConfig={data?.experiences?.paginationConfig}
+      />
     </>
   );
 };

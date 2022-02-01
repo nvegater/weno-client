@@ -67,18 +67,6 @@ export const Filters: FC<FiltersProps> = ({
   return (
     <Flex mx={10} mb={10} flexDirection="column">
       <FormControl my={3} mx={[null, null, 5]}>
-        <FormLabel htmlFor="valleys">Valleys in Ensenada</FormLabel>
-        <CreatableSelect
-          isMulti
-          options={Object.values(Valley).map((valley) => ({
-            label: valleyReverseMapping(valley),
-            value: valley,
-          }))}
-          onChange={(e: any) => updateValleys(e)}
-        />
-      </FormControl>
-
-      <FormControl my={3} mx={[null, null, 5]}>
         <FormLabel htmlFor="range">Dates</FormLabel>
         <DatePicker
           minDate={new Date()}
@@ -92,7 +80,19 @@ export const Filters: FC<FiltersProps> = ({
       </FormControl>
 
       <FormControl my={3} mx={[null, null, 5]}>
-        <FormLabel htmlFor="experienceTypes">Experiences</FormLabel>
+        <FormLabel htmlFor="valleys">Valleys in Ensenada</FormLabel>
+        <CreatableSelect
+          isMulti
+          options={Object.values(Valley).map((valley) => ({
+            label: valleyReverseMapping(valley),
+            value: valley,
+          }))}
+          onChange={(e: any) => updateValleys(e)}
+        />
+      </FormControl>
+
+      <FormControl my={3} mx={[null, null, 5]}>
+        <FormLabel htmlFor="experienceTypes">Type of Experiences</FormLabel>
         <CreatableSelect
           isMulti
           options={Object.values(ExperienceType).map((expType) => ({

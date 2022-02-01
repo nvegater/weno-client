@@ -57,6 +57,9 @@ const Home = () => {
         setExperiences((e) => [...e, ...newExps]);
       }
     }
+    if (data?.bookableExperiences.errors) {
+      setExperiences([]);
+    }
   }, [data, experiences]);
 
   return (
