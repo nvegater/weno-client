@@ -24,8 +24,12 @@ const Home = () => {
 
   const [openFilters, setOpenFilters] = useState<boolean>(false);
 
-  const [paginationConfig, experiencesFilters, handlePaginationRequest] =
-    useFiltersPagination();
+  const [
+    paginationConfig,
+    experiencesFilters,
+    setFilters,
+    handlePaginationRequest,
+  ] = useFiltersPagination();
 
   const [experiences, setExperiences] = useState<
     PaginatedExperienceLightFragment[]
@@ -90,7 +94,12 @@ const Home = () => {
             />
           </Flex>
 
-          {openFilters && <Filters />}
+          {openFilters && (
+            <Filters
+              setExperiencesFilters={setFilters}
+              initialFilters={experiencesFilters}
+            />
+          )}
 
           <ExperiencesGridLayout
             experiences={experiences}

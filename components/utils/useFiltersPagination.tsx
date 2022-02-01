@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import {
   CursorPaginationInput,
   ExperiencesFilters,
@@ -35,15 +35,15 @@ export type HandlePaginationRequestFn = (
 type FiltersPaginationHookResult = [
   paginationConfig: CursorPaginationInput,
   experiencesFilters: ExperiencesFilters,
+  setExperiencesFilters: Dispatch<SetStateAction<ExperiencesFilters>>,
   handlePaginationRequest: HandlePaginationRequestFn
 ];
 
 type FiltersPaginationHook = () => FiltersPaginationHookResult;
 
 const useFiltersPagination: FiltersPaginationHook = () => {
-  const [experiencesFilters] = useState<ExperiencesFilters>(
-    DEFAULT_FILTERS_CONFIG
-  );
+  const [experiencesFilters, setExperiencesFilters] =
+    useState<ExperiencesFilters>(DEFAULT_FILTERS_CONFIG);
   const [paginationConfig, setPaginationConfig] =
     useState<CursorPaginationInput>(DEFAULT_PAGINATION_CONFIG);
 
@@ -70,7 +70,12 @@ const useFiltersPagination: FiltersPaginationHook = () => {
     return updateScheduled;
   };
 
-  return [paginationConfig, experiencesFilters, handlePaginationRequest];
+  return [
+    paginationConfig,
+    experiencesFilters,
+    setExperiencesFilters,
+    handlePaginationRequest,
+  ];
 };
 
 export default useFiltersPagination;
