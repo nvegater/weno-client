@@ -1,115 +1,117 @@
-import React, { FC, useState } from "react";
+import React, { Dispatch, FC, SetStateAction, useState } from "react";
+import { Button, Flex, FormControl, FormLabel } from "@chakra-ui/react";
 import {
-  Button,
-  Checkbox,
-  Flex,
-  FormControl,
-  FormHelperText,
-  Select,
-} from "@chakra-ui/react";
-import { ExperienceType, Valley } from "../../graphql/generated/graphql";
+  ExperiencesFilters,
+  ExperienceType,
+  Valley,
+} from "../../graphql/generated/graphql";
 import {
   experienceTypeReverseMapping,
   valleyReverseMapping,
 } from "../utils/enum-utils";
-import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
+import CreatableSelect from "react-select/creatable";
+
 import { AiOutlineSearch } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
 
-interface FiltersSubmitForm {
-  valley: Valley;
-  startDate: Date;
-  endDate: Date;
-  experienceType: ExperienceType[];
+interface ValleyOption {
+  label: string;
+  value: Valley;
 }
 
-interface FiltersProps {}
+interface ExperienceTypeOption {
+  label: string;
+  value: ExperienceType;
+}
 
-export const Filters: FC<FiltersProps> = ({}) => {
+interface FiltersProps {
+  setExperiencesFilters: Dispatch<SetStateAction<ExperiencesFilters>>;
+  initialFilters: ExperiencesFilters;
+}
+
+export const Filters: FC<FiltersProps> = ({
+  initialFilters,
+  setExperiencesFilters,
+}) => {
   const now = new Date();
+
+  const [localExpFilters, setLocalExpFilters] =
+    useState<ExperiencesFilters>(initialFilters);
 
   const [startDate, setStartDate] = useState(now);
   const [endDate, setEndDate] = useState(null);
   const [t] = useTranslation("global");
 
-  const {
-    handleSubmit,
-    register: registerFormField,
-    setValue: setFormValue,
-  } = useForm<FiltersSubmitForm>();
-  const onSubmit = async (data: FiltersSubmitForm) => {
-    console.log(data);
+  const updateValleys = async (data: ValleyOption[]) => {
+    setLocalExpFilters((oldFilters) => ({
+      ...oldFilters,
+      valley: data.length > 0 ? data.map((vO) => vO.value) : null,
+    }));
   };
 
-  const onDateChange = (dates: [Date, Date]) => {
-    console.log(dates);
+  const updateExperienceTypes = async (data: ExperienceTypeOption[]) => {
+    setLocalExpFilters((oldFilters) => ({
+      ...oldFilters,
+      experienceType: data.length > 0 ? data.map((eT) => eT.value) : null,
+    }));
+  };
+
+  const updateDates = (dates: [Date, Date]) => {
     const [start, end] = dates;
     setStartDate(start);
-    setFormValue("startDate", start);
     setEndDate(end);
-    setFormValue("endDate", end);
   };
 
+  const updateAllFilters = () => {
+    setExperiencesFilters(localExpFilters);
+  };
   return (
-    <Flex
-      mx={10}
-      mb={10}
-      as="form"
-      onSubmit={handleSubmit(onSubmit)}
-      flexDirection="column"
-    >
-      <Flex flexDirection={["column", null, "row"]}>
-        <FormControl my={3} mx={[null, null, 5]}>
-          <Select selected={Valley.Ensenada} {...registerFormField("valley")}>
-            {Object.values(Valley).map((valley) => (
-              <option key={valley} value={valley}>
-                {valleyReverseMapping(valley)}
-              </option>
-            ))}
-          </Select>
-          <FormHelperText>{t("ensenadaValleys")}</FormHelperText>
-        </FormControl>
+    <Flex mx={10} mb={10} flexDirection="column">
+      <FormControl my={3} mx={[null, null, 5]}>
+        <FormLabel htmlFor="range">Dates</FormLabel>
+        <DatePicker
+          minDate={new Date()}
+          selected={startDate}
+          onChange={updateDates}
+          startDate={startDate}
+          endDate={endDate}
+          dateFormat="dd MMM"
+          selectsRange
+        />
+      </FormControl>
 
-        <FormControl my={3} mx={[null, null, 5]}>
-          <DatePicker
-            minDate={new Date()}
-            selected={startDate}
-            onChange={onDateChange}
-            startDate={startDate}
-            endDate={endDate}
-            dateFormat="dd MMM"
-            selectsRange
-          />
-          <FormHelperText>{t("selectDates")}</FormHelperText>
-        </FormControl>
-      </Flex>
+      <FormControl my={3} mx={[null, null, 5]}>
+        <FormLabel htmlFor="valleys">Valleys in Ensenada</FormLabel>
+        <CreatableSelect
+          isMulti
+          options={Object.values(Valley).map((valley) => ({
+            label: valleyReverseMapping(valley),
+            value: valley,
+          }))}
+          onChange={(e: any) => updateValleys(e)}
+        />
+      </FormControl>
 
-      <Flex
-        flexDirection={["column", null, "row"]}
-        justifyContent={["start", null, "center"]}
-        alignItems="start"
-        mt={5}
-      >
-        {Object.values(ExperienceType).map((expType, index) => (
-          <Checkbox
-            key={`experienceType.${index}`}
-            value={expType}
-            {...registerFormField(`experienceType.${index}`)}
-            mx={[null, null, 5]}
-          >
-            {experienceTypeReverseMapping(expType)}
-          </Checkbox>
-        ))}
-      </Flex>
+      <FormControl my={3} mx={[null, null, 5]}>
+        <FormLabel htmlFor="experienceTypes">Type of Experiences</FormLabel>
+        <CreatableSelect
+          isMulti
+          options={Object.values(ExperienceType).map((expType) => ({
+            label: experienceTypeReverseMapping(expType),
+            value: expType,
+          }))}
+          onChange={(e: any) => updateExperienceTypes(e)}
+        />
+      </FormControl>
 
       <Flex justifyContent={["center", null, "flex-end"]} mx={[null, null, 5]}>
         <Button
-          type="submit"
           size="heroWeno"
           variant="cta"
           rightIcon={<AiOutlineSearch />}
           mt={5}
+          onClick={updateAllFilters}
         >
           {t("search")}
         </Button>

@@ -27,7 +27,7 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
   const recentlyCreatedExperienceId = useRecoilValue(createdExperienceIdState);
   const autoSelectExperience = recentlyCreatedExperienceId !== null;
   const [t] = useTranslation("global");
-  const [paginationConfig, experiencesFilters, handlePaginationRequest] =
+  const [paginationConfig, experiencesFilters, , handlePaginationRequest] =
     useFiltersPagination();
 
   const [experiences, setExperiences] = useState<PaginatedExperienceFragment[]>(
@@ -56,6 +56,9 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
       if (!newTitles.some((newTitle) => oldTitles.includes(newTitle))) {
         // update experiences if new request contains new titles
         setExperiences((e) => [...e, ...newExps]);
+      }
+      if (data?.editableExperiences.errors) {
+        setExperiences([]);
       }
     }
   }, [data, experiences]);

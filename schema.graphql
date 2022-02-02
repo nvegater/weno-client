@@ -463,9 +463,9 @@ enum SlotType {
 "Types of wine produced by a winery"
 enum TypeWine {
   BIODINAMICO
+  BLANCO
   BLANCO_CON_BARRICA
-  BLANCO_JOVEN
-  CONMEMORATIVO_EDI_LIMITADA
+  CONMEMORATIVO
   COSECHA
   DULCE
   ESPUMOSO
@@ -474,9 +474,11 @@ enum TypeWine {
   NARANJA
   NATURAL
   ORGANICO
+  OTRO
   ROSADO
-  TINTO_CRIANZA_BARRICA
-  TINTO_JOVEN
+  TINTO_CRIANZA
+  TINTO_GRAN_RESERVA
+  TINTO_RESERVA
 }
 
 "Se pueden cargar imagenes para distintos elementos, usuarios, galerias de viñeros etc, etc"
