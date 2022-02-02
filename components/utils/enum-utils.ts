@@ -60,11 +60,11 @@ export const experienceTypeReverseMapping = (
 export const productionTypeReverseMapping = (value: ProductionType) => {
   switch (value) {
     case ProductionType.Comercial:
-      return "Commercial production";
+      return "commercialProduction";
     case ProductionType.OrgBioNat:
-      return "Organic production";
+      return "organicProduction";
     case ProductionType.TradArtesanal:
-      return "Traditional production";
+      return "traditionalProduction";
   }
 };
 
@@ -124,39 +124,39 @@ export const amenitiesReverseMapping = (value: Amenity) => {
 export const wineTypeReverseMapping = (value: TypeWine) => {
   switch (value) {
     case TypeWine.Blanco:
-      return "White-young";
+      return "white";
     case TypeWine.BlancoConBarrica:
-      return "Barrel aged white";
+      return "barrelAged";
     case TypeWine.Rosado:
-      return "Rose";
+      return "rose";
     case TypeWine.TintoCrianza:
-      return "Red";
+      return "red";
     case TypeWine.TintoReserva:
-      return "Red (Reserve)";
+      return "redReserve";
     case TypeWine.TintoGranReserva:
-      return "Red (Gran Reserve)";
+      return "redGranReserve";
     case TypeWine.GenerosoFortificado:
-      return "Fortified";
+      return "fortified";
     case TypeWine.Espumoso:
-      return "Sparkling";
+      return "sparkling";
     case TypeWine.Naranja:
-      return "Orange";
+      return "orange";
     case TypeWine.Dulce:
-      return "Sweet";
+      return "sweet";
     case TypeWine.Cosecha:
-      return "Late harvest";
+      return "lateHarvest";
     case TypeWine.Conmemorativo:
-      return "Commemorative";
+      return "commemorative";
     case TypeWine.ExclusivoVentaLocal:
-      return "Exclusive";
+      return "exclusive";
     case TypeWine.Organico:
-      return "Organic";
+      return "organic";
     case TypeWine.Biodinamico:
-      return "Biodynamic";
+      return "biodynamic";
     case TypeWine.Natural:
-      return "Natural";
+      return "natural";
     case TypeWine.Otro:
-      return "Other";
+      return "other";
     default:
       return "";
   }

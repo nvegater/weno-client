@@ -248,7 +248,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
                   value={pt}
                   {...register(`productionType.${index}`)}
                 >
-                  {productionTypeReverseMapping(pt)}
+                  {t(productionTypeReverseMapping(pt))}
                 </Checkbox>
               ))}
             </VStack>
@@ -271,7 +271,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
                   value={tw}
                   {...register(`wineType.${index}`)}
                 >
-                  {wineTypeReverseMapping(tw)}
+                  {t(wineTypeReverseMapping(tw))}
                 </Checkbox>
               ))}
             </VStack>
