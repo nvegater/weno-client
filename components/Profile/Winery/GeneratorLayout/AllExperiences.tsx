@@ -9,6 +9,7 @@ import {
 } from "../../../../graphql/generated/graphql";
 import useFiltersPagination from "../../../utils/useFiltersPagination";
 import { LoadMoreButton } from "../../../Experiences/LoadMoreButton";
+import { getUniqueListTyped } from "../../../utils/react-utils";
 
 interface AllExperiencesProps {}
 
@@ -31,17 +32,17 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
   });
 
   useEffect(() => {
-    if (data && data.experiences.experiences) {
-      const newExps = data?.experiences?.experiences;
-      const newTitles = newExps.map((exp) => exp.title);
-      const oldTitles = experiences.map((exp) => exp.title);
-      if (!newTitles.some((newTitle) => oldTitles.includes(newTitle))) {
-        // update experiences if new request contains new titles
-        setExperiences((e) => [...e, ...newExps]);
+    if (data) {
+      if (data.experiences.errors) {
+        setExperiences([]);
+      } else {
+        const newExps = data?.experiences?.experiences;
+        setExperiences((e) => {
+          const accumulated = [...e, ...newExps];
+          const unique = getUniqueListTyped(accumulated, "id");
+          return [...unique];
+        });
       }
-    }
-    if (data?.experiences.errors) {
-      setExperiences([]);
     }
   }, [data, experiences]);
 
