@@ -10,10 +10,12 @@ const DEFAULT_PAGINATION_CONFIG = {
   limit: 10,
 };
 
-const DEFAULT_FILTERS_CONFIG = {
+const DEFAULT_FILTERS_CONFIG: ExperiencesFilters = {
   valley: null,
   experienceType: null,
   experienceName: null,
+  fromDateTime: null,
+  untilDateTime: null,
 };
 
 function isNewCursorConfig(

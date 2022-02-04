@@ -16,8 +16,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import {
+  Maybe,
   PaginatedExperienceFragment,
   PaginatedExperienceLightFragment,
+  Scalars,
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
 
@@ -38,6 +40,8 @@ interface ExperiencesGridLayoutProps {
   fetching?: boolean;
   networkError?: any;
   serverError?: any;
+  fromDateTime?: Maybe<Scalars["DateTime"]>;
+  untilDateTime?: Maybe<Scalars["DateTime"]>;
 }
 
 export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
@@ -48,6 +52,8 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   fetching,
   networkError,
   serverError,
+  fromDateTime,
+  untilDateTime,
 }) => {
   const [experienceId, setExperienceId] = useState<number | undefined>(
     preSelectedExperienceId
@@ -61,7 +67,11 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
           <DrawerCloseButton />
           <DrawerBody>
             {mode === ExperiencesGridMode.RESERVE && (
-              <ReservationModal experienceId={experienceId} />
+              <ReservationModal
+                experienceId={experienceId}
+                fromDateTime={fromDateTime}
+                untilDateTime={untilDateTime}
+              />
             )}
             {mode === ExperiencesGridMode.EDIT && (
               <EditExperienceModal

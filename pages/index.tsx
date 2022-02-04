@@ -111,6 +111,8 @@ const Home = () => {
             mode={ExperiencesGridMode.RESERVE}
             fetching={fetching}
             networkError={networkError}
+            fromDateTime={experiencesFilters.fromDateTime}
+            untilDateTime={experiencesFilters.untilDateTime}
           />
 
           <LoadMoreButton

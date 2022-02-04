@@ -1,21 +1,48 @@
 import React, { FC } from "react";
-import { useExperienceWithSlotsQuery } from "../../graphql/generated/graphql";
+import {
+  Maybe,
+  Scalars,
+  useExperienceWithSlotsQuery,
+} from "../../graphql/generated/graphql";
 import { Reservation } from "./Reservation";
 import { Heading } from "@chakra-ui/react";
+import { parseISO } from "date-fns";
 
 interface ReservationModalProps {
   experienceId: number;
+  fromDateTime?: Maybe<Scalars["DateTime"]>;
+  untilDateTime?: Maybe<Scalars["DateTime"]>;
 }
 
 export const ReservationModal: FC<ReservationModalProps> = ({
   experienceId,
+  fromDateTime,
+  untilDateTime,
 }) => {
   const [{ data, fetching, error: networkError }] = useExperienceWithSlotsQuery(
     {
-      variables: { experienceId, onlyBookableSlots: true },
+      variables: {
+        experienceWithSlotsInputs: {
+          experienceId,
+          onlyBookableSlots: true,
+          fromDateTime: fromDateTime,
+          untilDateTime: untilDateTime,
+        },
+      },
       requestPolicy: "network-only",
     }
   );
+
+  const sortedSlots = data?.experienceWithSlots.experience
+    ? data.experienceWithSlots.experience.slots.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return (
+          new Date(parseISO(a.startDateTime)).getTime() -
+          new Date(parseISO(b.startDateTime)).getTime()
+        );
+      })
+    : [];
 
   return (
     <>
@@ -27,9 +54,7 @@ export const ReservationModal: FC<ReservationModalProps> = ({
             slots={data.experienceWithSlots.experience.slots}
             images={data.experienceWithSlots.experience.images}
             experienceInfo={data.experienceWithSlots.experience}
-            startDateTime={
-              data.experienceWithSlots.experience.slots[0].startDateTime
-            }
+            startDateTime={sortedSlots[0].startDateTime}
           />
         )}
       {data?.experienceWithSlots.errors && !fetching && (

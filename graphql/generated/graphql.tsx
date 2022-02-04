@@ -183,11 +183,20 @@ export enum ExperienceType {
   Concert = 'CONCERT'
 }
 
+export type ExperienceWithSlotsInputs = {
+  experienceId: Scalars['Float'];
+  onlyBookableSlots: Scalars['Boolean'];
+  fromDateTime?: Maybe<Scalars['DateTime']>;
+  untilDateTime?: Maybe<Scalars['DateTime']>;
+};
+
 export type ExperiencesFilters = {
   valley?: Maybe<Array<Valley>>;
   experienceType?: Maybe<Array<ExperienceType>>;
   experienceName?: Maybe<Scalars['String']>;
   wineryIds?: Maybe<Array<Scalars['Int']>>;
+  fromDateTime?: Maybe<Scalars['DateTime']>;
+  untilDateTime?: Maybe<Scalars['DateTime']>;
 };
 
 export type ExperiencesList = {
@@ -456,8 +465,7 @@ export type Query = {
 
 
 export type QueryExperienceWithSlotsArgs = {
-  onlyBookableSlots: Scalars['Boolean'];
-  experienceId: Scalars['Float'];
+  experienceWithSlotsInputs: ExperienceWithSlotsInputs;
 };
 
 
@@ -804,8 +812,7 @@ export type EditableExperiencesQueryVariables = Exact<{
 export type EditableExperiencesQuery = { editableExperiences: { totalExperiences?: number | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined, slots?: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> | null | undefined }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined, moreResults: boolean } } };
 
 export type ExperienceWithSlotsQueryVariables = Exact<{
-  experienceId: Scalars['Float'];
-  onlyBookableSlots: Scalars['Boolean'];
+  experienceWithSlotsInputs: ExperienceWithSlotsInputs;
 }>;
 
 
@@ -1281,11 +1288,8 @@ export function useEditableExperiencesQuery(options: Omit<Urql.UseQueryArgs<Edit
   return Urql.useQuery<EditableExperiencesQuery>({ query: EditableExperiencesDocument, ...options });
 };
 export const ExperienceWithSlotsDocument = gql`
-    query ExperienceWithSlots($experienceId: Float!, $onlyBookableSlots: Boolean!) {
-  experienceWithSlots(
-    experienceId: $experienceId
-    onlyBookableSlots: $onlyBookableSlots
-  ) {
+    query ExperienceWithSlots($experienceWithSlotsInputs: ExperienceWithSlotsInputs!) {
+  experienceWithSlots(experienceWithSlotsInputs: $experienceWithSlotsInputs) {
     experience {
       ...PaginatedExperience
     }

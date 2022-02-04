@@ -237,8 +237,7 @@ type Query {
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
   ): PaginatedExperiences!
   experienceWithSlots(
-    experienceId: Float!
-    onlyBookableSlots: Boolean!
+    experienceWithSlotsInputs: ExperienceWithSlotsInputs!
   ): ExperienceResponse!
   experiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
@@ -554,9 +553,18 @@ input CursorPaginationInput {
   limit: Int
 }
 
+input ExperienceWithSlotsInputs {
+  experienceId: Float!
+  fromDateTime: DateTime
+  onlyBookableSlots: Boolean!
+  untilDateTime: DateTime
+}
+
 input ExperiencesFilters {
   experienceName: String
   experienceType: [ExperienceType!]
+  fromDateTime: DateTime
+  untilDateTime: DateTime
   valley: [Valley!]
   wineryIds: [Int!]
 }
