@@ -16,3 +16,7 @@ export const useEffectOnChange: (fn: () => void, deps: any[]) => void = (
     // eslint-disable-next-line
   }, deps);
 };
+
+export function getUniqueListTyped<T>(array: Array<T>, key: string) {
+  return [...new Map(array.map((item) => [item[key], item])).values()];
+}

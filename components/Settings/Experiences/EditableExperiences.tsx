@@ -14,6 +14,7 @@ import {
 import useFiltersPagination from "../../utils/useFiltersPagination";
 import { LoadMoreButton } from "../../Experiences/LoadMoreButton";
 import { useTranslation } from "react-i18next";
+import { getUniqueListTyped } from "../../utils/react-utils";
 
 interface EditableExperiencesProps {
   contextHeader: ContextHeader;
@@ -48,17 +49,16 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
   );
 
   useEffect(() => {
-    if (data && data.editableExperiences.experiences) {
-      const newExps: PaginatedExperienceFragment[] =
-        data?.editableExperiences?.experiences;
-      const newTitles = newExps.map((exp) => exp.title);
-      const oldTitles = experiences.map((exp) => exp.title);
-      if (!newTitles.some((newTitle) => oldTitles.includes(newTitle))) {
-        // update experiences if new request contains new titles
-        setExperiences((e) => [...e, ...newExps]);
-      }
-      if (data?.editableExperiences.errors) {
+    if (data) {
+      if (data.editableExperiences.errors) {
         setExperiences([]);
+      } else {
+        const newExps = data?.editableExperiences?.experiences;
+        setExperiences((e) => {
+          const accumulated = [...e, ...newExps];
+          const unique = getUniqueListTyped(accumulated, "id");
+          return [...unique];
+        });
       }
     }
   }, [data, experiences]);

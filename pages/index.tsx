@@ -18,6 +18,7 @@ import { Flex, Heading, Icon } from "@chakra-ui/react";
 import { ImFilter } from "react-icons/im";
 import { LoadMoreButton } from "../components/Experiences/LoadMoreButton";
 import { Filters } from "../components/Filters/Filters";
+import { getUniqueListTyped } from "../components/utils/react-utils";
 
 const Home = () => {
   const { authenticated, logout, login, register, tokenInfo } = useAuth();
@@ -48,19 +49,19 @@ const Home = () => {
   );
 
   useEffect(() => {
-    if (data?.bookableExperiences.experiences) {
-      const newExps = data?.bookableExperiences?.experiences;
-      const newTitles = newExps.map((exp) => exp.title);
-      const oldTitles = experiences.map((exp) => exp.title);
-      if (!newTitles.some((newTitle) => oldTitles.includes(newTitle))) {
-        // update experiences if new request contains new titles
-        setExperiences((e) => [...e, ...newExps]);
+    if (data) {
+      if (data.bookableExperiences.errors) {
+        setExperiences([]);
+      } else {
+        const newExps = data?.bookableExperiences?.experiences;
+        setExperiences((e) => {
+          const accumulated = [...e, ...newExps];
+          const unique = getUniqueListTyped(accumulated, "id");
+          return [...unique];
+        });
       }
     }
-    if (data?.bookableExperiences.errors) {
-      setExperiences([]);
-    }
-  }, [data, experiences]);
+  }, [data]);
 
   return (
     <div>
@@ -101,6 +102,7 @@ const Home = () => {
             <Filters
               setExperiencesFilters={setFilters}
               initialFilters={experiencesFilters}
+              resetExperiencesOnNewSearch={() => setExperiences([])}
             />
           )}
 

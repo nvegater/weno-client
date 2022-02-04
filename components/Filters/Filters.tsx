@@ -28,11 +28,13 @@ interface ExperienceTypeOption {
 interface FiltersProps {
   setExperiencesFilters: Dispatch<SetStateAction<ExperiencesFilters>>;
   initialFilters: ExperiencesFilters;
+  resetExperiencesOnNewSearch: () => void;
 }
 
 export const Filters: FC<FiltersProps> = ({
   initialFilters,
   setExperiencesFilters,
+  resetExperiencesOnNewSearch,
 }) => {
   const now = new Date();
 
@@ -65,6 +67,7 @@ export const Filters: FC<FiltersProps> = ({
 
   const updateAllFilters = () => {
     setExperiencesFilters(localExpFilters);
+    resetExperiencesOnNewSearch();
   };
   return (
     <Flex mx={10} mb={10} flexDirection="column">
