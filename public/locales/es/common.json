@@ -41,6 +41,7 @@
   "customerId": "ID de usuario",
 
   "dashboard": "Tablero",
+  "dates": "Fechas",
   "datesFrequency": "Fechas y frecuencia",
   "degustation": "Degustación",
   "delightIn": "Deleitate",
@@ -66,6 +67,7 @@
   "experiences": "Experiencias",
   "experiencesCalendar": "Calendario de experiencias",
   "experienceDetails": "Detalles de la experiencia",
+  "experienceType": "Tipo de Experiencias",
   "exception": "excepción",
   "excludeDays": "Excluir estos días",
 

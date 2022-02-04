@@ -72,7 +72,7 @@ export const Filters: FC<FiltersProps> = ({
   return (
     <Flex mx={10} mb={10} flexDirection="column">
       <FormControl my={3} mx={[null, null, 5]}>
-        <FormLabel htmlFor="range">Dates</FormLabel>
+        <FormLabel htmlFor="range">{t("dates")}</FormLabel>
         <DatePicker
           minDate={new Date()}
           selected={startDate}
@@ -85,7 +85,7 @@ export const Filters: FC<FiltersProps> = ({
       </FormControl>
 
       <FormControl my={3} mx={[null, null, 5]}>
-        <FormLabel htmlFor="valleys">Valleys in Ensenada</FormLabel>
+        <FormLabel htmlFor="valleys">{t("ensenadaValleys")}</FormLabel>
         <CreatableSelect
           isMulti
           options={Object.values(Valley).map((valley) => ({
@@ -97,7 +97,7 @@ export const Filters: FC<FiltersProps> = ({
       </FormControl>
 
       <FormControl my={3} mx={[null, null, 5]}>
-        <FormLabel htmlFor="experienceTypes">Type of Experiences</FormLabel>
+        <FormLabel htmlFor="experienceTypes">{t("experienceType")}</FormLabel>
         <CreatableSelect
           isMulti
           options={Object.values(ExperienceType).map((expType) => ({

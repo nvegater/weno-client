@@ -41,6 +41,7 @@
   "customerId": "Customer ID",
 
   "dashboard": "Dashboard",
+  "dates": "Dates",
   "datesFrequency": "Dates and Frequency",
   "degustation": "Degustation",
   "delightIn": "Delight in",
@@ -66,6 +67,7 @@
   "experiences": "Experiences",
   "experiencesCalendar": "Experiences Calendar",
   "experienceDetails": "Experience details",
+  "experienceType": "Type of Experiences",
   "exception": "exception",
   "excludeDays": "Exclude these days",
 
