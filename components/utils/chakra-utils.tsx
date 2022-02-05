@@ -5,7 +5,8 @@ type ToastMessageType =
   | "processingChangesInfo"
   | "imagesSavedSuccess"
   | "bookingNotPossibleServerError"
-  | "bookingFailed";
+  | "bookingFailed"
+  | "winerySaved";
 
 export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
   let toastOpts: UseToastOptions = {
@@ -68,13 +69,16 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
         isClosable: true,
         position: "top-right",
       };
+      break;
+    case "winerySaved":
+      toastOpts = {
+        title: "Update Succesfull",
+        description: "The winery information was saved",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      };
   }
-  return {
-    title: "Error",
-    description: "We couldnt upload your images",
-    status: "error",
-    duration: 5000,
-    isClosable: true,
-    position: "top",
-  };
+  return toastOpts;
 };
