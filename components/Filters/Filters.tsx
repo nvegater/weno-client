@@ -32,7 +32,7 @@ interface FiltersProps {
 }
 
 const differentArrays = (array1: any, array2: any): boolean => {
-  if (!array1 && !array2) {
+  if (array1 == null || array2 == null) {
     return false;
   }
   const sameArrays =
