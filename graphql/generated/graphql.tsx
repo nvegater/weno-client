@@ -122,6 +122,21 @@ export type DateWithTimes = {
   durationInMinutes: Scalars['Float'];
 };
 
+export type EditWineryInputs = {
+  wineryId: Scalars['Float'];
+  description?: Maybe<Scalars['String']>;
+  productionType?: Maybe<Array<ProductionType>>;
+  wineType?: Maybe<Array<TypeWine>>;
+  supportedLanguages?: Maybe<Array<ServiceLanguage>>;
+  amenities?: Maybe<Array<Amenity>>;
+  yearlyWineProduction?: Maybe<Scalars['Int']>;
+  foundationYear?: Maybe<Scalars['Int']>;
+  googleMapsUrl?: Maybe<Scalars['String']>;
+  contactEmail?: Maybe<Scalars['String']>;
+  contactPhoneNumber?: Maybe<Scalars['String']>;
+  covidLabel?: Maybe<Scalars['Boolean']>;
+};
+
 export type Experience = {
   id: Scalars['Int'];
   title: Scalars['String'];
@@ -281,6 +296,7 @@ export type Mutation = {
   createExperience: ExperienceResponse;
   createReservation: Scalars['Boolean'];
   createWinery: WineryResponse;
+  editWinery: WineryResponse;
   /** Trigger: winery information Page. If called for the first time, updates the winery connected account creation dateOtherwise simply return the winery */
   confirmConnectedAccount: WineryResponse;
   createCustomer: CustomerResponse;
@@ -301,6 +317,11 @@ export type MutationCreateExperienceArgs = {
 export type MutationCreateWineryArgs = {
   createWineryInputs: CreateWineryInputs;
   userInputs: UserInputs;
+};
+
+
+export type MutationEditWineryArgs = {
+  editWineryInputs: EditWineryInputs;
 };
 
 
@@ -455,7 +476,7 @@ export type Query = {
   bookableExperiences: PaginatedExperiences;
   experiencesList: ExperiencesList;
   allReservations: Scalars['Int'];
-  allWineries: Scalars['Int'];
+  allWineryNames: Array<Scalars['String']>;
   winery: WineryResponse;
   getSubscriptionProducts: ProductsResponse;
   getCheckoutSessionStatus: CheckoutSessionResponse;
@@ -752,6 +773,13 @@ export type CreateWineryMutationVariables = Exact<{
 
 export type CreateWineryMutation = { createWinery: { sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined } | null | undefined } };
 
+export type EditWineryInfoMutationVariables = Exact<{
+  editWineryInputs: EditWineryInputs;
+}>;
+
+
+export type EditWineryInfoMutation = { editWinery: { errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined } | null | undefined } };
+
 export type GetCheckoutLinkMutationVariables = Exact<{
   createCustomerInputs: CreateCustomerInputs;
   slotIds: Array<Scalars['Int']> | Scalars['Int'];
@@ -796,6 +824,11 @@ export type RecurrentDatesQueryVariables = Exact<{
 
 
 export type RecurrentDatesQuery = { recurrentDates: { dateWithTimes?: Array<{ date: any, times: Array<any> }> | null | undefined, errors?: Array<{ field: string }> | null | undefined } };
+
+export type AllWineryNamesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllWineryNamesQuery = { allWineryNames: Array<string> };
 
 export type BookableExperiencesQueryVariables = Exact<{
   paginatedExperiencesInputs: PaginatedExperiencesInputs;
@@ -1145,6 +1178,23 @@ export const CreateWineryDocument = gql`
 export function useCreateWineryMutation() {
   return Urql.useMutation<CreateWineryMutation, CreateWineryMutationVariables>(CreateWineryDocument);
 };
+export const EditWineryInfoDocument = gql`
+    mutation EditWineryInfo($editWineryInputs: EditWineryInputs!) {
+  editWinery(editWineryInputs: $editWineryInputs) {
+    errors {
+      ...ErrorFragment
+    }
+    winery {
+      ...WineryFragment
+    }
+  }
+}
+    ${ErrorFragmentFragmentDoc}
+${WineryFragmentFragmentDoc}`;
+
+export function useEditWineryInfoMutation() {
+  return Urql.useMutation<EditWineryInfoMutation, EditWineryInfoMutationVariables>(EditWineryInfoDocument);
+};
 export const GetCheckoutLinkDocument = gql`
     mutation GetCheckoutLink($createCustomerInputs: CreateCustomerInputs!, $slotIds: [Int!]!, $cancelUrl: String!, $successUrl: String!, $noOfVisitors: Float!) {
   getCheckoutLink(
@@ -1242,6 +1292,15 @@ export const RecurrentDatesDocument = gql`
 
 export function useRecurrentDatesQuery(options: Omit<Urql.UseQueryArgs<RecurrentDatesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<RecurrentDatesQuery>({ query: RecurrentDatesDocument, ...options });
+};
+export const AllWineryNamesDocument = gql`
+    query AllWineryNames {
+  allWineryNames
+}
+    `;
+
+export function useAllWineryNamesQuery(options: Omit<Urql.UseQueryArgs<AllWineryNamesQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AllWineryNamesQuery>({ query: AllWineryNamesDocument, ...options });
 };
 export const BookableExperiencesDocument = gql`
     query BookableExperiences($paginatedExperiencesInputs: PaginatedExperiencesInputs!) {

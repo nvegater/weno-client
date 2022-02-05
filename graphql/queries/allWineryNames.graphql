@@ -1,0 +1,3 @@
+query AllWineryNames {
+  allWineryNames
+}

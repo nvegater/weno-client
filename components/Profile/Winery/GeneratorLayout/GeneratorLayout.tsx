@@ -24,6 +24,7 @@ import { atom, useRecoilState } from "recoil";
 import { EditableExperiences } from "../../../Settings/Experiences/EditableExperiences";
 import { AllExperiences } from "./AllExperiences";
 import { Gallery } from "../../../Images/Gallery";
+import { EditWineryInfo } from "../EditWineryInfo";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -201,7 +202,9 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                   contextHeader={contextHeader}
                 />
               )}
-              {subPage === GeneratorSubpage.EDIT_INFO && <div>Edit Winery</div>}
+              {subPage === GeneratorSubpage.EDIT_INFO && (
+                <EditWineryInfo winery={winery} contextHeader={contextHeader} />
+              )}
               {subPage === GeneratorSubpage.ALL_EXPERIENCES && (
                 <AllExperiences />
               )}

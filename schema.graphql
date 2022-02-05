@@ -147,6 +147,7 @@ type Mutation {
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
   ): WineryResponse!
+  editWinery(editWineryInputs: EditWineryInputs!): WineryResponse!
   getCheckoutLink(
     cancelUrl: String!
     createCustomerInputs: CreateCustomerInputs!
@@ -229,7 +230,7 @@ type ProductsResponse {
 
 type Query {
   allReservations: Int!
-  allWineries: Int!
+  allWineryNames: [String!]!
   bookableExperiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
   ): PaginatedExperiences!
@@ -551,6 +552,21 @@ input CursorPaginationInput {
   afterCursor: String
   beforeCursor: String
   limit: Int
+}
+
+input EditWineryInputs {
+  amenities: [Amenity!]
+  contactEmail: String
+  contactPhoneNumber: String
+  covidLabel: Boolean
+  description: String
+  foundationYear: Int
+  googleMapsUrl: String
+  productionType: [ProductionType!]
+  supportedLanguages: [ServiceLanguage!]
+  wineType: [TypeWine!]
+  wineryId: Float!
+  yearlyWineProduction: Int
 }
 
 input ExperienceWithSlotsInputs {
