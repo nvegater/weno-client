@@ -21,7 +21,6 @@ interface ExperienceModalLayoutProps {
   wineryName: string;
   slots: SlotFragmentFragment[];
   images?: GetImage[];
-  startDateTime: string;
   experienceInfo: ExperienceInfoFragment;
 }
 
@@ -30,7 +29,6 @@ const placeHolderImage =
 
 export const Reservation: FC<ExperienceModalLayoutProps> = ({
   images,
-  startDateTime,
   slots,
   valley,
   wineryName,
@@ -38,23 +36,15 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
 }) => {
   const coverImage = images ? images[0] : null;
 
-  const [date, setDate] = useState<string>(startDateTime);
+  const initialDate = slots[0].startDateTime;
+  const [date, setDate] = useState<string>(initialDate);
 
   const [totalPrice, setTotalPrice] = useState<number>(
     experienceInfo.pricePerPersonInDollars
   );
 
   const slotsFromDate: SlotFragmentFragment[] = useMemo(() => {
-    const unsortedSlotsFromDate = getSlotsFromDate(slots, date);
-    unsortedSlotsFromDate.sort(function (a, b) {
-      // Turn your strings into dates, and then subtract them
-      // to get a value that is either negative, positive, or zero.
-      return (
-        new Date(parseISO(a.startDateTime)).getTime() -
-        new Date(parseISO(b.startDateTime)).getTime()
-      );
-    });
-    return unsortedSlotsFromDate;
+    return getSlotsFromDate(slots, date);
   }, [date, slots]);
 
   const [selectedSlot, setSelectedSlot] = useState<SlotFragmentFragment>(
@@ -84,7 +74,7 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
       <DateTimePickerWeno
         removeTimeZone={true}
         onlyDate={true}
-        initialDate={parseISO(startDateTime)}
+        initialDate={parseISO(date)}
         onDateTimeSelection={(date) => {
           setDate(date as string);
         }}

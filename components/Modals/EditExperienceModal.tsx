@@ -53,7 +53,15 @@ export const EditExperienceModal: FC<EditExperienceModalProps> = ({
 
   const slotsFromDate: SlotFragmentFragment[] = useMemo(() => {
     if (selectedExperience) {
-      return getSlotsFromDate(selectedExperience.slots, date);
+      const sortedSlots = selectedExperience.slots.sort(function (a, b) {
+        // Turn your strings into dates, and then subtract them
+        // to get a value that is either negative, positive, or zero.
+        return (
+          new Date(parseISO(a.startDateTime)).getTime() -
+          new Date(parseISO(b.startDateTime)).getTime()
+        );
+      });
+      return getSlotsFromDate(sortedSlots, date);
     } else {
       return [];
     }

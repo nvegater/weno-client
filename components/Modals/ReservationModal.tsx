@@ -51,10 +51,9 @@ export const ReservationModal: FC<ReservationModalProps> = ({
           <Reservation
             wineryName={data.experienceWithSlots.experience.wineryName}
             valley={data.experienceWithSlots.experience.valley}
-            slots={data.experienceWithSlots.experience.slots}
+            slots={sortedSlots}
             images={data.experienceWithSlots.experience.images}
             experienceInfo={data.experienceWithSlots.experience}
-            startDateTime={sortedSlots[0].startDateTime}
           />
         )}
       {data?.experienceWithSlots.errors && !fetching && (
