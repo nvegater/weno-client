@@ -1,13 +1,12 @@
 import React, { FC } from "react";
 import { ExperiencesGridLayout } from "./ExperiencesGridLayout";
-import { LoadMoreButton } from "./LoadMoreButton";
 import useExperiences from "./useExperiences";
 import { Filters } from "../Filters/Filters";
 import {
   ExperiencesFilters,
   PaginatedExperienceFragment,
 } from "../../graphql/generated/graphql";
-import { Box, Heading, Skeleton } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Skeleton } from "@chakra-ui/react";
 
 interface ExperiencesProps {
   hasFilters: boolean;
@@ -72,7 +71,19 @@ export const Experiences: FC<ExperiencesProps> = ({
         experiences={experiences}
         openExperienceModal={openExperienceModal}
       />
-      <LoadMoreButton disableButton={disableButton} loadMore={loadMore} />
+      <Flex justifyContent="center" mt={5}>
+        <Button
+          size="navBarCTA"
+          variant="cta"
+          width="300px"
+          isDisabled={disableButton}
+          onClick={() => {
+            loadMore();
+          }}
+        >
+          {disableButton ? "No more results" : "Load more"}
+        </Button>
+      </Flex>
     </>
   );
 };
