@@ -12,6 +12,7 @@ import {
   PaginatedExperienceFragment,
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
+import { ContextHeader } from "../Authentication/useAuth";
 
 export enum ExperiencesGridMode {
   EDIT,
@@ -22,6 +23,7 @@ interface ExperienceModalProps {
   mode: ExperiencesGridMode;
   experience: PaginatedExperienceFragment;
   winery: WineryFragmentFragment | null;
+  contextHeader: ContextHeader | null;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -32,7 +34,9 @@ export const ExperienceDrawer: FC<ExperienceModalProps> = ({
   winery,
   isOpen,
   onClose,
+  contextHeader,
 }) => {
+  console.log(experience, mode, isOpen, contextHeader);
   return (
     <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
       <DrawerContent>
@@ -41,12 +45,16 @@ export const ExperienceDrawer: FC<ExperienceModalProps> = ({
           {mode === ExperiencesGridMode.RESERVE && isOpen && (
             <ReservationModal experience={experience} />
           )}
-          {mode === ExperiencesGridMode.EDIT && winery && isOpen && (
-            <EditExperienceModal
-              selectedExperience={experience}
-              winery={winery}
-            />
-          )}
+          {mode === ExperiencesGridMode.EDIT &&
+            winery &&
+            isOpen &&
+            contextHeader && (
+              <EditExperienceModal
+                selectedExperience={experience}
+                winery={winery}
+                contextHeader={contextHeader}
+              />
+            )}
           {mode === ExperiencesGridMode.VIEW && (
             <ExperienceModal experience={experience} />
           )}

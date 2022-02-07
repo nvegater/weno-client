@@ -122,6 +122,19 @@ export type DateWithTimes = {
   durationInMinutes: Scalars['Float'];
 };
 
+export type EditExperienceInputs = {
+  experienceId: Scalars['Float'];
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  experienceType?: Maybe<ExperienceType>;
+  pricePerPersonInDollars?: Maybe<Scalars['Float']>;
+};
+
+export type EditExperienceResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  successfulEdit?: Maybe<Scalars['Boolean']>;
+};
+
 export type EditWineryInputs = {
   wineryId: Scalars['Float'];
   description?: Maybe<Scalars['String']>;
@@ -288,6 +301,7 @@ export type InsertImageResponse = {
 
 export type Mutation = {
   createExperience: ExperienceResponse;
+  editExperience: EditExperienceResponse;
   createReservation: Scalars['Boolean'];
   createWinery: WineryResponse;
   editWinery: WineryResponse;
@@ -305,6 +319,11 @@ export type Mutation = {
 export type MutationCreateExperienceArgs = {
   createRecurrentDatesInputs: CreateRecurrentDatesInputs;
   createExperienceInputs: CreateExperienceInputs;
+};
+
+
+export type MutationEditExperienceArgs = {
+  editExperienceInputs: EditExperienceInputs;
 };
 
 
@@ -387,7 +406,7 @@ export type PaginatedExperience = {
   wineryName: Scalars['String'];
   createdAt: Scalars['DateTime'];
   valley?: Maybe<Valley>;
-  slots?: Maybe<Array<ExperienceSlot>>;
+  slots: Array<ExperienceSlot>;
   images?: Maybe<Array<GetImage>>;
 };
 
@@ -694,7 +713,7 @@ export type ExperienceListItemFragment = { id: number, title: string, experience
 
 export type GetImageFragment = { id: number, imageName: string, getUrl: string };
 
-export type PaginatedExperienceFragment = { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined, slots?: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> | null | undefined };
+export type PaginatedExperienceFragment = { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> };
 
 export type PaginationResultFragmentFragment = { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined, moreResults: boolean };
 
@@ -722,6 +741,13 @@ export type AddImageToExperienceMutationVariables = Exact<{
 
 export type AddImageToExperienceMutation = { addImageToExperience: { errors?: Array<{ field: string, message: string }> | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined } };
 
+export type EditExperienceMutationVariables = Exact<{
+  editExperienceInputs: EditExperienceInputs;
+}>;
+
+
+export type EditExperienceMutation = { editExperience: { successfulEdit?: boolean | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
+
 export type ConfirmConnectedAccountMutationVariables = Exact<{
   wineryAlias: Scalars['String'];
 }>;
@@ -735,7 +761,7 @@ export type CreateExperienceMutationVariables = Exact<{
 }>;
 
 
-export type CreateExperienceMutation = { createExperience: { errors?: Array<{ field: string, message: string }> | null | undefined, experience?: { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined, slots?: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> | null | undefined } | null | undefined, dateWithTimes?: Array<{ date: any, durationInMinutes: number, times: Array<any> }> | null | undefined } };
+export type CreateExperienceMutation = { createExperience: { errors?: Array<{ field: string, message: string }> | null | undefined, experience?: { createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> } | null | undefined, dateWithTimes?: Array<{ date: any, durationInMinutes: number, times: Array<any> }> | null | undefined } };
 
 export type CreateWineryMutationVariables = Exact<{
   userInputs: UserInputs;
@@ -807,7 +833,7 @@ export type ExperiencesQueryVariables = Exact<{
 }>;
 
 
-export type ExperiencesQuery = { experiences: { totalExperiences?: number | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined, slots?: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> | null | undefined }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined, moreResults: boolean } } };
+export type ExperiencesQuery = { experiences: { totalExperiences?: number | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, experiences?: Array<{ createdAt: any, id: number, title: string, description: string, pricePerPersonInDollars: number, wineryId: number, wineryName: string, allAttendeesAllSlots?: number | null | undefined, experienceType: ExperienceType, valley?: Valley | null | undefined, images?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined, slots: Array<{ id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }> }> | null | undefined, paginationConfig: { beforeCursor?: string | null | undefined, afterCursor?: string | null | undefined, limit?: number | null | undefined, moreResults: boolean } } };
 
 export type ExperiencesListQueryVariables = Exact<{
   wineryId: Scalars['Int'];
@@ -1051,6 +1077,20 @@ ${GetImageFragmentDoc}`;
 
 export function useAddImageToExperienceMutation() {
   return Urql.useMutation<AddImageToExperienceMutation, AddImageToExperienceMutationVariables>(AddImageToExperienceDocument);
+};
+export const EditExperienceDocument = gql`
+    mutation EditExperience($editExperienceInputs: EditExperienceInputs!) {
+  editExperience(editExperienceInputs: $editExperienceInputs) {
+    errors {
+      ...ErrorFragment
+    }
+    successfulEdit
+  }
+}
+    ${ErrorFragmentFragmentDoc}`;
+
+export function useEditExperienceMutation() {
+  return Urql.useMutation<EditExperienceMutation, EditExperienceMutationVariables>(EditExperienceDocument);
 };
 export const ConfirmConnectedAccountDocument = gql`
     mutation ConfirmConnectedAccount($wineryAlias: String!) {

@@ -85,7 +85,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       });
     }
     if (editWineryResponse?.editWinery.winery) {
-      toast(getToastMessage("winerySaved"));
+      toast(getToastMessage("saved"));
       router.reload();
     }
   };

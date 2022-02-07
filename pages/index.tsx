@@ -68,6 +68,7 @@ const Home = () => {
             onClose={onClose}
             experience={experience}
             winery={null}
+            contextHeader={null}
           />
 
           <Experiences

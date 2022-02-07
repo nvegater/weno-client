@@ -9,13 +9,16 @@ import {
   ExperienceDrawer,
   ExperiencesGridMode,
 } from "../../Experiences/ExperienceDrawer";
+import { ContextHeader } from "../../Authentication/useAuth";
 
 interface EditableExperiencesProps {
   winery: WineryFragmentFragment;
+  contextHeader: ContextHeader;
 }
 
 export const EditableExperiences: FC<EditableExperiencesProps> = ({
   winery,
+  contextHeader,
 }) => {
   const [experience, setExperience] = useState<PaginatedExperienceFragment>();
 
@@ -36,6 +39,7 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
         onClose={onClose}
         experience={experience}
         winery={winery}
+        contextHeader={contextHeader}
       />
       <Experiences
         hasFilters={false}

@@ -6,7 +6,7 @@ type ToastMessageType =
   | "imagesSavedSuccess"
   | "bookingNotPossibleServerError"
   | "bookingFailed"
-  | "winerySaved";
+  | "saved";
 
 export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
   let toastOpts: UseToastOptions = {
@@ -70,15 +70,16 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
         position: "top-right",
       };
       break;
-    case "winerySaved":
+    case "saved":
       toastOpts = {
         title: "Update Succesfull",
-        description: "The winery information was saved",
+        description: "The information was saved",
         status: "success",
         duration: 5000,
         isClosable: true,
         position: "top",
       };
+      break;
   }
   return toastOpts;
 };

@@ -221,7 +221,10 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 />
               )}
               {subPage === GeneratorSubpage.EDIT_EXPERIENCE && (
-                <EditableExperiences winery={winery} />
+                <EditableExperiences
+                  winery={winery}
+                  contextHeader={contextHeader}
+                />
               )}
               {subPage === GeneratorSubpage.PAST_EXPERIENCES && (
                 <div>Past experiences</div>
