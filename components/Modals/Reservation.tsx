@@ -12,9 +12,9 @@ import { GrMap } from "react-icons/gr";
 import { DateTimePickerWeno } from "../DateTimePicker/DateTimePickerWeno";
 import { parseISO } from "date-fns";
 import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
-import { getSlotsFromDate } from "./EditExperienceModal";
 import { InputNumberBox } from "../InputFields/InputNumberBox";
 import { CreateReservation } from "./CreateReservation";
+import { getSlotsFromDate } from "../utils/dateTime-utils";
 
 interface ExperienceModalLayoutProps {
   valley: Valley;
