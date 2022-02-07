@@ -19,15 +19,14 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
           gridTemplateColumns="repeat(auto-fit, minmax(274px, 1fr))"
           gap={3}
         >
-          {experiences.length > 0 &&
-            experiences.map((exp) => (
-              <Flex justifyContent="center" key={exp.title}>
-                <ExperienceCardCover
-                  experience={exp}
-                  openExperienceModal={openExperienceModal}
-                />
-              </Flex>
-            ))}
+          {experiences.map((exp) => (
+            <Flex justifyContent="center" key={exp.title}>
+              <ExperienceCardCover
+                experience={exp}
+                openExperienceModal={openExperienceModal}
+              />
+            </Flex>
+          ))}
         </Grid>
       </Box>
     </Box>
