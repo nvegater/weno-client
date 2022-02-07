@@ -28,11 +28,7 @@ import {
   mapSlotType,
   removeNonStringsFromArray,
 } from "../utils/enum-utils";
-import { atom, useSetRecoilState } from "recoil";
-import {
-  generatorNavigationState,
-  GeneratorSubpage,
-} from "../Profile/Winery/GeneratorLayout/GeneratorLayout";
+import { useRouter } from "next/router";
 
 interface CreateExperienceProps {
   winery: WineryFragmentFragment;
@@ -46,11 +42,6 @@ export const allDay = "All day";
 export const degustation = "Degustation";
 export const pairing = "Pairing";
 export const concert = "Concert";
-
-export const createdExperienceIdState = atom<number | null>({
-  key: "createdExperienceId",
-  default: null,
-});
 
 export const CreateExperience: FC<CreateExperienceProps> = ({
   winery,
@@ -66,8 +57,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     formState: { errors, isSubmitting },
   } = useForm({ mode: "onTouched" });
 
-  const setCreatedExperienceId = useSetRecoilState(createdExperienceIdState);
-  const setSubpage = useSetRecoilState(generatorNavigationState);
+  const router = useRouter();
 
   const [, createExperience] = useCreateExperienceMutation();
   const onSubmit = async (data) => {
@@ -118,8 +108,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
       });
     }
     if (result && result.createExperience.experience !== null) {
-      setCreatedExperienceId(result.createExperience.experience.id);
-      setSubpage(GeneratorSubpage.EDIT_EXPERIENCE);
+      router.reload();
     }
   };
 

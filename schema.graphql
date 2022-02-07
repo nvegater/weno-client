@@ -231,15 +231,6 @@ type ProductsResponse {
 type Query {
   allReservations: Int!
   allWineryNames: [String!]!
-  bookableExperiences(
-    paginatedExperiencesInputs: PaginatedExperiencesInputs!
-  ): PaginatedExperiences!
-  editableExperiences(
-    paginatedExperiencesInputs: PaginatedExperiencesInputs!
-  ): PaginatedExperiences!
-  experienceWithSlots(
-    experienceWithSlotsInputs: ExperienceWithSlotsInputs!
-  ): ExperienceResponse!
   experiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
   ): PaginatedExperiences!
@@ -569,17 +560,11 @@ input EditWineryInputs {
   yearlyWineProduction: Int
 }
 
-input ExperienceWithSlotsInputs {
-  experienceId: Float!
-  fromDateTime: DateTime
-  onlyBookableSlots: Boolean!
-  untilDateTime: DateTime
-}
-
 input ExperiencesFilters {
   experienceName: String
   experienceType: [ExperienceType!]
   fromDateTime: DateTime
+  hasSlotsInFuture: Boolean
   untilDateTime: DateTime
   valley: [Valley!]
   wineryIds: [Int!]
@@ -606,10 +591,8 @@ ExperienceType: if null, All the experience Types. Otherwise ONLY the selected o
 Valleys: if null, All the Valleys. Otherwise ONLY the selected ones.
 """
 input PaginatedExperiencesInputs {
-  experiencesFilters: ExperiencesFilters!
-  getUpcomingSlots: Boolean
-  onlyWithAvailableSeats: Boolean
-  paginationConfig: CursorPaginationInput!
+  filters: ExperiencesFilters!
+  pagination: CursorPaginationInput!
 }
 
 input PaymentMetadataInputs {

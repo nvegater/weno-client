@@ -1,92 +1,49 @@
-import React, { FC, useEffect, useState } from "react";
-import {
-  ExperiencesGridLayout,
-  ExperiencesGridMode,
-} from "../../Experiences/ExperiencesGridLayout";
-import { ContextHeader } from "../../Authentication/useAuth";
-import { useRecoilValue } from "recoil";
-import { createdExperienceIdState } from "../../Experiences/CreateExperience";
+import React, { FC, useState } from "react";
 import {
   PaginatedExperienceFragment,
-  useEditableExperiencesQuery,
   WineryFragmentFragment,
 } from "../../../graphql/generated/graphql";
-import useFiltersPagination from "../../utils/useFiltersPagination";
-import { LoadMoreButton } from "../../Experiences/LoadMoreButton";
-import { getUniqueListTyped } from "../../utils/react-utils";
+import { Experiences } from "../../Experiences/Experiences";
+import { Heading, useDisclosure } from "@chakra-ui/react";
+import {
+  ExperienceDrawer,
+  ExperiencesGridMode,
+} from "../../Experiences/ExperienceDrawer";
 
 interface EditableExperiencesProps {
-  contextHeader: ContextHeader;
   winery: WineryFragmentFragment;
 }
 
 export const EditableExperiences: FC<EditableExperiencesProps> = ({
-  contextHeader,
   winery,
 }) => {
-  const recentlyCreatedExperienceId = useRecoilValue(createdExperienceIdState);
-  const autoSelectExperience = recentlyCreatedExperienceId !== null;
+  const [experience, setExperience] = useState<PaginatedExperienceFragment>();
 
-  const [paginationConfig, experiencesFilters, , handlePaginationRequest] =
-    useFiltersPagination();
-
-  const [experiences, setExperiences] = useState<PaginatedExperienceFragment[]>(
-    []
-  );
-
-  const [{ data, fetching, error: networkError }] = useEditableExperiencesQuery(
-    {
-      variables: {
-        paginatedExperiencesInputs: {
-          paginationConfig: { ...paginationConfig },
-          experiencesFilters: { ...experiencesFilters, wineryIds: [winery.id] },
-        },
-      },
-      requestPolicy: "network-only",
-      context: contextHeader,
-    }
-  );
-
-  useEffect(() => {
-    if (data) {
-      if (data.editableExperiences.errors) {
-        setExperiences([]);
-      } else {
-        const newExps = data?.editableExperiences?.experiences;
-        setExperiences((e) => {
-          const accumulated = [...e, ...newExps];
-          const unique = getUniqueListTyped(accumulated, "id");
-          return [...unique];
-        });
-      }
-    }
-  }, [data, experiences]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const openExperienceModal = (experience: PaginatedExperienceFragment) => {
+    onOpen();
+    setExperience(experience);
+  };
 
   return (
     <>
-      {data?.editableExperiences.errors && <div>Server Error screen</div>}
-      <ExperiencesGridLayout
-        experiences={experiences}
+      <Heading as="h1" color="brand.200" fontWeight="700" size="2xl">
+        Edit experiences
+      </Heading>
+      <ExperienceDrawer
         mode={ExperiencesGridMode.EDIT}
+        isOpen={isOpen}
+        onClose={onClose}
+        experience={experience}
         winery={winery}
-        preSelectedExperienceId={
-          autoSelectExperience
-            ? recentlyCreatedExperienceId
-            : experiences.length > 0
-            ? experiences[0].id
-            : undefined
-        }
-        fetching={fetching}
-        networkError={networkError}
       />
-      <LoadMoreButton
-        disableButton={
-          !Boolean(data?.editableExperiences?.paginationConfig?.moreResults)
-        }
-        noOfExperiences={experiences.length}
-        handlePaginationRequest={handlePaginationRequest}
-        paginationConfig={paginationConfig}
-        newPaginationConfig={data?.editableExperiences?.paginationConfig}
+      <Experiences
+        hasFilters={false}
+        initialFilters={{
+          hasSlotsInFuture: true,
+          wineryIds: [winery.id],
+        }}
+        openExperienceModal={openExperienceModal}
       />
     </>
   );

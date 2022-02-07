@@ -1,70 +1,34 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useState } from "react";
+import { Experiences } from "../../../Experiences/Experiences";
 import {
-  ExperiencesGridLayout,
+  ExperienceDrawer,
   ExperiencesGridMode,
-} from "../../../Experiences/ExperiencesGridLayout";
-import {
-  PaginatedExperienceLightFragment,
-  useExperiencesQuery,
-} from "../../../../graphql/generated/graphql";
-import useFiltersPagination from "../../../utils/useFiltersPagination";
-import { LoadMoreButton } from "../../../Experiences/LoadMoreButton";
-import { getUniqueListTyped } from "../../../utils/react-utils";
+} from "../../../Experiences/ExperienceDrawer";
+import { PaginatedExperienceFragment } from "../../../../graphql/generated/graphql";
+import { useDisclosure } from "@chakra-ui/react";
 
 interface AllExperiencesProps {}
 
 export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
-  const [paginationConfig, experiencesFilters, , handlePaginationRequest] =
-    useFiltersPagination();
+  const [experience, setExperience] = useState<PaginatedExperienceFragment>();
 
-  const [experiences, setExperiences] = useState<
-    PaginatedExperienceLightFragment[]
-  >([]);
-
-  const [{ data, fetching, error: networkError }] = useExperiencesQuery({
-    variables: {
-      paginatedExperiencesInputs: {
-        paginationConfig: { ...paginationConfig },
-        experiencesFilters: { ...experiencesFilters },
-      },
-    },
-    requestPolicy: "network-only",
-  });
-
-  useEffect(() => {
-    if (data) {
-      if (data.experiences.errors) {
-        setExperiences([]);
-      } else {
-        const newExps = data?.experiences?.experiences;
-        setExperiences((e) => {
-          const accumulated = [...e, ...newExps];
-          const unique = getUniqueListTyped(accumulated, "id");
-          return [...unique];
-        });
-      }
-    }
-  }, [data, experiences]);
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const openExperienceModal = (experience: PaginatedExperienceFragment) => {
+    onOpen();
+    setExperience(experience);
+  };
   return (
     <>
-      {fetching && <div>Generator Loading screen</div>}
-      {networkError && <div>Network Error screen</div>}
-      {data?.experiences.errors && <div>Server Error screen</div>}
-      {data?.experiences && data.experiences.errors === null && (
-        <ExperiencesGridLayout
-          experiences={experiences}
-          mode={ExperiencesGridMode.VIEW}
-        />
-      )}
-      <LoadMoreButton
-        disableButton={
-          !Boolean(data?.experiences?.paginationConfig?.moreResults)
-        }
-        noOfExperiences={experiences.length}
-        handlePaginationRequest={handlePaginationRequest}
-        paginationConfig={paginationConfig}
-        newPaginationConfig={data?.experiences?.paginationConfig}
+      <ExperienceDrawer
+        mode={ExperiencesGridMode.VIEW}
+        isOpen={isOpen}
+        onClose={onClose}
+        experience={experience}
+        winery={null}
+      />
+      <Experiences
+        hasFilters={false}
+        openExperienceModal={openExperienceModal}
       />
     </>
   );

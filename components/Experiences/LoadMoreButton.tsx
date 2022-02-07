@@ -1,22 +1,14 @@
-import { HandlePaginationRequestFn } from "../utils/useFiltersPagination";
-import { CursorPaginationInput } from "../../graphql/generated/graphql";
 import React, { FC } from "react";
 import { Button, Flex } from "@chakra-ui/react";
 
 interface LoadMoreButtonProps {
   disableButton: boolean;
-  noOfExperiences: number;
-  handlePaginationRequest: HandlePaginationRequestFn;
-  paginationConfig: CursorPaginationInput;
-  newPaginationConfig?: CursorPaginationInput;
+  loadMore: () => void;
 }
 
 export const LoadMoreButton: FC<LoadMoreButtonProps> = ({
   disableButton,
-  noOfExperiences,
-  handlePaginationRequest,
-  paginationConfig,
-  newPaginationConfig,
+  loadMore,
 }) => {
   return (
     <Flex justifyContent="center" mt={5}>
@@ -26,9 +18,7 @@ export const LoadMoreButton: FC<LoadMoreButtonProps> = ({
         width="300px"
         isDisabled={disableButton}
         onClick={() => {
-          if (noOfExperiences > 0) {
-            handlePaginationRequest(paginationConfig, newPaginationConfig);
-          }
+          loadMore();
         }}
       >
         {disableButton ? "No more results" : "Load more"}

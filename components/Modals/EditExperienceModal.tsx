@@ -11,8 +11,7 @@ import { valleyReverseMapping } from "../utils/enum-utils";
 import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
 
 interface EditExperienceModalProps {
-  experienceId: number;
-  experiences: PaginatedExperienceFragment[];
+  selectedExperience: PaginatedExperienceFragment;
   winery: WineryFragmentFragment;
 }
 
@@ -27,28 +26,15 @@ export function getSlotsFromDate(
   });
 }
 
-function getExperienceById(
-  experiences: PaginatedExperienceFragment[],
-  experienceId: number
-) {
-  return experiences.find((exp) => exp.id === experienceId);
-}
-
 const placeHolderImage =
   "https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
 
 export const EditExperienceModal: FC<EditExperienceModalProps> = ({
-  experienceId,
-  experiences,
+  selectedExperience,
   winery,
 }) => {
   const [date, setDate] = useState<string>(
     formatISO(new Date(), { format: "extended" })
-  );
-
-  const selectedExperience: PaginatedExperienceFragment | undefined = useMemo(
-    () => getExperienceById(experiences, experienceId),
-    [experienceId, experiences]
   );
 
   const slotsFromDate: SlotFragmentFragment[] = useMemo(() => {

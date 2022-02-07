@@ -16,19 +16,3 @@ fragment PaginatedExperience on PaginatedExperience {
     ...SlotFragment
   }
 }
-
-fragment PaginatedExperienceLight on PaginatedExperience {
-  createdAt
-  id
-  title
-  description
-  pricePerPersonInDollars
-  wineryId
-  wineryName
-  allAttendeesAllSlots
-  experienceType
-  valley
-  images {
-    ...GetImage
-  }
-}
