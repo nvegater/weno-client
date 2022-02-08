@@ -36,7 +36,6 @@ export const ExperienceDrawer: FC<ExperienceModalProps> = ({
   onClose,
   contextHeader,
 }) => {
-  console.log(experience, mode, isOpen, contextHeader);
   return (
     <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
       <DrawerContent>

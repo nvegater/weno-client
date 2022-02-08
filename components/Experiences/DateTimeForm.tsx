@@ -90,11 +90,11 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   const watchExceptions = watch("exceptions");
   const watchExceptionDays = watch("exceptionDays");
 
-  const enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion =
-    watchPeriodic === recurrent;
-  const setAutoDuration = watchPeriodic === oneTime;
-  const disable__Duration_StartTime_EndDateTime__setAutoDuration =
-    watchPeriodic === allDay;
+  // allow calculating recursion and set endDate special format
+  const isRecurrent = watchPeriodic === recurrent;
+
+  const isAutomaticDuration = watchPeriodic === oneTime;
+  const isAllDay = watchPeriodic === allDay;
 
   const [fetchRecurrentDates, setFetchRecurrentDates] =
     useState<boolean>(false);
@@ -128,28 +128,19 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   });
 
   useEffect(() => {
-    if (setAutoDuration && watchStartDate && watchEndDate) {
+    if (isAutomaticDuration && watchStartDate && watchEndDate) {
       const diff = differenceInMinutes(
         new Date(watchEndDate),
         new Date(watchStartDate)
       );
       setValue("durationInMinutes", diff);
     }
-    if (
-      disable__Duration_StartTime_EndDateTime__setAutoDuration &&
-      watchStartDate
-    ) {
+    if (isAllDay && watchStartDate) {
       setValue("durationInMinutes", 24 * 60);
       // it gets ignored anyway because is "allDay
       setValue("endDateTime", watchStartDate);
     }
-  }, [
-    watchStartDate,
-    watchEndDate,
-    setAutoDuration,
-    setValue,
-    disable__Duration_StartTime_EndDateTime__setAutoDuration,
-  ]);
+  }, [watchStartDate, watchEndDate, isAutomaticDuration, setValue, isAllDay]);
 
   useEffect(() => {
     setFetchRecurrentDates(false);
@@ -187,9 +178,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                   // remove timezone is True so we pass only a string
                   field.onChange(date);
                 }}
-                onlyDate={
-                  disable__Duration_StartTime_EndDateTime__setAutoDuration
-                }
+                onlyDate={isAllDay}
               />
               <FormErrorMessage>
                 {fieldState.error && fieldState.error.message}
@@ -198,7 +187,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
           )}
         />
 
-        {!disable__Duration_StartTime_EndDateTime__setAutoDuration && (
+        {!isAllDay && (
           <Controller
             control={control}
             name="endDateTime"
@@ -216,9 +205,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                   onDateTimeSelection={(date) => {
                     field.onChange(date);
                   }}
-                  includeTime={
-                    enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion
-                  }
+                  isEndDateTimeRecurrent={isRecurrent}
                 />
                 <FormErrorMessage>
                   {fieldState.error && fieldState.error.message}
@@ -228,7 +215,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
           />
         )}
       </Flex>
-      {!disable__Duration_StartTime_EndDateTime__setAutoDuration && (
+      {!isAllDay && (
         <Controller
           control={control}
           name="durationInMinutes"
@@ -245,22 +232,20 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                 isRequired={true}
               >
                 <FormLabel htmlFor="durationInMinutes">
-                  {enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion
+                  {isRecurrent
                     ? "Duration in minutes (for each event)"
+                    : isAutomaticDuration
+                    ? "Automatic duration (use start and end)"
                     : "Duration in minutes"}
                 </FormLabel>
                 <Input
                   type="number"
-                  placeholder={
-                    setAutoDuration
-                      ? "Select Start & End to display duration"
-                      : "e.g. 60"
-                  }
+                  placeholder={isAutomaticDuration ? "Disabled" : "e.g. 60"}
                   onChange={field.onChange}
                   name={field.name}
                   value={field.value}
                   ref={field.ref}
-                  isReadOnly={setAutoDuration}
+                  isReadOnly={isAutomaticDuration}
                   maxW="250px"
                 />
                 <FormErrorMessage>
@@ -272,7 +257,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
         />
       )}
 
-      {enable__Exceptions__messages_Recurrent__dateFormat_inverted__calculateRecursion && (
+      {isRecurrent && (
         <VStack
           justifyContent="start"
           display="flex"

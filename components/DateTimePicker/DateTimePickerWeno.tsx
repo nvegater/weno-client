@@ -1,7 +1,6 @@
 import React, { FC, useState } from "react";
-import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
+import DatePicker from "react-datepicker";
 
-// styles are imported in the _app.tsx component
 export function isoDateWithoutTimeZone(date: Date) {
   // TODO MAybe replace with https://date-fns.org/v2.28.0/docs/formatISO
   const timestamp = date.getTime() - date.getTimezoneOffset() * 60000;
@@ -14,47 +13,49 @@ interface DateTimePickerProps {
   initialDate?: Date;
   removeTimeZone?: boolean;
   onlyDate?: boolean;
-  includeTime?: boolean;
+  isEndDateTimeRecurrent?: boolean;
 }
 
 export const DateTimePickerWeno: FC<DateTimePickerProps> = ({
   onDateTimeSelection,
   initialDate,
   onlyDate = false,
-  includeTime = false,
+  isEndDateTimeRecurrent = false,
   removeTimeZone = false,
 }) => {
   const [dateValue, setDateValue] = useState<Date>(
     initialDate ? initialDate : undefined
   );
 
-  let format: string | undefined;
+  let format: string = "yyyy MMM d, h:mm aa";
 
   if (onlyDate) {
-    // This will set the time to 2022-01-05T00:00:00.000Z in the return value of date
-    format = "dd/MM/yy";
+    format = "yyyy MMM d";
   }
-  if (includeTime) {
-    format = "H:mm dd/MM/yy";
+  if (isEndDateTimeRecurrent) {
+    format = "h:mm aa, d MMM yy ";
   }
 
+  const onChange = (newValue: Date) => {
+    // update local widget value
+    setDateValue(newValue);
+    // run custom function if provided
+    if (onDateTimeSelection) {
+      // if the timezone should be removed pass the ISO string
+      onDateTimeSelection(
+        removeTimeZone ? isoDateWithoutTimeZone(newValue) : newValue
+      );
+    }
+  };
+
   return (
-    <DateTimePicker
-      onChange={(newValue) => {
-        const castedDate = newValue as Date;
-        // update local widget value
-        setDateValue(castedDate);
-        // run custom function if provided
-        if (onDateTimeSelection) {
-          // if the timezone should be removed pass the ISO string
-          onDateTimeSelection(
-            removeTimeZone ? isoDateWithoutTimeZone(castedDate) : castedDate
-          );
-        }
-      }}
-      value={dateValue}
-      disableClock={true}
-      format={format}
+    <DatePicker
+      selected={dateValue}
+      onChange={onChange}
+      showTimeSelect={isEndDateTimeRecurrent || !onlyDate}
+      dateFormat={format}
+      timeFormat="HH:mm"
+      timeIntervals={15}
     />
   );
 };
