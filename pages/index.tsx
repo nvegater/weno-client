@@ -4,65 +4,30 @@ import { withUrqlClient } from "next-urql";
 import useAuth from "../components/Authentication/useAuth";
 import { WenoLayout } from "../components/GeneralLayout/WenoLayout";
 import { Hero } from "../components/Hero/Hero";
-import React, { useEffect, useState } from "react";
-import {
-  ExperiencesGridLayout,
-  ExperiencesGridMode,
-} from "../components/Experiences/ExperiencesGridLayout";
-import {
-  PaginatedExperienceLightFragment,
-  useBookableExperiencesQuery,
-} from "../graphql/generated/graphql";
-import useFiltersPagination from "../components/utils/useFiltersPagination";
-import { Flex, Heading, Icon } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Flex, Heading, Icon, useDisclosure } from "@chakra-ui/react";
 import { ImFilter } from "react-icons/im";
-import { LoadMoreButton } from "../components/Experiences/LoadMoreButton";
-import { Filters } from "../components/Filters/Filters";
-import { getUniqueListTyped } from "../components/utils/react-utils";
+import { Experiences } from "../components/Experiences/Experiences";
+import { PaginatedExperienceFragment } from "../graphql/generated/graphql";
+import {
+  ExperienceDrawer,
+  ExperiencesGridMode,
+} from "../components/Experiences/ExperienceDrawer";
 
 const Home = () => {
-  const { authenticated, logout, login, register, tokenInfo } = useAuth();
+  const { authenticated, logout, login, register, tokenInfo, urlAlias } =
+    useAuth();
 
   const [openFilters, setOpenFilters] = useState<boolean>(false);
 
-  const [
-    paginationConfig,
-    experiencesFilters,
-    setFilters,
-    handlePaginationRequest,
-  ] = useFiltersPagination();
+  const [experience, setExperience] = useState<PaginatedExperienceFragment>();
 
-  const [experiences, setExperiences] = useState<
-    PaginatedExperienceLightFragment[]
-  >([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [{ data, fetching, error: networkError }] = useBookableExperiencesQuery(
-    {
-      variables: {
-        paginatedExperiencesInputs: {
-          paginationConfig: { ...paginationConfig },
-          experiencesFilters: { ...experiencesFilters },
-        },
-      },
-      requestPolicy: "network-only",
-    }
-  );
-
-  useEffect(() => {
-    if (data) {
-      if (data.bookableExperiences.errors) {
-        setExperiences([]);
-      } else {
-        const newExps = data?.bookableExperiences?.experiences;
-        setExperiences((e) => {
-          const accumulated = [...e, ...newExps];
-          const unique = getUniqueListTyped(accumulated, "id");
-          return [...unique];
-        });
-      }
-    }
-  }, [data]);
-
+  const openExperienceModal = (experience: PaginatedExperienceFragment) => {
+    onOpen();
+    setExperience(experience);
+  };
   return (
     <div>
       <Head>
@@ -75,6 +40,7 @@ const Home = () => {
           logoutFn={logout}
           authenticated={authenticated}
           tokenInfo={tokenInfo}
+          urlAlias={urlAlias}
         >
           <Hero authenticated={authenticated} register={register} />
 
@@ -98,29 +64,21 @@ const Home = () => {
             />
           </Flex>
 
-          {openFilters && (
-            <Filters
-              setExperiencesFilters={setFilters}
-              initialFilters={experiencesFilters}
-              resetExperiencesOnNewSearch={() => setExperiences([])}
-            />
-          )}
-
-          <ExperiencesGridLayout
-            experiences={experiences}
+          <ExperienceDrawer
             mode={ExperiencesGridMode.RESERVE}
-            fetching={fetching}
-            networkError={networkError}
+            isOpen={isOpen}
+            onClose={onClose}
+            experience={experience}
+            winery={null}
+            contextHeader={null}
           />
 
-          <LoadMoreButton
-            disableButton={
-              !Boolean(data?.bookableExperiences?.paginationConfig?.moreResults)
-            }
-            noOfExperiences={experiences.length}
-            handlePaginationRequest={handlePaginationRequest}
-            paginationConfig={paginationConfig}
-            newPaginationConfig={data?.bookableExperiences?.paginationConfig}
+          <Experiences
+            hasFilters={openFilters}
+            openExperienceModal={openExperienceModal}
+            initialFilters={{
+              hasSlotsInFuture: true,
+            }}
           />
         </WenoLayout>
       </main>

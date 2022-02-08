@@ -8,15 +8,12 @@ import { KeycloakConfig } from "keycloak-js";
 import React from "react";
 import "@fontsource/work-sans";
 import "@fontsource/open-sans";
+import "../components/DateTimePicker/DatePicker/datePicker.css";
 import { initReactI18next } from "react-i18next";
 import { I18nextProvider } from "react-i18next";
 import i18next from "i18next";
 import esLang from "../public/locales/es/common.json";
 import enLang from "../public/locales/en/common.json";
-import "../components/DateTimePicker/Clock.css";
-import "../components/DateTimePicker/DateTimePicker.css";
-import "../components/DateTimePicker/Calendar.css";
-import "../components/DateTimePicker/DatePicker/datePicker.css";
 
 i18next.use(initReactI18next).init({
   lng: "es",

@@ -9,6 +9,7 @@ export const NavBarWithSubmenu: FC<NavBarProps> = ({
   authenticated,
   logoutFn,
   tokenInfo,
+  urlAlias,
 }) => {
   return (
     <Box minH={3}>
@@ -25,6 +26,7 @@ export const NavBarWithSubmenu: FC<NavBarProps> = ({
             authenticated={authenticated}
             loginFn={loginFn}
             logoutFn={logoutFn}
+            urlAlias={urlAlias}
             {...tokenInfo}
           />
           <NavContent.Desktop
@@ -32,6 +34,7 @@ export const NavBarWithSubmenu: FC<NavBarProps> = ({
             authenticated={authenticated}
             loginFn={loginFn}
             logoutFn={logoutFn}
+            urlAlias={urlAlias}
             {...tokenInfo}
           />
         </Box>

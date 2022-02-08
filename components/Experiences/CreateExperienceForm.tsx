@@ -20,7 +20,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
-import { ErrorSummary } from "../RegisterWinery/CreateWineryForm";
+import { ErrorSummary } from "../Winery/CreateWineryForm";
 import RadioGroup from "../Radio/RadioGroup";
 import { DateTimeForm } from "./DateTimeForm";
 import { useTranslation } from "react-i18next";
@@ -30,11 +30,7 @@ import {
   mapSlotType,
   removeNonStringsFromArray,
 } from "../utils/enum-utils";
-import { atom, useSetRecoilState } from "recoil";
-import {
-  generatorNavigationState,
-  GeneratorSubpage,
-} from "../Profile/Winery/GeneratorLayout/GeneratorLayout";
+import { useRouter } from "next/router";
 
 interface CreateExperienceProps {
   winery: WineryFragmentFragment;
@@ -49,12 +45,7 @@ export const degustation = "Degustation";
 export const pairing = "Pairing";
 export const concert = "Concert";
 
-export const createdExperienceIdState = atom<number | null>({
-  key: "createdExperienceId",
-  default: null,
-});
-
-export const CreateExperience: FC<CreateExperienceProps> = ({
+export const CreateExperienceForm: FC<CreateExperienceProps> = ({
   winery,
   contextHeader,
 }) => {
@@ -68,8 +59,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
     formState: { errors, isSubmitting },
   } = useForm({ mode: "onTouched" });
 
-  const setCreatedExperienceId = useSetRecoilState(createdExperienceIdState);
-  const setSubpage = useSetRecoilState(generatorNavigationState);
+  const router = useRouter();
 
   const [, createExperience] = useCreateExperienceMutation();
   const onSubmit = async (data) => {
@@ -120,8 +110,7 @@ export const CreateExperience: FC<CreateExperienceProps> = ({
       });
     }
     if (result && result.createExperience.experience !== null) {
-      setCreatedExperienceId(result.createExperience.experience.id);
-      setSubpage(GeneratorSubpage.EDIT_EXPERIENCE);
+      router.reload();
     }
   };
   const [t] = useTranslation("global");

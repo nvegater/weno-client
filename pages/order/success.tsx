@@ -6,7 +6,7 @@ import useVerifySession from "../../components/Authentication/useVerifySession";
 import { Flex, Heading, Link } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../graphql/urqlProvider";
-import { ReservationConfirmation } from "../../components/Orders/ReservationConfirmation";
+import { ReservationConfirmation } from "../../components/Reservations/ReservationConfirmation";
 import { useTranslation } from "react-i18next";
 
 const Success = () => {
@@ -14,7 +14,7 @@ const Success = () => {
 
   const { session_id } = router.query;
 
-  const { authenticated, logout, login, tokenInfo } = useAuth();
+  const { authenticated, logout, login, tokenInfo, urlAlias } = useAuth();
   const [t] = useTranslation("global");
 
   const {
@@ -33,6 +33,7 @@ const Success = () => {
       logoutFn={logout}
       authenticated={authenticated}
       tokenInfo={tokenInfo}
+      urlAlias={urlAlias}
     >
       {loadingVerification && (
         <Flex justifyContent="center" m={5}>

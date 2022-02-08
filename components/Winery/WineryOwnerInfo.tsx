@@ -3,17 +3,17 @@ import { Heading, Flex, Button, Text, Link } from "@chakra-ui/react";
 import {
   CardProperty,
   CardWithUserDetails,
-} from "../../Cards/CardWithUserDetails/CardWithUserDetails";
+} from "../Cards/CardWithUserDetails/CardWithUserDetails";
 import {
   useConfirmConnectedAccountMutation,
   useGetSubscriptionStatusQuery,
   useWineryOnboardingMutation,
   WineryConfirmationFragmentFragment,
   WineryFragmentFragment,
-} from "../../../graphql/generated/graphql";
-import { ContextHeader } from "../../Authentication/useAuth";
+} from "../../graphql/generated/graphql";
+import { ContextHeader } from "../Authentication/useAuth";
+import { dateFormatter, timeFormatter } from "../utils/dateTime-utils";
 import { useTranslation } from "react-i18next";
-import { dateFormatter, timeFormatter } from "../../utils/dateTime-utils";
 
 interface WineryOwnerInfoProps {
   winery: WineryFragmentFragment;

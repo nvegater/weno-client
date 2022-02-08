@@ -6,7 +6,8 @@ type ToastMessageType =
   | "processingChangesInfo"
   | "imagesSavedSuccess"
   | "bookingNotPossibleServerError"
-  | "bookingFailed";
+  | "bookingFailed"
+  | "saved";
 
 export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
   const [t] = useTranslation("global");
@@ -69,13 +70,17 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
         isClosable: true,
         position: "top-right",
       };
+      break;
+    case "saved":
+      toastOpts = {
+        title: "Update Succesfull",
+        description: "The information was saved",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top",
+      };
+      break;
   }
-  return {
-    title: "Error",
-    description: t("uploadImageError"),
-    status: "error",
-    duration: 5000,
-    isClosable: true,
-    position: "top",
-  };
+  return toastOpts;
 };

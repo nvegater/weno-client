@@ -1,0 +1,10 @@
+mutation EditWineryInfo($editWineryInputs: EditWineryInputs!) {
+  editWinery(editWineryInputs: $editWineryInputs) {
+    errors {
+      ...ErrorFragment
+    }
+    winery {
+      ...WineryFragment
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import { Box, Flex, Stack } from "@chakra-ui/react";
 import * as React from "react";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { MobileMenuButton } from "./MobileMenuButton";
 import { ScrollArea } from "./ScrollArea";
 import { useMobileMenuState } from "./useMobileMenuState";
@@ -17,14 +17,14 @@ import {
 } from "react-icons/bi";
 import { NavGroup } from "./NavGroup";
 import { WineryOwnerInfo } from "../WineryOwnerInfo";
-import { WineryFragmentFragment } from "../../../../graphql/generated/graphql";
-import { ContextHeader } from "../../../Authentication/useAuth";
-import { CreateExperience } from "../../../Experiences/CreateExperience";
-import { useTranslation } from "react-i18next";
-import { atom, useRecoilState } from "recoil";
-import { EditableExperiences } from "../../../Settings/Experiences/EditableExperiences";
+import { WineryFragmentFragment } from "../../../graphql/generated/graphql";
+import { ContextHeader } from "../../Authentication/useAuth";
+import { CreateExperienceForm } from "../../Experiences/CreateExperienceForm";
+import { EditableExperiences } from "../../Experiences/EditableExperiences";
 import { AllExperiences } from "./AllExperiences";
-import { Gallery } from "../../../Images/Gallery";
+import { Gallery } from "../../Images/Gallery";
+import { EditWineryInfo } from "../EditWineryInfo";
+import { useTranslation } from "react-i18next";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -46,20 +46,17 @@ export interface GeneratorLayoutProps {
   contextHeader: ContextHeader;
 }
 
-export const generatorNavigationState = atom<GeneratorSubpage>({
-  key: "generatorNavigation",
-  default: GeneratorSubpage.WINERY_INFO,
-});
-
 export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
   winery,
   logoutFn,
   contextHeader,
 }) => {
   const { isOpen, toggle } = useMobileMenuState();
-  const [t] = useTranslation("global");
-  const [subPage, setSubPage] = useRecoilState(generatorNavigationState);
+  const [subPage, setSubPage] = useState<GeneratorSubpage>(
+    GeneratorSubpage.WINERY_INFO
+  );
 
+  const [t] = useTranslation("global");
   return (
     <Flex
       height="100vh"
@@ -204,7 +201,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 />
               )}
               {subPage === GeneratorSubpage.EDIT_INFO && (
-                <div>{t("editWinery")}</div>
+                <EditWineryInfo winery={winery} contextHeader={contextHeader} />
               )}
               {subPage === GeneratorSubpage.ALL_EXPERIENCES && (
                 <AllExperiences />
@@ -220,15 +217,15 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 />
               )}
               {subPage === GeneratorSubpage.NEW_EXPERIENCE && (
-                <CreateExperience
+                <CreateExperienceForm
                   winery={winery}
                   contextHeader={contextHeader}
                 />
               )}
               {subPage === GeneratorSubpage.EDIT_EXPERIENCE && (
                 <EditableExperiences
-                  contextHeader={contextHeader}
                   winery={winery}
+                  contextHeader={contextHeader}
                 />
               )}
               {subPage === GeneratorSubpage.PAST_EXPERIENCES && (

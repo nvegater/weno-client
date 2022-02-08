@@ -8,6 +8,7 @@ export interface NavBarProps {
   loginFn: (options?: KeycloakLoginOptions) => void;
   logoutFn: () => void;
   tokenInfo: ParsedTokenExtended | null;
+  urlAlias: string | null;
 }
 export interface WenoLayoutProps extends NavBarProps {
   children: ReactNode;
@@ -18,6 +19,7 @@ export const WenoLayout: FC<WenoLayoutProps> = ({
   loginFn,
   tokenInfo,
   authenticated,
+  urlAlias,
 }) => {
   return (
     <>
@@ -26,6 +28,7 @@ export const WenoLayout: FC<WenoLayoutProps> = ({
         loginFn={loginFn}
         tokenInfo={tokenInfo}
         authenticated={authenticated}
+        urlAlias={urlAlias}
       />
       {children}
     </>

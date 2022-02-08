@@ -10,10 +10,14 @@ const DEFAULT_PAGINATION_CONFIG = {
   limit: 10,
 };
 
-const DEFAULT_FILTERS_CONFIG = {
+const DEFAULT_FILTERS_CONFIG: ExperiencesFilters = {
   valley: null,
   experienceType: null,
   experienceName: null,
+  fromDateTime: null,
+  untilDateTime: null,
+  hasSlotsInFuture: null,
+  wineryIds: null,
 };
 
 function isNewCursorConfig(
@@ -27,10 +31,12 @@ function isNewCursorConfig(
   return isNewAfterCursor || isNewBeforeCursor;
 }
 
-export type HandlePaginationRequestFn = (
-  oldPaginationConfig: CursorPaginationInput,
-  newPaginationConfig: CursorPaginationInput
-) => boolean;
+interface PaginationRequestProps {
+  oldPaginationConfig: CursorPaginationInput;
+  newPaginationConfig: CursorPaginationInput;
+}
+
+export type HandlePaginationRequestFn = (props: PaginationRequestProps) => void;
 
 type FiltersPaginationHookResult = [
   paginationConfig: CursorPaginationInput,
@@ -39,19 +45,24 @@ type FiltersPaginationHookResult = [
   handlePaginationRequest: HandlePaginationRequestFn
 ];
 
-type FiltersPaginationHook = () => FiltersPaginationHookResult;
+interface FiltersPaginationProps {
+  initialFilters?: ExperiencesFilters;
+}
 
-const useFiltersPagination: FiltersPaginationHook = () => {
+type FiltersPaginationHook = (
+  props: FiltersPaginationProps
+) => FiltersPaginationHookResult;
+
+const useFiltersPagination: FiltersPaginationHook = ({ initialFilters }) => {
   const [experiencesFilters, setExperiencesFilters] =
-    useState<ExperiencesFilters>(DEFAULT_FILTERS_CONFIG);
+    useState<ExperiencesFilters>(initialFilters ?? DEFAULT_FILTERS_CONFIG);
   const [paginationConfig, setPaginationConfig] =
     useState<CursorPaginationInput>(DEFAULT_PAGINATION_CONFIG);
 
-  const handlePaginationRequest = (
-    oldPaginationConfig: CursorPaginationInput,
-    newPaginationConfig: CursorPaginationInput
-  ) => {
-    let updateScheduled: boolean = false;
+  const handlePaginationRequest: HandlePaginationRequestFn = ({
+    oldPaginationConfig,
+    newPaginationConfig,
+  }) => {
     if (
       isNewCursorConfig(
         newPaginationConfig.beforeCursor,
@@ -65,9 +76,7 @@ const useFiltersPagination: FiltersPaginationHook = () => {
         beforeCursor: newPaginationConfig.beforeCursor,
         afterCursor: newPaginationConfig.afterCursor,
       }));
-      updateScheduled = true;
     }
-    return updateScheduled;
   };
 
   return [

@@ -29,7 +29,7 @@ export const SubmenuItem = (props: SubmenuItemProps) => {
       alignItems="flex-start"
       transition="all 0.2s"
       rounded="lg"
-      _hover={{ bg: mode("gray.50", "gray.600") }}
+      _hover={{ bg: mode("brand.300", "gray.600") }}
       _focus={{ shadow: "outline" }}
       {...rest}
     >
@@ -40,7 +40,7 @@ export const SubmenuItem = (props: SubmenuItemProps) => {
         w="10"
         h="10"
         fontSize="3xl"
-        color={mode("blue.600", "blue.400")}
+        color={mode("brand.700", "blue.400")}
       >
         {icon}
       </Center>
@@ -48,8 +48,8 @@ export const SubmenuItem = (props: SubmenuItemProps) => {
         <HStack as="dt">
           <Text
             fontWeight="semibold"
-            color={mode("gray.900", "white")}
-            _groupHover={{ color: mode("blue.600", "inherit") }}
+            color={mode("brand.100", "white")}
+            _groupHover={{ color: mode("gradient.100", "inherit") }}
           >
             {title}
           </Text>
@@ -58,12 +58,12 @@ export const SubmenuItem = (props: SubmenuItemProps) => {
             as={FaChevronRight}
             transition="all 0.2s"
             _groupHover={{
-              color: mode("blue.600", "inherit"),
+              color: mode("brand.300", "inherit"),
               transform: "translateX(2px)",
             }}
           />
         </HStack>
-        <Text as="dd" color={mode("gray.500", "gray.400")}>
+        <Text as="dd" color={mode("brand.100", "gray.400")}>
           {children}
         </Text>
       </Box>

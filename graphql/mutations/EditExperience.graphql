@@ -1,0 +1,8 @@
+mutation EditExperience($editExperienceInputs: EditExperienceInputs!) {
+  editExperience(editExperienceInputs: $editExperienceInputs) {
+    errors {
+      ...ErrorFragment
+    }
+    successfulEdit
+  }
+}

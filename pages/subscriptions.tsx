@@ -8,7 +8,7 @@ import useAuth from "../components/Authentication/useAuth";
 import { useTranslation } from "react-i18next";
 
 const Subscriptions = () => {
-  const { authenticated, logout, login, tokenInfo } = useAuth();
+  const { authenticated, logout, login, tokenInfo, urlAlias } = useAuth();
   const [{ data, fetching, error }] = useSubscriptionProductsQuery();
   const [t] = useTranslation("global");
   return (
@@ -17,6 +17,7 @@ const Subscriptions = () => {
       logoutFn={logout}
       authenticated={authenticated}
       tokenInfo={tokenInfo}
+      urlAlias={urlAlias}
     >
       {" "}
       {<div>{JSON.stringify(data)}</div>}

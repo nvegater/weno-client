@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import useAuth from "../Authentication/useAuth";
 import {
-  ExperienceInfoFragment,
   GetCheckoutLinkMutation,
   GetCheckoutLinkMutationVariables,
   SlotFragmentFragment,
@@ -23,7 +22,7 @@ import { useTranslation } from "react-i18next";
 
 async function handleBookingLinkRequest(
   totalPrice: number,
-  experienceInfo: ExperienceInfoFragment,
+  pricePerPersonInDollars: number,
   selectedSlot: SlotFragmentFragment,
   getCheckoutLink: (
     variables?: GetCheckoutLinkMutationVariables,
@@ -35,7 +34,7 @@ async function handleBookingLinkRequest(
   email: string,
   username?: string
 ) {
-  const noOfVisitors = totalPrice / experienceInfo.pricePerPersonInDollars;
+  const noOfVisitors = totalPrice / pricePerPersonInDollars;
   const webpageBase = window.location.origin;
   const redirectUri = webpageBase + "/order";
   const { data, error } = await getCheckoutLink({
@@ -65,13 +64,13 @@ async function handleBookingLinkRequest(
 }
 
 interface CreateReservationProps {
-  experienceInfo: ExperienceInfoFragment;
+  pricePerPerson: number;
   slot: SlotFragmentFragment;
   totalPrice: number;
 }
 
-export const CreateReservation: FC<CreateReservationProps> = ({
-  experienceInfo,
+export const CreateReservationForm: FC<CreateReservationProps> = ({
+  pricePerPerson,
   slot,
   totalPrice,
 }) => {
@@ -94,7 +93,7 @@ export const CreateReservation: FC<CreateReservationProps> = ({
           onClick={async () => {
             await handleBookingLinkRequest(
               totalPrice,
-              experienceInfo,
+              pricePerPerson,
               slot,
               getCheckoutLink,
               toast,
@@ -161,7 +160,7 @@ export const CreateReservation: FC<CreateReservationProps> = ({
                     setSubmittingBooking(true);
                     await handleBookingLinkRequest(
                       totalPrice,
-                      experienceInfo,
+                      pricePerPerson,
                       slot,
                       getCheckoutLink,
                       toast,

@@ -19,7 +19,7 @@ const DesktopNavLink = React.forwardRef<HTMLAnchorElement, NavLinkProps>(
         color="brand.100"
         transition="all 0.2s"
         {...rest}
-        _hover={{ color: "black" }}
+        _hover={{ bg: "brand.300" }}
         _active={{ color: "brand.300" }}
         _activeLink={{
           color: "brand.300",

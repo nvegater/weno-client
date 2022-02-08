@@ -11,7 +11,7 @@ mutation CreateExperience(
       message
     }
     experience {
-      ...PaginatedExperienceLight
+      ...PaginatedExperience
     }
     dateWithTimes {
       date

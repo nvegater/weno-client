@@ -32,13 +32,11 @@
     "next-urql": "^3.2.1",
     "react": "17.0.2",
     "react-datepicker": "^4.6.0",
-    "react-datetime-picker": "^3.4.3",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.19.5",
     "react-i18next": "^11.14.3",
     "react-icons": "^4.3.1",
     "react-select": "^5.2.2",
-    "recoil": "^0.5.2",
     "urql": "^2.0.5"
   },
   "devDependencies": {

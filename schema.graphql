@@ -45,6 +45,11 @@ type DateWithTimes {
   times: [DateTime!]!
 }
 
+type EditExperienceResponse {
+  errors: [FieldError!]
+  successfulEdit: Boolean
+}
+
 type Experience {
   allAttendeesAllSlots: Int
   createdAt: DateTime!
@@ -147,6 +152,10 @@ type Mutation {
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
   ): WineryResponse!
+  editExperience(
+    editExperienceInputs: EditExperienceInputs!
+  ): EditExperienceResponse!
+  editWinery(editWineryInputs: EditWineryInputs!): WineryResponse!
   getCheckoutLink(
     cancelUrl: String!
     createCustomerInputs: CreateCustomerInputs!
@@ -182,7 +191,7 @@ type PaginatedExperience {
   id: Int!
   images: [GetImage!]
   pricePerPersonInDollars: Float!
-  slots: [ExperienceSlot!]
+  slots: [ExperienceSlot!]!
   title: String!
   valley: Valley
   wineryId: Int!
@@ -229,17 +238,7 @@ type ProductsResponse {
 
 type Query {
   allReservations: Int!
-  allWineries: Int!
-  bookableExperiences(
-    paginatedExperiencesInputs: PaginatedExperiencesInputs!
-  ): PaginatedExperiences!
-  editableExperiences(
-    paginatedExperiencesInputs: PaginatedExperiencesInputs!
-  ): PaginatedExperiences!
-  experienceWithSlots(
-    experienceId: Float!
-    onlyBookableSlots: Boolean!
-  ): ExperienceResponse!
+  allWineryNames: [String!]!
   experiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
   ): PaginatedExperiences!
@@ -554,9 +553,35 @@ input CursorPaginationInput {
   limit: Int
 }
 
+input EditExperienceInputs {
+  description: String
+  experienceId: Float!
+  experienceType: ExperienceType
+  pricePerPersonInDollars: Float
+  title: String
+}
+
+input EditWineryInputs {
+  amenities: [Amenity!]
+  contactEmail: String
+  contactPhoneNumber: String
+  covidLabel: Boolean
+  description: String
+  foundationYear: Int
+  googleMapsUrl: String
+  productionType: [ProductionType!]
+  supportedLanguages: [ServiceLanguage!]
+  wineType: [TypeWine!]
+  wineryId: Float!
+  yearlyWineProduction: Int
+}
+
 input ExperiencesFilters {
   experienceName: String
   experienceType: [ExperienceType!]
+  fromDateTime: DateTime
+  hasSlotsInFuture: Boolean
+  untilDateTime: DateTime
   valley: [Valley!]
   wineryIds: [Int!]
 }
@@ -582,10 +607,8 @@ ExperienceType: if null, All the experience Types. Otherwise ONLY the selected o
 Valleys: if null, All the Valleys. Otherwise ONLY the selected ones.
 """
 input PaginatedExperiencesInputs {
-  experiencesFilters: ExperiencesFilters!
-  getUpcomingSlots: Boolean
-  onlyWithAvailableSeats: Boolean
-  paginationConfig: CursorPaginationInput!
+  filters: ExperiencesFilters!
+  pagination: CursorPaginationInput!
 }
 
 input PaymentMetadataInputs {

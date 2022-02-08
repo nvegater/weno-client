@@ -1,4 +1,5 @@
 import * as React from "react";
+import { IoIosGrid, IoIosHelpBuoy } from "react-icons/io";
 
 export interface Link {
   label: string;
@@ -11,56 +12,46 @@ export interface Link {
   }>;
 }
 
-export const links: Link[] = [
-  { label: "home", href: "#" },
-  {
-    label: "experiences",
-    href: "#",
-    /*    children: [
-      {
-        label: "Get Help",
-        description: "Read our documentation and FAQs, or get in touch.",
-        href: "#",
-        icon: <IoHelpBuoy />,
-      },
+export const generateLinks = (
+  urlAlias: string | null,
+  userType: "owner" | "visitor"
+): Link[] => {
+  let allLinks: Link[] = [
+    { label: "home", href: "/" },
 
-      {
-        label: "Extensions",
-        description: "Do even more with Assistants, plugins and integrations.",
-        href: "#",
-        icon: <IoGrid />,
-      },
-      {
-        label: "Blog",
-        description: "Get updates, articles and insights from the team.",
-        href: "#",
-        icon: <MdWeb />,
-      },
-    ],*/
-  },
-  {
-    label: "wineries",
-    /*    children: [
-      {
-        label: "Get Help",
-        description: "Read our documentation and FAQs, or get in touch.",
-        href: "#",
-        icon: <IoHelpBuoy />,
-      },
+    {
+      label: "aboutUs",
+      href: "#",
+      children: [
+        {
+          label: "Get Help",
+          description: "Read our documentation and FAQs, or get in touch.",
+          href: "#",
+          icon: <IoIosHelpBuoy />,
+        },
 
-      {
-        label: "Extensions",
-        description: "Do even more with Assistants, plugins and integrations.",
-        href: "#",
-        icon: <IoGrid />,
-      },
-      {
-        label: "Blog",
-        description: "Get updates, articles and insights from the team.",
-        href: "#",
-        icon: <MdWeb />,
-      },
-    ],*/
-  },
-  { label: "aboutUs", href: "#" },
-];
+        {
+          label: "Terms and conditions",
+          description:
+            "Read more about the contracts between clients/service providers and Weno",
+          href: "#",
+          icon: <IoIosGrid />,
+        },
+      ],
+    },
+  ];
+
+  if (urlAlias) {
+    const profileRef =
+      userType === "owner" ? `/winery/${urlAlias}` : `/account/${urlAlias}`;
+
+    const profileLink: Link = {
+      label: "Profile",
+      href: profileRef,
+    };
+
+    allLinks.push(profileLink);
+  }
+
+  return allLinks;
+};

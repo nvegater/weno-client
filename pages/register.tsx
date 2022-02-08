@@ -6,7 +6,7 @@ import useAuth from "../components/Authentication/useAuth";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../graphql/urqlProvider";
 import { useRouter } from "next/router";
-import { CreateWineryForm } from "../components/RegisterWinery/CreateWineryForm";
+import { CreateWineryForm } from "../components/Winery/CreateWineryForm";
 import { useTranslation } from "react-i18next";
 
 interface RegisterProps {}
@@ -23,6 +23,7 @@ const Register: FC<RegisterProps> = ({}) => {
     register,
     login,
     logout,
+    urlAlias,
   } = useAuth();
 
   const router = useRouter();
@@ -69,6 +70,7 @@ const Register: FC<RegisterProps> = ({}) => {
       logoutFn={logout}
       authenticated={authenticated}
       tokenInfo={tokenInfo}
+      urlAlias={urlAlias}
     >
       <Grid as="section" m={5}>
         {(loadingAuthInfo || fetching) && (

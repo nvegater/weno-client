@@ -4,7 +4,9 @@ import {
   KeycloakLoginOptions,
   KeycloakTokenParsed,
 } from "keycloak-js";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { useWineryQuery } from "../../graphql/generated/graphql";
+import { useEffectOnChange } from "../utils/react-utils";
 
 export interface ParsedTokenExtended extends KeycloakTokenParsed {
   preferred_username: string | null;
@@ -24,6 +26,7 @@ interface UseAuthHookResult {
   notAuthenticated: boolean;
   isOwner: boolean;
   isVisitor: boolean;
+  urlAlias: string | null;
   register: (options?: Keycloak.KeycloakLoginOptions) => void;
   login: (options?: Keycloak.KeycloakLoginOptions) => void;
   logout: () => void;
@@ -33,6 +36,7 @@ type UseAuthHook = () => UseAuthHookResult;
 
 const useAuth: UseAuthHook = () => {
   const { keycloak, initialized } = useKeycloak<KeycloakInstance>();
+  const [urlAlias, setUrlAlias] = useState<string | null>(null);
 
   const contextHeader: ContextHeader = useMemo(
     () => ({
@@ -45,7 +49,7 @@ const useAuth: UseAuthHook = () => {
     [keycloak.token]
   );
 
-  const tokenInfo: ParsedTokenExtended = keycloak.tokenParsed
+  const tokenInfo: ParsedTokenExtended | null = keycloak.tokenParsed
     ? {
         ...keycloak.tokenParsed,
         // @ts-ignore
@@ -56,6 +60,27 @@ const useAuth: UseAuthHook = () => {
         userType: keycloak.tokenParsed.userType,
       }
     : null;
+
+  const [{ data: wineryResponse }] = useWineryQuery({
+    variables: {
+      getWineryInputs: {
+        creatorUsername: tokenInfo?.preferred_username
+          ? tokenInfo.preferred_username
+          : null,
+      },
+    },
+    pause:
+      !Boolean(tokenInfo) ||
+      (Boolean(tokenInfo) && tokenInfo.userType === "visitor"),
+    context: contextHeader,
+    requestPolicy: "cache-first",
+  });
+
+  useEffectOnChange(() => {
+    if (tokenInfo.userType === "owner") {
+      setUrlAlias(wineryResponse?.winery?.winery.urlAlias ?? null);
+    }
+  }, [wineryResponse]);
 
   const isOwner = tokenInfo && tokenInfo.userType === "owner";
   const isVisitor = tokenInfo && tokenInfo.userType === "visitor";
@@ -84,6 +109,7 @@ const useAuth: UseAuthHook = () => {
     authenticated: initialized && keycloak.authenticated,
     isOwner,
     isVisitor,
+    urlAlias: urlAlias,
     register,
     login,
     logout,

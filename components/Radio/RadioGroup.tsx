@@ -11,25 +11,22 @@ import { Control, useController } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 export type RadioElement = { name: string };
-type FormElementsUsingRadiogroup = {
-  subscription?: string;
-  eventType?: string;
-  typeOfSlot?: string;
-};
 
 const RadioGroup: FC<{
-  control: Control<FormElementsUsingRadiogroup>;
+  control: Control<any>;
   label: string;
   elements: RadioElement[];
-  name: "subscription" | "eventType" | "typeOfSlot";
+  name: string;
   isRequired?: boolean;
   isVisibleLabel?: boolean;
+  preSelectedElement?: RadioElement;
 }> = ({
   control,
   name,
   label,
   isRequired,
   elements,
+  preSelectedElement,
   isVisibleLabel = false,
 }) => {
   const {
@@ -37,7 +34,11 @@ const RadioGroup: FC<{
     formState: { errors },
   } = useController({
     control,
-    defaultValue: elements.length > 0 ? elements[0].name : undefined,
+    defaultValue: preSelectedElement
+      ? preSelectedElement.name
+      : elements.length > 0
+      ? elements[0].name
+      : undefined,
     name: name,
     rules: { required: { value: true, message: "This field is required" } },
   });

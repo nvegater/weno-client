@@ -14,6 +14,7 @@ import CreatableSelect from "react-select/creatable";
 
 import { AiOutlineSearch } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
+import { isoDateWithoutTimeZone } from "../DateTimePicker/DateTimePickerWeno";
 
 interface ValleyOption {
   label: string;
@@ -31,6 +32,43 @@ interface FiltersProps {
   resetExperiencesOnNewSearch: () => void;
 }
 
+const differentArrays = (array1: any, array2: any): boolean => {
+  if (array1 == null || array2 == null) {
+    return false;
+  }
+  const sameArrays =
+    array1.length === array2.length &&
+    array1.every((value, index) => value === array2[index]);
+  return !sameArrays;
+};
+
+function isFilterChanges(
+  localExpFilters: ExperiencesFilters,
+  initialFilters: ExperiencesFilters
+): boolean {
+  const differentValleys = differentArrays(
+    localExpFilters.valley,
+    initialFilters.valley
+  );
+  const differentExperienceTypes = differentArrays(
+    localExpFilters.experienceType,
+    initialFilters.experienceType
+  );
+  const differentFromDates =
+    localExpFilters.fromDateTime?.toString() !==
+    initialFilters.fromDateTime?.toString();
+
+  const differentUntilDates =
+    localExpFilters.untilDateTime?.toString() !==
+    initialFilters.untilDateTime?.toString();
+  return (
+    differentValleys ||
+    differentExperienceTypes ||
+    differentFromDates ||
+    differentUntilDates
+  );
+}
+
 export const Filters: FC<FiltersProps> = ({
   initialFilters,
   setExperiencesFilters,
@@ -41,8 +79,8 @@ export const Filters: FC<FiltersProps> = ({
   const [localExpFilters, setLocalExpFilters] =
     useState<ExperiencesFilters>(initialFilters);
 
-  const [startDate, setStartDate] = useState(now);
-  const [endDate, setEndDate] = useState(null);
+  const [fromDate, setFromDate] = useState(now);
+  const [untilDate, setUntilDate] = useState(null);
   const [t] = useTranslation("global");
 
   const updateValleys = async (data: ValleyOption[]) => {
@@ -59,15 +97,23 @@ export const Filters: FC<FiltersProps> = ({
     }));
   };
 
-  const updateDates = (dates: [Date, Date]) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
+  const updateDates = (dates: [Date, Date | null]) => {
+    const [fromDate, untilDate] = dates;
+    setFromDate(fromDate);
+    setUntilDate(untilDate);
+    setLocalExpFilters((oldFilters) => ({
+      ...oldFilters,
+      fromDateTime: fromDate ? isoDateWithoutTimeZone(fromDate) : null,
+      untilDateTime: untilDate ? isoDateWithoutTimeZone(untilDate) : null,
+    }));
   };
 
   const updateAllFilters = () => {
     setExperiencesFilters(localExpFilters);
-    resetExperiencesOnNewSearch();
+    const isFilterChange = isFilterChanges(localExpFilters, initialFilters);
+    if (isFilterChange) {
+      resetExperiencesOnNewSearch();
+    }
   };
   return (
     <Flex mx={10} mb={10} flexDirection="column">
@@ -75,12 +121,13 @@ export const Filters: FC<FiltersProps> = ({
         <FormLabel htmlFor="range">{t("dates")}</FormLabel>
         <DatePicker
           minDate={new Date()}
-          selected={startDate}
+          selected={fromDate}
           onChange={updateDates}
-          startDate={startDate}
-          endDate={endDate}
+          startDate={fromDate}
+          endDate={untilDate}
           dateFormat="dd MMM"
           selectsRange
+          isClearable
         />
       </FormControl>
 

@@ -1,11 +1,10 @@
 import React, { FC } from "react";
-import { useWineryQuery } from "../../../graphql/generated/graphql";
+import { useWineryQuery } from "../../graphql/generated/graphql";
 import { Flex, Heading } from "@chakra-ui/react";
-import { ContextHeader } from "../../Authentication/useAuth";
+import { ContextHeader } from "../Authentication/useAuth";
 import { GeneratorLayout } from "./GeneratorLayout/GeneratorLayout";
 import { WineryCard } from "./WineryCard";
 import { useTranslation } from "react-i18next";
-import { RecoilRoot } from "recoil";
 
 interface WineryProfileProps {
   isOwner: boolean;
@@ -53,13 +52,11 @@ export const WineryProfile: FC<WineryProfileProps> = ({
         </Flex>
       )}
       {wineryQuery && wineryQuery.winery.winery && isOwner && (
-        <RecoilRoot>
-          <GeneratorLayout
-            winery={wineryQuery.winery.winery}
-            logoutFn={logout}
-            contextHeader={contextHeader}
-          />
-        </RecoilRoot>
+        <GeneratorLayout
+          winery={wineryQuery.winery.winery}
+          logoutFn={logout}
+          contextHeader={contextHeader}
+        />
       )}
       {wineryQuery && wineryQuery.winery.winery && !isOwner && <WineryCard />}
     </div>

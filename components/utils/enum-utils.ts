@@ -16,7 +16,8 @@ import {
   oneTime,
   pairing,
   recurrent,
-} from "../Experiences/CreateExperience";
+} from "../Experiences/CreateExperienceForm";
+import { RadioElement } from "../Radio/RadioGroup";
 
 export const removeNonStringsFromArray = (array: any[]) => {
   return array.filter((item) => typeof item === "string");
@@ -41,6 +42,19 @@ export const mapEventType = (formExperienceType: string): ExperienceType => {
       return ExperienceType.WineDinnerPairing;
     case concert:
       return ExperienceType.Concert;
+  }
+};
+
+export const expTypeToRadioElement = (
+  expType: ExperienceType
+): RadioElement => {
+  switch (expType) {
+    case ExperienceType.Degustation:
+      return { name: degustation };
+    case ExperienceType.WineDinnerPairing:
+      return { name: pairing };
+    case ExperienceType.Concert:
+      return { name: concert };
   }
 };
 
