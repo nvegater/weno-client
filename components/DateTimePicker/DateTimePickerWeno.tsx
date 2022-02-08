@@ -11,6 +11,8 @@ export function isoDateWithoutTimeZone(date: Date) {
 interface DateTimePickerProps {
   onDateTimeSelection?: (date: Date | string) => void;
   initialDate?: Date;
+  minDate?: Date;
+  maxDate?: Date;
   removeTimeZone?: boolean;
   onlyDate?: boolean;
   isEndDateTimeRecurrent?: boolean;
@@ -19,6 +21,8 @@ interface DateTimePickerProps {
 export const DateTimePickerWeno: FC<DateTimePickerProps> = ({
   onDateTimeSelection,
   initialDate,
+  minDate,
+  maxDate,
   onlyDate = false,
   isEndDateTimeRecurrent = false,
   removeTimeZone = false,
@@ -56,6 +60,8 @@ export const DateTimePickerWeno: FC<DateTimePickerProps> = ({
       dateFormat={format}
       timeFormat="HH:mm"
       timeIntervals={15}
+      minDate={minDate}
+      maxDate={maxDate}
     />
   );
 };

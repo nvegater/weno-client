@@ -13,7 +13,7 @@ import { parseISO } from "date-fns";
 import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
 import { InputNumberBox } from "../InputFields/InputNumberBox";
 import { CreateReservationForm } from "./CreateReservationForm";
-import { getSlotsFromDate } from "../utils/dateTime-utils";
+import { getSlotsFromDate, minMaxDates } from "../utils/dateTime-utils";
 
 interface ExperienceModalLayoutProps {
   experience: PaginatedExperienceFragment;
@@ -42,6 +42,9 @@ export const ReserveExperience: FC<ExperienceModalLayoutProps> = ({
     slotsFromDate[0]
   );
 
+  const [minDate, maxDate] =
+    slots.length > 0 ? minMaxDates(slots) : [undefined, undefined];
+
   return (
     <Box>
       <Img
@@ -69,6 +72,8 @@ export const ReserveExperience: FC<ExperienceModalLayoutProps> = ({
         onDateTimeSelection={(date) => {
           setDate(date as string);
         }}
+        minDate={minDate}
+        maxDate={maxDate}
       />
 
       <Box my={4}>
