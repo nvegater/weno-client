@@ -6,7 +6,7 @@ import { createUrqlClient } from "../../graphql/urqlProvider";
 import { Flex, Heading, Link } from "@chakra-ui/react";
 import { WenoLayout } from "../../components/GeneralLayout/WenoLayout";
 import useVerifySession from "../../components/Authentication/useVerifySession";
-import { WineryProfile } from "../../components/Profile/Winery/WineryProfile";
+import { WineryProfile } from "../../components/Winery/WineryProfile";
 
 const Winery = () => {
   const router = useRouter();

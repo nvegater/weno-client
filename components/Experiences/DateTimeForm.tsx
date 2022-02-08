@@ -29,7 +29,7 @@ import {
   useDisclosure,
   VStack,
 } from "@chakra-ui/react";
-import { allDay, oneTime, recurrent } from "./CreateExperience";
+import { allDay, oneTime, recurrent } from "./CreateExperienceForm";
 import { differenceInMinutes } from "date-fns";
 import {
   mapSlotType,

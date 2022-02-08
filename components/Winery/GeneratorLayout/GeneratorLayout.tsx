@@ -17,12 +17,12 @@ import {
 } from "react-icons/bi";
 import { NavGroup } from "./NavGroup";
 import { WineryOwnerInfo } from "../WineryOwnerInfo";
-import { WineryFragmentFragment } from "../../../../graphql/generated/graphql";
-import { ContextHeader } from "../../../Authentication/useAuth";
-import { CreateExperience } from "../../../Experiences/CreateExperience";
-import { EditableExperiences } from "../../../Settings/Experiences/EditableExperiences";
+import { WineryFragmentFragment } from "../../../graphql/generated/graphql";
+import { ContextHeader } from "../../Authentication/useAuth";
+import { CreateExperienceForm } from "../../Experiences/CreateExperienceForm";
+import { EditableExperiences } from "../../Experiences/EditableExperiences";
 import { AllExperiences } from "./AllExperiences";
-import { Gallery } from "../../../Images/Gallery";
+import { Gallery } from "../../Images/Gallery";
 import { EditWineryInfo } from "../EditWineryInfo";
 
 export enum GeneratorSubpage {
@@ -215,7 +215,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 />
               )}
               {subPage === GeneratorSubpage.NEW_EXPERIENCE && (
-                <CreateExperience
+                <CreateExperienceForm
                   winery={winery}
                   contextHeader={contextHeader}
                 />

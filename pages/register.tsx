@@ -6,7 +6,7 @@ import useAuth from "../components/Authentication/useAuth";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../graphql/urqlProvider";
 import { useRouter } from "next/router";
-import { CreateWineryForm } from "../components/RegisterWinery/CreateWineryForm";
+import { CreateWineryForm } from "../components/Winery/CreateWineryForm";
 
 interface RegisterProps {}
 

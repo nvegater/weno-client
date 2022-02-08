@@ -5,14 +5,14 @@ import {
   DrawerCloseButton,
   DrawerContent,
 } from "@chakra-ui/react";
-import { ReservationModal } from "../Modals/ReservationModal";
-import { EditExperienceModal } from "../Modals/EditExperienceModal";
-import { ExperienceModal } from "../Modals/ExperienceModal";
+import { EditExperience } from "./EditExperience";
+import { ViewExperience } from "./ViewExperience";
 import {
   PaginatedExperienceFragment,
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
+import { ReserveExperience } from "../Reservations/ReserveExperience";
 
 export enum ExperiencesGridMode {
   EDIT,
@@ -42,20 +42,20 @@ export const ExperienceDrawer: FC<ExperienceModalProps> = ({
         <DrawerCloseButton />
         <DrawerBody>
           {mode === ExperiencesGridMode.RESERVE && isOpen && (
-            <ReservationModal experience={experience} />
+            <ReserveExperience experience={experience} />
           )}
           {mode === ExperiencesGridMode.EDIT &&
             winery &&
             isOpen &&
             contextHeader && (
-              <EditExperienceModal
+              <EditExperience
                 selectedExperience={experience}
                 winery={winery}
                 contextHeader={contextHeader}
               />
             )}
           {mode === ExperiencesGridMode.VIEW && (
-            <ExperienceModal experience={experience} />
+            <ViewExperience experience={experience} />
           )}
         </DrawerBody>
       </DrawerContent>

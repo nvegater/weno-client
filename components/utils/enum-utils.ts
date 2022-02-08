@@ -16,7 +16,7 @@ import {
   oneTime,
   pairing,
   recurrent,
-} from "../Experiences/CreateExperience";
+} from "../Experiences/CreateExperienceForm";
 
 export const removeNonStringsFromArray = (array: any[]) => {
   return array.filter((item) => typeof item === "string");

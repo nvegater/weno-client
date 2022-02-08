@@ -20,7 +20,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
-import { ErrorSummary } from "../RegisterWinery/CreateWineryForm";
+import { ErrorSummary } from "../Winery/CreateWineryForm";
 import RadioGroup from "../Radio/RadioGroup";
 import { DateTimeForm } from "./DateTimeForm";
 import {
@@ -43,7 +43,7 @@ export const degustation = "Degustation";
 export const pairing = "Pairing";
 export const concert = "Concert";
 
-export const CreateExperience: FC<CreateExperienceProps> = ({
+export const CreateExperienceForm: FC<CreateExperienceProps> = ({
   winery,
   contextHeader,
 }) => {

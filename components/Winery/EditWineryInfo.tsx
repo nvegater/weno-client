@@ -4,8 +4,8 @@ import {
   ProductionType,
   useEditWineryInfoMutation,
   WineryFragmentFragment,
-} from "../../../graphql/generated/graphql";
-import { ContextHeader } from "../../Authentication/useAuth";
+} from "../../graphql/generated/graphql";
+import { ContextHeader } from "../Authentication/useAuth";
 import {
   Box,
   Button,
@@ -20,11 +20,11 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import { Step, VerticalSteps } from "../../VerticalSteps/VerticalSteps";
-import { ErrorSummary } from "../../RegisterWinery/CreateWineryForm";
+import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
+import { ErrorSummary } from "./CreateWineryForm";
 import { useForm } from "react-hook-form";
-import { getToastMessage } from "../../utils/chakra-utils";
-import { productionTypeReverseMapping } from "../../utils/enum-utils";
+import { getToastMessage } from "../utils/chakra-utils";
+import { productionTypeReverseMapping } from "../utils/enum-utils";
 import { useRouter } from "next/router";
 
 interface EditWineryInputsForm extends EditWineryInputs {

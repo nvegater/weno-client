@@ -6,7 +6,7 @@ import useVerifySession from "../../components/Authentication/useVerifySession";
 import { Flex, Heading, Link } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../graphql/urqlProvider";
-import { ReservationConfirmation } from "../../components/Orders/ReservationConfirmation";
+import { ReservationConfirmation } from "../../components/Reservations/ReservationConfirmation";
 
 const Success = () => {
   const router = useRouter();

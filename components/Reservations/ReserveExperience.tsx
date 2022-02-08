@@ -1,8 +1,7 @@
 import React, { FC, useMemo, useState } from "react";
 import { Box, Flex, Heading, Icon, Img } from "@chakra-ui/react";
 import {
-  ExperienceInfoFragment,
-  GetImage,
+  PaginatedExperienceFragment,
   SlotFragmentFragment,
   Valley,
 } from "../../graphql/generated/graphql";
@@ -13,35 +12,27 @@ import { DateTimePickerWeno } from "../DateTimePicker/DateTimePickerWeno";
 import { parseISO } from "date-fns";
 import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
 import { InputNumberBox } from "../InputFields/InputNumberBox";
-import { CreateReservation } from "./CreateReservation";
+import { CreateReservationForm } from "./CreateReservationForm";
 import { getSlotsFromDate } from "../utils/dateTime-utils";
 
 interface ExperienceModalLayoutProps {
-  valley: Valley;
-  wineryName: string;
-  slots: SlotFragmentFragment[];
-  images?: GetImage[];
-  experienceInfo: ExperienceInfoFragment;
+  experience: PaginatedExperienceFragment;
 }
 
 const placeHolderImage =
   "https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
 
-export const Reservation: FC<ExperienceModalLayoutProps> = ({
-  images,
-  slots,
-  valley,
-  wineryName,
-  experienceInfo,
+export const ReserveExperience: FC<ExperienceModalLayoutProps> = ({
+  experience,
 }) => {
+  const { images, pricePerPersonInDollars, slots, title, wineryName, valley } =
+    experience;
   const coverImage = images ? images[0] : null;
 
   const initialDate = slots[0].startDateTime;
   const [date, setDate] = useState<string>(initialDate);
 
-  const [totalPrice, setTotalPrice] = useState<number>(
-    experienceInfo.pricePerPersonInDollars
-  );
+  const [totalPrice, setTotalPrice] = useState<number>(pricePerPersonInDollars);
 
   const slotsFromDate: SlotFragmentFragment[] = useMemo(() => {
     return getSlotsFromDate(slots, date);
@@ -55,11 +46,11 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
     <Box>
       <Img
         src={coverImage ? coverImage.getUrl : placeHolderImage}
-        alt={`image from ${experienceInfo.title}`}
+        alt={`image from ${title}`}
       />
 
       <Heading as="h1" color="brand.200" fontWeight="700" size="2xl" mt={8}>
-        {experienceInfo.title}
+        {title}
       </Heading>
       <FavoriteExperience text={wineryName} />
       <Flex justifyContent="center">
@@ -98,7 +89,7 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
       <Flex justifyContent="space-around">
         <InputNumberBox
           onValueUpdate={(val) => {
-            setTotalPrice(experienceInfo.pricePerPersonInDollars * val);
+            setTotalPrice(pricePerPersonInDollars * val);
           }}
         />
         <Heading fontSize="md" as="h4" fontWeight="600" my={5}>
@@ -106,8 +97,8 @@ export const Reservation: FC<ExperienceModalLayoutProps> = ({
         </Heading>
       </Flex>
 
-      <CreateReservation
-        experienceInfo={experienceInfo}
+      <CreateReservationForm
+        pricePerPerson={pricePerPersonInDollars}
         slot={selectedSlot}
         totalPrice={totalPrice}
       />

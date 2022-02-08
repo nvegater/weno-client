@@ -2,14 +2,11 @@ import React, { FC, useState } from "react";
 import {
   PaginatedExperienceFragment,
   WineryFragmentFragment,
-} from "../../../graphql/generated/graphql";
-import { Experiences } from "../../Experiences/Experiences";
+} from "../../graphql/generated/graphql";
+import { Experiences } from "./Experiences";
 import { Heading, useDisclosure } from "@chakra-ui/react";
-import {
-  ExperienceDrawer,
-  ExperiencesGridMode,
-} from "../../Experiences/ExperienceDrawer";
-import { ContextHeader } from "../../Authentication/useAuth";
+import { ExperienceDrawer, ExperiencesGridMode } from "./ExperienceDrawer";
+import { ContextHeader } from "../Authentication/useAuth";
 
 interface EditableExperiencesProps {
   winery: WineryFragmentFragment;

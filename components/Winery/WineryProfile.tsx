@@ -1,7 +1,7 @@
 import React, { FC } from "react";
-import { useWineryQuery } from "../../../graphql/generated/graphql";
+import { useWineryQuery } from "../../graphql/generated/graphql";
 import { Flex, Heading } from "@chakra-ui/react";
-import { ContextHeader } from "../../Authentication/useAuth";
+import { ContextHeader } from "../Authentication/useAuth";
 import { GeneratorLayout } from "./GeneratorLayout/GeneratorLayout";
 import { WineryCard } from "./WineryCard";
 
