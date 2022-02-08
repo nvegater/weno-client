@@ -9,6 +9,7 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
+  FormLabel,
   Heading,
   Img,
   Input,
@@ -16,14 +17,21 @@ import {
   useToast,
   VStack,
 } from "@chakra-ui/react";
-import { valleyReverseMapping } from "../utils/enum-utils";
+import {
+  mapEventType,
+  expTypeToRadioElement,
+  valleyReverseMapping,
+} from "../utils/enum-utils";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { ContextHeader } from "../Authentication/useAuth";
 import { getToastMessage } from "../utils/chakra-utils";
+import RadioGroup from "../Radio/RadioGroup";
+import { concert, degustation, pairing } from "./CreateExperienceForm";
 
 interface EditExperienceInputsForm extends EditExperienceInputs {
   experience: string;
+  eventType: string;
 }
 
 interface EditExperienceModalProps {
@@ -47,6 +55,7 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
     register,
     handleSubmit,
     setError,
+    control,
     formState: { errors, isSubmitting },
   } = useForm<EditExperienceInputsForm>({
     mode: "onTouched",
@@ -59,14 +68,14 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
   });
   const [, editExperience] = useEditExperienceMutation();
 
-  const onSubmit = async (data: EditExperienceInputs) => {
+  const onSubmit = async (data: EditExperienceInputsForm) => {
     const { data: editExperienceResponse, error } = await editExperience(
       {
         editExperienceInputs: {
           experienceId: selectedExperience.id,
           title: data.title,
           description: data.description,
-          experienceType: data.experienceType,
+          experienceType: mapEventType(data.eventType),
           pricePerPersonInDollars: data.pricePerPersonInDollars,
         },
       },
@@ -134,6 +143,39 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
             {errors.description && errors.description.message}
           </FormErrorMessage>
         </FormControl>
+        <FormControl isInvalid={Boolean(errors.pricePerPersonInDollars)}>
+          <FormLabel htmlFor="pricePerPersonInMxn">
+            Price per Person in MXN
+          </FormLabel>
+          <Input
+            type="number"
+            placeholder="Price per person in MXN"
+            {...register("pricePerPersonInDollars", {
+              valueAsNumber: true,
+            })}
+            maxW="250px"
+          />
+          <FormErrorMessage>
+            {errors.pricePerPersonInDollars &&
+              errors.pricePerPersonInDollars.message}
+          </FormErrorMessage>
+        </FormControl>
+
+        <RadioGroup
+          control={control}
+          name="eventType"
+          label="Event type"
+          elements={[
+            { name: degustation },
+            { name: pairing },
+            { name: concert },
+          ]}
+          preSelectedElement={expTypeToRadioElement(
+            selectedExperience.experienceType
+          )}
+          isVisibleLabel
+        />
+
         <Button
           variant="secondaryWeno"
           size="navBarCTA"
