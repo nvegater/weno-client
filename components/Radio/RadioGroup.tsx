@@ -33,12 +33,11 @@ const RadioGroup: FC<{
     formState: { errors },
   } = useController({
     control,
-    defaultValue:
-      elements.length > 0
-        ? elements[0].name
-        : preSelectedElement
-        ? preSelectedElement
-        : undefined,
+    defaultValue: preSelectedElement
+      ? preSelectedElement.name
+      : elements.length > 0
+      ? elements[0].name
+      : undefined,
     name: name,
     rules: { required: { value: true, message: "Required field" } },
   });
