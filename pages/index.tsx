@@ -15,7 +15,8 @@ import {
 } from "../components/Experiences/ExperienceDrawer";
 
 const Home = () => {
-  const { authenticated, logout, login, register, tokenInfo } = useAuth();
+  const { authenticated, logout, login, register, tokenInfo, urlAlias } =
+    useAuth();
 
   const [openFilters, setOpenFilters] = useState<boolean>(false);
 
@@ -39,6 +40,7 @@ const Home = () => {
           logoutFn={logout}
           authenticated={authenticated}
           tokenInfo={tokenInfo}
+          urlAlias={urlAlias}
         >
           <Hero authenticated={authenticated} register={register} />
 

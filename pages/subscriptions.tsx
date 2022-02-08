@@ -7,7 +7,7 @@ import { Tiers } from "../components/Tiers/Tiers";
 import useAuth from "../components/Authentication/useAuth";
 
 const Subscriptions = () => {
-  const { authenticated, logout, login, tokenInfo } = useAuth();
+  const { authenticated, logout, login, tokenInfo, urlAlias } = useAuth();
   const [{ data, fetching, error }] = useSubscriptionProductsQuery();
   return (
     <WenoLayout
@@ -15,6 +15,7 @@ const Subscriptions = () => {
       logoutFn={logout}
       authenticated={authenticated}
       tokenInfo={tokenInfo}
+      urlAlias={urlAlias}
     >
       {" "}
       {<div>{JSON.stringify(data)}</div>}

@@ -22,6 +22,7 @@ const Register: FC<RegisterProps> = ({}) => {
     register,
     login,
     logout,
+    urlAlias,
   } = useAuth();
 
   const router = useRouter();
@@ -68,6 +69,7 @@ const Register: FC<RegisterProps> = ({}) => {
       logoutFn={logout}
       authenticated={authenticated}
       tokenInfo={tokenInfo}
+      urlAlias={urlAlias}
     >
       <Grid as="section" m={5}>
         {(loadingAuthInfo || fetching) && (

@@ -29,7 +29,12 @@ const DesktopSubmenu = (props: SubmenuProps) => {
         <Box marginStart="2" as={FaChevronDown} fontSize="xs" />
       </NavLink.Desktop>
 
-      <NavMenu {...getMenuProps()} animate={isOpen ? "open" : "closed"}>
+      <NavMenu
+        {...getMenuProps()}
+        animate={isOpen ? "open" : "closed"}
+        bg="gradient.100"
+        color="brand.100"
+      >
         <Box maxW="7xl" mx="auto" px="8">
           <SimpleGrid spacing="10" columns={2}>
             {link.children?.map((item, idx) => (

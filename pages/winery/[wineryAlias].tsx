@@ -22,6 +22,7 @@ const Winery = () => {
     login,
     tokenInfo,
     isOwner,
+    urlAlias,
   } = useAuth();
 
   const {
@@ -39,6 +40,7 @@ const Winery = () => {
       loginFn={login}
       logoutFn={logout}
       tokenInfo={tokenInfo}
+      urlAlias={urlAlias}
     >
       {!wineryAlias && <h1>Something is wrong with the Url</h1>}
 

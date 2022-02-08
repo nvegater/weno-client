@@ -13,7 +13,7 @@ const Success = () => {
 
   const { session_id } = router.query;
 
-  const { authenticated, logout, login, tokenInfo } = useAuth();
+  const { authenticated, logout, login, tokenInfo, urlAlias } = useAuth();
 
   const {
     loadingVerification,
@@ -31,6 +31,7 @@ const Success = () => {
       logoutFn={logout}
       authenticated={authenticated}
       tokenInfo={tokenInfo}
+      urlAlias={urlAlias}
     >
       {loadingVerification && (
         <Flex justifyContent="center" m={5}>

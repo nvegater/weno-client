@@ -12,7 +12,7 @@ import { NavLink } from "./NavLink";
 import { NavMenu } from "./NavMenu";
 import { Submenu } from "./Submenu";
 import { ToggleButton } from "./ToggleButton";
-import { links } from "./_data";
+import { generateLinks } from "./_data";
 import { RiLoginCircleFill } from "react-icons/ri";
 import { BiLogOut } from "react-icons/bi";
 import { Weno } from "../Hero/Brands";
@@ -45,6 +45,7 @@ interface NavBarProps {
   userType: "owner" | "visitor" | null;
   loginFn: (options?: KeycloakLoginOptions) => void;
   logoutFn: () => void;
+  urlAlias: string | null;
 }
 
 interface LoginButtonProps {
@@ -94,10 +95,9 @@ const MobileNavContext = ({
   loginFn,
   authenticated,
   logoutFn,
-}: //userType,
-//email,
-//preferred_username,
-NavBarProps) => {
+  userType,
+  urlAlias,
+}: NavBarProps) => {
   const { isOpen, onToggle } = useDisclosure();
   return (
     <>
@@ -131,7 +131,7 @@ NavBarProps) => {
         color="brand.100"
         fontSize="xl"
       >
-        {links.map((link, idx) => (
+        {generateLinks(urlAlias, userType).map((link, idx) => (
           <Box py={4} key={idx}>
             {link.children ? (
               <Submenu.Mobile link={link} />
@@ -154,10 +154,9 @@ const DesktopNavContent = ({
   loginFn,
   authenticated,
   logoutFn,
-}: //userType,
-//email,
-//preferred_username,
-NavBarProps) => {
+  userType,
+  urlAlias,
+}: NavBarProps) => {
   return (
     <Flex
       className="nav-content__desktop"
@@ -177,7 +176,7 @@ NavBarProps) => {
         aria-label="Main Menu"
         listStyleType="none"
       >
-        {links.map((link, idx) => (
+        {generateLinks(urlAlias, userType).map((link, idx) => (
           <Box as="li" key={idx} id={`nav__menuitem-${idx}`}>
             {link.children ? (
               <Submenu.Desktop link={link} />
