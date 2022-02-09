@@ -61,7 +61,7 @@ export const UserProfile: FC<UserProfileProps> = ({
         <CustomerCard />
       )}
       {customerResponse && customerResponse.customer && isVisitor && (
-        <div>User Profile Menu</div>
+        <div>Welcome {username}</div>
       )}
     </>
   );

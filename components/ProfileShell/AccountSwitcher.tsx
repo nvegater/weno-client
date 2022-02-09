@@ -6,7 +6,7 @@ import NextLink from "next/link";
 
 interface AccountSwitcherProps {
   email: string;
-  wineryName: string;
+  wineryName?: string;
   username: string;
   logoUrl?: string | undefined | null;
   logoutFn: () => void;

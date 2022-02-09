@@ -77,7 +77,7 @@ const useAuth: UseAuthHook = () => {
   });
 
   useEffectOnChange(() => {
-    if (tokenInfo.userType === "owner") {
+    if (tokenInfo?.userType === "owner") {
       setUrlAlias(wineryResponse?.winery?.winery.urlAlias ?? null);
     }
   }, [wineryResponse]);

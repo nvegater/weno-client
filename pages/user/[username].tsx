@@ -3,6 +3,9 @@ import { useRouter } from "next/router";
 import useAuth from "../../components/Authentication/useAuth";
 import { WenoLayout } from "../../components/GeneralLayout/WenoLayout";
 import { Flex, Heading } from "@chakra-ui/react";
+import { UserProfile } from "../../components/Customer/UserProfile";
+import { withUrqlClient } from "next-urql";
+import { createUrqlClient } from "../../graphql/urqlProvider";
 
 const User = () => {
   const router = useRouter();
@@ -16,7 +19,7 @@ const User = () => {
     logout,
     login,
     tokenInfo,
-    isOwner,
+    isVisitor,
     urlAlias,
   } = useAuth();
 
@@ -41,13 +44,23 @@ const User = () => {
       {notAuthenticated && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
-            Login to see your profile
+            Only for Weno users
           </Heading>
         </Flex>
       )}
-      {username && authenticated && <div>Welcome {username}</div>}
+      {authenticated && (
+        <UserProfile
+          isVisitor={isVisitor}
+          username={tokenInfo.preferred_username}
+          email={tokenInfo.email}
+          contextHeader={contextHeader}
+        />
+      )}
     </WenoLayout>
   );
 };
 
-export default User;
+export default withUrqlClient(createUrqlClient, {
+  ssr: true,
+  // disable ssr for cypress to mock the requests ssr: process.env.APP_ENV !== "cy-test",
+})(User);

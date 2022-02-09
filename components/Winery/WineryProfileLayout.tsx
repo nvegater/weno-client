@@ -1,11 +1,11 @@
 import { Box, Flex, Stack } from "@chakra-ui/react";
 import * as React from "react";
 import { FC, useState } from "react";
-import { MobileMenuButton } from "./MobileMenuButton";
-import { ScrollArea } from "./ScrollArea";
-import { useMobileMenuState } from "./useMobileMenuState";
-import { AccountSwitcher } from "./AccountSwitcher";
-import { NavItem } from "./NavItem";
+import { MobileMenuButton } from "../ProfileShell/MobileMenuButton";
+import { ScrollArea } from "../ProfileShell/ScrollArea";
+import { useMobileMenuState } from "../ProfileShell/useMobileMenuState";
+import { AccountSwitcher } from "../ProfileShell/AccountSwitcher";
+import { NavItem } from "../ProfileShell/NavItem";
 import {
   BiCreditCard,
   BiEnvelope,
@@ -15,15 +15,15 @@ import {
   BiRecycle,
   BiUserCircle,
 } from "react-icons/bi";
-import { NavGroup } from "./NavGroup";
-import { WineryOwnerInfo } from "../WineryOwnerInfo";
-import { WineryFragmentFragment } from "../../../graphql/generated/graphql";
-import { ContextHeader } from "../../Authentication/useAuth";
-import { CreateExperienceForm } from "../../Experiences/CreateExperienceForm";
-import { EditableExperiences } from "../../Experiences/EditableExperiences";
+import { NavGroup } from "../ProfileShell/NavGroup";
+import { WineryOwnerInfo } from "./WineryOwnerInfo";
+import { WineryFragmentFragment } from "../../graphql/generated/graphql";
+import { ContextHeader } from "../Authentication/useAuth";
+import { CreateExperienceForm } from "../Experiences/CreateExperienceForm";
+import { EditableExperiences } from "../Experiences/EditableExperiences";
 import { AllExperiences } from "./AllExperiences";
-import { Gallery } from "../../Images/Gallery";
-import { EditWineryInfo } from "../EditWineryInfo";
+import { Gallery } from "../Images/Gallery";
+import { EditWineryInfo } from "./EditWineryInfo";
 
 export enum GeneratorSubpage {
   WINERY_INFO,
@@ -45,7 +45,7 @@ export interface GeneratorLayoutProps {
   contextHeader: ContextHeader;
 }
 
-export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
+export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
   winery,
   logoutFn,
   contextHeader,

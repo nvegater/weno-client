@@ -2,7 +2,7 @@ import { Box, HStack } from "@chakra-ui/react";
 import * as React from "react";
 import { Dispatch, SetStateAction } from "react";
 import { BsCaretRightFill } from "react-icons/bs";
-import { GeneratorSubpage } from "./GeneratorLayout";
+import { GeneratorSubpage } from "../Winery/WineryProfileLayout";
 
 interface NavItemProps {
   href?: string;
