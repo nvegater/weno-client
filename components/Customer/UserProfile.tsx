@@ -3,12 +3,14 @@ import { ContextHeader } from "../Authentication/useAuth";
 import { useCustomerQuery } from "../../graphql/generated/graphql";
 import { Flex, Heading } from "@chakra-ui/react";
 import { CustomerCard } from "./CustomerCard";
+import { UserProfileLayout } from "./UserProfileLayout";
 
 interface UserProfileProps {
   isVisitor: boolean;
   username: string;
   email: string;
   contextHeader: ContextHeader;
+  logoutFn: () => void;
 }
 
 export const UserProfile: FC<UserProfileProps> = ({
@@ -16,6 +18,7 @@ export const UserProfile: FC<UserProfileProps> = ({
   email,
   username,
   contextHeader,
+  logoutFn,
 }) => {
   const [{ data: customerResponse, fetching, error }] = useCustomerQuery({
     variables: {
@@ -61,7 +64,12 @@ export const UserProfile: FC<UserProfileProps> = ({
         <CustomerCard />
       )}
       {customerResponse && customerResponse.customer && isVisitor && (
-        <div>Welcome {username}</div>
+        <UserProfileLayout
+          logoutFn={logoutFn}
+          contextHeader={contextHeader}
+          email={email}
+          username={username}
+        />
       )}
     </>
   );

@@ -1,10 +1,5 @@
-import { Box, Flex, Stack } from "@chakra-ui/react";
 import * as React from "react";
 import { FC, useState } from "react";
-import { MobileMenuButton } from "../ProfileShell/MobileMenuButton";
-import { ScrollArea } from "../ProfileShell/ScrollArea";
-import { useMobileMenuState } from "../ProfileShell/useMobileMenuState";
-import { AccountSwitcher } from "../ProfileShell/AccountSwitcher";
 import { NavItem } from "../ProfileShell/NavItem";
 import {
   BiCreditCard,
@@ -24,8 +19,9 @@ import { EditableExperiences } from "../Experiences/EditableExperiences";
 import { AllExperiences } from "./AllExperiences";
 import { Gallery } from "../Images/Gallery";
 import { EditWineryInfo } from "./EditWineryInfo";
+import { ShellLayout } from "../ProfileShell/ShellLayout";
 
-export enum GeneratorSubpage {
+export enum WineryProfileSubpage {
   WINERY_INFO,
   EDIT_INFO,
   ALL_EXPERIENCES,
@@ -50,193 +46,147 @@ export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
   logoutFn,
   contextHeader,
 }) => {
-  const { isOpen, toggle } = useMobileMenuState();
-  const [subPage, setSubPage] = useState<GeneratorSubpage>(
-    GeneratorSubpage.WINERY_INFO
+  const [subPage, setSubPage] = useState<WineryProfileSubpage>(
+    WineryProfileSubpage.WINERY_INFO
+  );
+
+  const subpages = (
+    <>
+      {subPage === WineryProfileSubpage.WINERY_INFO && (
+        <WineryOwnerInfo winery={winery} contextHeader={contextHeader} />
+      )}
+      {subPage === WineryProfileSubpage.EDIT_INFO && (
+        <EditWineryInfo winery={winery} contextHeader={contextHeader} />
+      )}
+      {subPage === WineryProfileSubpage.ALL_EXPERIENCES && <AllExperiences />}
+      {subPage === WineryProfileSubpage.SCHEDULE && (
+        <div>Experiences Calendar</div>
+      )}
+      {subPage === WineryProfileSubpage.GALLERY && (
+        <Gallery
+          wineryAlias={winery.urlAlias}
+          wineryId={winery.id}
+          contextHeader={contextHeader}
+        />
+      )}
+      {subPage === WineryProfileSubpage.NEW_EXPERIENCE && (
+        <CreateExperienceForm winery={winery} contextHeader={contextHeader} />
+      )}
+      {subPage === WineryProfileSubpage.EDIT_EXPERIENCE && (
+        <EditableExperiences winery={winery} contextHeader={contextHeader} />
+      )}
+      {subPage === WineryProfileSubpage.PAST_EXPERIENCES && (
+        <div>Past experiences</div>
+      )}
+      {subPage === WineryProfileSubpage.DASHBOARD_ANALYTICS && (
+        <div>Analytics</div>
+      )}
+      {subPage === WineryProfileSubpage.HELP && <>Help</>}
+    </>
+  );
+
+  const navgroups = (
+    <>
+      <NavGroup label="Your profile">
+        <NavItem
+          icon={<BiUserCircle />}
+          label="Winery information"
+          subPage={WineryProfileSubpage.WINERY_INFO}
+          setSubPage={setSubPage}
+          active={subPage === WineryProfileSubpage.WINERY_INFO}
+        />
+        <NavItem
+          icon={<BiCreditCard />}
+          label="Edit information"
+          subPage={WineryProfileSubpage.EDIT_INFO}
+          setSubPage={setSubPage}
+          active={subPage === WineryProfileSubpage.EDIT_INFO}
+        />
+      </NavGroup>
+
+      <NavGroup label="Experiences">
+        <NavItem
+          icon={<BiNews />}
+          label="All experiences"
+          subPage={WineryProfileSubpage.ALL_EXPERIENCES}
+          setSubPage={setSubPage}
+          active={subPage === WineryProfileSubpage.ALL_EXPERIENCES}
+        />
+        <NavItem
+          icon={<BiEnvelope />}
+          label="Schedule"
+          subPage={WineryProfileSubpage.SCHEDULE}
+          setSubPage={setSubPage}
+          active={subPage === WineryProfileSubpage.SCHEDULE}
+        />
+        <NavItem
+          icon={<BiEnvelope />}
+          label="Gallery"
+          subPage={WineryProfileSubpage.GALLERY}
+          setSubPage={setSubPage}
+          active={subPage === WineryProfileSubpage.GALLERY}
+        />
+        <NavItem
+          icon={<BiPurchaseTagAlt />}
+          label="New experience"
+          subPage={WineryProfileSubpage.NEW_EXPERIENCE}
+          setSubPage={setSubPage}
+          active={subPage === WineryProfileSubpage.NEW_EXPERIENCE}
+        />
+        <NavItem
+          icon={<BiRecycle />}
+          label="Edit experience"
+          subPage={WineryProfileSubpage.EDIT_EXPERIENCE}
+          setSubPage={setSubPage}
+          active={subPage === WineryProfileSubpage.EDIT_EXPERIENCE}
+        />
+        <NavItem
+          icon={<BiNews />}
+          label="Past Experiences"
+          subPage={WineryProfileSubpage.PAST_EXPERIENCES}
+          setSubPage={setSubPage}
+          active={subPage === WineryProfileSubpage.PAST_EXPERIENCES}
+        />
+      </NavGroup>
+
+      <NavGroup label="Analytics">
+        <NavItem
+          icon={<BiNews />}
+          label="Analytics Dashboard"
+          subPage={WineryProfileSubpage.DASHBOARD_ANALYTICS}
+          setSubPage={setSubPage}
+          active={subPage === WineryProfileSubpage.DASHBOARD_ANALYTICS}
+        />
+      </NavGroup>
+      <NavItem
+        icon={<BiHome />}
+        label="Help"
+        subPage={WineryProfileSubpage.HELP}
+        setSubPage={setSubPage}
+        active={subPage === WineryProfileSubpage.HELP}
+      />
+    </>
   );
 
   return (
-    <Flex
-      height="100vh"
-      bg="brand.600"
-      overflow="hidden"
-      sx={{ "--sidebar-width": "16rem" }}
-    >
-      <Box
-        as="nav"
-        display="block"
-        flex="1"
-        width="var(--sidebar-width)"
-        left="0"
-        py="5"
-        px="3"
-        color="brand.100"
-        position="fixed"
-      >
-        <Box fontSize="sm" lineHeight="tall">
-          <AccountSwitcher
-            email={winery.creatorEmail}
-            username={winery.creatorUsername}
-            logoutFn={logoutFn}
-            wineryName={winery.name}
-          />
-          <ScrollArea pt="5" pb="6">
-            <Stack spacing="8" flex="1" overflow="auto" pt="8">
-              <NavGroup label="Your profile">
-                <NavItem
-                  icon={<BiUserCircle />}
-                  label="Winery information"
-                  subPage={GeneratorSubpage.WINERY_INFO}
-                  setSubPage={setSubPage}
-                  active={subPage === GeneratorSubpage.WINERY_INFO}
-                />
-                <NavItem
-                  icon={<BiCreditCard />}
-                  label="Edit information"
-                  subPage={GeneratorSubpage.EDIT_INFO}
-                  setSubPage={setSubPage}
-                  active={subPage === GeneratorSubpage.EDIT_INFO}
-                />
-              </NavGroup>
-
-              <NavGroup label="Experiences">
-                <NavItem
-                  icon={<BiNews />}
-                  label="All experiences"
-                  subPage={GeneratorSubpage.ALL_EXPERIENCES}
-                  setSubPage={setSubPage}
-                  active={subPage === GeneratorSubpage.ALL_EXPERIENCES}
-                />
-                <NavItem
-                  icon={<BiEnvelope />}
-                  label="Schedule"
-                  subPage={GeneratorSubpage.SCHEDULE}
-                  setSubPage={setSubPage}
-                  active={subPage === GeneratorSubpage.SCHEDULE}
-                />
-                <NavItem
-                  icon={<BiEnvelope />}
-                  label="Gallery"
-                  subPage={GeneratorSubpage.GALLERY}
-                  setSubPage={setSubPage}
-                  active={subPage === GeneratorSubpage.GALLERY}
-                />
-                <NavItem
-                  icon={<BiPurchaseTagAlt />}
-                  label="New experience"
-                  subPage={GeneratorSubpage.NEW_EXPERIENCE}
-                  setSubPage={setSubPage}
-                  active={subPage === GeneratorSubpage.NEW_EXPERIENCE}
-                />
-                <NavItem
-                  icon={<BiRecycle />}
-                  label="Edit experience"
-                  subPage={GeneratorSubpage.EDIT_EXPERIENCE}
-                  setSubPage={setSubPage}
-                  active={subPage === GeneratorSubpage.EDIT_EXPERIENCE}
-                />
-                <NavItem
-                  icon={<BiNews />}
-                  label="Past Experiences"
-                  subPage={GeneratorSubpage.PAST_EXPERIENCES}
-                  setSubPage={setSubPage}
-                  active={subPage === GeneratorSubpage.PAST_EXPERIENCES}
-                />
-              </NavGroup>
-
-              <NavGroup label="Analytics">
-                <NavItem
-                  icon={<BiNews />}
-                  label="Analytics Dashboard"
-                  subPage={GeneratorSubpage.DASHBOARD_ANALYTICS}
-                  setSubPage={setSubPage}
-                  active={subPage === GeneratorSubpage.DASHBOARD_ANALYTICS}
-                />
-              </NavGroup>
-              <NavItem
-                icon={<BiHome />}
-                label="Help"
-                subPage={GeneratorSubpage.HELP}
-                setSubPage={setSubPage}
-                active={subPage === GeneratorSubpage.HELP}
-              />
-            </Stack>
-          </ScrollArea>
-        </Box>
-      </Box>
-      <Box
-        flex="1"
-        p={{ base: "0", md: "6" }}
-        marginStart={{ md: "var(--sidebar-width)" }}
-        position="relative"
-        left={isOpen ? "var(--sidebar-width)" : "0"}
-        transition="left 0.2s"
-      >
-        <Box
-          maxW="2560px"
-          bg="brand.100"
-          height="100%"
-          pb="6"
-          rounded={{ md: "lg" }}
-        >
-          <Flex direction="column" height="full">
-            <Flex
-              w="full"
-              py="4"
-              justify="space-between"
-              align="center"
-              px="10"
-            >
-              <Flex align="center" minH="8">
-                <MobileMenuButton onClick={toggle} isOpen={isOpen} />
-              </Flex>
-            </Flex>
-            <Flex direction="column" flex="1" overflow="auto" px="5">
-              {subPage === GeneratorSubpage.WINERY_INFO && (
-                <WineryOwnerInfo
-                  winery={winery}
-                  contextHeader={contextHeader}
-                />
-              )}
-              {subPage === GeneratorSubpage.EDIT_INFO && (
-                <EditWineryInfo winery={winery} contextHeader={contextHeader} />
-              )}
-              {subPage === GeneratorSubpage.ALL_EXPERIENCES && (
-                <AllExperiences />
-              )}
-              {subPage === GeneratorSubpage.SCHEDULE && (
-                <div>Experiences Calendar</div>
-              )}
-              {subPage === GeneratorSubpage.GALLERY && (
-                <Gallery
-                  wineryAlias={winery.urlAlias}
-                  wineryId={winery.id}
-                  contextHeader={contextHeader}
-                />
-              )}
-              {subPage === GeneratorSubpage.NEW_EXPERIENCE && (
-                <CreateExperienceForm
-                  winery={winery}
-                  contextHeader={contextHeader}
-                />
-              )}
-              {subPage === GeneratorSubpage.EDIT_EXPERIENCE && (
-                <EditableExperiences
-                  winery={winery}
-                  contextHeader={contextHeader}
-                />
-              )}
-              {subPage === GeneratorSubpage.PAST_EXPERIENCES && (
-                <div>Past experiences</div>
-              )}
-              {subPage === GeneratorSubpage.DASHBOARD_ANALYTICS && (
-                <div>Analytics</div>
-              )}
-              {subPage === GeneratorSubpage.HELP && <>Help</>}
-            </Flex>
-          </Flex>
-        </Box>
-      </Box>
-    </Flex>
+    <ShellLayout
+      navGroupes={navgroups}
+      subpages={subpages}
+      logoutFn={logoutFn}
+      email={winery.creatorEmail}
+      name={winery.creatorUsername}
+      winery={winery}
+    />
   );
 };
+
+/*
+
+
+* */
+
+/*
+
+
+*
+* */

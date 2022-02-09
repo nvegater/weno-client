@@ -2,7 +2,8 @@ import { Box, HStack } from "@chakra-ui/react";
 import * as React from "react";
 import { Dispatch, SetStateAction } from "react";
 import { BsCaretRightFill } from "react-icons/bs";
-import { GeneratorSubpage } from "../Winery/WineryProfileLayout";
+import { WineryProfileSubpage } from "../Winery/WineryProfileLayout";
+import { UserProfileSubpage } from "../Customer/UserProfileLayout";
 
 interface NavItemProps {
   href?: string;
@@ -12,8 +13,10 @@ interface NavItemProps {
   icon: React.ReactElement;
   endElement?: React.ReactElement;
   children?: React.ReactNode;
-  subPage: GeneratorSubpage;
-  setSubPage: Dispatch<SetStateAction<GeneratorSubpage>>;
+  subPage: WineryProfileSubpage | UserProfileSubpage;
+  setSubPage: Dispatch<
+    SetStateAction<WineryProfileSubpage | UserProfileSubpage>
+  >;
 }
 
 export const NavItem = (props: NavItemProps) => {

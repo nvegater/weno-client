@@ -54,6 +54,7 @@ const User = () => {
           username={tokenInfo.preferred_username}
           email={tokenInfo.email}
           contextHeader={contextHeader}
+          logoutFn={logout}
         />
       )}
     </WenoLayout>
