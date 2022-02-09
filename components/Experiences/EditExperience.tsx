@@ -7,6 +7,7 @@ import {
 } from "../../graphql/generated/graphql";
 import {
   Button,
+  Flex,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -15,13 +16,8 @@ import {
   Input,
   Textarea,
   useToast,
-  VStack,
 } from "@chakra-ui/react";
-import {
-  mapEventType,
-  expTypeToRadioElement,
-  valleyReverseMapping,
-} from "../utils/enum-utils";
+import { expTypeToRadioElement, mapEventType } from "../utils/enum-utils";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { ContextHeader } from "../Authentication/useAuth";
@@ -110,9 +106,21 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
         }
         alt={"any"}
       />
-      <Heading as="h1">{selectedExperience.title}</Heading>
-      <Heading as="h2">{valleyReverseMapping(winery.valley)}</Heading>
-      <VStack spacing="24px" as="form" onSubmit={handleSubmit(onSubmit)}>
+      <Heading as="h1" py={5}>
+        Edit your experience: <br />
+        {selectedExperience.title}
+      </Heading>
+
+      <Flex
+        pt={5}
+        as="form"
+        experimental_spaceY={"25px"}
+        onSubmit={handleSubmit(onSubmit)}
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        ml={20}
+      >
         <FormControl isInvalid={Boolean(errors.title)} isRequired={true}>
           <Input
             type="text"
@@ -185,7 +193,7 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
         >
           Save
         </Button>
-      </VStack>
+      </Flex>
     </div>
   );
 };
