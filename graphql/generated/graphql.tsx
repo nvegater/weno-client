@@ -486,6 +486,7 @@ export type Query = {
   allReservations: Scalars['Int'];
   allWineryNames: Array<Scalars['String']>;
   winery: WineryResponse;
+  customer: CustomerResponse;
   getSubscriptionProducts: ProductsResponse;
   getCheckoutSessionStatus: CheckoutSessionResponse;
   getSubscriptionStatus: Scalars['String'];
@@ -510,6 +511,11 @@ export type QueryExperiencesListArgs = {
 
 export type QueryWineryArgs = {
   getWineryInputs: GetWineryInputs;
+};
+
+
+export type QueryCustomerArgs = {
+  createCustomerInputs: CreateCustomerInputs;
 };
 
 
@@ -703,6 +709,8 @@ export type WineryResponse = {
   sessionUrl?: Maybe<Scalars['String']>;
 };
 
+export type CustomerFragment = { id: string, stripeCustomerId: string, email: string, username?: string | null | undefined, createdAt: any, updatedAt: any };
+
 export type DateWithTimesFragment = { date: any, times: Array<any> };
 
 export type ErrorFragmentFragment = { field: string, message: string };
@@ -828,6 +836,13 @@ export type AllWineryNamesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AllWineryNamesQuery = { allWineryNames: Array<string> };
 
+export type CustomerQueryVariables = Exact<{
+  createCustomerInputs: CreateCustomerInputs;
+}>;
+
+
+export type CustomerQuery = { customer: { errors?: Array<{ field: string, message: string }> | null | undefined, customer?: { id: string, stripeCustomerId: string, email: string, username?: string | null | undefined, createdAt: any, updatedAt: any } | null | undefined } };
+
 export type ExperiencesQueryVariables = Exact<{
   paginatedExperiencesInputs: PaginatedExperiencesInputs;
 }>;
@@ -876,6 +891,16 @@ export type WineryImagesQueryVariables = Exact<{
 
 export type WineryImagesQuery = { wineryImages: { errors?: Array<{ field: string, message: string }> | null | undefined, gallery?: Array<{ id: number, imageName: string, getUrl: string }> | null | undefined } };
 
+export const CustomerFragmentDoc = gql`
+    fragment Customer on CustomerDts {
+  id
+  stripeCustomerId
+  email
+  username
+  createdAt
+  updatedAt
+}
+    `;
 export const DateWithTimesFragmentDoc = gql`
     fragment DateWithTimes on DateWithTimes {
   date
@@ -1275,6 +1300,23 @@ export const AllWineryNamesDocument = gql`
 
 export function useAllWineryNamesQuery(options: Omit<Urql.UseQueryArgs<AllWineryNamesQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AllWineryNamesQuery>({ query: AllWineryNamesDocument, ...options });
+};
+export const CustomerDocument = gql`
+    query Customer($createCustomerInputs: CreateCustomerInputs!) {
+  customer(createCustomerInputs: $createCustomerInputs) {
+    errors {
+      ...ErrorFragment
+    }
+    customer {
+      ...Customer
+    }
+  }
+}
+    ${ErrorFragmentFragmentDoc}
+${CustomerFragmentDoc}`;
+
+export function useCustomerQuery(options: Omit<Urql.UseQueryArgs<CustomerQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<CustomerQuery>({ query: CustomerDocument, ...options });
 };
 export const ExperiencesDocument = gql`
     query Experiences($paginatedExperiencesInputs: PaginatedExperiencesInputs!) {

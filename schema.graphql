@@ -239,6 +239,7 @@ type ProductsResponse {
 type Query {
   allReservations: Int!
   allWineryNames: [String!]!
+  customer(createCustomerInputs: CreateCustomerInputs!): CustomerResponse!
   experiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
   ): PaginatedExperiences!
