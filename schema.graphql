@@ -34,6 +34,11 @@ type CustomerDts {
   username: String
 }
 
+type CustomerReservationResponse {
+  errors: [FieldError!]
+  reservations: [ReservationDts!]
+}
+
 type CustomerResponse {
   customer: CustomerDts
   errors: [FieldError!]
@@ -239,12 +244,14 @@ type ProductsResponse {
 type Query {
   allReservations: Int!
   allWineryNames: [String!]!
+  "This will create a customer if the given inputs dont match an existing one"
   customer(createCustomerInputs: CreateCustomerInputs!): CustomerResponse!
   experiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
   ): PaginatedExperiences!
   experiencesList(wineryId: Int!): ExperiencesList!
   getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
+  getCustomerReservations(email: String!): CustomerReservationResponse!
   getSubscriptionProducts: ProductsResponse!
   getSubscriptionStatus(customerId: String!): String!
   recurrentDates(

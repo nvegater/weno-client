@@ -9,6 +9,7 @@ import {
   BiPurchaseTagAlt,
   BiUserCircle,
 } from "react-icons/bi";
+import { UserReservations } from "./UserReservations";
 
 export enum UserProfileSubpage {
   PROFILE_INFO,
@@ -40,7 +41,7 @@ export const UserProfileLayout: FC<UserProfileLayoutProps> = ({
         <div>Your profile info</div>
       )}
       {subPage === UserProfileSubpage.RESERVATIONS && (
-        <div>Your reservations</div>
+        <UserReservations email={email} contextHeader={contextHeader} />
       )}
       {subPage === UserProfileSubpage.FAVORITES && <div>Your favorites</div>}
       {subPage === UserProfileSubpage.HELP && <div>Help</div>}

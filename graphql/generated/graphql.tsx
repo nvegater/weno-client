@@ -111,6 +111,11 @@ export type CustomerDts = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type CustomerReservationResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  reservations?: Maybe<Array<ReservationDts>>;
+};
+
 export type CustomerResponse = {
   errors?: Maybe<Array<FieldError>>;
   customer?: Maybe<CustomerDts>;
@@ -486,7 +491,9 @@ export type Query = {
   allReservations: Scalars['Int'];
   allWineryNames: Array<Scalars['String']>;
   winery: WineryResponse;
+  /** This will create a customer if the given inputs dont match an existing one */
   customer: CustomerResponse;
+  getCustomerReservations: CustomerReservationResponse;
   getSubscriptionProducts: ProductsResponse;
   getCheckoutSessionStatus: CheckoutSessionResponse;
   getSubscriptionStatus: Scalars['String'];
@@ -516,6 +523,11 @@ export type QueryWineryArgs = {
 
 export type QueryCustomerArgs = {
   createCustomerInputs: CreateCustomerInputs;
+};
+
+
+export type QueryGetCustomerReservationsArgs = {
+  email: Scalars['String'];
 };
 
 
@@ -842,6 +854,13 @@ export type CustomerQueryVariables = Exact<{
 
 
 export type CustomerQuery = { customer: { errors?: Array<{ field: string, message: string }> | null | undefined, customer?: { id: string, stripeCustomerId: string, email: string, username?: string | null | undefined, createdAt: any, updatedAt: any } | null | undefined } };
+
+export type CustomerReservationsQueryVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type CustomerReservationsQuery = { getCustomerReservations: { errors?: Array<{ field: string, message: string }> | null | undefined, reservations?: Array<{ createdAt: any, email: string, endDateTime: any, id: number, noOfAttendees: number, paymentStatus: string, pricePerPersonInDollars: number, slotId: number, startDateTime: any, title: string, updatedAt: any, username?: string | null | undefined, wineryName: string, getUrl?: string | null | undefined }> | null | undefined } };
 
 export type ExperiencesQueryVariables = Exact<{
   paginatedExperiencesInputs: PaginatedExperiencesInputs;
@@ -1317,6 +1336,23 @@ ${CustomerFragmentDoc}`;
 
 export function useCustomerQuery(options: Omit<Urql.UseQueryArgs<CustomerQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<CustomerQuery>({ query: CustomerDocument, ...options });
+};
+export const CustomerReservationsDocument = gql`
+    query CustomerReservations($email: String!) {
+  getCustomerReservations(email: $email) {
+    errors {
+      ...ErrorFragment
+    }
+    reservations {
+      ...Reservation
+    }
+  }
+}
+    ${ErrorFragmentFragmentDoc}
+${ReservationFragmentDoc}`;
+
+export function useCustomerReservationsQuery(options: Omit<Urql.UseQueryArgs<CustomerReservationsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<CustomerReservationsQuery>({ query: CustomerReservationsDocument, ...options });
 };
 export const ExperiencesDocument = gql`
     query Experiences($paginatedExperiencesInputs: PaginatedExperiencesInputs!) {
