@@ -17,7 +17,6 @@ export const generateLinks = (
   username: string | null,
   userType: "owner" | "visitor"
 ): Link[] => {
-  console.log(userType, urlAlias);
   let allLinks: Link[] = [
     { label: "Home", href: "/" },
 

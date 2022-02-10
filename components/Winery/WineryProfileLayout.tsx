@@ -20,6 +20,7 @@ import { AllExperiences } from "./AllExperiences";
 import { Gallery } from "../Images/Gallery";
 import { EditWineryInfo } from "./EditWineryInfo";
 import { ShellLayout } from "../ProfileShell/ShellLayout";
+import { WineryCalendar } from "./WineryCalendar";
 
 export enum WineryProfileSubpage {
   WINERY_INFO,
@@ -59,9 +60,7 @@ export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
         <EditWineryInfo winery={winery} contextHeader={contextHeader} />
       )}
       {subPage === WineryProfileSubpage.ALL_EXPERIENCES && <AllExperiences />}
-      {subPage === WineryProfileSubpage.SCHEDULE && (
-        <div>Experiences Calendar</div>
-      )}
+      {subPage === WineryProfileSubpage.SCHEDULE && <WineryCalendar />}
       {subPage === WineryProfileSubpage.GALLERY && (
         <Gallery
           wineryAlias={winery.urlAlias}
