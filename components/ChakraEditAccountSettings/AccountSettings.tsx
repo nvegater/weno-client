@@ -86,7 +86,7 @@ export const AccountSettings = (props: StackProps) => {
               </FormControl>
 
               <FormControl id="currency">
-                <FormLabel fontSize="sm">Currency</FormLabel>
+                <FormLabel fontSize="sm">{t("currency")}</FormLabel>
                 <Select size="sm" maxW="2xs">
                   <option>USD ($)</option>
                   <option>AED (dh)</option>

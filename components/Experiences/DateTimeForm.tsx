@@ -235,10 +235,10 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               >
                 <FormLabel htmlFor="durationInMinutes">
                   {isRecurrent
-                    ? "Duration in minutes (for each event)"
+                    ? t("eventDuration")
                     : isAutomaticDuration
-                    ? "Automatic duration (use start and end)"
-                    : "Duration in minutes"}
+                    ? t("autoDuration")
+                    : t("eventDuration")}
                 </FormLabel>
                 <Input
                   type="number"

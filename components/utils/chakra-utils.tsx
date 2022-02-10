@@ -63,7 +63,7 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
       break;
     case "bookingFailed":
       toastOpts = {
-        title: "Booking failed",
+        title: t("Booking failed"),
         description: t("errorApologize"),
         status: "error",
         duration: 5000,
@@ -73,8 +73,8 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
       break;
     case "saved":
       toastOpts = {
-        title: "Update Succesfull",
-        description: "The information was saved",
+        title: t("updateSuccessful"),
+        description: t("informationSaved"),
         status: "success",
         duration: 5000,
         isClosable: true,

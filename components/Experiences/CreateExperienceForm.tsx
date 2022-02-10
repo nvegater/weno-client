@@ -24,7 +24,6 @@ import { ErrorSummary } from "../Winery/CreateWineryForm";
 import RadioGroup from "../Radio/RadioGroup";
 import { DateTimeForm } from "./DateTimeForm";
 import { useTranslation } from "react-i18next";
-import { ExperienceImagesForm } from "./ExperienceImagesForm";
 import {
   mapEventType,
   mapSlotType,

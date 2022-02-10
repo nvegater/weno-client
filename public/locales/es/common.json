@@ -37,6 +37,7 @@
   "cover": "Portada",
   "covid19": "COVID-19",
   "creatorMenu": "Menu del creador",
+  "currency": "Moneda",
   "customDate": "Personalizar fecha",
   "customerId": "ID de usuario",
 
@@ -53,8 +54,10 @@
 
   "easyOnboarding": "Inducción sencilla, entrenamiento y ayuda especializada",
   "editExperience": "Editar experiencia",
+  "editExperiences": "Editar experiencias",
   "editInformation": "Editar Información",
-  "editWinery": "Edit Winery",
+  "editWinery": "Editar Viñedo",
+  "editYourWinery": "Editar tu viñedo",
   "email": "Correo electrónico",
   "emailRequired": "Se requiere email.",
   "enableStripe": "Permitir conectar cuenta de Stripe",
@@ -78,6 +81,7 @@
 
   "gallery": "Gallería",
   "general": "General",
+  "getHelp": "Obtener ayuda",
   "urlMapBox": "Enlace de Google maps",
 
   "hebrew": "Hebreo",
@@ -86,7 +90,7 @@
   "hidden": "Oculto",
   "home": "Inicio",
   "litersPerYear": "Cuántos litros por año",
-  "howMuch": "¿Costo por persona en pesos MXN?",
+  "price": "¿Precio por persona en pesos MXN?",
   "wineryDescription": "Cómo describiría su viñedo...",
   "covid19Checkbox": "Las medidas de higiene están en orden",
 
@@ -148,14 +152,18 @@
   "processingChanges": "Procesando cambios",
   "productIntro": "Introducción del producto, consejos e inspiración",
   "productionType": "Tipo de producción",
+  "profile": "Perfil",
 
   "read+": "Leer más",
+  "readAboutContracts": "Lee más acerca de los contratos entre proveedores de cliente/servicio y Weno",
+  "readDocumentation": "Lee nuestra documentación y preguntas frecuentes, o contáctanos.",
   "readMore": ". Leer más acerca de su ",
   "ready": "Listo",
   "recurrent": "Recurrente",
   "register": "Registrarse",
   "registerAndBook": "Registrarse y reservar",
   "remove": "Eliminar",
+  "requiredField": "Este campo es requerido",
   "reset": "Reiniciar",
   "resetInstructions": "Presione reiniciar para verificar su creación",
 
@@ -168,7 +176,7 @@
   "validRecursion": "Selecciona una recursión válida",
   "selectDate": "Seleccionar fecha: ",
   "selectDates": "Seleccionar fechas",
-  "autoDuration": "Seleccionar Inicio & Fin para mostrar la duración",
+  "autoDuration": "Duración automática (elige inicio y fin)",
   "serverError": "Pantalla de error del Servidor",
   "urlError": "Algo está mal con el URL",
   "startFree": "Comenzar gratuitamente",
@@ -178,12 +186,14 @@
   "submit": "Enviar",
   "submitForImages": "Enviar formulario para cargar imagenes",
 
+  "termsAndConditions": "Términos y condiciones",
   "thanksForBooking": "Gracias por reservar!",
   "partneredWith": "Es por eso que nos patrocinan",
   "yearlyProductionMessage": "Eso es demasiado vino",
   "invalidDuration": "Esa no es una duración válida",
   "notValidSession": "Esa no es una sesión válida",
   "earlyDate": "Demasiado antiguo para ser cierto...",
+  "informationSaved": "La información fue guardada",
   "noSlotsAvailable": "No hay espacios disponibles para esta experiencia",
   "connectionErrors": "Parece haber un error de conexión",
   "errorApologize": "Hubo un error en nuestros servidores. Nos disculpamos por los inconvenientes",
@@ -195,6 +205,7 @@
   "total": "Total: ",
 
   "updatesAndNews": "Actualización con noticias de la compañia y características",
+  "updateSuccessful": "Actualización exitosa",
   "uploadFile": "Cargar archivo",
   "uploaded": "Cargado: ",
   "useAsCover": "Usar como foto de portada",

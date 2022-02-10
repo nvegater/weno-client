@@ -37,6 +37,7 @@
   "cover": "Cover",
   "covid19": "COVID-19",
   "creatorMenu": "Creator Menu",
+  "currency": "Currency",
   "customDate": "custom date",
   "customerId": "Customer ID",
 
@@ -53,8 +54,10 @@
 
   "easyOnboarding": "Easy onboarding, training and dedicated support",
   "editExperience": "Edit experience",
+  "editExperiences": "Edit experiences",
   "editInformation": "Edit Information",
   "editWinery": "Edit Winery",
+  "editYourWinery": "Edit your winery",
   "email": "Email",
   "emailRequired": "Email is required.",
   "enableStripe": "Enable Stripe connected account",
@@ -78,6 +81,7 @@
 
   "gallery": "Gallery",
   "general": "General",
+  "getHelp": "Get Help",
   "urlMapBox": "Google maps link",
 
   "hebrew": "Hebrew",
@@ -86,7 +90,7 @@
   "hidden": "Hidden",
   "home": "Home",
   "litersPerYear": "How many Liters per year",
-  "howMuch": "How much per person in MXN ?",
+  "price": "Price per person in MXN",
   "wineryDescription": "How would you describe your winery...",
   "covid19Checkbox": "Hygiene measures are in place",
 
@@ -148,14 +152,18 @@
   "processingChanges": "Processing changes",
   "productIntro": "Product intro, tips, and inspiration",
   "productionType": "Production Type",
+  "profile": "Profile",
 
   "read+": "Read more",
+  "readAboutContracts": "Read more about the contracts between clients/service providers and Weno",
+  "readDocumentation": "Read our documentation and FAQs, or get in touch.",
   "readMore": ". Read more about their ",
   "ready": "Ready",
   "recurrent": "Recurrent",
   "register": "Register",
   "registerAndBook": "Register and book",
   "remove": "Remove",
+  "requiredField": "This fiels is required",
   "reset": "Reset",
   "resetInstructions": "Click reset to verify your creation",
 
@@ -168,7 +176,7 @@
   "validRecursion": "Select a valid recursion",
   "selectDate": "Select a date: ",
   "selectDates": "Select dates",
-  "autoDuration": "Select Start & End to display duration",
+  "autoDuration": "Automatic duration (use start and end)",
   "serverError": "Server Error screen",
   "urlError": "Something is wrong with the URL",
   "startFree": "Start for free",
@@ -178,12 +186,14 @@
   "submit": "Submit",
   "submitForImages": "Submit the form to upload images",
 
+  "termsAndConditions": "Terms and conditions",
   "thanksForBooking": "Thanks for booking!",
   "partneredWith": "That's why we partnered with",
   "yearlyProductionMessage": "That's a lot of wine",
   "invalidDuration": "That's not a valid duration",
   "notValidSession": "That is not a valid session",
   "earlyDate": "That's too old to be true...",
+  "informationSaved": "The information was saved",
   "noSlotsAvailable": "There are no slots available for this Experience",
   "connectionErrors": "There seems to be a connection error",
   "errorApologize": "There was an error in our servers. We apologize for the inconvenience",
@@ -195,6 +205,7 @@
   "total": "Total: ",
 
   "updatesAndNews": "Updates about company news and features",
+  "updateSuccessful": "Update Succesful",
   "uploadFile": "Upload File",
   "uploaded": "Uploaded: ",
   "useAsCover": "Use as cover picture",

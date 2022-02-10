@@ -24,16 +24,15 @@ export const generateLinks = (
       href: "#",
       children: [
         {
-          label: "Get Help",
-          description: "Read our documentation and FAQs, or get in touch.",
+          label: "getHelp",
+          description: "readDocumentation",
           href: "#",
           icon: <IoIosHelpBuoy />,
         },
 
         {
-          label: "Terms and conditions",
-          description:
-            "Read more about the contracts between clients/service providers and Weno",
+          label: "termsAndConditions",
+          description: "readAboutContracts",
           href: "#",
           icon: <IoIosGrid />,
         },
@@ -46,7 +45,7 @@ export const generateLinks = (
       userType === "owner" ? `/winery/${urlAlias}` : `/account/${urlAlias}`;
 
     const profileLink: Link = {
-      label: "Profile",
+      label: "profile",
       href: profileRef,
     };
 
