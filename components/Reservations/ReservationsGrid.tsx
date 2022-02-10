@@ -30,6 +30,9 @@ export const ReservationsGrid: FC<ReservationsGridProps> = ({
               <Heading as="h2" size="sm" mb={4}>
                 Booking date: {formatDate(new Date(res.createdAt))}
               </Heading>
+              <Heading as="h2" size="sm" mb={4}>
+                {res.paymentStatus === "paid" ? "Paid" : "Unpaid"}
+              </Heading>
               <BookedExperience
                 media={res.getUrl ? res.getUrl : placeHolder}
                 title={res.title}

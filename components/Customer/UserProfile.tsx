@@ -67,8 +67,7 @@ export const UserProfile: FC<UserProfileProps> = ({
         <UserProfileLayout
           logoutFn={logoutFn}
           contextHeader={contextHeader}
-          email={email}
-          username={username}
+          customer={customerResponse.customer.customer}
         />
       )}
     </>

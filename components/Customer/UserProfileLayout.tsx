@@ -10,6 +10,8 @@ import {
   BiUserCircle,
 } from "react-icons/bi";
 import { UserReservations } from "./UserReservations";
+import { UserInformation } from "./UserInformation";
+import { CustomerFragment } from "../../graphql/generated/graphql";
 
 export enum UserProfileSubpage {
   PROFILE_INFO,
@@ -21,15 +23,13 @@ export enum UserProfileSubpage {
 interface UserProfileLayoutProps {
   logoutFn: () => void;
   contextHeader: ContextHeader;
-  email: string;
-  username: string;
+  customer: CustomerFragment;
 }
 
 export const UserProfileLayout: FC<UserProfileLayoutProps> = ({
   logoutFn,
   contextHeader,
-  email,
-  username,
+  customer,
 }) => {
   const [subPage, setSubPage] = useState<UserProfileSubpage>(
     UserProfileSubpage.PROFILE_INFO
@@ -38,12 +38,15 @@ export const UserProfileLayout: FC<UserProfileLayoutProps> = ({
   const navgroups = (
     <>
       {subPage === UserProfileSubpage.PROFILE_INFO && (
-        <div>Your profile info</div>
+        <UserInformation customer={customer} />
       )}
       {subPage === UserProfileSubpage.RESERVATIONS && (
-        <UserReservations email={email} contextHeader={contextHeader} />
+        <UserReservations
+          email={customer.email}
+          contextHeader={contextHeader}
+        />
       )}
-      {subPage === UserProfileSubpage.FAVORITES && <div>Your favorites</div>}
+      {subPage === UserProfileSubpage.FAVORITES && <div>Coming soon....</div>}
       {subPage === UserProfileSubpage.HELP && <div>Help</div>}
     </>
   );
@@ -90,8 +93,8 @@ export const UserProfileLayout: FC<UserProfileLayoutProps> = ({
       navGroupes={subpages}
       subpages={navgroups}
       logoutFn={logoutFn}
-      email={email}
-      name={username}
+      email={customer.email}
+      name={customer.username}
     />
   );
 };

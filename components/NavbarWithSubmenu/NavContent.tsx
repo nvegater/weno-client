@@ -97,6 +97,7 @@ const MobileNavContext = ({
   logoutFn,
   userType,
   urlAlias,
+  preferred_username,
 }: NavBarProps) => {
   const { isOpen, onToggle } = useDisclosure();
   return (
@@ -131,15 +132,17 @@ const MobileNavContext = ({
         color="brand.100"
         fontSize="xl"
       >
-        {generateLinks(urlAlias, userType).map((link, idx) => (
-          <Box py={4} key={idx}>
-            {link.children ? (
-              <Submenu.Mobile link={link} />
-            ) : (
-              <NavLink.Mobile href={link.href}>{link.label}</NavLink.Mobile>
-            )}
-          </Box>
-        ))}
+        {generateLinks(urlAlias, preferred_username, userType).map(
+          (link, idx) => (
+            <Box py={4} key={idx}>
+              {link.children ? (
+                <Submenu.Mobile link={link} />
+              ) : (
+                <NavLink.Mobile href={link.href}>{link.label}</NavLink.Mobile>
+              )}
+            </Box>
+          )
+        )}
         <Flex justifyContent="center" py={4}>
           {!authenticated && <LoginButton loginFn={loginFn} />}
           {authenticated && <LogoutButton logoutFn={logoutFn} />}
@@ -156,6 +159,7 @@ const DesktopNavContent = ({
   logoutFn,
   userType,
   urlAlias,
+  preferred_username,
 }: NavBarProps) => {
   return (
     <Flex
@@ -176,15 +180,17 @@ const DesktopNavContent = ({
         aria-label="Main Menu"
         listStyleType="none"
       >
-        {generateLinks(urlAlias, userType).map((link, idx) => (
-          <Box as="li" key={idx} id={`nav__menuitem-${idx}`}>
-            {link.children ? (
-              <Submenu.Desktop link={link} />
-            ) : (
-              <NavLink.Desktop href={link.href}>{link.label}</NavLink.Desktop>
-            )}
-          </Box>
-        ))}
+        {generateLinks(urlAlias, preferred_username, userType).map(
+          (link, idx) => (
+            <Box as="li" key={idx} id={`nav__menuitem-${idx}`}>
+              {link.children ? (
+                <Submenu.Desktop link={link} />
+              ) : (
+                <NavLink.Desktop href={link.href}>{link.label}</NavLink.Desktop>
+              )}
+            </Box>
+          )
+        )}
       </HStack>
       <HStack spacing="8" justify="space-between">
         {!authenticated && <LoginButton loginFn={loginFn} isNavBar />}
