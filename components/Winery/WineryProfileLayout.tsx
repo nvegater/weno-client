@@ -60,7 +60,9 @@ export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
         <EditWineryInfo winery={winery} contextHeader={contextHeader} />
       )}
       {subPage === WineryProfileSubpage.ALL_EXPERIENCES && <AllExperiences />}
-      {subPage === WineryProfileSubpage.SCHEDULE && <WineryCalendar />}
+      {subPage === WineryProfileSubpage.SCHEDULE && (
+        <WineryCalendar winery={winery} contextHeader={contextHeader} />
+      )}
       {subPage === WineryProfileSubpage.GALLERY && (
         <Gallery
           wineryAlias={winery.urlAlias}

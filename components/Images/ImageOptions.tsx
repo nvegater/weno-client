@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   Flex,
   Image,
@@ -9,8 +9,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { RiPlayListAddLine } from "react-icons/ri";
-import { ExperiencesListModal } from "./ExperiencesListModal";
+import { WineryExperiencesListModal } from "./WineryExperiencesListModal";
 import { ContextHeader } from "../Authentication/useAuth";
+import { useAddImageToExperienceMutation } from "../../graphql/generated/graphql";
 
 interface ImageOptionsProps {
   imageUrl: string;
@@ -27,6 +28,35 @@ export const ImageOptions: FC<ImageOptionsProps> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [, addImageToExperience] = useAddImageToExperienceMutation();
+
+  const [message, setMessage] = useState<string | null>(null);
+
+  async function handleSelection(experienceId: number, title: string) {
+    const { data: imagesData, error } = await addImageToExperience(
+      {
+        experienceId,
+        wineryImageId: imageId,
+      },
+      { ...contextHeader, requestPolicy: "network-only" }
+    );
+    if (error) {
+      setMessage(error.message);
+    }
+    if (
+      imagesData?.addImageToExperience &&
+      imagesData.addImageToExperience.errors
+    ) {
+      setMessage(imagesData.addImageToExperience.errors[0].message);
+    }
+    const images = imagesData?.addImageToExperience
+      ? imagesData.addImageToExperience.images
+      : [];
+    if (images.length > 0) {
+      setMessage(`${images[0].imageName} was added to ${title}`);
+    }
+  }
+
   return (
     <Flex
       flexDirection="column"
@@ -34,13 +64,14 @@ export const ImageOptions: FC<ImageOptionsProps> = ({
       alignItems="end"
       pr={5}
     >
-      <ExperiencesListModal
+      <WineryExperiencesListModal
         isOpen={isOpen}
         onClose={onClose}
-        imageId={imageId}
-        imageUrl={imageUrl}
-        contextHeader={contextHeader}
         wineryId={wineryId}
+        contextHeader={contextHeader}
+        handleSelection={handleSelection}
+        imageUrl={imageUrl}
+        message={message}
       />
       <Menu>
         <MenuButton>
