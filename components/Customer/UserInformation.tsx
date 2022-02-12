@@ -22,10 +22,6 @@ export const UserInformation: FC<UserInformationProps> = ({ customer }) => {
     { name: "Member since", value: createdAt },
   ];
 
-  const connectedAccountInfo = [
-    { name: "Account ID", value: customer.stripeCustomerId },
-    { name: "Created", value: createdAt },
-  ];
   return (
     <section>
       <Flex justifyContent={[null, null, null, "center"]}>
@@ -34,10 +30,6 @@ export const UserInformation: FC<UserInformationProps> = ({ customer }) => {
         </Heading>
       </Flex>
       <CardWithUserDetails properties={accountProps} title="Weno Account" />
-      <CardWithUserDetails
-        properties={connectedAccountInfo}
-        title="Stripe Connected Account"
-      />
     </section>
   );
 };
