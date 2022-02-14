@@ -1,36 +1,23 @@
-fragment WineryFragment on Winery {
-  amenities
+fragment WineryFragment on WineryDts {
+  id
+  name
   urlAlias
   stripe_customerId
-  architecturalReferences
-  contactEmail
-  contactName
-  contactPhoneNumber
-  covidLabel
-  createdAt
-  creatorEmail
+  subscription
+  accountId
+  accountCreatedTime
   creatorUsername
+  creatorEmail
   description
-  enologoName
   foundationYear
   googleMapsUrl
-  handicappedFriendly
-  id
-  logo
-  name
-  othersServices
-  petFriendly
-  postalAddress
-  productRegion
-  productionType
-  supportedLanguages
-  updatedAt
-  urlImageCover
-  valley
-  verified
-  wineGrapesProduction
-  wineType
   yearlyWineProduction
-  younerFriendly
-  subscription
+  covidLabel
+  productionType
+  valley
+  wineType
+  supportedLanguages
+  amenities
+  createdAt
+  updatedAt
 }

@@ -724,6 +724,30 @@ export type Winery = {
   updatedAt: Scalars['DateTime'];
 };
 
+export type WineryDts = {
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  urlAlias: Scalars['String'];
+  stripe_customerId?: Maybe<Scalars['String']>;
+  subscription?: Maybe<Scalars['String']>;
+  accountId?: Maybe<Scalars['String']>;
+  accountCreatedTime?: Maybe<Scalars['Float']>;
+  creatorUsername: Scalars['String'];
+  creatorEmail: Scalars['String'];
+  description: Scalars['String'];
+  foundationYear?: Maybe<Scalars['Int']>;
+  googleMapsUrl?: Maybe<Scalars['String']>;
+  yearlyWineProduction?: Maybe<Scalars['Int']>;
+  covidLabel?: Maybe<Scalars['Boolean']>;
+  productionType?: Maybe<Array<ProductionType>>;
+  valley: Valley;
+  wineType?: Maybe<Array<TypeWine>>;
+  supportedLanguages?: Maybe<Array<ServiceLanguage>>;
+  amenities?: Maybe<Array<Amenity>>;
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type WineryImage = {
   id: Scalars['Float'];
   wineryId: Scalars['Float'];
@@ -737,7 +761,7 @@ export type WineryImage = {
 
 export type WineryResponse = {
   errors?: Maybe<Array<FieldError>>;
-  winery?: Maybe<Winery>;
+  winery?: Maybe<WineryDts>;
   sessionUrl?: Maybe<Scalars['String']>;
 };
 
@@ -769,7 +793,7 @@ export type SlotFragmentFragment = { id: number, startDateTime: any, endDateTime
 
 export type TiersFragmentFragment = { flat_amount?: number | null | undefined, flat_amount_decimal?: string | null | undefined, unit_amount?: number | null | undefined, unit_amount_decimal?: string | null | undefined, up_to?: number | null | undefined };
 
-export type WineryFragmentFragment = { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined };
+export type WineryFragmentFragment = { id: number, name: string, urlAlias: string, stripe_customerId?: string | null | undefined, subscription?: string | null | undefined, accountId?: string | null | undefined, accountCreatedTime?: number | null | undefined, creatorUsername: string, creatorEmail: string, description: string, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, yearlyWineProduction?: number | null | undefined, covidLabel?: boolean | null | undefined, productionType?: Array<ProductionType> | null | undefined, valley: Valley, wineType?: Array<TypeWine> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, amenities?: Array<Amenity> | null | undefined, createdAt: any, updatedAt: any };
 
 export type WineryConfirmationFragmentFragment = { id: number, name: string, urlAlias: string, creatorEmail: string, subscription?: string | null | undefined, stripe_customerId?: string | null | undefined, accountId?: string | null | undefined, accountCreatedTime?: number | null | undefined, updatedAt: any };
 
@@ -793,7 +817,7 @@ export type ConfirmConnectedAccountMutationVariables = Exact<{
 }>;
 
 
-export type ConfirmConnectedAccountMutation = { confirmConnectedAccount: { errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { id: number, name: string, urlAlias: string, creatorEmail: string, subscription?: string | null | undefined, stripe_customerId?: string | null | undefined, accountId?: string | null | undefined, accountCreatedTime?: number | null | undefined, updatedAt: any } | null | undefined } };
+export type ConfirmConnectedAccountMutation = { confirmConnectedAccount: { errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { id: number, name: string, urlAlias: string, stripe_customerId?: string | null | undefined, subscription?: string | null | undefined, accountId?: string | null | undefined, accountCreatedTime?: number | null | undefined, creatorUsername: string, creatorEmail: string, description: string, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, yearlyWineProduction?: number | null | undefined, covidLabel?: boolean | null | undefined, productionType?: Array<ProductionType> | null | undefined, valley: Valley, wineType?: Array<TypeWine> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, amenities?: Array<Amenity> | null | undefined, createdAt: any, updatedAt: any } | null | undefined } };
 
 export type CreateExperienceMutationVariables = Exact<{
   createExperienceInputs: CreateExperienceInputs;
@@ -809,14 +833,14 @@ export type CreateWineryMutationVariables = Exact<{
 }>;
 
 
-export type CreateWineryMutation = { createWinery: { sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined } | null | undefined } };
+export type CreateWineryMutation = { createWinery: { sessionUrl?: string | null | undefined, errors?: Array<{ field: string, message: string }> | null | undefined } };
 
 export type EditWineryInfoMutationVariables = Exact<{
   editWineryInputs: EditWineryInputs;
 }>;
 
 
-export type EditWineryInfoMutation = { editWinery: { errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined } | null | undefined } };
+export type EditWineryInfoMutation = { editWinery: { errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { id: number, name: string, urlAlias: string, stripe_customerId?: string | null | undefined, subscription?: string | null | undefined, accountId?: string | null | undefined, accountCreatedTime?: number | null | undefined, creatorUsername: string, creatorEmail: string, description: string, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, yearlyWineProduction?: number | null | undefined, covidLabel?: boolean | null | undefined, productionType?: Array<ProductionType> | null | undefined, valley: Valley, wineType?: Array<TypeWine> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, amenities?: Array<Amenity> | null | undefined, createdAt: any, updatedAt: any } | null | undefined } };
 
 export type GetCheckoutLinkMutationVariables = Exact<{
   createCustomerInputs: CreateCustomerInputs;
@@ -927,7 +951,7 @@ export type WineryQueryVariables = Exact<{
 }>;
 
 
-export type WineryQuery = { winery: { errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { amenities?: Array<Amenity> | null | undefined, urlAlias: string, stripe_customerId?: string | null | undefined, architecturalReferences?: boolean | null | undefined, contactEmail?: string | null | undefined, contactName?: string | null | undefined, contactPhoneNumber?: string | null | undefined, covidLabel?: boolean | null | undefined, createdAt: any, creatorEmail: string, creatorUsername: string, description: string, enologoName?: string | null | undefined, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, handicappedFriendly?: boolean | null | undefined, id: number, logo?: string | null | undefined, name: string, othersServices?: Array<OtherServices> | null | undefined, petFriendly?: boolean | null | undefined, postalAddress?: string | null | undefined, productRegion?: string | null | undefined, productionType?: Array<ProductionType> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, updatedAt: any, urlImageCover?: string | null | undefined, valley: Valley, verified?: boolean | null | undefined, wineGrapesProduction?: Array<Grape> | null | undefined, wineType?: Array<TypeWine> | null | undefined, yearlyWineProduction?: number | null | undefined, younerFriendly?: boolean | null | undefined, subscription?: string | null | undefined } | null | undefined } };
+export type WineryQuery = { winery: { errors?: Array<{ field: string, message: string }> | null | undefined, winery?: { id: number, name: string, urlAlias: string, stripe_customerId?: string | null | undefined, subscription?: string | null | undefined, accountId?: string | null | undefined, accountCreatedTime?: number | null | undefined, creatorUsername: string, creatorEmail: string, description: string, foundationYear?: number | null | undefined, googleMapsUrl?: string | null | undefined, yearlyWineProduction?: number | null | undefined, covidLabel?: boolean | null | undefined, productionType?: Array<ProductionType> | null | undefined, valley: Valley, wineType?: Array<TypeWine> | null | undefined, supportedLanguages?: Array<ServiceLanguage> | null | undefined, amenities?: Array<Amenity> | null | undefined, createdAt: any, updatedAt: any } | null | undefined } };
 
 export type WineryImagesQueryVariables = Exact<{
   wineryId: Scalars['Int'];
@@ -1082,41 +1106,28 @@ export const ReservationFragmentDoc = gql`
 }
     `;
 export const WineryFragmentFragmentDoc = gql`
-    fragment WineryFragment on Winery {
-  amenities
+    fragment WineryFragment on WineryDts {
+  id
+  name
   urlAlias
   stripe_customerId
-  architecturalReferences
-  contactEmail
-  contactName
-  contactPhoneNumber
-  covidLabel
-  createdAt
-  creatorEmail
+  subscription
+  accountId
+  accountCreatedTime
   creatorUsername
+  creatorEmail
   description
-  enologoName
   foundationYear
   googleMapsUrl
-  handicappedFriendly
-  id
-  logo
-  name
-  othersServices
-  petFriendly
-  postalAddress
-  productRegion
-  productionType
-  supportedLanguages
-  updatedAt
-  urlImageCover
-  valley
-  verified
-  wineGrapesProduction
-  wineType
   yearlyWineProduction
-  younerFriendly
-  subscription
+  covidLabel
+  productionType
+  valley
+  wineType
+  supportedLanguages
+  amenities
+  createdAt
+  updatedAt
 }
     `;
 export const WineryConfirmationFragmentFragmentDoc = gql`
@@ -1171,11 +1182,11 @@ export const ConfirmConnectedAccountDocument = gql`
       message
     }
     winery {
-      ...WineryConfirmationFragment
+      ...WineryFragment
     }
   }
 }
-    ${WineryConfirmationFragmentFragmentDoc}`;
+    ${WineryFragmentFragmentDoc}`;
 
 export function useConfirmConnectedAccountMutation() {
   return Urql.useMutation<ConfirmConnectedAccountMutation, ConfirmConnectedAccountMutationVariables>(ConfirmConnectedAccountDocument);
@@ -1212,13 +1223,10 @@ export const CreateWineryDocument = gql`
       field
       message
     }
-    winery {
-      ...WineryFragment
-    }
     sessionUrl
   }
 }
-    ${WineryFragmentFragmentDoc}`;
+    `;
 
 export function useCreateWineryMutation() {
   return Urql.useMutation<CreateWineryMutation, CreateWineryMutationVariables>(CreateWineryDocument);

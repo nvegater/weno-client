@@ -18,14 +18,19 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import {
+  Amenity,
+  CreateWineryInputs,
   ProductionType,
+  ServiceLanguage,
   TypeWine,
   useCreateWineryMutation,
   Valley,
 } from "../../graphql/generated/graphql";
 import {
+  amenitiesReverseMapping,
   productionTypeReverseMapping,
   removeNonStringsFromArray,
+  supportedLanguagesReverseMapping,
   valleyReverseMapping,
   wineTypeReverseMapping,
 } from "../utils/enum-utils";
@@ -77,11 +82,14 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   const [, createWinery] = useCreateWineryMutation();
 
   const onSubmit = async (data) => {
-    const correctedValues = {
+    const correctedValues: CreateWineryInputs = {
       ...data,
       productionType: removeNonStringsFromArray(data.productionType),
       wineType: removeNonStringsFromArray(data.wineType),
+      supportedLanguages: removeNonStringsFromArray(data.supportedLanguages),
+      amenities: removeNonStringsFromArray(data.amenities),
     };
+
     const baseURL = window.location.protocol + "//" + window.location.host;
     const successUrl = baseURL + `/winery/${data.urlAlias}`;
     const cancelUrl = baseURL + "/error";
@@ -97,10 +105,10 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       },
       { ...contextHeader, requestPolicy: "network-only" }
     );
-    if (error || (res && res.createWinery.errors !== null)) {
+    if (error) {
       setError("submit", {
-        type: res?.createWinery?.errors[0]?.field || error?.name,
-        message: res?.createWinery?.errors[0]?.message || error?.message,
+        type: error?.name,
+        message: error?.message,
       });
     } else {
       window.location.href = res.createWinery.sessionUrl;
@@ -268,6 +276,52 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
                   {...register(`wineType.${index}`)}
                 >
                   {wineTypeReverseMapping(tw)}
+                </Checkbox>
+              ))}
+            </VStack>
+          </FormControl>
+        </VStack>
+      ),
+    },
+    {
+      title: "Languages",
+      content: (
+        <VStack spacing="24px" mb={8}>
+          <FormControl>
+            <FormLabel htmlFor="supportedLanguages" visibility="hidden">
+              Supported Languages
+            </FormLabel>
+            <VStack justifyContent="start" alignItems="start">
+              {Object.values(ServiceLanguage).map((language, index) => (
+                <Checkbox
+                  key={`supportedLanguages.${index}`}
+                  value={language}
+                  {...register(`supportedLanguages.${index}`)}
+                >
+                  {supportedLanguagesReverseMapping(language)}
+                </Checkbox>
+              ))}
+            </VStack>
+          </FormControl>
+        </VStack>
+      ),
+    },
+    {
+      title: "Amenities",
+      content: (
+        <VStack spacing="24px" mb={8}>
+          <FormControl>
+            <FormLabel htmlFor="amenities" visibility="hidden">
+              Amenities
+            </FormLabel>
+            <VStack justifyContent="start" alignItems="start">
+              {Object.values(Amenity).map((amenity, index) => (
+                <Checkbox
+                  key={`amenities.${index}`}
+                  value={amenity}
+                  {...register(`amenities.${index}`)}
+                >
+                  {amenitiesReverseMapping(amenity)}
                 </Checkbox>
               ))}
             </VStack>

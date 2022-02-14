@@ -361,6 +361,30 @@ type Winery {
   younerFriendly: Boolean
 }
 
+type WineryDts {
+  accountCreatedTime: Float
+  accountId: String
+  amenities: [Amenity!]
+  covidLabel: Boolean
+  createdAt: DateTime!
+  creatorEmail: String!
+  creatorUsername: String!
+  description: String!
+  foundationYear: Int
+  googleMapsUrl: String
+  id: Int!
+  name: String!
+  productionType: [ProductionType!]
+  stripe_customerId: String
+  subscription: String
+  supportedLanguages: [ServiceLanguage!]
+  updatedAt: DateTime!
+  urlAlias: String!
+  valley: Valley!
+  wineType: [TypeWine!]
+  yearlyWineProduction: Int
+}
+
 type WineryImage {
   coverPage: Boolean
   createdAt: DateTime!
@@ -375,7 +399,7 @@ type WineryImage {
 type WineryResponse {
   errors: [FieldError!]
   sessionUrl: String
-  winery: Winery
+  winery: WineryDts
 }
 
 "Types of wine production"
