@@ -45,7 +45,7 @@ const PricingDetail = (props: ListItemProps) => {
       <ListIcon
         fontSize="2xl"
         as={HiCheckCircle}
-        color="gray.400"
+        color="brand.500"
         marginEnd="4"
         mt="1"
       />
@@ -75,6 +75,8 @@ export const PricingCard = (props: PricingCardProps) => {
     price,
     duration,
     colorScheme: c,
+    color,
+    bg,
     ...rest
   } = props;
   return (
@@ -88,11 +90,11 @@ export const PricingCard = (props: PricingCardProps) => {
       overflow="hidden"
       {...rest}
     >
-      <Box bg={`${c}.600`} px="8" py="8" color="white">
+      <Box bg={bg} px="3" py="8" color="white">
         <Text fontWeight="bold" fontSize="lg">
           {name}
         </Text>
-        <PriceDisplay my="2" currency="€" price={price} duration={duration} />
+        <PriceDisplay my="2" currency="MXN" price={price} duration={duration} />
         <Text>{description}</Text>
       </Box>
       <Box px="8" py="6" borderBottomWidth="1px">
@@ -101,10 +103,11 @@ export const PricingCard = (props: PricingCardProps) => {
             onClick={onClick}
             size="lg"
             w="full"
-            colorScheme={c}
+            bg={color}
+            color="white"
             rightIcon={<HiArrowNarrowRight />}
           >
-            Start for free
+            Create an account
           </Button>
         </LightMode>
         <Text
@@ -113,7 +116,7 @@ export const PricingCard = (props: PricingCardProps) => {
           align="center"
           fontSize="sm"
         >
-          No credit card required
+          Start offering experiences
         </Text>
       </Box>
       <Box px="8" pt="10" pb="12">

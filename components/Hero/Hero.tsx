@@ -67,7 +67,7 @@ export const Hero: FC<HeroProps> = ({ authenticated, register }) => {
           Register
         </Button>
         <Button size="heroWeno" variant="cta">
-          <Link href="/subscriptions">Offer experiences</Link>
+          <Link href="/subscriptions">Publish events</Link>
         </Button>
       </Stack>
     </Box>
