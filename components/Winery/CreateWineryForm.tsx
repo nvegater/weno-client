@@ -171,7 +171,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
 
           <FormControl isInvalid={errors.yearlyWineProduction}>
             <FormLabel htmlFor="yearlyWineProduction">
-              Yearly wine production
+              Yearly wine production in liters per year
             </FormLabel>
             <Input
               type="number"

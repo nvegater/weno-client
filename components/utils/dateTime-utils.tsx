@@ -40,7 +40,5 @@ export function minMaxDates(slots: Array<SlotFragmentFragment>): [Date, Date] {
   const minDate = new Date(Math.min.apply(null, dates));
   const maxDate = new Date(Math.max.apply(null, dates));
 
-  console.log(minDate, maxDate);
-
   return [minDate, maxDate];
 }

@@ -114,7 +114,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
           </FormControl>
           <FormControl isInvalid={Boolean(errors.yearlyWineProduction)}>
             <FormLabel htmlFor="yearlyWineProduction">
-              Yearly wine production
+              Yearly wine production in liters per year
             </FormLabel>
             <Input
               type="number"
