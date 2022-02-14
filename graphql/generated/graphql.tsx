@@ -307,7 +307,6 @@ export type InsertImageResponse = {
 export type Mutation = {
   createExperience: ExperienceResponse;
   editExperience: EditExperienceResponse;
-  createReservation: Scalars['Boolean'];
   createWinery: WineryResponse;
   editWinery: WineryResponse;
   /** Trigger: winery information Page. If called for the first time, updates the winery connected account creation dateOtherwise simply return the winery */
@@ -488,7 +487,8 @@ export type Query = {
   recurrentDates: RecurrenceResponse;
   experiences: PaginatedExperiences;
   experiencesList: ExperiencesList;
-  allReservations: Scalars['Int'];
+  reservedSlots: ReservedSlotsResponse;
+  experienceReservedSlots: ReservedSlotsResponse;
   allWineryNames: Array<Scalars['String']>;
   winery: WineryResponse;
   /** This will create a customer if the given inputs dont match an existing one */
@@ -513,6 +513,16 @@ export type QueryExperiencesArgs = {
 
 export type QueryExperiencesListArgs = {
   wineryId: Scalars['Int'];
+};
+
+
+export type QueryReservedSlotsArgs = {
+  wineryId: Scalars['Int'];
+};
+
+
+export type QueryExperienceReservedSlotsArgs = {
+  experienceId: Scalars['Int'];
 };
 
 
@@ -586,6 +596,11 @@ export type ReservationDts = {
   getUrl?: Maybe<Scalars['String']>;
 };
 
+export type ReservedSlotsResponse = {
+  errors?: Maybe<Array<FieldError>>;
+  slotReservations: Array<SlotReservations>;
+};
+
 /** Languages supported by the Wineries */
 export enum ServiceLanguage {
   Ingles = 'INGLES',
@@ -598,6 +613,11 @@ export enum ServiceLanguage {
   Japones = 'JAPONES',
   Mandarin = 'MANDARIN'
 }
+
+export type SlotReservations = {
+  slot: ExperienceSlot;
+  reservations: Array<ReservationDts>;
+};
 
 /** Type of slot */
 export enum SlotType {
@@ -882,6 +902,13 @@ export type GetSubscriptionStatusQueryVariables = Exact<{
 
 
 export type GetSubscriptionStatusQuery = { getSubscriptionStatus: string };
+
+export type ReservedSlotsQueryVariables = Exact<{
+  wineryId: Scalars['Int'];
+}>;
+
+
+export type ReservedSlotsQuery = { reservedSlots: { errors?: Array<{ field: string, message: string }> | null | undefined, slotReservations: Array<{ slot: { id: number, startDateTime: any, endDateTime: any, durationInMinutes: number, limitOfAttendees: number, noOfAttendees?: number | null | undefined, slotType: SlotType, createdAt: any, updatedAt: any }, reservations: Array<{ createdAt: any, email: string, endDateTime: any, id: number, noOfAttendees: number, paymentStatus: string, pricePerPersonInDollars: number, slotId: number, startDateTime: any, title: string, updatedAt: any, username?: string | null | undefined, wineryName: string, getUrl?: string | null | undefined }> }> } };
 
 export type SubscriptionProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1401,6 +1428,29 @@ export const GetSubscriptionStatusDocument = gql`
 
 export function useGetSubscriptionStatusQuery(options: Omit<Urql.UseQueryArgs<GetSubscriptionStatusQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetSubscriptionStatusQuery>({ query: GetSubscriptionStatusDocument, ...options });
+};
+export const ReservedSlotsDocument = gql`
+    query ReservedSlots($wineryId: Int!) {
+  reservedSlots(wineryId: $wineryId) {
+    errors {
+      ...ErrorFragment
+    }
+    slotReservations {
+      slot {
+        ...SlotFragment
+      }
+      reservations {
+        ...Reservation
+      }
+    }
+  }
+}
+    ${ErrorFragmentFragmentDoc}
+${SlotFragmentFragmentDoc}
+${ReservationFragmentDoc}`;
+
+export function useReservedSlotsQuery(options: Omit<Urql.UseQueryArgs<ReservedSlotsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ReservedSlotsQuery>({ query: ReservedSlotsDocument, ...options });
 };
 export const SubscriptionProductsDocument = gql`
     query SubscriptionProducts {

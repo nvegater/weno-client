@@ -1,12 +1,15 @@
-import React, { FC, useState } from "react";
+import React, { FC, useMemo } from "react";
 import FullCalendar from "@fullcalendar/react";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { Box, Button, Flex, Heading, useDisclosure } from "@chakra-ui/react";
-import { WineryFragmentFragment } from "../../graphql/generated/graphql";
+import { Flex, Heading } from "@chakra-ui/react";
+import {
+  SlotType,
+  useReservedSlotsQuery,
+  WineryFragmentFragment,
+} from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
-import { WineryExperiencesListModal } from "../Images/WineryExperiencesListModal";
 
 interface WineryCalendarProps {
   winery: WineryFragmentFragment;
@@ -17,51 +20,61 @@ export const WineryCalendar: FC<WineryCalendarProps> = ({
   winery,
   contextHeader,
 }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [experienceId, setExperienceId] = useState<number | null>(null);
-  const [experienceTitle, setExperienceTitle] = useState<string | null>(null);
+  const [{ data, error, fetching }] = useReservedSlotsQuery({
+    variables: { wineryId: winery.id },
+    context: contextHeader,
+  });
 
-  console.log(experienceId, experienceTitle);
+  const slotsReserved = useMemo(
+    () =>
+      data &&
+      data.reservedSlots.slotReservations &&
+      !error &&
+      data.reservedSlots.errors == undefined
+        ? data.reservedSlots.slotReservations.map((exp, idx) => {
+            return {
+              title: exp.reservations[0].title,
+              start: exp.slot.startDateTime,
+              end: exp.slot.endDateTime,
+              resourceId: idx,
+              allDay: exp.slot.slotType === SlotType.AllDay,
+            };
+          })
+        : [],
+    [data, error]
+  );
 
   return (
     <div>
-      <WineryExperiencesListModal
-        isOpen={isOpen}
-        onClose={onClose}
-        wineryId={winery.id}
-        contextHeader={contextHeader}
-        handleSelection={(experienceId, experienceTitle) => {
-          setExperienceId(experienceId);
-          setExperienceTitle(experienceTitle);
-          onClose();
-        }}
-      />
       <Flex>
         <Heading as="h1" size="xl" mb={5}>
           Upcoming Events
         </Heading>
       </Flex>
-      <Box mb="3em">
-        <p>Select an experience to see the slots in the calendar</p>
-        <Button onClick={() => onOpen()} size="heroWeno" variant="cta" mt={2}>
-          Experiences
-        </Button>
-      </Box>
-      <FullCalendar
-        plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
-        editable
-        selectable
-        headerToolbar={{
-          left: "dayGridMonth,timeGridWeek,timeGridDay",
-          center: "title",
-          right: "today,prev,next",
-        }}
-        initialView="timeGridWeek"
-        nowIndicator={true}
-        height="1000px"
-        timeZone="UTC"
-        scrollTime={"06:00:00"}
-      />
+      {fetching && (
+        <Heading as="h1" size="md" mb={5}>
+          Loading events...
+        </Heading>
+      )}
+      {slotsReserved.length > 0 && (
+        <FullCalendar
+          plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
+          editable
+          selectable
+          headerToolbar={{
+            left: "dayGridMonth,timeGridWeek,timeGridDay",
+            center: "title",
+            right: "today,prev,next",
+          }}
+          initialView="timeGridWeek"
+          nowIndicator={true}
+          height="1000px"
+          timeZone="UTC"
+          scrollTime={"06:00:00"}
+          initialEvents={slotsReserved}
+          eventBackgroundColor="#9F449D"
+        />
+      )}
     </div>
   );
 };
