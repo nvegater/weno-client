@@ -1,22 +1,18 @@
 import * as React from "react";
 import { FC, useState } from "react";
 import { NavItem } from "../ProfileShell/NavItem";
-import {
-  BiCreditCard,
-  BiEnvelope,
-  BiHome,
-  BiNews,
-  BiPurchaseTagAlt,
-  BiRecycle,
-  BiUserCircle,
-} from "react-icons/bi";
+import { BiAnalyse } from "react-icons/bi";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import { FaRegEdit } from "react-icons/fa";
+import { BsFillCalendar2WeekFill } from "react-icons/bs";
+import { RiGalleryLine } from "react-icons/ri";
+import { AiOutlineFileAdd } from "react-icons/ai";
 import { NavGroup } from "../ProfileShell/NavGroup";
 import { WineryOwnerInfo } from "./WineryOwnerInfo";
 import { WineryFragmentFragment } from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
 import { CreateExperienceForm } from "../Experiences/CreateExperienceForm";
 import { EditableExperiences } from "../Experiences/EditableExperiences";
-import { AllExperiences } from "./AllExperiences";
 import { Gallery } from "../Images/Gallery";
 import { EditWineryInfo } from "./EditWineryInfo";
 import { ShellLayout } from "../ProfileShell/ShellLayout";
@@ -59,7 +55,6 @@ export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
       {subPage === WineryProfileSubpage.EDIT_INFO && (
         <EditWineryInfo winery={winery} contextHeader={contextHeader} />
       )}
-      {subPage === WineryProfileSubpage.ALL_EXPERIENCES && <AllExperiences />}
       {subPage === WineryProfileSubpage.SCHEDULE && (
         <WineryCalendar winery={winery} contextHeader={contextHeader} />
       )}
@@ -76,13 +71,9 @@ export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
       {subPage === WineryProfileSubpage.EDIT_EXPERIENCE && (
         <EditableExperiences winery={winery} contextHeader={contextHeader} />
       )}
-      {subPage === WineryProfileSubpage.PAST_EXPERIENCES && (
-        <div>Past experiences</div>
-      )}
       {subPage === WineryProfileSubpage.DASHBOARD_ANALYTICS && (
-        <div>Analytics</div>
+        <div>Coming soon...</div>
       )}
-      {subPage === WineryProfileSubpage.HELP && <>Help</>}
     </>
   );
 
@@ -90,82 +81,62 @@ export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
     <>
       <NavGroup label="Your profile">
         <NavItem
-          icon={<BiUserCircle />}
+          icon={<IoMdInformationCircleOutline />}
           label="Winery information"
           subPage={WineryProfileSubpage.WINERY_INFO}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.WINERY_INFO}
         />
         <NavItem
-          icon={<BiCreditCard />}
+          icon={<FaRegEdit />}
           label="Edit information"
           subPage={WineryProfileSubpage.EDIT_INFO}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.EDIT_INFO}
         />
-      </NavGroup>
-
-      <NavGroup label="Experiences">
         <NavItem
-          icon={<BiNews />}
-          label="All experiences"
-          subPage={WineryProfileSubpage.ALL_EXPERIENCES}
-          setSubPage={setSubPage}
-          active={subPage === WineryProfileSubpage.ALL_EXPERIENCES}
-        />
-        <NavItem
-          icon={<BiEnvelope />}
-          label="Schedule"
-          subPage={WineryProfileSubpage.SCHEDULE}
-          setSubPage={setSubPage}
-          active={subPage === WineryProfileSubpage.SCHEDULE}
-        />
-        <NavItem
-          icon={<BiEnvelope />}
+          icon={<RiGalleryLine />}
           label="Gallery"
           subPage={WineryProfileSubpage.GALLERY}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.GALLERY}
         />
+      </NavGroup>
+
+      <NavGroup label="Experiences">
         <NavItem
-          icon={<BiPurchaseTagAlt />}
+          icon={<BsFillCalendar2WeekFill />}
+          label="Schedule"
+          subPage={WineryProfileSubpage.SCHEDULE}
+          setSubPage={setSubPage}
+          active={subPage === WineryProfileSubpage.SCHEDULE}
+        />
+
+        <NavItem
+          icon={<AiOutlineFileAdd />}
           label="New experience"
           subPage={WineryProfileSubpage.NEW_EXPERIENCE}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.NEW_EXPERIENCE}
         />
         <NavItem
-          icon={<BiRecycle />}
+          icon={<FaRegEdit />}
           label="Edit experience"
           subPage={WineryProfileSubpage.EDIT_EXPERIENCE}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.EDIT_EXPERIENCE}
         />
-        <NavItem
-          icon={<BiNews />}
-          label="Past Experiences"
-          subPage={WineryProfileSubpage.PAST_EXPERIENCES}
-          setSubPage={setSubPage}
-          active={subPage === WineryProfileSubpage.PAST_EXPERIENCES}
-        />
       </NavGroup>
 
       <NavGroup label="Analytics">
         <NavItem
-          icon={<BiNews />}
+          icon={<BiAnalyse />}
           label="Analytics Dashboard"
           subPage={WineryProfileSubpage.DASHBOARD_ANALYTICS}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.DASHBOARD_ANALYTICS}
         />
       </NavGroup>
-      <NavItem
-        icon={<BiHome />}
-        label="Help"
-        subPage={WineryProfileSubpage.HELP}
-        setSubPage={setSubPage}
-        active={subPage === WineryProfileSubpage.HELP}
-      />
     </>
   );
 
