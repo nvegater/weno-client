@@ -3,12 +3,10 @@ import { ShellLayout } from "../ProfileShell/ShellLayout";
 import { ContextHeader } from "../Authentication/useAuth";
 import { NavGroup } from "../ProfileShell/NavGroup";
 import { NavItem } from "../ProfileShell/NavItem";
-import {
-  BiEnvelope,
-  BiHome,
-  BiPurchaseTagAlt,
-  BiUserCircle,
-} from "react-icons/bi";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import { RiReservedLine } from "react-icons/ri";
+import { MdFavoriteBorder } from "react-icons/md";
+
 import { UserReservations } from "./UserReservations";
 import { UserInformation } from "./UserInformation";
 import { CustomerFragment } from "../../graphql/generated/graphql";
@@ -55,7 +53,7 @@ export const UserProfileLayout: FC<UserProfileLayoutProps> = ({
     <>
       <NavGroup label="Your profile">
         <NavItem
-          icon={<BiUserCircle />}
+          icon={<IoMdInformationCircleOutline />}
           label="User information"
           subPage={UserProfileSubpage.PROFILE_INFO}
           setSubPage={setSubPage}
@@ -64,27 +62,20 @@ export const UserProfileLayout: FC<UserProfileLayoutProps> = ({
       </NavGroup>
       <NavGroup label="Your Experiences">
         <NavItem
-          icon={<BiPurchaseTagAlt />}
+          icon={<RiReservedLine />}
           label="Reservations"
           subPage={UserProfileSubpage.RESERVATIONS}
           setSubPage={setSubPage}
           active={subPage === UserProfileSubpage.RESERVATIONS}
         />
         <NavItem
-          icon={<BiEnvelope />}
+          icon={<MdFavoriteBorder />}
           label="Favorites"
           subPage={UserProfileSubpage.FAVORITES}
           setSubPage={setSubPage}
           active={subPage === UserProfileSubpage.FAVORITES}
         />
       </NavGroup>
-      <NavItem
-        icon={<BiHome />}
-        label="Help"
-        subPage={UserProfileSubpage.HELP}
-        setSubPage={setSubPage}
-        active={subPage === UserProfileSubpage.HELP}
-      />
     </>
   );
 
