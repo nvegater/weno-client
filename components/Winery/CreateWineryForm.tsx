@@ -360,17 +360,26 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
     {
       title: t("subscription"),
       content: (
-        <RadioGroup
-          control={control}
-          name="subscription"
-          label={t("subscription")}
-          elements={[
-            { name: t("basicSubscription") },
-            { name: t("intermediateSubscription") },
-            { name: t("premiumSubscription") },
-          ]}
-          isRequired
-        />
+        <>
+          <RadioGroup
+            control={control}
+            name="subscription"
+            label={t("subscription")}
+            elements={[
+              { name: t("basicSubscription") },
+              { name: t("intermediateSubscription") },
+              { name: t("premiumSubscription") },
+            ]}
+            isRequired
+          />
+          <Text>
+            Not sure ? Read more about
+            <ChakraLink href="/subscriptions" color="teal.500" target="_blank">
+              {" "}
+              our subscription plans
+            </ChakraLink>
+          </Text>
+        </>
       ),
     },
   ];

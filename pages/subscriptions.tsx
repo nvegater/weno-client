@@ -2,14 +2,13 @@ import React from "react";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../graphql/urqlProvider";
 import { WenoLayout } from "../components/GeneralLayout/WenoLayout";
-import { useSubscriptionProductsQuery } from "../graphql/generated/graphql";
 import { Tiers } from "../components/Tiers/Tiers";
 import useAuth from "../components/Authentication/useAuth";
 import { useTranslation } from "react-i18next";
 
 const Subscriptions = () => {
-  const { authenticated, logout, login, tokenInfo, urlAlias } = useAuth();
-  const [{ data, fetching, error }] = useSubscriptionProductsQuery();
+  const { authenticated, logout, login, tokenInfo, urlAlias, register } =
+    useAuth();
   const [t] = useTranslation("global");
   return (
     <WenoLayout
@@ -19,11 +18,7 @@ const Subscriptions = () => {
       tokenInfo={tokenInfo}
       urlAlias={urlAlias}
     >
-      {" "}
-      {<div>{JSON.stringify(data)}</div>}
-      {fetching && <div>{t("loading")}</div>}
-      {error && <div>{t("error")}</div>}
-      {data && <Tiers products={data.getSubscriptionProducts.products} />}
+      <Tiers register={register} />
     </WenoLayout>
   );
 };

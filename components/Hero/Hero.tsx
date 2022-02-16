@@ -69,7 +69,7 @@ export const Hero: FC<HeroProps> = ({ authenticated, register }) => {
           {t("register")}
         </Button>
         <Button size="heroWeno" variant="cta">
-          <Link href="/subscriptions">{t("offerExperiences")}</Link>
+          <Link href="/subscriptions">Publish events</Link>
         </Button>
       </Stack>
     </Box>
