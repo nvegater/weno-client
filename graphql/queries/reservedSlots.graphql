@@ -1,0 +1,15 @@
+query ReservedSlots($wineryId: Int!) {
+  reservedSlots(wineryId: $wineryId) {
+    errors {
+      ...ErrorFragment
+    }
+    slotReservations {
+      slot {
+        ...SlotFragment
+      }
+      reservations {
+        ...Reservation
+      }
+    }
+  }
+}

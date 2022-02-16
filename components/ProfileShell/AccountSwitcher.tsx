@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 interface AccountSwitcherProps {
   email: string;
-  wineryName: string;
+  wineryName?: string;
   username: string;
   logoUrl?: string | undefined | null;
   logoutFn: () => void;

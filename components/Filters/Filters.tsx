@@ -1,5 +1,5 @@
 import React, { Dispatch, FC, SetStateAction, useState } from "react";
-import { Button, Flex, FormControl, FormLabel } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormLabel } from "@chakra-ui/react";
 import {
   ExperiencesFilters,
   ExperienceType,
@@ -14,6 +14,9 @@ import CreatableSelect from "react-select/creatable";
 
 import { AiOutlineSearch } from "react-icons/ai";
 import { useTranslation } from "react-i18next";
+import { MdWineBar } from "react-icons/md";
+import { BsMusicNoteBeamed } from "react-icons/bs";
+import { MdDinnerDining } from "react-icons/md";
 import { isoDateWithoutTimeZone } from "../DateTimePicker/DateTimePickerWeno";
 
 interface ValleyOption {
@@ -147,10 +150,25 @@ export const Filters: FC<FiltersProps> = ({
         <FormLabel htmlFor="experienceTypes">{t("experienceType")}</FormLabel>
         <CreatableSelect
           isMulti
-          options={Object.values(ExperienceType).map((expType) => ({
-            label: experienceTypeReverseMapping(expType),
-            value: expType,
-          }))}
+          options={Object.values(ExperienceType).map((expType) => {
+            let icon;
+            if (expType === ExperienceType.Degustation) {
+              icon = <MdWineBar />;
+            } else if (expType === ExperienceType.Concert) {
+              icon = <BsMusicNoteBeamed />;
+            } else if (expType === ExperienceType.WineDinnerPairing) {
+              icon = <MdDinnerDining />;
+            }
+            return {
+              label: (
+                <Flex justifyContent="center" alignItems="center">
+                  <Box mr={2}>{icon}</Box>
+                  <Box>{experienceTypeReverseMapping(expType)}</Box>
+                </Flex>
+              ),
+              value: expType,
+            };
+          })}
           onChange={(e: any) => updateExperienceTypes(e)}
         />
       </FormControl>

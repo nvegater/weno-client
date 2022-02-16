@@ -32,7 +32,7 @@ export const MobileMenuButton = (props: MobileMenuButtonProps) => {
       ) : (
         <Flex alignItems="center">
           <CgMenuGridR />
-          <Box pl={2}>{t("creatorMenu")}</Box>
+          <Box pl={2}>Profile Menu</Box>
         </Flex>
       )}
     </Box>

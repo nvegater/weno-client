@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { WenoLayout } from "../components/GeneralLayout/WenoLayout";
 import { Button, Flex, Grid, Heading } from "@chakra-ui/react";
-import { useWineryQuery } from "../graphql/generated/graphql";
+import { useCustomerQuery, useWineryQuery } from "../graphql/generated/graphql";
 import useAuth from "../components/Authentication/useAuth";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../graphql/urqlProvider";
@@ -28,12 +28,7 @@ const Register: FC<RegisterProps> = ({}) => {
 
   const router = useRouter();
   const [t] = useTranslation("global");
-  if (authenticated && isVisitor && tokenInfo) {
-    // TODO REdirect to user Profile if its a visitor
-    router.push("/");
-  }
-
-  const [{ data, error, fetching }] = useWineryQuery({
+  const [{ data: wineryResponse, error, fetching }] = useWineryQuery({
     variables: {
       getWineryInputs: {
         creatorUsername: tokenInfo ? tokenInfo.preferred_username : "",
@@ -44,21 +39,40 @@ const Register: FC<RegisterProps> = ({}) => {
     requestPolicy: "network-only",
   });
 
+  const [{ data: customerResponse }] = useCustomerQuery({
+    variables: {
+      createCustomerInputs: {
+        email: tokenInfo ? tokenInfo.email : "",
+        paymentMetadata: {
+          username: tokenInfo ? tokenInfo.preferred_username : null,
+        },
+      },
+    },
+    context: contextHeader,
+    pause: loadingAuthInfo || notAuthenticated || tokenInfo === null,
+    requestPolicy: "network-only",
+  });
+
   // Redirect to Winery profile if user is logged in as owner and has created a winery
   useEffect(() => {
-    if (!data?.winery) {
+    if (!wineryResponse?.winery) {
       // Loading, do Nothing
       return;
     }
-    const wineryAvailable = data.winery?.winery;
+    const wineryAvailable = wineryResponse.winery?.winery;
     if (isOwner && wineryAvailable) {
       router.push(
         "/winery/[wineryAlias]",
-        `/winery/${data.winery.winery.urlAlias}`
+        `/winery/${wineryResponse.winery.winery.urlAlias}`
       );
     }
+    const customerAvailable = customerResponse?.customer.customer;
+    if (isVisitor && customerAvailable) {
+      console.log(customerAvailable);
+      router.push("/user/[userId]", `/user/${customerAvailable.username}`);
+    }
     // TODO REdirect to user Profile if its a visitor
-  }, [data, isOwner, router]);
+  }, [wineryResponse, customerResponse, isOwner, isVisitor]);
 
   if (error) {
     throw error;
@@ -114,16 +128,18 @@ const Register: FC<RegisterProps> = ({}) => {
             </Flex>
           </>
         )}
-        {authenticated && (
+        {authenticated && isOwner && (
           <>
             <Flex justifyContent="center" m={5}>
-              {data && data.winery?.winery === null && isOwner && (
-                <CreateWineryForm
-                  username={tokenInfo?.preferred_username}
-                  email={tokenInfo?.email}
-                  contextHeader={contextHeader}
-                />
-              )}
+              {wineryResponse &&
+                wineryResponse.winery?.winery === null &&
+                isOwner && (
+                  <CreateWineryForm
+                    username={tokenInfo?.preferred_username}
+                    email={tokenInfo?.email}
+                    contextHeader={contextHeader}
+                  />
+                )}
             </Flex>
           </>
         )}

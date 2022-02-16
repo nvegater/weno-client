@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import {
   Box,
   Drawer,
@@ -11,31 +11,29 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import {
-  useAddImageToExperienceMutation,
-  useExperiencesListQuery,
-} from "../../graphql/generated/graphql";
+import { useExperiencesListQuery } from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
 import { useTranslation } from "react-i18next";
 
 interface ExperiencesListModalProps {
   isOpen: boolean;
   onClose: () => void;
-  imageId: number;
-  imageUrl: string;
+  imageUrl?: string;
   wineryId: number;
   contextHeader: ContextHeader;
+  handleSelection: (experienceId: number, experienceTitle: string) => void;
+  message?: string;
 }
 
-export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
+export const WineryExperiencesListModal: FC<ExperiencesListModalProps> = ({
   isOpen,
   onClose,
   imageUrl,
-  imageId,
   wineryId,
   contextHeader,
+  handleSelection,
+  message,
 }) => {
-  const [, addImageToExperience] = useAddImageToExperienceMutation();
   const [{ data, fetching, error: experiencesError }] = useExperiencesListQuery(
     {
       variables: { wineryId },
@@ -43,33 +41,6 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
       requestPolicy: "network-only",
     }
   );
-  const [message, setMessage] = useState<string | null>(null);
-  const [t] = useTranslation("global");
-
-  async function handleSelection(experienceId: number, title: string) {
-    const { data: imagesData, error } = await addImageToExperience(
-      {
-        experienceId,
-        wineryImageId: imageId,
-      },
-      { ...contextHeader, requestPolicy: "network-only" }
-    );
-    if (error) {
-      setMessage(error.message);
-    }
-    if (
-      imagesData?.addImageToExperience &&
-      imagesData.addImageToExperience.errors
-    ) {
-      setMessage(imagesData.addImageToExperience.errors[0].message);
-    }
-    const images = imagesData?.addImageToExperience
-      ? imagesData.addImageToExperience.images
-      : [];
-    if (images.length > 0) {
-      setMessage(`${images[0].imageName} ${t("addedTo")} ${title}`);
-    }
-  }
   return (
     <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
       <DrawerContent>
@@ -87,14 +58,16 @@ export const ExperiencesListModal: FC<ExperiencesListModalProps> = ({
             </Heading>
           )}
 
-          <Image
-            src={imageUrl}
-            alt="winery image"
-            boxSize="250px"
-            objectFit="cover"
-            m={5}
-            borderRadius="12px"
-          />
+          {imageUrl && (
+            <Image
+              src={imageUrl}
+              alt="winery image"
+              boxSize="250px"
+              objectFit="cover"
+              m={5}
+              borderRadius="12px"
+            />
+          )}
 
           {message === null && (
             <Heading

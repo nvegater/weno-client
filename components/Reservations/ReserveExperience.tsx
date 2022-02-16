@@ -1,12 +1,16 @@
 import React, { FC, useMemo, useState } from "react";
 import { Box, Flex, Heading, Icon, Img } from "@chakra-ui/react";
 import {
+  ExperienceType,
   PaginatedExperienceFragment,
   SlotFragmentFragment,
   Valley,
 } from "../../graphql/generated/graphql";
 import { FavoriteExperience } from "../Experiences/FavoriteExperience";
-import { valleyReverseMapping } from "../utils/enum-utils";
+import {
+  experienceTypeReverseMapping,
+  valleyReverseMapping,
+} from "../utils/enum-utils";
 import { GrMap } from "react-icons/gr";
 import { DateTimePickerWeno } from "../DateTimePicker/DateTimePickerWeno";
 import { parseISO } from "date-fns";
@@ -15,6 +19,8 @@ import { InputNumberBox } from "../InputFields/InputNumberBox";
 import { CreateReservationForm } from "./CreateReservationForm";
 import { getSlotsFromDate, minMaxDates } from "../utils/dateTime-utils";
 import { useTranslation } from "react-i18next";
+import { MdDinnerDining, MdWineBar } from "react-icons/md";
+import { BsMusicNoteBeamed } from "react-icons/bs";
 
 interface ExperienceModalLayoutProps {
   experience: PaginatedExperienceFragment;
@@ -23,11 +29,32 @@ interface ExperienceModalLayoutProps {
 const placeHolderImage =
   "https://images.unsplash.com/photo-1505944270255-72b8c68c6a70?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8ZmFjaWFsfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60";
 
+function getExperiencieTypeIcon(experienceType: ExperienceType) {
+  let icon;
+  if (experienceType === ExperienceType.Degustation) {
+    icon = MdWineBar;
+  } else if (experienceType === ExperienceType.Concert) {
+    icon = BsMusicNoteBeamed;
+  } else if (experienceType === ExperienceType.WineDinnerPairing) {
+    icon = MdDinnerDining;
+  } else {
+    icon = GrMap;
+  }
+  return icon;
+}
+
 export const ReserveExperience: FC<ExperienceModalLayoutProps> = ({
   experience,
 }) => {
-  const { images, pricePerPersonInDollars, slots, title, wineryName, valley } =
-    experience;
+  const {
+    images,
+    pricePerPersonInDollars,
+    slots,
+    title,
+    wineryName,
+    valley,
+    experienceType,
+  } = experience;
   const coverImage = images ? images[0] : null;
   const [t] = useTranslation("global");
   const initialDate = slots[0].startDateTime;
@@ -53,15 +80,42 @@ export const ReserveExperience: FC<ExperienceModalLayoutProps> = ({
         alt={`image from ${title}`}
       />
 
-      <Heading as="h1" color="brand.200" fontWeight="700" size="2xl" mt={8}>
+      <Heading as="h1" color="brand.200" fontWeight="700" size="xl" mt={8}>
         {title}
       </Heading>
       <FavoriteExperience text={wineryName} />
-      <Flex justifyContent="center">
-        <Heading as="h3" fontSize="sm" fontWeight="600" color="brand.600">
-          {valleyReverseMapping(valley)} {"Valley"}
-        </Heading>
-        <Icon as={GrMap} color="brand.300" boxSize="1.1rem" ml={1} mb={1} />
+
+      <Flex justifyContent="space-between" px={2}>
+        <Box>
+          <Flex>
+            <Icon
+              as={getExperiencieTypeIcon(experienceType)}
+              color="brand.300"
+              boxSize="1.1rem"
+              ml={1}
+              mb={1}
+              mr={2}
+            />
+            <Heading as="h3" fontSize="sm" fontWeight="600" color="brand.600">
+              {experienceTypeReverseMapping(experienceType)}
+            </Heading>
+          </Flex>
+        </Box>
+        <Box>
+          <Flex>
+            <Heading as="h3" fontSize="sm" fontWeight="600" color="brand.600">
+              {valleyReverseMapping(valley)} {"Valley"}
+            </Heading>
+            <Icon
+              as={GrMap}
+              color="brand.300"
+              boxSize="1.1rem"
+              ml={4}
+              mb={1}
+              mr={2}
+            />
+          </Flex>
+        </Box>
       </Flex>
       <Heading fontSize="md" as="h4" fontWeight="500" my={5}>
         {t("selectDate")}

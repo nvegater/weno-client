@@ -1,10 +1,10 @@
 import React, { FC, useState } from "react";
-import { Experiences } from "../../Experiences/Experiences";
+import { Experiences } from "../Experiences/Experiences";
 import {
   ExperienceDrawer,
   ExperiencesGridMode,
-} from "../../Experiences/ExperienceDrawer";
-import { PaginatedExperienceFragment } from "../../../graphql/generated/graphql";
+} from "../Experiences/ExperienceDrawer";
+import { PaginatedExperienceFragment } from "../../graphql/generated/graphql";
 import { useDisclosure } from "@chakra-ui/react";
 
 interface AllExperiencesProps {}

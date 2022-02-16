@@ -1,0 +1,10 @@
+query CustomerReservations($email: String!) {
+  getCustomerReservations(email: $email) {
+    errors {
+      ...ErrorFragment
+    }
+    reservations {
+      ...Reservation
+    }
+  }
+}

@@ -10,9 +10,6 @@ mutation CreateWinery(
       field
       message
     }
-    winery {
-      ...WineryFragment
-    }
     sessionUrl
   }
 }

@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { useWineryQuery } from "../../graphql/generated/graphql";
 import { Flex, Heading } from "@chakra-ui/react";
 import { ContextHeader } from "../Authentication/useAuth";
-import { GeneratorLayout } from "./GeneratorLayout/GeneratorLayout";
+import { WineryProfileLayout } from "./WineryProfileLayout";
 import { WineryCard } from "./WineryCard";
 import { useTranslation } from "react-i18next";
 
@@ -52,7 +52,7 @@ export const WineryProfile: FC<WineryProfileProps> = ({
         </Flex>
       )}
       {wineryQuery && wineryQuery.winery.winery && isOwner && (
-        <GeneratorLayout
+        <WineryProfileLayout
           winery={wineryQuery.winery.winery}
           logoutFn={logout}
           contextHeader={contextHeader}

@@ -1,7 +1,10 @@
 import React, { FC } from "react";
 import {
+  Amenity,
   EditWineryInputs,
   ProductionType,
+  ServiceLanguage,
+  TypeWine,
   useEditWineryInfoMutation,
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
@@ -24,7 +27,13 @@ import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorSummary } from "./CreateWineryForm";
 import { useForm } from "react-hook-form";
 import { getToastMessage } from "../utils/chakra-utils";
-import { productionTypeReverseMapping } from "../utils/enum-utils";
+import {
+  amenitiesReverseMapping,
+  productionTypeReverseMapping,
+  removeNonStringsFromArray,
+  supportedLanguagesReverseMapping,
+  wineTypeReverseMapping,
+} from "../utils/enum-utils";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 
@@ -57,20 +66,29 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       yearlyWineProduction: winery.yearlyWineProduction,
       foundationYear: winery.foundationYear,
       googleMapsUrl: winery.googleMapsUrl ?? "",
+      productionType: winery.productionType,
+      wineType: winery.wineType,
+      supportedLanguages: winery.supportedLanguages,
+      amenities: winery.amenities,
     },
   });
   const [, editWinery] = useEditWineryInfoMutation();
 
   const onSubmit = async (data: EditWineryInputs) => {
+    const editWineryInputs = {
+      wineryId: winery.id,
+      description: data.description,
+      yearlyWineProduction: data.yearlyWineProduction,
+      foundationYear: data.foundationYear,
+      googleMapsUrl: data.googleMapsUrl,
+      productionType: removeNonStringsFromArray(data.productionType),
+      wineType: removeNonStringsFromArray(data.wineType),
+      supportedLanguages: removeNonStringsFromArray(data.supportedLanguages),
+      amenities: removeNonStringsFromArray(data.amenities),
+    };
     const { data: editWineryResponse, error } = await editWinery(
       {
-        editWineryInputs: {
-          wineryId: winery.id,
-          description: data.description,
-          yearlyWineProduction: data.yearlyWineProduction,
-          foundationYear: data.foundationYear,
-          googleMapsUrl: data.googleMapsUrl,
-        },
+        editWineryInputs: editWineryInputs,
       },
       { ...contextHeader, requestPolicy: "network-only" }
     );
@@ -184,6 +202,75 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
                   {...register(`productionType.${index}`)}
                 >
                   {productionTypeReverseMapping(pt)}
+                </Checkbox>
+              ))}
+            </VStack>
+          </FormControl>
+        </VStack>
+      ),
+    },
+    {
+      title: "Wine types",
+      content: (
+        <VStack spacing="24px" mb={8}>
+          <FormControl>
+            <FormLabel htmlFor="wineType" visibility="hidden">
+              Wine type
+            </FormLabel>
+            <VStack justifyContent="start" alignItems="start">
+              {Object.values(TypeWine).map((tw, index) => (
+                <Checkbox
+                  key={`wineType.${index}`}
+                  value={tw}
+                  {...register(`wineType.${index}`)}
+                >
+                  {wineTypeReverseMapping(tw)}
+                </Checkbox>
+              ))}
+            </VStack>
+          </FormControl>
+        </VStack>
+      ),
+    },
+    {
+      title: "Languages",
+      content: (
+        <VStack spacing="24px" mb={8}>
+          <FormControl>
+            <FormLabel htmlFor="supportedLanguages" visibility="hidden">
+              Supported Languages
+            </FormLabel>
+            <VStack justifyContent="start" alignItems="start">
+              {Object.values(ServiceLanguage).map((language, index) => (
+                <Checkbox
+                  key={`supportedLanguages.${index}`}
+                  value={language}
+                  {...register(`supportedLanguages.${index}`)}
+                >
+                  {supportedLanguagesReverseMapping(language)}
+                </Checkbox>
+              ))}
+            </VStack>
+          </FormControl>
+        </VStack>
+      ),
+    },
+    {
+      title: "Amenities",
+      content: (
+        <VStack spacing="24px" mb={8}>
+          <FormControl>
+            <FormLabel htmlFor="amenities" visibility="hidden">
+              Amenities
+            </FormLabel>
+            <VStack justifyContent="start" alignItems="start">
+              {Object.values(Amenity).map((amenity, index) => (
+                <Checkbox
+                  key={`amenities.${index}`}
+                  value={amenity}
+                  {...register(`amenities.${index}`)}
+                >
+                  {amenitiesReverseMapping(amenity)}
                 </Checkbox>
               ))}
             </VStack>

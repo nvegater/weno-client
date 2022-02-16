@@ -1,0 +1,8 @@
+fragment Customer on CustomerDts {
+  id
+  stripeCustomerId
+  email
+  username
+  createdAt
+  updatedAt
+}

@@ -12,7 +12,7 @@ import { HiSelector } from "react-icons/hi";
 
 interface AccountSwitcherButtonProps {
   flexProps?: FlexProps;
-  wineryName: string;
+  wineryName?: string;
   username: string;
   logoUrl?: string | undefined | null;
 }
@@ -55,9 +55,11 @@ export const AccountSwitcherButton: FC<AccountSwitcherButtonProps> = ({
           />
         )}
         <Box textAlign="start">
-          <Box isTruncated fontWeight="semibold" color="brand.100">
-            {wineryName}
-          </Box>
+          {wineryName && (
+            <Box isTruncated fontWeight="semibold" color="brand.100">
+              {wineryName}
+            </Box>
+          )}
           <Box fontSize="xs" color="brand.100">
             {username}
           </Box>

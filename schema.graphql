@@ -34,6 +34,11 @@ type CustomerDts {
   username: String
 }
 
+type CustomerReservationResponse {
+  errors: [FieldError!]
+  reservations: [ReservationDts!]
+}
+
 type CustomerResponse {
   customer: CustomerDts
   errors: [FieldError!]
@@ -147,7 +152,6 @@ type Mutation {
     createExperienceInputs: CreateExperienceInputs!
     createRecurrentDatesInputs: CreateRecurrentDatesInputs!
   ): ExperienceResponse!
-  createReservation: Boolean!
   createWinery(
     createWineryInputs: CreateWineryInputs!
     userInputs: UserInputs!
@@ -237,18 +241,22 @@ type ProductsResponse {
 }
 
 type Query {
-  allReservations: Int!
   allWineryNames: [String!]!
+  "This will create a customer if the given inputs dont match an existing one"
+  customer(createCustomerInputs: CreateCustomerInputs!): CustomerResponse!
+  experienceReservedSlots(experienceId: Int!): ReservedSlotsResponse!
   experiences(
     paginatedExperiencesInputs: PaginatedExperiencesInputs!
   ): PaginatedExperiences!
   experiencesList(wineryId: Int!): ExperiencesList!
   getCheckoutSessionStatus(sessionId: String!): CheckoutSessionResponse!
+  getCustomerReservations(email: String!): CustomerReservationResponse!
   getSubscriptionProducts: ProductsResponse!
   getSubscriptionStatus(customerId: String!): String!
   recurrentDates(
     createRecurrentDatesInputs: CreateRecurrentDatesInputs!
   ): RecurrenceResponse!
+  reservedSlots(wineryId: Int!): ReservedSlotsResponse!
   winery(getWineryInputs: GetWineryInputs!): WineryResponse!
   wineryImages(wineryAlias: String, wineryId: Int): ImageGalleryResponse!
 }
@@ -291,6 +299,16 @@ type ReservationDts {
   updatedAt: DateTime!
   username: String
   wineryName: String!
+}
+
+type ReservedSlotsResponse {
+  errors: [FieldError!]
+  slotReservations: [SlotReservations!]!
+}
+
+type SlotReservations {
+  reservations: [ReservationDts!]!
+  slot: ExperienceSlot!
 }
 
 type Tier {
@@ -343,6 +361,30 @@ type Winery {
   younerFriendly: Boolean
 }
 
+type WineryDts {
+  accountCreatedTime: Float
+  accountId: String
+  amenities: [Amenity!]
+  covidLabel: Boolean
+  createdAt: DateTime!
+  creatorEmail: String!
+  creatorUsername: String!
+  description: String!
+  foundationYear: Int
+  googleMapsUrl: String
+  id: Int!
+  name: String!
+  productionType: [ProductionType!]
+  stripe_customerId: String
+  subscription: String
+  supportedLanguages: [ServiceLanguage!]
+  updatedAt: DateTime!
+  urlAlias: String!
+  valley: Valley!
+  wineType: [TypeWine!]
+  yearlyWineProduction: Int
+}
+
 type WineryImage {
   coverPage: Boolean
   createdAt: DateTime!
@@ -357,7 +399,7 @@ type WineryImage {
 type WineryResponse {
   errors: [FieldError!]
   sessionUrl: String
-  winery: Winery
+  winery: WineryDts
 }
 
 "Types of wine production"

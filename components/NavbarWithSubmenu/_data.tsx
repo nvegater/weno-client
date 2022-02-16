@@ -14,6 +14,7 @@ export interface Link {
 
 export const generateLinks = (
   urlAlias: string | null,
+  username: string | null,
   userType: "owner" | "visitor"
 ): Link[] => {
   let allLinks: Link[] = [
@@ -40,15 +41,19 @@ export const generateLinks = (
     },
   ];
 
-  if (urlAlias) {
-    const profileRef =
-      userType === "owner" ? `/winery/${urlAlias}` : `/account/${urlAlias}`;
-
+  if (userType === "owner" && urlAlias) {
     const profileLink: Link = {
       label: "profile",
-      href: profileRef,
+      href: `/winery/${urlAlias}`,
     };
 
+    allLinks.push(profileLink);
+  }
+  if (userType === "visitor" && username) {
+    const profileLink: Link = {
+      label: "Profile",
+      href: `/user/${username}`,
+    };
     allLinks.push(profileLink);
   }
 

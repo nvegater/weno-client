@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Flex, Heading, Icon } from "@chakra-ui/react";
+import { Flex, Heading, Icon, useToast } from "@chakra-ui/react";
 import { HiLocationMarker } from "react-icons/hi";
 import { FaHeart } from "react-icons/fa";
 
@@ -10,7 +10,17 @@ interface FavoriteExperienceProps {
 export const FavoriteExperience: FC<FavoriteExperienceProps> = ({ text }) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
+  const toast = useToast();
+
   const handleFavoriteSelection = () => {
+    toast({
+      title: "Only for weno users",
+      description: "Register to save experiences in your favorites",
+      status: "warning",
+      duration: 5000,
+      isClosable: true,
+      position: "top-right",
+    });
     setIsFavorite(!isFavorite);
   };
 

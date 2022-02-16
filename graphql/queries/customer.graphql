@@ -1,0 +1,10 @@
+query Customer($createCustomerInputs: CreateCustomerInputs!) {
+  customer(createCustomerInputs: $createCustomerInputs) {
+    errors {
+      ...ErrorFragment
+    }
+    customer {
+      ...Customer
+    }
+  }
+}

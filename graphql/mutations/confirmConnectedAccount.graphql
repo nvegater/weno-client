@@ -5,7 +5,7 @@ mutation ConfirmConnectedAccount($wineryAlias: String!) {
       message
     }
     winery {
-      ...WineryConfirmationFragment
+      ...WineryFragment
     }
   }
 }

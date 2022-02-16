@@ -26,7 +26,6 @@ export const Experiences: FC<ExperiencesProps> = ({
     loadMore,
     resetExperiences,
     networkError,
-    businessError,
     experiences,
     isFetching,
     disableButton,
@@ -43,11 +42,6 @@ export const Experiences: FC<ExperiencesProps> = ({
       {networkError && !isFetching && experiences.length === 0 && (
         <Heading as="h2" size="sm" color="brand.200" textAlign="center">
           {t("errorOccurred")}
-        </Heading>
-      )}
-      {businessError && !isFetching && experiences.length === 0 && (
-        <Heading as="h2" size="sm" color="brand.200" textAlign="center">
-          {t("serverErrorOccurred")}
         </Heading>
       )}
 
