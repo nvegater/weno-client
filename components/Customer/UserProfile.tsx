@@ -4,6 +4,7 @@ import { useCustomerQuery } from "../../graphql/generated/graphql";
 import { Flex, Heading } from "@chakra-ui/react";
 import { CustomerCard } from "./CustomerCard";
 import { UserProfileLayout } from "./UserProfileLayout";
+import { useTranslation } from "react-i18next";
 
 interface UserProfileProps {
   isVisitor: boolean;
@@ -32,7 +33,7 @@ export const UserProfile: FC<UserProfileProps> = ({
     context: contextHeader,
     requestPolicy: "network-only",
   });
-
+  const [t] = useTranslation("global");
   const displayError =
     (customerResponse && customerResponse.customer.errors) || error;
 
@@ -44,7 +45,7 @@ export const UserProfile: FC<UserProfileProps> = ({
       {fetching && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
-            We are fetching your profile information....
+            {t("fetchingProfile")}
           </Heading>
         </Flex>
       )}

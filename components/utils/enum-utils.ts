@@ -63,11 +63,11 @@ export const experienceTypeReverseMapping = (
 ): string => {
   switch (formExperienceType) {
     case ExperienceType.Degustation:
-      return "Degustation";
+      return "degustation";
     case ExperienceType.WineDinnerPairing:
-      return "Pairing";
+      return "pairing";
     case ExperienceType.Concert:
-      return "Concert";
+      return "concert";
   }
 };
 

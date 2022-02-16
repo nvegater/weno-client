@@ -170,7 +170,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       ),
     },
     {
-      title: "Location",
+      title: t("location"),
       content: (
         <VStack spacing="24px" mt={4} mb={8}>
           <FormControl>
@@ -187,7 +187,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       ),
     },
     {
-      title: "Production types",
+      title: t("productionType"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
@@ -201,7 +201,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
                   value={pt}
                   {...register(`productionType.${index}`)}
                 >
-                  {productionTypeReverseMapping(pt)}
+                  {t(productionTypeReverseMapping(pt))}
                 </Checkbox>
               ))}
             </VStack>
@@ -210,12 +210,12 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       ),
     },
     {
-      title: "Wine types",
+      title: t("wineType"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
             <FormLabel htmlFor="wineType" visibility="hidden">
-              Wine type
+              {t("wineType")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {Object.values(TypeWine).map((tw, index) => (
@@ -224,7 +224,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
                   value={tw}
                   {...register(`wineType.${index}`)}
                 >
-                  {wineTypeReverseMapping(tw)}
+                  {t(wineTypeReverseMapping(tw))}
                 </Checkbox>
               ))}
             </VStack>
@@ -233,12 +233,12 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       ),
     },
     {
-      title: "Languages",
+      title: t("languages"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
             <FormLabel htmlFor="supportedLanguages" visibility="hidden">
-              Supported Languages
+              {t("supportedLanguages")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {Object.values(ServiceLanguage).map((language, index) => (
@@ -247,7 +247,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
                   value={language}
                   {...register(`supportedLanguages.${index}`)}
                 >
-                  {supportedLanguagesReverseMapping(language)}
+                  {t(supportedLanguagesReverseMapping(language))}
                 </Checkbox>
               ))}
             </VStack>
@@ -256,12 +256,12 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       ),
     },
     {
-      title: "Amenities",
+      title: t("amenities"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
             <FormLabel htmlFor="amenities" visibility="hidden">
-              Amenities
+              {t("amenities")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {Object.values(Amenity).map((amenity, index) => (
@@ -270,7 +270,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
                   value={amenity}
                   {...register(`amenities.${index}`)}
                 >
-                  {amenitiesReverseMapping(amenity)}
+                  {t(amenitiesReverseMapping(amenity))}
                 </Checkbox>
               ))}
             </VStack>

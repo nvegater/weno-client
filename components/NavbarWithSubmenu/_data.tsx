@@ -51,7 +51,7 @@ export const generateLinks = (
   }
   if (userType === "visitor" && username) {
     const profileLink: Link = {
-      label: "Profile",
+      label: "profile",
       href: `/user/${username}`,
     };
     allLinks.push(profileLink);

@@ -109,7 +109,7 @@ export const PricingCard = (props: PricingCardProps) => {
             color="white"
             rightIcon={<HiArrowNarrowRight />}
           >
-            Create an account
+            {t("createAccount")}
           </Button>
         </LightMode>
         <Text
@@ -118,7 +118,7 @@ export const PricingCard = (props: PricingCardProps) => {
           align="center"
           fontSize="sm"
         >
-          Start offering experiences
+          {t("startOffering")}
         </Text>
       </Box>
       <Box px="8" pt="10" pb="12">

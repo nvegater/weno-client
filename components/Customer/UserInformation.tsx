@@ -6,6 +6,7 @@ import {
 } from "../Cards/CardWithUserDetails/CardWithUserDetails";
 import { dateFormatter, timeFormatter } from "../utils/dateTime-utils";
 import { CustomerFragment } from "../../graphql/generated/graphql";
+import { useTranslation } from "react-i18next";
 
 interface UserInformationProps {
   customer: CustomerFragment;
@@ -21,12 +22,13 @@ export const UserInformation: FC<UserInformationProps> = ({ customer }) => {
     { name: "Email", value: customer.email },
     { name: "Member since", value: createdAt },
   ];
+  const [t] = useTranslation("global");
 
   return (
     <section>
       <Flex justifyContent={[null, null, null, "center"]}>
         <Heading as="h1" size="xl">
-          Customer Information
+          {t("customerInformation")}
         </Heading>
       </Flex>
       <CardWithUserDetails properties={accountProps} title="Weno Account" />

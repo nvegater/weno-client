@@ -242,7 +242,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                 </FormLabel>
                 <Input
                   type="number"
-                  placeholder={isAutomaticDuration ? "Disabled" : "e.g. 60"}
+                  placeholder={isAutomaticDuration ? t("disabled") : "e.g. 60"}
                   onChange={field.onChange}
                   name={field.name}
                   value={field.value}

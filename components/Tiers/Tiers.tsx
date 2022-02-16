@@ -53,7 +53,7 @@ export const Tiers: FC<TiersProps> = ({ register }) => {
             {t("choosePlan")}
           </Heading>
           <Text mt="6" fontSize="xl" color={mode("gray.600", "gray.400")}>
-            and enjoy all our features
+            {t("enjoyFeatures")}
           </Text>
         </Box>
 
@@ -80,22 +80,16 @@ export const Tiers: FC<TiersProps> = ({ register }) => {
             {t("includedAllPlans")}
           </Text>
           <SimpleGrid columns={{ base: 1, lg: 2 }} mt="5" spacing="5">
-            <FeatureItem>Unlimited slots for your experiences</FeatureItem>
-            <FeatureItem>Edit your experiences as much as you want</FeatureItem>
-            <FeatureItem>Personalize your profile with your media</FeatureItem>
-            <FeatureItem>Calendar to manage your events</FeatureItem>
-            <FeatureItem>
-              Best SEO and visibility in google searches.
-            </FeatureItem>
-            <FeatureItem>
-              Invoices in your email, ready for the tax office.
-            </FeatureItem>
-            <FeatureItem>Worldwide payment infrastructure.</FeatureItem>
+            <FeatureItem>{t("unlimitedSlots")}</FeatureItem>
+            <FeatureItem>{t("editAsMuchAsYouWant")}</FeatureItem>
+            <FeatureItem>{t("personalizeProfile")}</FeatureItem>
+            <FeatureItem>{t("calendar")}</FeatureItem>
+            <FeatureItem>{t("seoAndVisibility")}</FeatureItem>
+            <FeatureItem>{t("emailInvoices")}</FeatureItem>
+            <FeatureItem>{t("worldwidePayment")}</FeatureItem>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
-            <FeatureItem>We DON'T take a cut on YOUR sales.</FeatureItem>
-            <FeatureItem>
-              Business intelligence and analytics on your sales
-            </FeatureItem>
+            <FeatureItem>{t("takeAnything")}</FeatureItem>
+            <FeatureItem>{t("bussinessIntelligence")}</FeatureItem>
           </SimpleGrid>
         </Box>
 
@@ -113,12 +107,8 @@ export const Tiers: FC<TiersProps> = ({ register }) => {
             name="Cup membership"
             price={1199}
             duration="/mo"
-            description="Wine producers focused in certain experiences"
-            features={[
-              "2 different experiences",
-              "30 Reservations",
-              "30 MXN / for each extra reservation",
-            ]}
+            description={t("producersFocused")}
+            features={[t("2Experiences"), t("30Reservations"), t("30Extra")]}
           />
           <PricingCard
             colorScheme="teal"
@@ -128,12 +118,8 @@ export const Tiers: FC<TiersProps> = ({ register }) => {
             name="Bottle membership"
             price={1599}
             duration="/mo"
-            description="Wine producers offering various experiences"
-            features={[
-              "5 different experiences",
-              "50 Reservations",
-              "24 MXN / for each extra reservation",
-            ]}
+            description={t("producersOffering")}
+            features={[t("5Experiences"), t("50Reservations"), t("24Extra")]}
           />
           <PricingCard
             bg="gradient.100"
@@ -144,12 +130,8 @@ export const Tiers: FC<TiersProps> = ({ register }) => {
             name="Magnum membership"
             price={2099}
             duration="/mo"
-            description="Wine producers with options for all type of customers"
-            features={[
-              "20 experiences",
-              "90 Reservations",
-              "17 MXN / for each extra reservation",
-            ]}
+            description={t("producersWithOptions")}
+            features={[t("20Experiences"), t("90Reservations"), t("17Extra")]}
           />
         </SimpleGrid>
       </Box>

@@ -17,6 +17,7 @@ import { Gallery } from "../Images/Gallery";
 import { EditWineryInfo } from "./EditWineryInfo";
 import { ShellLayout } from "../ProfileShell/ShellLayout";
 import { WineryCalendar } from "./WineryCalendar";
+import { useTranslation } from "react-i18next";
 
 export enum WineryProfileSubpage {
   WINERY_INFO,
@@ -46,6 +47,7 @@ export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
   const [subPage, setSubPage] = useState<WineryProfileSubpage>(
     WineryProfileSubpage.WINERY_INFO
   );
+  const [t] = useTranslation("global");
 
   const subpages = (
     <>
@@ -72,41 +74,41 @@ export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
         <EditableExperiences winery={winery} contextHeader={contextHeader} />
       )}
       {subPage === WineryProfileSubpage.DASHBOARD_ANALYTICS && (
-        <div>Coming soon...</div>
+        <div>{t("comming")}</div>
       )}
     </>
   );
 
   const navgroups = (
     <>
-      <NavGroup label="Your profile">
+      <NavGroup label={t("yourProfile")}>
         <NavItem
           icon={<IoMdInformationCircleOutline />}
-          label="Winery information"
+          label={t("wineryInformation")}
           subPage={WineryProfileSubpage.WINERY_INFO}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.WINERY_INFO}
         />
         <NavItem
           icon={<FaRegEdit />}
-          label="Edit information"
+          label={t("editInformation")}
           subPage={WineryProfileSubpage.EDIT_INFO}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.EDIT_INFO}
         />
         <NavItem
           icon={<RiGalleryLine />}
-          label="Gallery"
+          label={t("gallery")}
           subPage={WineryProfileSubpage.GALLERY}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.GALLERY}
         />
       </NavGroup>
 
-      <NavGroup label="Experiences">
+      <NavGroup label={t("experiences")}>
         <NavItem
           icon={<BsFillCalendar2WeekFill />}
-          label="Schedule"
+          label={t("schedule")}
           subPage={WineryProfileSubpage.SCHEDULE}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.SCHEDULE}
@@ -114,24 +116,24 @@ export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
 
         <NavItem
           icon={<AiOutlineFileAdd />}
-          label="New experience"
+          label={t("newExperience")}
           subPage={WineryProfileSubpage.NEW_EXPERIENCE}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.NEW_EXPERIENCE}
         />
         <NavItem
           icon={<FaRegEdit />}
-          label="Edit experience"
+          label={t("editExperience")}
           subPage={WineryProfileSubpage.EDIT_EXPERIENCE}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.EDIT_EXPERIENCE}
         />
       </NavGroup>
 
-      <NavGroup label="Analytics">
+      <NavGroup label={t("analytics")}>
         <NavItem
           icon={<BiAnalyse />}
-          label="Analytics Dashboard"
+          label={t("analyticsDashboard")}
           subPage={WineryProfileSubpage.DASHBOARD_ANALYTICS}
           setSubPage={setSubPage}
           active={subPage === WineryProfileSubpage.DASHBOARD_ANALYTICS}

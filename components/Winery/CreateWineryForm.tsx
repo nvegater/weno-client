@@ -288,12 +288,12 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       ),
     },
     {
-      title: "Languages",
+      title: t("languages"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
             <FormLabel htmlFor="supportedLanguages" visibility="hidden">
-              Supported Languages
+              {t("supportedLanguages")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {Object.values(ServiceLanguage).map((language, index) => (
@@ -302,7 +302,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
                   value={language}
                   {...register(`supportedLanguages.${index}`)}
                 >
-                  {supportedLanguagesReverseMapping(language)}
+                  {t(supportedLanguagesReverseMapping(language))}
                 </Checkbox>
               ))}
             </VStack>
@@ -311,12 +311,12 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       ),
     },
     {
-      title: "Amenities",
+      title: t("amenities"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
             <FormLabel htmlFor="amenities" visibility="hidden">
-              Amenities
+              {t("amenities")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {Object.values(Amenity).map((amenity, index) => (
@@ -325,7 +325,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
                   value={amenity}
                   {...register(`amenities.${index}`)}
                 >
-                  {amenitiesReverseMapping(amenity)}
+                  {t(amenitiesReverseMapping(amenity))}
                 </Checkbox>
               ))}
             </VStack>
@@ -373,10 +373,10 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             isRequired
           />
           <Text>
-            Not sure ? Read more about
+            {t("notSure?")}
             <ChakraLink href="/subscriptions" color="teal.500" target="_blank">
               {" "}
-              our subscription plans
+              {t("subscriptionPlans")}
             </ChakraLink>
           </Text>
         </>

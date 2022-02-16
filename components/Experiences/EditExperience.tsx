@@ -109,7 +109,7 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
         alt={"any"}
       />
       <Heading as="h1" py={5}>
-        Edit your experience: <br />
+        {t("editYourExperience")} <br />
         {selectedExperience.title}
       </Heading>
 

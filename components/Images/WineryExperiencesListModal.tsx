@@ -41,6 +41,7 @@ export const WineryExperiencesListModal: FC<ExperiencesListModalProps> = ({
       requestPolicy: "network-only",
     }
   );
+  const [t] = useTranslation("global");
   return (
     <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
       <DrawerContent>

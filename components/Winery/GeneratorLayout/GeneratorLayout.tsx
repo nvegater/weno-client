@@ -118,7 +118,7 @@ export const GeneratorLayout: FC<GeneratorLayoutProps> = ({
                 />
                 <NavItem
                   icon={<BiEnvelope />}
-                  label="Gallery"
+                  label={t("gallery")}
                   subPage={GeneratorSubpage.GALLERY}
                   setSubPage={setSubPage}
                   active={subPage === GeneratorSubpage.GALLERY}
