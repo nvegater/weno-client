@@ -97,6 +97,6 @@ const Winery = () => {
 };
 
 export default withUrqlClient(createUrqlClient, {
-  ssr: true,
+  ssr: false,
   // disable ssr for cypress to mock the requests ssr: process.env.APP_ENV !== "cy-test",
 })(Winery);
