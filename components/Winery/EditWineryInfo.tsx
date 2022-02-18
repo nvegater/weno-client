@@ -35,6 +35,7 @@ import {
   wineTypeReverseMapping,
 } from "../utils/enum-utils";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 interface EditWineryInputsForm extends EditWineryInputs {
   winery: string;
@@ -51,6 +52,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
 }) => {
   const toast = useToast();
   const router = useRouter();
+  const [t] = useTranslation("global");
 
   const {
     register,
@@ -110,19 +112,19 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
 
   const formSteps: Step[] = [
     {
-      title: "General",
+      title: t("general"),
       content: (
         <VStack spacing="24px" mt={4} mb={8}>
           <FormControl isInvalid={Boolean(errors.description)}>
             <Textarea
               type="text"
-              placeholder="How would you describe your winery..."
+              placeholder={t("wineryDescription")}
               {...register("description", {
-                required: "Please enter a description",
+                required: { value: true, message: t("descriptionText") },
                 value: winery.description,
                 minLength: {
                   value: 20,
-                  message: "Please enter at least 20 characters",
+                  message: t("minAlias"),
                 },
               })}
             />
@@ -132,14 +134,14 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
           </FormControl>
           <FormControl isInvalid={Boolean(errors.yearlyWineProduction)}>
             <FormLabel htmlFor="yearlyWineProduction">
-              Yearly wine production in liters per year
+              {t("yearlyProduction")}
             </FormLabel>
             <Input
               type="number"
-              placeholder="How many Liters per year"
+              placeholder={t("litersPerYear")}
               {...register("yearlyWineProduction", {
                 valueAsNumber: true,
-                max: { value: 1000000, message: "That's a lot of wine" },
+                max: { value: 1000000, message: t("yearlyProductionMessage") },
               })}
             />
             <FormErrorMessage>
@@ -148,14 +150,16 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
             </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={Boolean(errors.foundationYear)}>
-            <FormLabel htmlFor="foundationYear">Foundation year</FormLabel>
+            <FormLabel htmlFor="foundationYear">
+              {t("foundationYear")}
+            </FormLabel>
             <Input
               type="number"
               placeholder="e.g. 1992"
               {...register("foundationYear", {
                 valueAsNumber: true,
-                max: { value: 2022, message: "Invalid date" },
-                min: { value: 0, message: "Thats too old to be true" },
+                max: { value: 2022, message: t("lateDate") },
+                min: { value: 0, message: t("earlyDate") },
               })}
             />
             <FormErrorMessage>
@@ -166,7 +170,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       ),
     },
     {
-      title: "Location",
+      title: t("location"),
       content: (
         <VStack spacing="24px" mt={4} mb={8}>
           <FormControl>
@@ -183,12 +187,12 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       ),
     },
     {
-      title: "Production types",
+      title: t("productionType"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
             <FormLabel htmlFor="productionType" visibility="hidden">
-              Production type
+              {t("productionType")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {Object.values(ProductionType).map((pt, index) => (
@@ -197,7 +201,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
                   value={pt}
                   {...register(`productionType.${index}`)}
                 >
-                  {productionTypeReverseMapping(pt)}
+                  {t(productionTypeReverseMapping(pt))}
                 </Checkbox>
               ))}
             </VStack>
@@ -206,12 +210,12 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       ),
     },
     {
-      title: "Wine types",
+      title: t("wineType"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
             <FormLabel htmlFor="wineType" visibility="hidden">
-              Wine type
+              {t("wineType")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {Object.values(TypeWine).map((tw, index) => (
@@ -220,7 +224,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
                   value={tw}
                   {...register(`wineType.${index}`)}
                 >
-                  {wineTypeReverseMapping(tw)}
+                  {t(wineTypeReverseMapping(tw))}
                 </Checkbox>
               ))}
             </VStack>
@@ -229,12 +233,12 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       ),
     },
     {
-      title: "Languages",
+      title: t("languages"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
             <FormLabel htmlFor="supportedLanguages" visibility="hidden">
-              Supported Languages
+              {t("supportedLanguages")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {Object.values(ServiceLanguage).map((language, index) => (
@@ -243,7 +247,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
                   value={language}
                   {...register(`supportedLanguages.${index}`)}
                 >
-                  {supportedLanguagesReverseMapping(language)}
+                  {t(supportedLanguagesReverseMapping(language))}
                 </Checkbox>
               ))}
             </VStack>
@@ -252,12 +256,12 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       ),
     },
     {
-      title: "Amenities",
+      title: t("amenities"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
             <FormLabel htmlFor="amenities" visibility="hidden">
-              Amenities
+              {t("amenities")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {Object.values(Amenity).map((amenity, index) => (
@@ -266,7 +270,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
                   value={amenity}
                   {...register(`amenities.${index}`)}
                 >
-                  {amenitiesReverseMapping(amenity)}
+                  {t(amenitiesReverseMapping(amenity))}
                 </Checkbox>
               ))}
             </VStack>
@@ -277,7 +281,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
   ];
   return (
     <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
-      <Heading mb={8}>Edit your winery</Heading>
+      <Heading mb={8}>{t("editYourWinery")}</Heading>
       <Box mb={"3em"}>
         <VerticalSteps steps={formSteps} isLoading={false} />
       </Box>
@@ -296,7 +300,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >
-          Save
+          {t("save")}
         </Button>
       </Flex>
     </VStack>

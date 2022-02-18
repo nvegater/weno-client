@@ -6,11 +6,12 @@ import { Flex, Heading } from "@chakra-ui/react";
 import { UserProfile } from "../../components/Customer/UserProfile";
 import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../../graphql/urqlProvider";
+import { useTranslation } from "react-i18next";
 
 const User = () => {
   const router = useRouter();
   const { username } = router.query;
-
+  const [t] = useTranslation("global");
   const {
     loading: loadingAuthInfo,
     notAuthenticated,
@@ -31,12 +32,12 @@ const User = () => {
       tokenInfo={tokenInfo}
       urlAlias={urlAlias}
     >
-      {!username && <h1>Something is wrong with the Url</h1>}
+      {!username && <h1>{t("urlError")}</h1>}
 
       {loadingAuthInfo && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
-            We are fetching the user information....
+            {t("fetchingUser")}
           </Heading>
         </Flex>
       )}
@@ -44,7 +45,7 @@ const User = () => {
       {notAuthenticated && (
         <Flex justifyContent="center" m={5}>
           <Heading as="h2" size="xl">
-            Only for Weno users
+            {t("onlyWenoUsers")}
           </Heading>
         </Flex>
       )}

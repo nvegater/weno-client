@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useExperiencesListQuery } from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
+import { useTranslation } from "react-i18next";
 
 interface ExperiencesListModalProps {
   isOpen: boolean;
@@ -40,6 +41,7 @@ export const WineryExperiencesListModal: FC<ExperiencesListModalProps> = ({
       requestPolicy: "network-only",
     }
   );
+  const [t] = useTranslation("global");
   return (
     <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
       <DrawerContent>
@@ -53,7 +55,7 @@ export const WineryExperiencesListModal: FC<ExperiencesListModalProps> = ({
               size="xl"
               my={8}
             >
-              Add this image:
+              {t("addThisImage")}
             </Heading>
           )}
 
@@ -76,7 +78,7 @@ export const WineryExperiencesListModal: FC<ExperiencesListModalProps> = ({
               size="md"
               my={8}
             >
-              To one experience:
+              {t("toOneExperience")}
             </Heading>
           )}
 
@@ -90,14 +92,14 @@ export const WineryExperiencesListModal: FC<ExperiencesListModalProps> = ({
           {fetching && (
             <Flex justifyContent="center" m={5}>
               <Heading as="h2" size="xl">
-                Loading experiences
+                {t("loadingExperiences")}
               </Heading>
             </Flex>
           )}
           {experiencesError && (
             <Flex justifyContent="center" m={5}>
               <Heading as="h2" size="xl">
-                Error retrieving experiences
+                {t("errorRetrieving")}
               </Heading>
             </Flex>
           )}
@@ -124,7 +126,9 @@ export const WineryExperiencesListModal: FC<ExperiencesListModalProps> = ({
                   onClick={() => handleSelection(exp.id, exp.title)}
                 >
                   <Heading fontSize="xl">{exp.title}</Heading>
-                  <Text mt={4}>{exp.imageCount + " "} images</Text>
+                  <Text mt={4}>
+                    {exp.imageCount + " "} {t("imags")}
+                  </Text>
                 </Box>
               ))}
             </Stack>

@@ -24,6 +24,7 @@ import { ContextHeader } from "../Authentication/useAuth";
 import { getToastMessage } from "../utils/chakra-utils";
 import RadioGroup from "../Radio/RadioGroup";
 import { concert, degustation, pairing } from "./CreateExperienceForm";
+import { useTranslation } from "react-i18next";
 
 interface EditExperienceInputsForm extends EditExperienceInputs {
   experience: string;
@@ -46,6 +47,7 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
 }) => {
   const toast = useToast();
   const router = useRouter();
+  const [t] = useTranslation("global");
 
   const {
     register,
@@ -107,7 +109,7 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
         alt={"any"}
       />
       <Heading as="h1" py={5}>
-        Edit your experience: <br />
+        {t("editYourExperience")} <br />
         {selectedExperience.title}
       </Heading>
 
@@ -124,7 +126,7 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
         <FormControl isInvalid={Boolean(errors.title)} isRequired={true}>
           <Input
             type="text"
-            placeholder="Title"
+            placeholder={t("title")}
             {...register("title", {
               minLength: 3,
               maxLength: 50,
@@ -138,11 +140,11 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
         <FormControl isInvalid={Boolean(errors.description)} isRequired={true}>
           <Textarea
             type="text"
-            placeholder="Describe your event"
+            placeholder={t("describeEvent")}
             {...register("description", {
               minLength: {
                 value: 20,
-                message: "Please enter at least 20 characters",
+                message: t("descriptionMessage"),
               },
             })}
             maxW="250px"
@@ -152,12 +154,10 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
           </FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={Boolean(errors.pricePerPersonInDollars)}>
-          <FormLabel htmlFor="pricePerPersonInMxn">
-            Price per Person in MXN
-          </FormLabel>
+          <FormLabel htmlFor="pricePerPersonInMxn">{t("price")}</FormLabel>
           <Input
             type="number"
-            placeholder="Price per person in MXN"
+            placeholder={t("price")}
             {...register("pricePerPersonInDollars", {
               valueAsNumber: true,
             })}
@@ -172,11 +172,11 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
         <RadioGroup
           control={control}
           name="eventType"
-          label="Event type"
+          label={t("eventType")}
           elements={[
-            { name: degustation },
-            { name: pairing },
-            { name: concert },
+            { name: t("degustation") },
+            { name: t("pairing") },
+            { name: t("concert") },
           ]}
           preSelectedElement={expTypeToRadioElement(
             selectedExperience.experienceType
@@ -191,7 +191,7 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >
-          Save
+          {t("save")}
         </Button>
       </Flex>
     </div>

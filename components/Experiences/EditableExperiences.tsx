@@ -7,6 +7,7 @@ import { Experiences } from "./Experiences";
 import { Heading, useDisclosure } from "@chakra-ui/react";
 import { ExperienceDrawer, ExperiencesGridMode } from "./ExperienceDrawer";
 import { ContextHeader } from "../Authentication/useAuth";
+import { useTranslation } from "react-i18next";
 
 interface EditableExperiencesProps {
   winery: WineryFragmentFragment;
@@ -18,7 +19,7 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
   contextHeader,
 }) => {
   const [experience, setExperience] = useState<PaginatedExperienceFragment>();
-
+  const [t] = useTranslation("global");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const openExperienceModal = (experience: PaginatedExperienceFragment) => {
     onOpen();
@@ -28,7 +29,7 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
   return (
     <>
       <Heading as="h1" color="brand.200" fontWeight="700" size="2xl">
-        Edit experiences
+        {t("editExperiences")}
       </Heading>
       <ExperienceDrawer
         mode={ExperiencesGridMode.EDIT}

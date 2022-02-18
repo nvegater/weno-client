@@ -7,6 +7,7 @@ import {
   PaginatedExperienceFragment,
 } from "../../graphql/generated/graphql";
 import { Box, Button, Flex, Heading, Skeleton } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 interface ExperiencesProps {
   hasFilters: boolean;
@@ -29,17 +30,18 @@ export const Experiences: FC<ExperiencesProps> = ({
     isFetching,
     disableButton,
   } = useExperiences({ filters: initialFilters });
+  const [t] = useTranslation("global");
 
   return (
     <>
       {experiences.length === 0 && !isFetching && (
         <Heading as="h2" size="sm" color="brand.200" textAlign="center">
-          No results found
+          {t("noResults")}
         </Heading>
       )}
       {networkError && !isFetching && experiences.length === 0 && (
         <Heading as="h2" size="sm" color="brand.200" textAlign="center">
-          An error has ocurred
+          {t("errorOccurred")}
         </Heading>
       )}
 
@@ -75,7 +77,7 @@ export const Experiences: FC<ExperiencesProps> = ({
             loadMore();
           }}
         >
-          {disableButton ? "No more results" : "Load more"}
+          {disableButton ? t("noMoreResults") : t("loadMore")}
         </Button>
       </Flex>
     </>

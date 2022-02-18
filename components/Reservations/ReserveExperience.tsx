@@ -18,6 +18,7 @@ import { SlotRadioGroup } from "../Radio/SlotRadioGroup/SlotRadioGroup";
 import { InputNumberBox } from "../InputFields/InputNumberBox";
 import { CreateReservationForm } from "./CreateReservationForm";
 import { getSlotsFromDate, minMaxDates } from "../utils/dateTime-utils";
+import { useTranslation } from "react-i18next";
 import { MdDinnerDining, MdWineBar } from "react-icons/md";
 import { BsMusicNoteBeamed } from "react-icons/bs";
 
@@ -55,7 +56,7 @@ export const ReserveExperience: FC<ExperienceModalLayoutProps> = ({
     experienceType,
   } = experience;
   const coverImage = images ? images[0] : null;
-
+  const [t] = useTranslation("global");
   const initialDate = slots[0].startDateTime;
   const [date, setDate] = useState<string>(initialDate);
 
@@ -117,7 +118,7 @@ export const ReserveExperience: FC<ExperienceModalLayoutProps> = ({
         </Box>
       </Flex>
       <Heading fontSize="md" as="h4" fontWeight="500" my={5}>
-        Select a date:
+        {t("selectDate")}
       </Heading>
       <DateTimePickerWeno
         removeTimeZone={true}
@@ -152,7 +153,7 @@ export const ReserveExperience: FC<ExperienceModalLayoutProps> = ({
           }}
         />
         <Heading fontSize="md" as="h4" fontWeight="600" my={5}>
-          Total: {totalPrice}$MXN
+          {t("total")} {totalPrice}$MXN
         </Heading>
       </Flex>
 

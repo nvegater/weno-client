@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import { Flex, Heading, Icon, useToast } from "@chakra-ui/react";
 import { HiLocationMarker } from "react-icons/hi";
 import { FaHeart } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 interface FavoriteExperienceProps {
   text: string;
@@ -9,13 +10,13 @@ interface FavoriteExperienceProps {
 
 export const FavoriteExperience: FC<FavoriteExperienceProps> = ({ text }) => {
   const [isFavorite, setIsFavorite] = useState(false);
-
+  const [t] = useTranslation("global");
   const toast = useToast();
 
   const handleFavoriteSelection = () => {
     toast({
-      title: "Only for weno users",
-      description: "Register to save experiences in your favorites",
+      title: t("onlyWenoUsers"),
+      description: t("registerToSave"),
       status: "warning",
       duration: 5000,
       isClosable: true,

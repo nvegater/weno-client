@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import { ExperienceCardCover } from "../Cards/ExperienceCardCover";
 import { Box, Flex, Grid } from "@chakra-ui/react";
 import { PaginatedExperienceFragment } from "../../graphql/generated/graphql";
+import { useTranslation } from "react-i18next";
 
 interface ExperiencesGridLayoutProps {
   experiences: PaginatedExperienceFragment[];
@@ -12,6 +13,7 @@ export const ExperiencesGridLayout: FC<ExperiencesGridLayoutProps> = ({
   experiences,
   openExperienceModal,
 }) => {
+  const [t] = useTranslation("global");
   return (
     <Box mx={[null, null, 10, 20]}>
       <Box maxW="100rem" mt={8}>

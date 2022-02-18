@@ -11,6 +11,7 @@ import {
 import { RiPlayListAddLine } from "react-icons/ri";
 import { WineryExperiencesListModal } from "./WineryExperiencesListModal";
 import { ContextHeader } from "../Authentication/useAuth";
+import { useTranslation } from "react-i18next";
 import { useAddImageToExperienceMutation } from "../../graphql/generated/graphql";
 
 interface ImageOptionsProps {
@@ -27,6 +28,7 @@ export const ImageOptions: FC<ImageOptionsProps> = ({
   wineryId,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [t] = useTranslation("global");
 
   const [, addImageToExperience] = useAddImageToExperienceMutation();
 
@@ -78,9 +80,9 @@ export const ImageOptions: FC<ImageOptionsProps> = ({
           <RiPlayListAddLine />
         </MenuButton>
         <MenuList>
-          <MenuItem onClick={() => onOpen()}>Add to experience</MenuItem>
-          <MenuItem>Use as cover picture</MenuItem>
-          <MenuItem>Delete</MenuItem>
+          <MenuItem onClick={() => onOpen()}>{t("addToExperience")}</MenuItem>
+          <MenuItem>{t("useAsCover")}</MenuItem>
+          <MenuItem>{t("delete")}</MenuItem>
         </MenuList>
       </Menu>
       <Image

@@ -3,6 +3,7 @@ import * as React from "react";
 import { FC } from "react";
 import { AccountSwitcherButton } from "./AccountSwitcherButton";
 import NextLink from "next/link";
+import { useTranslation } from "react-i18next";
 
 interface AccountSwitcherProps {
   email: string;
@@ -19,6 +20,7 @@ export const AccountSwitcher: FC<AccountSwitcherProps> = ({
   logoUrl,
   logoutFn,
 }) => {
+  const [t] = useTranslation("global");
   return (
     <Menu>
       <AccountSwitcherButton
@@ -33,14 +35,14 @@ export const AccountSwitcher: FC<AccountSwitcherProps> = ({
         <MenuDivider />
         <MenuItem rounded="md" _focus={{ bg: "gradient.100" }}>
           <NextLink href="/">
-            <b>Home</b>
+            <b>{t("home")}</b>
           </NextLink>
         </MenuItem>
         <MenuItem rounded="md" _focus={{ bg: "gradient.100" }}>
-          Terms and Conditions
+          {t("termsAndConditions")}
         </MenuItem>
         <MenuItem rounded="md" _focus={{ bg: "gradient.100" }}>
-          Help
+          {t("help")}
         </MenuItem>
         <MenuDivider />
         <MenuItem
@@ -48,7 +50,7 @@ export const AccountSwitcher: FC<AccountSwitcherProps> = ({
           onClick={logoutFn}
           _focus={{ bg: "gradient.100" }}
         >
-          Logout
+          {t("logout")}
         </MenuItem>
       </MenuList>
     </Menu>

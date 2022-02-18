@@ -4,10 +4,12 @@ import { createUrqlClient } from "../graphql/urqlProvider";
 import { WenoLayout } from "../components/GeneralLayout/WenoLayout";
 import { Tiers } from "../components/Tiers/Tiers";
 import useAuth from "../components/Authentication/useAuth";
+import { useTranslation } from "react-i18next";
 
 const Subscriptions = () => {
   const { authenticated, logout, login, tokenInfo, urlAlias, register } =
     useAuth();
+  const [t] = useTranslation("global");
   return (
     <WenoLayout
       loginFn={login}

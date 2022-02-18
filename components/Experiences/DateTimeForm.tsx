@@ -43,6 +43,7 @@ import {
 import { ContextHeader } from "../Authentication/useAuth";
 import { SampleDates } from "./SampleDates";
 import { BsFillEyeFill } from "react-icons/bs";
+import { useTranslation } from "react-i18next";
 
 type WeekdayStr = "MO" | "TU" | "WE" | "TH" | "FR" | "SA" | "SU";
 const weekdaysArray: WeekdayStr[] = ["MO", "TU", "WE", "TH", "FR", "SA", "SU"];
@@ -89,6 +90,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   const watchCustomDates = watch("customDates");
   const watchExceptions = watch("exceptions");
   const watchExceptionDays = watch("exceptionDays");
+  const [t] = useTranslation("global");
 
   // allow calculating recursion and set endDate special format
   const isRecurrent = watchPeriodic === recurrent;
@@ -151,7 +153,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
       <RadioGroup
         control={control}
         name="typeOfSlot"
-        label="Recurrent"
+        label={t("recurrent")}
         elements={[{ name: oneTime }, { name: recurrent }, { name: allDay }]}
       />
       <Flex
@@ -161,7 +163,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
         <Controller
           control={control}
           rules={{
-            required: { value: true, message: "You need a start date" },
+            required: { value: true, message: t("startMessage") },
           }}
           name="startDateTime"
           render={({ field, fieldState }) => (
@@ -171,7 +173,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               pr={2}
               pb={2}
             >
-              <FormLabel htmlFor="startDateTime">Start</FormLabel>
+              <FormLabel htmlFor="startDateTime">{t("start")}</FormLabel>
               <DateTimePickerWeno
                 removeTimeZone={true}
                 onDateTimeSelection={(date) => {
@@ -192,14 +194,14 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             control={control}
             name="endDateTime"
             rules={{
-              required: { value: true, message: "You need an end date" },
+              required: { value: true, message: t("endMessage") },
             }}
             render={({ field, fieldState }) => (
               <FormControl
                 isRequired={true}
                 isInvalid={Boolean(fieldState.error)}
               >
-                <FormLabel htmlFor="endDateTime">End</FormLabel>
+                <FormLabel htmlFor="endDateTime">{t("end")}</FormLabel>
                 <DateTimePickerWeno
                   removeTimeZone={true}
                   onDateTimeSelection={(date) => {
@@ -221,9 +223,9 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
           name="durationInMinutes"
           defaultValue={0}
           rules={{
-            required: { value: true, message: "You need a duration" },
-            max: { value: 100000, message: "Your event is too long." },
-            min: { value: 1, message: "Thats not a valid duration" },
+            required: { value: true, message: t("needDuration") },
+            max: { value: 100000, message: t("longEvent") },
+            min: { value: 1, message: t("invalidDuration") },
           }}
           render={({ field, fieldState }) => {
             return (
@@ -233,14 +235,14 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               >
                 <FormLabel htmlFor="durationInMinutes">
                   {isRecurrent
-                    ? "Duration in minutes (for each event)"
+                    ? t("eventDuration")
                     : isAutomaticDuration
-                    ? "Automatic duration (use start and end)"
-                    : "Duration in minutes"}
+                    ? t("autoDuration")
+                    : t("eventDuration")}
                 </FormLabel>
                 <Input
                   type="number"
-                  placeholder={isAutomaticDuration ? "Disabled" : "e.g. 60"}
+                  placeholder={isAutomaticDuration ? t("disabled") : "e.g. 60"}
                   onChange={field.onChange}
                   name={field.name}
                   value={field.value}
@@ -272,7 +274,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             variant="secondaryWeno"
             size="navBarCTA"
           >
-            Custom dates
+            {t("customDate")}
           </Button>
           {customDateField.map((field, index) => (
             <Controller
@@ -292,7 +294,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                       removeCustomDate(index);
                     }}
                   >
-                    Remove
+                    {t("remove")}
                   </Button>
                 </HStack>
               )}
@@ -306,7 +308,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             variant="secondaryWeno"
             size="navBarCTA"
           >
-            Exceptions
+            {t("exception")}
           </Button>
 
           {customExceptionField.map((field, index) => (
@@ -327,7 +329,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                       removeException(index);
                     }}
                   >
-                    Remove
+                    {t("remove")}
                   </Button>
                 </HStack>
               )}
@@ -336,7 +338,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
 
           <FormControl>
             <FormLabel htmlFor="exceptionDays" fontWeight="bold">
-              Exclude this days
+              {t("excludeDays")}
             </FormLabel>
             <VStack justifyContent="start" alignItems="start">
               {weekdaysArray.map((wd, index) => (
@@ -360,7 +362,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
             size="heroWeno"
             rightIcon={<BsFillEyeFill />}
           >
-            Preview Dates
+            {t("previewDates")}
           </Button>
         </VStack>
       )}
@@ -368,7 +370,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Preview</ModalHeader>
+          <ModalHeader>{t("preview")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {recDatesQuery &&
@@ -378,12 +380,12 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                   datesWithTimes={recDatesQuery.recurrentDates.dateWithTimes}
                 />
               )}
-            {error && <Text>Select a valid recursion</Text>}
+            {error && <Text>{t("validRecursion")}</Text>}
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+              {t("close")}
             </Button>
           </ModalFooter>
         </ModalContent>

@@ -18,23 +18,22 @@ export const generateLinks = (
   userType: "owner" | "visitor"
 ): Link[] => {
   let allLinks: Link[] = [
-    { label: "Home", href: "/" },
+    { label: "home", href: "/" },
 
     {
-      label: "About us",
+      label: "aboutUs",
       href: "#",
       children: [
         {
-          label: "Get Help",
-          description: "Read our documentation and FAQs, or get in touch.",
+          label: "getHelp",
+          description: "readDocumentation",
           href: "#",
           icon: <IoIosHelpBuoy />,
         },
 
         {
-          label: "Terms and conditions",
-          description:
-            "Read more about the contracts between clients/service providers and Weno",
+          label: "termsAndConditions",
+          description: "readAboutContracts",
           href: "#",
           icon: <IoIosGrid />,
         },
@@ -44,7 +43,7 @@ export const generateLinks = (
 
   if (userType === "owner" && urlAlias) {
     const profileLink: Link = {
-      label: "Profile",
+      label: "profile",
       href: `/winery/${urlAlias}`,
     };
 
@@ -52,7 +51,7 @@ export const generateLinks = (
   }
   if (userType === "visitor" && username) {
     const profileLink: Link = {
-      label: "Profile",
+      label: "profile",
       href: `/user/${username}`,
     };
     allLinks.push(profileLink);

@@ -18,6 +18,7 @@ import {
 } from "../../graphql/generated/graphql";
 import { OperationContext, OperationResult } from "urql";
 import { getToastMessage } from "../utils/chakra-utils";
+import { useTranslation } from "react-i18next";
 
 async function handleBookingLinkRequest(
   totalPrice: number,
@@ -80,6 +81,7 @@ export const CreateReservationForm: FC<CreateReservationProps> = ({
   const [guestEmail, setGuestEmail] = useState("");
 
   const [, getCheckoutLink] = useGetCheckoutLinkMutation();
+  const [t] = useTranslation("global");
 
   const toast = useToast();
   return (
@@ -100,7 +102,7 @@ export const CreateReservationForm: FC<CreateReservationProps> = ({
             );
           }}
         >
-          Book
+          {t("book")}
         </Button>
       )}
       {!authenticated && (
@@ -114,7 +116,7 @@ export const CreateReservationForm: FC<CreateReservationProps> = ({
                   setRequestGuestEmail(true);
                 }}
               >
-                Book as a guest
+                {t("bookAsGuest")}
               </Button>
 
               <Button
@@ -127,7 +129,7 @@ export const CreateReservationForm: FC<CreateReservationProps> = ({
                   }
                 }}
               >
-                Register and book
+                {t("registerAndBook")}
               </Button>
             </>
           )}
@@ -139,9 +141,7 @@ export const CreateReservationForm: FC<CreateReservationProps> = ({
               isInvalid={guestEmail === ""}
               isRequired
             >
-              <FormLabel htmlFor="guestEmail">
-                We only need your email
-              </FormLabel>
+              <FormLabel htmlFor="guestEmail">{t("requireEmail")}</FormLabel>
               <Input
                 type="email"
                 name="guestEmail"
@@ -170,14 +170,12 @@ export const CreateReservationForm: FC<CreateReservationProps> = ({
                   }
                 }}
               >
-                Book
+                {t("book")}
               </Button>
               {guestEmail !== "" ? (
-                <FormHelperText>
-                  Its where you will receive the booking information
-                </FormHelperText>
+                <FormHelperText>{t("whereReceiveInformation")}</FormHelperText>
               ) : (
-                <FormErrorMessage>Email is required.</FormErrorMessage>
+                <FormErrorMessage>{t("emailRequired")}</FormErrorMessage>
               )}
             </FormControl>
           )}

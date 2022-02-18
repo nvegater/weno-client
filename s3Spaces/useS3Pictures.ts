@@ -5,10 +5,12 @@ import {
   handleFileUpload,
 } from "./s3Utilities";
 import { useToast } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 
 const useS3Pictures = (userId: number | null | undefined) => {
   const [pictureUrlFromS3, setPictureURLFromS3] = useState<any>();
   const [statusCodeState, setStatusCodeState] = useState<number>();
+  const [t] = useTranslation("global");
   const toast = useToast();
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +20,7 @@ const useS3Pictures = (userId: number | null | undefined) => {
         : true;
     if (userId && !imageIsToBig) {
       toast({
-        title: "Changing image ...",
+        title: t("changingImage"),
         description: "",
         status: "info",
         duration: 5000,
@@ -30,8 +32,8 @@ const useS3Pictures = (userId: number | null | undefined) => {
       });
     } else {
       toast({
-        title: "Image Size error",
-        description: "Please upload a picture smaller than 1MB",
+        title: t("imageSizeError"),
+        description: t("uploadSmallerPicture"),
         status: "error",
         duration: 5000,
         isClosable: true,

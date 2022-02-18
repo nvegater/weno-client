@@ -13,6 +13,7 @@ import DatePicker from "react-datepicker";
 import CreatableSelect from "react-select/creatable";
 
 import { AiOutlineSearch } from "react-icons/ai";
+import { useTranslation } from "react-i18next";
 import { MdWineBar } from "react-icons/md";
 import { BsMusicNoteBeamed } from "react-icons/bs";
 import { MdDinnerDining } from "react-icons/md";
@@ -83,6 +84,7 @@ export const Filters: FC<FiltersProps> = ({
 
   const [fromDate, setFromDate] = useState(now);
   const [untilDate, setUntilDate] = useState(null);
+  const [t] = useTranslation("global");
 
   const updateValleys = async (data: ValleyOption[]) => {
     setLocalExpFilters((oldFilters) => ({
@@ -119,7 +121,7 @@ export const Filters: FC<FiltersProps> = ({
   return (
     <Flex mx={10} mb={10} flexDirection="column">
       <FormControl my={3} mx={[null, null, 5]}>
-        <FormLabel htmlFor="range">Dates</FormLabel>
+        <FormLabel htmlFor="range">{t("dates")}</FormLabel>
         <DatePicker
           minDate={new Date()}
           selected={fromDate}
@@ -133,7 +135,7 @@ export const Filters: FC<FiltersProps> = ({
       </FormControl>
 
       <FormControl my={3} mx={[null, null, 5]}>
-        <FormLabel htmlFor="valleys">Valleys in Ensenada</FormLabel>
+        <FormLabel htmlFor="valleys">{t("ensenadaValleys")}</FormLabel>
         <CreatableSelect
           isMulti
           options={Object.values(Valley).map((valley) => ({
@@ -145,7 +147,7 @@ export const Filters: FC<FiltersProps> = ({
       </FormControl>
 
       <FormControl my={3} mx={[null, null, 5]}>
-        <FormLabel htmlFor="experienceTypes">Type of Experiences</FormLabel>
+        <FormLabel htmlFor="experienceTypes">{t("experienceType")}</FormLabel>
         <CreatableSelect
           isMulti
           options={Object.values(ExperienceType).map((expType) => {
@@ -161,7 +163,7 @@ export const Filters: FC<FiltersProps> = ({
               label: (
                 <Flex justifyContent="center" alignItems="center">
                   <Box mr={2}>{icon}</Box>
-                  <Box>{experienceTypeReverseMapping(expType)}</Box>
+                  <Box>{t(experienceTypeReverseMapping(expType))}</Box>
                 </Flex>
               ),
               value: expType,
@@ -179,7 +181,7 @@ export const Filters: FC<FiltersProps> = ({
           mt={5}
           onClick={updateAllFilters}
         >
-          Search
+          {t("search")}
         </Button>
       </Flex>
     </Flex>

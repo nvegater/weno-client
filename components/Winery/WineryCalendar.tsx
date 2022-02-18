@@ -10,6 +10,7 @@ import {
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
 import { ContextHeader } from "../Authentication/useAuth";
+import { useTranslation } from "react-i18next";
 
 interface WineryCalendarProps {
   winery: WineryFragmentFragment;
@@ -24,6 +25,7 @@ export const WineryCalendar: FC<WineryCalendarProps> = ({
     variables: { wineryId: winery.id },
     context: contextHeader,
   });
+  const [t] = useTranslation("global");
 
   const slotsReserved = useMemo(
     () =>
@@ -48,12 +50,12 @@ export const WineryCalendar: FC<WineryCalendarProps> = ({
     <div>
       <Flex>
         <Heading as="h1" size="xl" mb={5}>
-          Upcoming Events
+          {t("coming")}
         </Heading>
       </Flex>
       {fetching && (
         <Heading as="h1" size="md" mb={5}>
-          Loading events...
+          {t("loadingEvents")}
         </Heading>
       )}
       {slotsReserved.length > 0 && (

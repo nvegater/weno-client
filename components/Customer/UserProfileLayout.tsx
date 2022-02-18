@@ -10,6 +10,7 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { UserReservations } from "./UserReservations";
 import { UserInformation } from "./UserInformation";
 import { CustomerFragment } from "../../graphql/generated/graphql";
+import { useTranslation } from "react-i18next";
 
 export enum UserProfileSubpage {
   PROFILE_INFO,
@@ -32,6 +33,7 @@ export const UserProfileLayout: FC<UserProfileLayoutProps> = ({
   const [subPage, setSubPage] = useState<UserProfileSubpage>(
     UserProfileSubpage.PROFILE_INFO
   );
+  const [t] = useTranslation("global");
 
   const navgroups = (
     <>
@@ -44,33 +46,33 @@ export const UserProfileLayout: FC<UserProfileLayoutProps> = ({
           contextHeader={contextHeader}
         />
       )}
-      {subPage === UserProfileSubpage.FAVORITES && <div>Coming soon....</div>}
-      {subPage === UserProfileSubpage.HELP && <div>Help</div>}
+      {subPage === UserProfileSubpage.FAVORITES && <div>{t("coming")}</div>}
+      {subPage === UserProfileSubpage.HELP && <div>{t("help")}</div>}
     </>
   );
 
   const subpages = (
     <>
-      <NavGroup label="Your profile">
+      <NavGroup label={t("yourProfile")}>
         <NavItem
           icon={<IoMdInformationCircleOutline />}
-          label="User information"
+          label={t("userInformation")}
           subPage={UserProfileSubpage.PROFILE_INFO}
           setSubPage={setSubPage}
           active={subPage === UserProfileSubpage.PROFILE_INFO}
         />
       </NavGroup>
-      <NavGroup label="Your Experiences">
+      <NavGroup label={t("yourExperiences")}>
         <NavItem
           icon={<RiReservedLine />}
-          label="Reservations"
+          label={t("reservations")}
           subPage={UserProfileSubpage.RESERVATIONS}
           setSubPage={setSubPage}
           active={subPage === UserProfileSubpage.RESERVATIONS}
         />
         <NavItem
           icon={<MdFavoriteBorder />}
-          label="Favorites"
+          label={t("favorites")}
           subPage={UserProfileSubpage.FAVORITES}
           setSubPage={setSubPage}
           active={subPage === UserProfileSubpage.FAVORITES}

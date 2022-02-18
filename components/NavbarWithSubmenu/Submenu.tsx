@@ -6,6 +6,7 @@ import { Link } from "./_data";
 import { NavLink } from "./NavLink";
 import { NavMenu } from "./NavMenu";
 import { SubmenuItem as DesktopMenuItem } from "./SubmenuItem";
+import { useTranslation } from "react-i18next";
 
 interface SubmenuProps {
   link: Link;
@@ -14,6 +15,7 @@ interface SubmenuProps {
 const DesktopSubmenu = (props: SubmenuProps) => {
   const { link } = props;
   const { isOpen, getMenuProps, getTriggerProps } = useNavMenu();
+  const [t] = useTranslation("global");
   return (
     <>
       <NavLink.Desktop
@@ -25,7 +27,7 @@ const DesktopSubmenu = (props: SubmenuProps) => {
         fontWeight="semibold"
         {...getTriggerProps()}
       >
-        <Box>{link.label}</Box>
+        <Box>{t(link.label)}</Box>
         <Box marginStart="2" as={FaChevronDown} fontSize="xs" />
       </NavLink.Desktop>
 
@@ -40,11 +42,11 @@ const DesktopSubmenu = (props: SubmenuProps) => {
             {link.children?.map((item, idx) => (
               <DesktopMenuItem
                 key={idx}
-                title={item.label}
+                title={t(item.label)}
                 href={item.href}
                 icon={item.icon}
               >
-                {item.description}
+                {t(item.description)}
               </DesktopMenuItem>
             ))}
           </SimpleGrid>
@@ -57,6 +59,7 @@ const DesktopSubmenu = (props: SubmenuProps) => {
 const MobileSubMenu = (props: SubmenuProps) => {
   const { link } = props;
   const { isOpen, onToggle } = useDisclosure();
+  const [t] = useTranslation("global");
 
   return (
     <Box>
@@ -68,7 +71,7 @@ const MobileSubMenu = (props: SubmenuProps) => {
         display="flex"
         justifyContent="center"
       >
-        <Box mr={2}>{link.label}</Box>
+        <Box mr={2}>{t(link.label)}</Box>
         <Box
           as={FaChevronDown}
           transform={`rotate(${isOpen ? "180deg" : "0deg"})`}
@@ -78,7 +81,7 @@ const MobileSubMenu = (props: SubmenuProps) => {
         <Box pl="5" textAlign="start" display="flex" justifyContent="start">
           {link.children?.map((item, idx) => (
             <NavLink.Mobile key={idx} href={item.href}>
-              {item.label}
+              {t(item.label)}
             </NavLink.Mobile>
           ))}
         </Box>

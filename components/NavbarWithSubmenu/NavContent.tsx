@@ -4,6 +4,7 @@ import {
   Flex,
   FlexProps,
   HStack,
+  Switch,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -18,6 +19,8 @@ import { BiLogOut } from "react-icons/bi";
 import { Weno } from "../Hero/Brands";
 import Link from "next/link";
 import { KeycloakLoginOptions } from "keycloak-js";
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const LogoTextSidebar = (
   <Text
@@ -59,6 +62,7 @@ interface LogoutButtonProps {
 }
 
 const LoginButton = ({ loginFn, isNavBar = false }: LoginButtonProps) => {
+  const [t] = useTranslation("global");
   return (
     <Button
       leftIcon={<RiLoginCircleFill />}
@@ -70,12 +74,13 @@ const LoginButton = ({ loginFn, isNavBar = false }: LoginButtonProps) => {
         loginFn({ redirectUri: redirectUri });
       }}
     >
-      Login
+      {t("logIn")}
     </Button>
   );
 };
 
 const LogoutButton = ({ logoutFn, isNavBar = false }: LogoutButtonProps) => {
+  const [t] = useTranslation("global");
   return (
     <Button
       leftIcon={<BiLogOut />}
@@ -85,7 +90,7 @@ const LogoutButton = ({ logoutFn, isNavBar = false }: LogoutButtonProps) => {
         logoutFn();
       }}
     >
-      Logout
+      {t("logOut")}
     </Button>
   );
 };
@@ -100,6 +105,20 @@ const MobileNavContext = ({
   preferred_username,
 }: NavBarProps) => {
   const { isOpen, onToggle } = useDisclosure();
+  const [t, i18n] = useTranslation("global");
+  const [isEnglish, setIsEnglish] = useState<boolean>(false);
+
+  const changeLanguage = async () => {
+    if (isEnglish) {
+      setIsEnglish(false);
+      await i18n.changeLanguage("es");
+    }
+
+    if (!isEnglish) {
+      setIsEnglish(true);
+      await i18n.changeLanguage("en");
+    }
+  };
   return (
     <>
       {/*NavBar (closed SideBar)-------------------------------------------*/}
@@ -138,7 +157,9 @@ const MobileNavContext = ({
               {link.children ? (
                 <Submenu.Mobile link={link} />
               ) : (
-                <NavLink.Mobile href={link.href}>{link.label}</NavLink.Mobile>
+                <NavLink.Mobile href={link.href}>
+                  {t(link.label)}
+                </NavLink.Mobile>
               )}
             </Box>
           )
@@ -146,6 +167,16 @@ const MobileNavContext = ({
         <Flex justifyContent="center" py={4}>
           {!authenticated && <LoginButton loginFn={loginFn} />}
           {authenticated && <LogoutButton logoutFn={logoutFn} />}
+        </Flex>
+        <Flex py={4} justifyContent="center">
+          español{" "}
+          <Switch
+            size="lg"
+            px={2}
+            colorScheme="purple"
+            onChange={changeLanguage}
+          />{" "}
+          inglés
         </Flex>
       </NavMenu>
     </>
@@ -161,6 +192,20 @@ const DesktopNavContent = ({
   urlAlias,
   preferred_username,
 }: NavBarProps) => {
+  const [t, i18n] = useTranslation("global");
+  const [isEnglish, setIsEnglish] = useState<boolean>(false);
+
+  const changeLanguage = async () => {
+    if (isEnglish) {
+      setIsEnglish(false);
+      await i18n.changeLanguage("es");
+    }
+
+    if (!isEnglish) {
+      setIsEnglish(true);
+      await i18n.changeLanguage("en");
+    }
+  };
   return (
     <Flex
       className="nav-content__desktop"
@@ -186,7 +231,9 @@ const DesktopNavContent = ({
               {link.children ? (
                 <Submenu.Desktop link={link} />
               ) : (
-                <NavLink.Desktop href={link.href}>{link.label}</NavLink.Desktop>
+                <NavLink.Desktop href={link.href}>
+                  {t(link.label)}
+                </NavLink.Desktop>
               )}
             </Box>
           )
@@ -195,6 +242,16 @@ const DesktopNavContent = ({
       <HStack spacing="8" justify="space-between">
         {!authenticated && <LoginButton loginFn={loginFn} isNavBar />}
         {authenticated && <LogoutButton logoutFn={logoutFn} isNavBar />}
+        <Flex justifyContent="center" color="white">
+          ES{" "}
+          <Switch
+            size="md"
+            px={2}
+            colorScheme="purple"
+            onChange={changeLanguage}
+          />{" "}
+          EN
+        </Flex>
       </HStack>
     </Flex>
   );

@@ -14,6 +14,7 @@ import {
   useColorModeValue as mode,
 } from "@chakra-ui/react";
 import { HiArrowNarrowRight, HiCheckCircle } from "react-icons/hi";
+import { useTranslation } from "react-i18next";
 
 interface PriceDisplayProps extends FlexProps {
   currency: string;
@@ -79,6 +80,7 @@ export const PricingCard = (props: PricingCardProps) => {
     bg,
     ...rest
   } = props;
+  const [t] = useTranslation("global");
   return (
     <Box
       bg={mode("white", "gray.700")}
@@ -107,7 +109,7 @@ export const PricingCard = (props: PricingCardProps) => {
             color="white"
             rightIcon={<HiArrowNarrowRight />}
           >
-            Create an account
+            {t("createAccount")}
           </Button>
         </LightMode>
         <Text
@@ -116,7 +118,7 @@ export const PricingCard = (props: PricingCardProps) => {
           align="center"
           fontSize="sm"
         >
-          Start offering experiences
+          {t("startOffering")}
         </Text>
       </Box>
       <Box px="8" pt="10" pb="12">

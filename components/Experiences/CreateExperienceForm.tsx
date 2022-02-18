@@ -23,6 +23,7 @@ import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorSummary } from "../Winery/CreateWineryForm";
 import RadioGroup from "../Radio/RadioGroup";
 import { DateTimeForm } from "./DateTimeForm";
+import { useTranslation } from "react-i18next";
 import {
   mapEventType,
   mapSlotType,
@@ -111,18 +112,19 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
       router.reload();
     }
   };
+  const [t] = useTranslation("global");
 
   const formSteps: Step[] = [
     {
-      title: "Experience Details",
+      title: t("experienceDetails"),
       content: (
         <VStack spacing="24px">
           <FormControl isInvalid={errors.title} isRequired={true}>
             <Input
               type="text"
-              placeholder="Title"
+              placeholder={t("title")}
               {...register("title", {
-                required: "Please enter the title of your event",
+                required: { value: true, message: t("titleDescription") },
                 minLength: 3,
                 maxLength: 50,
               })}
@@ -136,12 +138,12 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
           <FormControl isInvalid={errors.description} isRequired={true}>
             <Textarea
               type="text"
-              placeholder="Describe your event"
+              placeholder={t("describeEvent")}
               {...register("description", {
-                required: "Please enter a description",
+                required: { value: true, message: t("descriptionText") },
                 minLength: {
                   value: 20,
-                  message: "Please enter at least 20 characters",
+                  message: t("descriptionMessage"),
                 },
               })}
               maxW="250px"
@@ -152,12 +154,10 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
           </FormControl>
 
           <FormControl isInvalid={errors.pricePerPersonInMxn} isRequired={true}>
-            <FormLabel htmlFor="pricePerPersonInMxn">
-              Price per Person
-            </FormLabel>
+            <FormLabel htmlFor="pricePerPersonInMxn">{t("price")}</FormLabel>
             <Input
               type="number"
-              placeholder="Price per person in MXN"
+              placeholder={t("price")}
               {...register("pricePerPersonInMxn", {
                 valueAsNumber: true,
               })}
@@ -168,14 +168,16 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
             </FormErrorMessage>
           </FormControl>
           <FormControl isInvalid={errors.limitOfAttendees} isRequired={true}>
-            <FormLabel htmlFor="limitOfAttendees">Limit of attendees</FormLabel>
+            <FormLabel htmlFor="limitOfAttendees">
+              {t("attendeesLimit")}
+            </FormLabel>
             <Input
               type="number"
               placeholder="e.g. 1992"
               {...register("limitOfAttendees", {
                 valueAsNumber: true,
-                max: { value: 2022, message: "Invalid date" },
-                min: { value: 0, message: "Thats too old to be true" },
+                max: { value: 2022, message: t("lateDate") },
+                min: { value: 0, message: t("earlyDate") },
               })}
               maxW="250px"
             />
@@ -186,11 +188,11 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
           <RadioGroup
             control={control}
             name="eventType"
-            label="Event type"
+            label={t("eventType")}
             elements={[
-              { name: degustation },
-              { name: pairing },
-              { name: concert },
+              { name: t("degustation") },
+              { name: t("pairing") },
+              { name: t("concert") },
             ]}
             isRequired
             isVisibleLabel
@@ -199,7 +201,7 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
       ),
     },
     {
-      title: "Dates and frequency",
+      title: t("datesFrequency"),
       content: (
         <DateTimeForm
           control={control}
@@ -211,11 +213,11 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
       ),
     },
     {
-      title: "Images",
+      title: t("images"),
       content: (
         <Flex>
           <Heading as="h3" size="sm">
-            Submit the form to upload images
+            {t("submitForImages")}
           </Heading>
         </Flex>
       ),
@@ -230,12 +232,12 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
       pr={4}
       alignItems={["start", "center"]}
     >
-      <Heading mb={8}>New Experience</Heading>
+      <Heading mb={8}>{t("newExperience")}</Heading>
       <Box mb={"3em"}>
         <VerticalSteps
           steps={formSteps}
           isLoading={false}
-          finalStepText="Click reset to verify your creation"
+          finalStepText={t("resetInstructions")}
         />
       </Box>
 
@@ -254,7 +256,7 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
           isLoading={isSubmitting}
           disabled={isSubmitting}
         >
-          Submit
+          {t("submit")}
         </Button>
       </Flex>
     </VStack>

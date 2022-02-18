@@ -7,6 +7,7 @@ import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../graphql/urqlProvider";
 import { useRouter } from "next/router";
 import { CreateWineryForm } from "../components/Winery/CreateWineryForm";
+import { useTranslation } from "react-i18next";
 
 interface RegisterProps {}
 
@@ -26,7 +27,7 @@ const Register: FC<RegisterProps> = ({}) => {
   } = useAuth();
 
   const router = useRouter();
-
+  const [t] = useTranslation("global");
   const [{ data: wineryResponse, error, fetching }] = useWineryQuery({
     variables: {
       getWineryInputs: {
@@ -89,7 +90,7 @@ const Register: FC<RegisterProps> = ({}) => {
         {(loadingAuthInfo || fetching) && (
           <Flex justifyContent="center" m={5}>
             <Heading as="h2" size="xl">
-              We are processing your credentials...
+              {t("processingCredentials")}
             </Heading>
           </Flex>
         )}
@@ -97,7 +98,7 @@ const Register: FC<RegisterProps> = ({}) => {
           <>
             <Flex justifyContent="center" m={5}>
               <Heading as="h1" size="xl">
-                This page is only available for registered users.
+                {t("onlyRegisteredUsers")}
               </Heading>
             </Flex>
             <Flex justifyContent="space-around" m={5} alignItems="center">
@@ -111,7 +112,7 @@ const Register: FC<RegisterProps> = ({}) => {
                   });
                 }}
               >
-                Register
+                {t("register")}
               </Button>
               <Button
                 variant="primaryWeno"
@@ -122,7 +123,7 @@ const Register: FC<RegisterProps> = ({}) => {
                   login({ redirectUri: redirectUri });
                 }}
               >
-                Login
+                {t("logIn")}
               </Button>
             </Flex>
           </>

@@ -13,10 +13,13 @@ import {
   ExperienceDrawer,
   ExperiencesGridMode,
 } from "../components/Experiences/ExperienceDrawer";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const { authenticated, logout, login, register, tokenInfo, urlAlias } =
     useAuth();
+
+  const [t] = useTranslation("global");
 
   const [openFilters, setOpenFilters] = useState<boolean>(false);
 
@@ -75,7 +78,7 @@ const Home = () => {
             mx={[10, 10, 10, 20]}
           >
             <Heading as="h1" color="brand.200" fontWeight="700" size="2xl">
-              Experiences
+              {t("experiences")}
             </Heading>
             <Icon
               as={ImFilter}

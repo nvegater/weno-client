@@ -2,6 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import * as React from "react";
 import { HiX } from "react-icons/hi";
 import { CgMenuGridR } from "react-icons/cg";
+import { useTranslation } from "react-i18next";
 
 interface MobileMenuButtonProps {
   onClick: () => void;
@@ -10,6 +11,7 @@ interface MobileMenuButtonProps {
 
 export const MobileMenuButton = (props: MobileMenuButtonProps) => {
   const { onClick, isOpen } = props;
+  const [t] = useTranslation("global");
   return (
     <Box
       display={{ base: "block", md: "none" }}
@@ -24,13 +26,13 @@ export const MobileMenuButton = (props: MobileMenuButtonProps) => {
       _hover={{ bg: "white" }}
       onClick={onClick}
     >
-      <Box srOnly>{isOpen ? "Close Menu" : "Open Menu"}</Box>
+      <Box srOnly>{isOpen ? t("closeMenu") : t("openMenu")}</Box>
       {isOpen ? (
         <HiX />
       ) : (
         <Flex alignItems="center">
           <CgMenuGridR />
-          <Box pl={2}>Profile Menu</Box>
+          <Box pl={2}>{t("profileMenu")}</Box>
         </Flex>
       )}
     </Box>

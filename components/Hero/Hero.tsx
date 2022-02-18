@@ -2,6 +2,7 @@ import { Box, Button, Heading, Stack, Text } from "@chakra-ui/react";
 import * as React from "react";
 import { FC } from "react";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 interface HeroProps {
   authenticated: boolean;
@@ -9,6 +10,7 @@ interface HeroProps {
 }
 
 export const Hero: FC<HeroProps> = ({ authenticated, register }) => {
+  const [t] = useTranslation("global");
   return (
     <Box
       as="section"
@@ -30,7 +32,7 @@ export const Hero: FC<HeroProps> = ({ authenticated, register }) => {
         lineHeight="1.2"
         letterSpacing="10%"
       >
-        Delight in
+        {t("delightIn")}
       </Heading>
       <Heading
         as="h2"
@@ -42,10 +44,10 @@ export const Hero: FC<HeroProps> = ({ authenticated, register }) => {
         letterSpacing="normal"
         color="brand.700"
       >
-        Enoturism
+        {t("enoturism")}
       </Heading>
       <Text fontSize="xl" mt="4" maxW="xl" mx="auto">
-        Made for wine lovers & growers
+        {t("madeForWine")}
       </Text>
 
       <Stack
@@ -64,10 +66,10 @@ export const Hero: FC<HeroProps> = ({ authenticated, register }) => {
             }
           }}
         >
-          Register
+          {t("register")}
         </Button>
         <Button size="heroWeno" variant="cta">
-          <Link href="/subscriptions">Publish events</Link>
+          <Link href="/subscriptions">{t("publishEvents")}</Link>
         </Button>
       </Stack>
     </Box>
