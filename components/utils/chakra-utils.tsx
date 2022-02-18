@@ -1,5 +1,4 @@
 import { UseToastOptions } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
 
 type ToastMessageType =
   | "uploadImageError"
@@ -10,10 +9,9 @@ type ToastMessageType =
   | "saved";
 
 export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
-  const [t] = useTranslation("global");
   let toastOpts: UseToastOptions = {
-    title: t("defaultMessage"),
-    description: t("notRealDescription"),
+    title: "Default",
+    description: "default",
     status: "warning",
     duration: 1000,
     isClosable: true,
@@ -24,7 +22,7 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
     case "uploadImageError":
       toastOpts = {
         title: "Error",
-        description: t("uploadImageError"),
+        description: "No pudimos cargar tus imagenes",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -33,8 +31,8 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
       break;
     case "processingChangesInfo":
       toastOpts = {
-        title: t("savingImage"),
-        description: t("processingChanges"),
+        title: "Guardando Imágen",
+        description: "Procesando cambios",
         status: "info",
         duration: 5000,
         isClosable: true,
@@ -43,8 +41,8 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
       break;
     case "imagesSavedSuccess":
       toastOpts = {
-        title: t("ready"),
-        description: t("imagesSaved"),
+        title: "Listo",
+        description: "Imagen guardada",
         status: "success",
         duration: 5000,
         isClosable: true,
@@ -53,8 +51,8 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
       break;
     case "bookingNotPossibleServerError":
       toastOpts = {
-        title: t("bookingFailed"),
-        description: t("connectionErrors"),
+        title: "Error en la reserva",
+        description: "Error en el servidor",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -63,8 +61,8 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
       break;
     case "bookingFailed":
       toastOpts = {
-        title: t("Booking failed"),
-        description: t("errorApologize"),
+        title: "Error en la reserva",
+        description: "Error en el servidor",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -73,8 +71,8 @@ export const getToastMessage = (message: ToastMessageType): UseToastOptions => {
       break;
     case "saved":
       toastOpts = {
-        title: t("updateSuccessful"),
-        description: t("informationSaved"),
+        title: "Actualización exitosa",
+        description: "",
         status: "success",
         duration: 5000,
         isClosable: true,
