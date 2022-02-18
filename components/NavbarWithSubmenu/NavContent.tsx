@@ -4,6 +4,7 @@ import {
   Flex,
   FlexProps,
   HStack,
+  Switch,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -19,6 +20,7 @@ import { Weno } from "../Hero/Brands";
 import Link from "next/link";
 import { KeycloakLoginOptions } from "keycloak-js";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const LogoTextSidebar = (
   <Text
@@ -103,7 +105,20 @@ const MobileNavContext = ({
   preferred_username,
 }: NavBarProps) => {
   const { isOpen, onToggle } = useDisclosure();
-  const [t] = useTranslation("global");
+  const [t, i18n] = useTranslation("global");
+  const [isEnglish, setIsEnglish] = useState<boolean>(false);
+
+  const changeLanguage = async () => {
+    if (isEnglish) {
+      setIsEnglish(false);
+      await i18n.changeLanguage("es");
+    }
+
+    if (!isEnglish) {
+      setIsEnglish(true);
+      await i18n.changeLanguage("en");
+    }
+  };
   return (
     <>
       {/*NavBar (closed SideBar)-------------------------------------------*/}
@@ -153,6 +168,16 @@ const MobileNavContext = ({
           {!authenticated && <LoginButton loginFn={loginFn} />}
           {authenticated && <LogoutButton logoutFn={logoutFn} />}
         </Flex>
+        <Flex py={4} justifyContent="center">
+          español{" "}
+          <Switch
+            size="lg"
+            px={2}
+            colorScheme="purple"
+            onChange={changeLanguage}
+          />{" "}
+          inglés
+        </Flex>
       </NavMenu>
     </>
   );
@@ -167,7 +192,20 @@ const DesktopNavContent = ({
   urlAlias,
   preferred_username,
 }: NavBarProps) => {
-  const [t] = useTranslation("global");
+  const [t, i18n] = useTranslation("global");
+  const [isEnglish, setIsEnglish] = useState<boolean>(false);
+
+  const changeLanguage = async () => {
+    if (isEnglish) {
+      setIsEnglish(false);
+      await i18n.changeLanguage("es");
+    }
+
+    if (!isEnglish) {
+      setIsEnglish(true);
+      await i18n.changeLanguage("en");
+    }
+  };
   return (
     <Flex
       className="nav-content__desktop"
@@ -204,6 +242,16 @@ const DesktopNavContent = ({
       <HStack spacing="8" justify="space-between">
         {!authenticated && <LoginButton loginFn={loginFn} isNavBar />}
         {authenticated && <LogoutButton logoutFn={logoutFn} isNavBar />}
+        <Flex justifyContent="center" color="white">
+          ES{" "}
+          <Switch
+            size="md"
+            px={2}
+            colorScheme="purple"
+            onChange={changeLanguage}
+          />{" "}
+          EN
+        </Flex>
       </HStack>
     </Flex>
   );
