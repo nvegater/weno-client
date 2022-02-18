@@ -172,11 +172,11 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
         <RadioGroup
           control={control}
           name="eventType"
-          label="Event type"
+          label={t("eventType")}
           elements={[
-            { name: degustation },
-            { name: pairing },
-            { name: concert },
+            { name: t("degustation") },
+            { name: t("pairing") },
+            { name: t("concert") },
           ]}
           preSelectedElement={expTypeToRadioElement(
             selectedExperience.experienceType

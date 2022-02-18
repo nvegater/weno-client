@@ -157,7 +157,7 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
             <FormLabel htmlFor="pricePerPersonInMxn">{t("price")}</FormLabel>
             <Input
               type="number"
-              placeholder={t("howMuch")}
+              placeholder={t("price")}
               {...register("pricePerPersonInMxn", {
                 valueAsNumber: true,
               })}

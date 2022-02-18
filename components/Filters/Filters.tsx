@@ -163,7 +163,7 @@ export const Filters: FC<FiltersProps> = ({
               label: (
                 <Flex justifyContent="center" alignItems="center">
                   <Box mr={2}>{icon}</Box>
-                  <Box>{experienceTypeReverseMapping(expType)}</Box>
+                  <Box>{t(experienceTypeReverseMapping(expType))}</Box>
                 </Flex>
               ),
               value: expType,

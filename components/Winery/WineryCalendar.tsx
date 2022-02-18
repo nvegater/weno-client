@@ -50,7 +50,7 @@ export const WineryCalendar: FC<WineryCalendarProps> = ({
     <div>
       <Flex>
         <Heading as="h1" size="xl" mb={5}>
-          {t("upcomingEvents")}
+          {t("coming")}
         </Heading>
       </Flex>
       {fetching && (

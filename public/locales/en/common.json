@@ -126,6 +126,7 @@
   "whereReceiveInformation": "Its where you will receive the booking information",
 
   "language": "Language",
+  "languages": "Languages",
   "attendeesLimit": "Limit of attendees",
   "loadMore": "Load more",
   "loadingEvents": "Loading events...",
