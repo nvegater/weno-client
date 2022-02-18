@@ -27,7 +27,7 @@ const DesktopSubmenu = (props: SubmenuProps) => {
         fontWeight="semibold"
         {...getTriggerProps()}
       >
-        <Box>{link.label}</Box>
+        <Box>{t(link.label)}</Box>
         <Box marginStart="2" as={FaChevronDown} fontSize="xs" />
       </NavLink.Desktop>
 
@@ -46,7 +46,7 @@ const DesktopSubmenu = (props: SubmenuProps) => {
                 href={item.href}
                 icon={item.icon}
               >
-                {item.description}
+                {t(item.description)}
               </DesktopMenuItem>
             ))}
           </SimpleGrid>
