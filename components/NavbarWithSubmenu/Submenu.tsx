@@ -71,7 +71,7 @@ const MobileSubMenu = (props: SubmenuProps) => {
         display="flex"
         justifyContent="center"
       >
-        <Box mr={2}>{link.label}</Box>
+        <Box mr={2}>{t(link.label)}</Box>
         <Box
           as={FaChevronDown}
           transform={`rotate(${isOpen ? "180deg" : "0deg"})`}
