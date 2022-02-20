@@ -3,7 +3,6 @@ import {
   EditExperienceInputs,
   PaginatedExperienceFragment,
   useEditExperienceMutation,
-  WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
 import {
   Button,
@@ -33,7 +32,6 @@ interface EditExperienceInputsForm extends EditExperienceInputs {
 
 interface EditExperienceModalProps {
   selectedExperience: PaginatedExperienceFragment;
-  winery: WineryFragmentFragment;
   contextHeader: ContextHeader;
 }
 
@@ -42,7 +40,6 @@ const placeHolderImage =
 
 export const EditExperience: FC<EditExperienceModalProps> = ({
   selectedExperience,
-  winery,
   contextHeader,
 }) => {
   const toast = useToast();
@@ -174,9 +171,9 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
           name="eventType"
           label={t("eventType")}
           elements={[
-            { name: t("degustation") },
-            { name: t("pairing") },
-            { name: t("concert") },
+            { name: degustation },
+            { name: pairing },
+            { name: concert },
           ]}
           preSelectedElement={expTypeToRadioElement(
             selectedExperience.experienceType

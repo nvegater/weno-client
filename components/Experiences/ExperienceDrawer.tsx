@@ -50,7 +50,6 @@ export const ExperienceDrawer: FC<ExperienceModalProps> = ({
             contextHeader && (
               <EditExperience
                 selectedExperience={experience}
-                winery={winery}
                 contextHeader={contextHeader}
               />
             )}

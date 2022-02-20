@@ -31,6 +31,18 @@ interface UseAuthHookResult {
 
 type UseAuthHook = () => UseAuthHookResult;
 
+const parseKeycloakToken = (token: KeycloakTokenParsed) => {
+  return {
+    ...token,
+    // @ts-ignore
+    preferred_username: token.preferred_username || null,
+    // @ts-ignore
+    email: token.email,
+    // @ts-ignore
+    userType: token.userType,
+  };
+};
+
 const useAuth: UseAuthHook = () => {
   const { keycloak, initialized } = useKeycloak<KeycloakInstance>();
 
@@ -46,15 +58,7 @@ const useAuth: UseAuthHook = () => {
   );
 
   const tokenInfo: ParsedTokenExtended | null = keycloak.tokenParsed
-    ? {
-        ...keycloak.tokenParsed,
-        // @ts-ignore
-        preferred_username: keycloak.tokenParsed.preferred_username || null,
-        // @ts-ignore
-        email: keycloak.tokenParsed.email,
-        // @ts-ignore
-        userType: keycloak.tokenParsed.userType,
-      }
+    ? parseKeycloakToken(keycloak.tokenParsed)
     : null;
 
   const isOwner = tokenInfo && tokenInfo.userType === "owner";
