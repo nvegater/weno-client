@@ -7,9 +7,9 @@ import {
 import { useMemo } from "react";
 
 export interface ParsedTokenExtended extends KeycloakTokenParsed {
-  preferred_username: string | null;
-  email: string | null;
-  userType: "owner" | "visitor" | null;
+  preferred_username: string;
+  email: string;
+  userType: "owner" | "visitor";
 }
 
 export type ContextHeader = {
@@ -31,11 +31,11 @@ interface UseAuthHookResult {
 
 type UseAuthHook = () => UseAuthHookResult;
 
-const parseKeycloakToken = (token: KeycloakTokenParsed) => {
+export const parseKeycloakToken = (token: KeycloakTokenParsed) => {
   return {
     ...token,
     // @ts-ignore
-    preferred_username: token.preferred_username || null,
+    preferred_username: token.preferred_username,
     // @ts-ignore
     email: token.email,
     // @ts-ignore
