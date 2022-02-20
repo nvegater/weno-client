@@ -1,25 +1,12 @@
 import React from "react";
 import { dedupExchange, Exchange, fetchExchange } from "urql";
+import { NextUrqlClientConfig, SSRExchange } from "next-urql";
 //import { cacheExchange } from "@urql/exchange-graphcache";
-import { NextUrqlClientConfig, SSRExchange } from "next-urql/dist/types/types";
-import { NextPageContext } from "next";
-import cookie from "cookie";
-import { IncomingMessage } from "http";
-
-function parseCookies(req?: IncomingMessage) {
-  if (!req || !req.headers) {
-    return {};
-  }
-  return cookie.parse(req.headers.cookie || "");
-}
 
 // This will eventually run on the Server as well.
 export const createUrqlClient: NextUrqlClientConfig = (
-  ssrExchange: SSRExchange,
-  ctx: NextPageContext | undefined
+  ssrExchange: SSRExchange
 ) => {
-  const cookies = ctx && ctx.req ? parseCookies(ctx.req) : undefined;
-
   const castedExchanges: Exchange[] = [
     //Needed because [Exchange, Exchange] not the Same as Exchange[].. duh
     dedupExchange,
@@ -30,8 +17,7 @@ export const createUrqlClient: NextUrqlClientConfig = (
   return {
     url: process.env.NEXT_PUBLIC_API_URL as string,
     fetchOptions: {
-      credentials: "include" as const,
-      headers: cookies !== undefined ? { cookies } : undefined,
+      credentials: "include",
     },
     exchanges: castedExchanges,
   } as const;
