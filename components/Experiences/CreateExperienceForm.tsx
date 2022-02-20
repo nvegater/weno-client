@@ -190,9 +190,9 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
             name="eventType"
             label={t("eventType")}
             elements={[
-              { name: t("degustation") },
-              { name: t("pairing") },
-              { name: t("concert") },
+              { name: "Degustation" },
+              { name: "Pairing" },
+              { name: "Concert" },
             ]}
             isRequired
             isVisibleLabel
@@ -210,16 +210,6 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
           register={register}
           contextHeader={contextHeader}
         />
-      ),
-    },
-    {
-      title: t("images"),
-      content: (
-        <Flex>
-          <Heading as="h3" size="sm">
-            {t("submitForImages")}
-          </Heading>
-        </Flex>
       ),
     },
   ];
