@@ -53,7 +53,12 @@ function MyApp({ Component, pageProps, cookies }: AppProps & InitialProps) {
 
   // https://github.com/react-keycloak/react-keycloak/blob/master/packages/ssr/README.md
   return (
-    <SSRKeycloakProvider {...keycloakConfig}>
+    <SSRKeycloakProvider
+      {...keycloakConfig}
+      onTokens={(a) => {
+        console.log("onTokens method: AuthClientTokens", a);
+      }}
+    >
       <ChakraProvider theme={theme}>
         <I18nextProvider i18n={i18next}>
           <Box />

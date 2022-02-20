@@ -16,7 +16,7 @@ import {
 import { useTranslation } from "react-i18next";
 
 const Home = () => {
-  const { authenticated, logout, login, register, tokenInfo, urlAlias } =
+  const { authenticated, logout, login, register, tokenInfo, contextHeader } =
     useAuth();
 
   const [t] = useTranslation("global");
@@ -68,7 +68,7 @@ const Home = () => {
           logoutFn={logout}
           authenticated={authenticated}
           tokenInfo={tokenInfo}
-          urlAlias={urlAlias}
+          contextHeader={contextHeader}
         >
           <Hero authenticated={authenticated} register={register} />
 

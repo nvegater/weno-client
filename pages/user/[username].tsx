@@ -21,7 +21,6 @@ const User = () => {
     login,
     tokenInfo,
     isVisitor,
-    urlAlias,
   } = useAuth();
 
   return (
@@ -30,7 +29,7 @@ const User = () => {
       loginFn={login}
       logoutFn={logout}
       tokenInfo={tokenInfo}
-      urlAlias={urlAlias}
+      contextHeader={contextHeader}
     >
       {!username && <h1>{t("urlError")}</h1>}
 

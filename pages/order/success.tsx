@@ -14,7 +14,7 @@ const Success = () => {
 
   const { session_id } = router.query;
 
-  const { authenticated, logout, login, tokenInfo, urlAlias } = useAuth();
+  const { authenticated, logout, login, tokenInfo, contextHeader } = useAuth();
   const [t] = useTranslation("global");
 
   const {
@@ -33,7 +33,7 @@ const Success = () => {
       logoutFn={logout}
       authenticated={authenticated}
       tokenInfo={tokenInfo}
-      urlAlias={urlAlias}
+      contextHeader={contextHeader}
     >
       {loadingVerification && (
         <Flex justifyContent="center" m={5}>

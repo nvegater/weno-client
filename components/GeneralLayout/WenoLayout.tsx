@@ -1,14 +1,14 @@
 import React, { FC, ReactNode } from "react";
 import { NavBarWithSubmenu } from "../NavbarWithSubmenu/NavBarWithSubmenu";
 import { KeycloakLoginOptions } from "keycloak-js";
-import { ParsedTokenExtended } from "../Authentication/useAuth";
+import { ContextHeader, ParsedTokenExtended } from "../Authentication/useAuth";
 
 export interface NavBarProps {
   authenticated: boolean;
   loginFn: (options?: KeycloakLoginOptions) => void;
   logoutFn: () => void;
   tokenInfo: ParsedTokenExtended | null;
-  urlAlias: string | null;
+  contextHeader: ContextHeader;
 }
 export interface WenoLayoutProps extends NavBarProps {
   children: ReactNode;
@@ -19,16 +19,16 @@ export const WenoLayout: FC<WenoLayoutProps> = ({
   loginFn,
   tokenInfo,
   authenticated,
-  urlAlias,
+  contextHeader,
 }) => {
   return (
     <>
       <NavBarWithSubmenu
+        contextHeader={contextHeader}
         logoutFn={logoutFn}
         loginFn={loginFn}
         tokenInfo={tokenInfo}
         authenticated={authenticated}
-        urlAlias={urlAlias}
       />
       {children}
     </>
