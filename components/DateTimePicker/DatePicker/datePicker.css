@@ -209,8 +209,7 @@ input {
   text-align: center;
   cursor: pointer;
   position: absolute;
-  top: 2px;
-  padding: 0;
+  top: 16px;
   border: none;
   z-index: 1;
   height: 32px;
@@ -241,12 +240,12 @@ input {
   top: -4px;
 }
 .react-datepicker__navigation:hover *::before {
-  border-color: #a6a6a6;
 }
 
 .react-datepicker__navigation-icon {
   position: relative;
-  top: -1px;
+  top: 5px;
+  border-color: #fd1d7b;
   font-size: 20px;
   width: 0;
 }
@@ -865,7 +864,7 @@ input {
 
 .react-datepicker__navigation--previous,
 .react-datepicker__navigation--next {
-  height: 8px;
+  height: 12px;
 }
 
 .react-datepicker__navigation--previous {
@@ -898,6 +897,7 @@ input {
 .react-datepicker-year-header {
   font-size: inherit;
   font-weight: 600;
+  color: #601a8d;
 }
 
 .react-datepicker__time-container
