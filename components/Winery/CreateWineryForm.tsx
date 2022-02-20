@@ -122,10 +122,10 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       title: t("general"),
       content: (
         <VStack spacing="24px" mt={4} mb={8}>
-          <FormControl isInvalid={errors.name}>
+          <FormControl isInvalid={errors.name} isRequired={true}>
+            <FormLabel for="name">{t("wineryName")}</FormLabel>
             <Input
               type="text"
-              placeholder={t("wineryName")}
               {...register("name", {
                 required: { value: true, message: t("wineryNameMessage") },
                 minLength: 3,
@@ -137,10 +137,10 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={errors.description}>
+          <FormControl isInvalid={errors.description} isRequired={true}>
+            <FormLabel for="description">{t("wineryDescription")}</FormLabel>
             <Textarea
               type="text"
-              placeholder={t("wineryDescription")}
               {...register("description", {
                 required: { value: true, message: t("descriptionText") },
                 minLength: {
@@ -154,7 +154,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={errors.urlAlias}>
+          <FormControl isInvalid={errors.urlAlias} isRequired={true}>
             <FormLabel for="urlAlias">Alias</FormLabel>
             <InputGroup size="sm">
               <InputLeftAddon>weno-mx.com/winery/</InputLeftAddon>
@@ -174,6 +174,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
                 })}
               />
             </InputGroup>
+            <Text my={2}>{t("wineryAliasDescription")}</Text>
             <FormErrorMessage>
               {errors.alias && errors.alias.message}
             </FormErrorMessage>
@@ -358,17 +359,17 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       ),
     },
     {
-      title: t("subscription"),
+      title: t("subscriptions"),
       content: (
         <>
           <RadioGroup
             control={control}
             name="subscription"
-            label={t("subscription")}
+            label={t("requiredField")}
             elements={[
-              { name: t("basicSubscription") },
-              { name: t("intermediateSubscription") },
-              { name: t("premiumSubscription") },
+              { name: "Basic" },
+              { name: "Intermediate" },
+              { name: "Premium" },
             ]}
             isRequired
           />

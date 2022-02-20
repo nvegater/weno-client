@@ -173,7 +173,9 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
               pr={2}
               pb={2}
             >
-              <FormLabel htmlFor="startDateTime">{t("start")}</FormLabel>
+              <FormLabel htmlFor="startDateTime">
+                {t("startDateTime")}
+              </FormLabel>
               <DateTimePickerWeno
                 removeTimeZone={true}
                 onDateTimeSelection={(date) => {
@@ -201,7 +203,7 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
                 isRequired={true}
                 isInvalid={Boolean(fieldState.error)}
               >
-                <FormLabel htmlFor="endDateTime">{t("end")}</FormLabel>
+                <FormLabel htmlFor="endDateTime">{t("endDateTime")}</FormLabel>
                 <DateTimePickerWeno
                   removeTimeZone={true}
                   onDateTimeSelection={(date) => {
