@@ -13,7 +13,7 @@ import {
   Text,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
-import { HiCheckCircle } from "react-icons/hi";
+import { HiArrowNarrowRight, HiCheckCircle } from "react-icons/hi";
 import { useTranslation } from "react-i18next";
 
 interface PriceDisplayProps extends FlexProps {
@@ -109,9 +109,15 @@ export const PricingCard = (props: PricingCardProps) => {
       </Box>
       <Box px="8" py="6" borderBottomWidth="1px">
         <LightMode>
-          <Button onClick={onClick} size="md" w="full" bg={color} color="white">
-            {t("choose")}
-            {name}
+          <Button
+            onClick={onClick}
+            size="md"
+            w="full"
+            bg={color}
+            color="white"
+            rightIcon={<HiArrowNarrowRight />}
+          >
+            {t("subscribe")}
           </Button>
         </LightMode>
       </Box>
