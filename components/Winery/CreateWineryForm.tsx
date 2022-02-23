@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
 import {
-  Box,
   Button,
   Checkbox,
   FormControl,
@@ -392,9 +391,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   return (
     <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
       <Heading mb={8}>{t("yourWinery")}</Heading>
-      <Box mb={"3em"}>
-        <VerticalSteps steps={formSteps} isLoading={false} />
-      </Box>
+      <VerticalSteps steps={formSteps} isLoading={false} />
 
       <FormControl isInvalid={Boolean(errors)}>
         <FormErrorMessage>
