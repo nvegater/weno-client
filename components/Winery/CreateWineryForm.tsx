@@ -67,6 +67,10 @@ export function ErrorSummary<T>({ errors }: ErrorSummaryProps<T>) {
   );
 }
 
+const subscriptionCup_key = "cup";
+const subcriptionBottle_key = "bottle";
+const subscriptionMagnum = "magnum";
+
 export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   username,
   email,
@@ -367,9 +371,9 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             name="subscription"
             label={t("requiredField")}
             elements={[
-              { name: "Basic" },
-              { name: "Intermediate" },
-              { name: "Premium" },
+              { name: subscriptionCup_key },
+              { name: subcriptionBottle_key },
+              { name: subscriptionMagnum },
             ]}
             isRequired
           />
