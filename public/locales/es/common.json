@@ -126,6 +126,7 @@
   "whereReceiveInformation": "Aquí es donde recibirás la información de tu reserva",
 
   "language": "Idioma",
+  "languages": "Idiomas",
   "attendeesLimit": "Limite de participantes",
   "loadMore": "Cargar más",
   "loadingEvents": "Cargando eventos...",
@@ -136,7 +137,7 @@
   "logIn": "Login",
   "logInPlease": "Por favor, inicia sesión",
   "needToLogin": "Inicia sesión para ver la información del viñedo...",
-  "logOut": "Logout",
+  "logOut": "Cerrar sesión",
 
   "manageEmail": "Administrar preferencias de correo electrónico",
   "madeForWine": "Para amantes del vino y vinícolas",

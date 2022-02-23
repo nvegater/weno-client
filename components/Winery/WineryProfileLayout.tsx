@@ -74,7 +74,7 @@ export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
         <EditableExperiences winery={winery} contextHeader={contextHeader} />
       )}
       {subPage === WineryProfileSubpage.DASHBOARD_ANALYTICS && (
-        <div>{t("comming")}</div>
+        <div>{t("coming")}</div>
       )}
     </>
   );
