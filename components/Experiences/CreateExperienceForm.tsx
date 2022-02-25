@@ -173,7 +173,6 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
             </FormLabel>
             <Input
               type="number"
-              placeholder="e.g. 1992"
               {...register("limitOfAttendees", {
                 valueAsNumber: true,
                 max: { value: 2022, message: t("lateDate") },
@@ -224,11 +223,7 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
     >
       <Heading mb={8}>{t("newExperience")}</Heading>
       <Box mb={"3em"}>
-        <VerticalSteps
-          steps={formSteps}
-          isLoading={false}
-          finalStepText={t("resetInstructions")}
-        />
+        <VerticalSteps steps={formSteps} isLoading={false} />
       </Box>
 
       <Flex justifyContent="center" alignItems="center" flexDir="column">
