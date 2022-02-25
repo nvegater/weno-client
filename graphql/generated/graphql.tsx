@@ -645,11 +645,7 @@ export enum TypeWine {
   GenerosoFortificado = 'GENEROSO_FORTIFICADO',
   Espumoso = 'ESPUMOSO',
   Cosecha = 'COSECHA',
-  Naranja = 'NARANJA',
-  Dulce = 'DULCE',
-  Natural = 'NATURAL',
   Conmemorativo = 'CONMEMORATIVO',
-  ExclusivoVentaLocal = 'EXCLUSIVO_VENTA_LOCAL',
   Organico = 'ORGANICO',
   Biodinamico = 'BIODINAMICO',
   Otro = 'OTRO'
