@@ -16,22 +16,19 @@ interface VerticalStepsProps {
   steps: Step[];
   isLoading: boolean;
   withSave?: boolean;
-  finalStepText?: string;
 }
 
 export const VerticalSteps: FC<VerticalStepsProps> = ({
   steps,
   isLoading,
   withSave = false,
-  finalStepText,
 }) => {
   const { nextStep, prevStep, reset, activeStep } = useSteps({
     initialStep: 0,
   });
   const [t] = useTranslation("global");
-  finalStepText = t("formCompleted");
   return (
-    <Box minH="300px" minW="400px">
+    <Box minH="300px" minW="300px">
       <Steps activeStep={activeStep}>
         {steps.map((step, index) => (
           <Step key={step.title} title={step.title}>

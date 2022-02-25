@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
 import {
-  Box,
   Button,
   Checkbox,
   FormControl,
@@ -66,6 +65,10 @@ export function ErrorSummary<T>({ errors }: ErrorSummaryProps<T>) {
     </div>
   );
 }
+
+const subscriptionCup_key = "cup";
+const subcriptionBottle_key = "bottle";
+const subscriptionMagnum = "magnum";
 
 export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   username,
@@ -367,9 +370,9 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             name="subscription"
             label={t("requiredField")}
             elements={[
-              { name: "Basic" },
-              { name: "Intermediate" },
-              { name: "Premium" },
+              { name: subscriptionCup_key },
+              { name: subcriptionBottle_key },
+              { name: subscriptionMagnum },
             ]}
             isRequired
           />
@@ -388,9 +391,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   return (
     <VStack as="form" onSubmit={handleSubmit(onSubmit)}>
       <Heading mb={8}>{t("yourWinery")}</Heading>
-      <Box mb={"3em"}>
-        <VerticalSteps steps={formSteps} isLoading={false} />
-      </Box>
+      <VerticalSteps steps={formSteps} isLoading={false} />
 
       <FormControl isInvalid={Boolean(errors)}>
         <FormErrorMessage>
