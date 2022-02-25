@@ -101,10 +101,9 @@ export const Tiers: FC<TiersProps> = ({ register }) => {
         >
           <PricingCard
             colorScheme="blue"
-            bg="brand.900"
-            color="brand.300"
+            color="brand.900"
             onClick={onClickFn}
-            name="Cup membership"
+            name="Cup"
             price={1199}
             duration="/mo"
             description={t("producersFocused")}
@@ -112,22 +111,20 @@ export const Tiers: FC<TiersProps> = ({ register }) => {
           />
           <PricingCard
             colorScheme="teal"
-            bg="brand.300"
             color="brand.300"
             onClick={onClickFn}
-            name="Bottle membership"
+            name="Bottle"
             price={1599}
             duration="/mo"
             description={t("producersOffering")}
             features={[t("5Experiences"), t("50Reservations"), t("24Extra")]}
           />
           <PricingCard
-            bg="gradient.100"
-            color="brand.300"
+            color="gradient.100"
             colorScheme="teal"
             opacity={1}
             onClick={onClickFn}
-            name="Magnum membership"
+            name="Magnum"
             price={2099}
             duration="/mo"
             description={t("producersWithOptions")}
