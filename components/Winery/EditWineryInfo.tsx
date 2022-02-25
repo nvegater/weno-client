@@ -54,6 +54,11 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
   const router = useRouter();
   const [t] = useTranslation("global");
 
+  const preSelectedProductionTypes = winery.productionType;
+  const preSelectedWineTypes = winery.wineType;
+  const preSelectedLanguages = winery.supportedLanguages;
+  const preSelectedAmenities = winery.amenities;
+
   const {
     register,
     handleSubmit,
@@ -66,10 +71,10 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       yearlyWineProduction: winery.yearlyWineProduction,
       foundationYear: winery.foundationYear,
       googleMapsUrl: winery.googleMapsUrl ?? "",
-      productionType: winery.productionType,
-      wineType: winery.wineType,
-      supportedLanguages: winery.supportedLanguages,
-      amenities: winery.amenities,
+      productionType: preSelectedProductionTypes,
+      wineType: preSelectedWineTypes,
+      supportedLanguages: preSelectedLanguages,
+      amenities: preSelectedAmenities,
     },
   });
   const [, editWinery] = useEditWineryInfoMutation();
@@ -198,6 +203,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
               {Object.values(ProductionType).map((pt, index) => (
                 <Checkbox
                   key={`productionType.${index}`}
+                  defaultChecked={preSelectedProductionTypes.includes(pt)}
                   value={pt}
                   {...register(`productionType.${index}`)}
                 >
@@ -221,6 +227,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
               {Object.values(TypeWine).map((tw, index) => (
                 <Checkbox
                   key={`wineType.${index}`}
+                  defaultChecked={preSelectedWineTypes.includes(tw)}
                   value={tw}
                   {...register(`wineType.${index}`)}
                 >
@@ -233,7 +240,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       ),
     },
     {
-      title: t("languages"),
+      title: t("supportedLanguages"),
       content: (
         <VStack spacing="24px" mb={8}>
           <FormControl>
@@ -244,6 +251,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
               {Object.values(ServiceLanguage).map((language, index) => (
                 <Checkbox
                   key={`supportedLanguages.${index}`}
+                  defaultChecked={preSelectedLanguages.includes(language)}
                   value={language}
                   {...register(`supportedLanguages.${index}`)}
                 >
@@ -267,6 +275,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
               {Object.values(Amenity).map((amenity, index) => (
                 <Checkbox
                   key={`amenities.${index}`}
+                  defaultChecked={preSelectedAmenities.includes(amenity)}
                   value={amenity}
                   {...register(`amenities.${index}`)}
                 >

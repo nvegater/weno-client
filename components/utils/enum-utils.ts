@@ -153,22 +153,14 @@ export const wineTypeReverseMapping = (value: TypeWine) => {
       return "fortified";
     case TypeWine.Espumoso:
       return "sparkling";
-    case TypeWine.Naranja:
-      return "orange";
-    case TypeWine.Dulce:
-      return "sweet";
     case TypeWine.Cosecha:
       return "lateHarvest";
     case TypeWine.Conmemorativo:
       return "commemorative";
-    case TypeWine.ExclusivoVentaLocal:
-      return "exclusive";
     case TypeWine.Organico:
       return "organic";
     case TypeWine.Biodinamico:
       return "biodynamic";
-    case TypeWine.Natural:
-      return "natural";
     case TypeWine.Otro:
       return "other";
     default:
