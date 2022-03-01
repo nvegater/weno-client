@@ -65,7 +65,7 @@ export const LoginWithGradient: FC<LoginWithGradientProps> = ({
                   outline="1px solid lightgray"
                   leftIcon={getProviderIcon(provider.name)}
                   iconSpacing="3"
-                  onClick={() => signIn(provider.id)}
+                  onClick={() => signIn(provider.id, { callbackUrl: "/" })}
                 >
                   Continue with {provider.name}
                 </Button>
