@@ -36,7 +36,7 @@ export const Hero: FC<HeroProps> = ({ authenticated, register }) => {
       </Heading>
       <Heading
         as="h2"
-        size="4xl"
+        size="3xl"
         fontWeight="extrabold"
         maxW="48rem"
         mx="auto"
