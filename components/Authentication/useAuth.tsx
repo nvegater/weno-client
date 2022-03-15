@@ -1,7 +1,8 @@
 import { useKeycloak } from "@react-keycloak/ssr";
-import {
+import Keycloak, {
   KeycloakInstance,
   KeycloakLoginOptions,
+  KeycloakLogoutOptions,
   KeycloakTokenParsed,
 } from "keycloak-js";
 import { useMemo } from "react";
@@ -26,7 +27,7 @@ interface UseAuthHookResult {
   isVisitor: boolean;
   register: (options?: Keycloak.KeycloakLoginOptions) => void;
   login: (options?: Keycloak.KeycloakLoginOptions) => void;
-  logout: () => void;
+  logout: (options?: Keycloak.KeycloakLogoutOptions) => void;
 }
 
 type UseAuthHook = () => UseAuthHookResult;
@@ -76,8 +77,10 @@ const useAuth: UseAuthHook = () => {
     keycloak.login({ ...options });
   };
 
-  const logout: () => void = () => {
-    keycloak.logout();
+  const logout: (options?: Keycloak.KeycloakLogoutOptions) => void = (
+    options?: KeycloakLogoutOptions
+  ) => {
+    keycloak.logout({ ...options });
   };
 
   return {

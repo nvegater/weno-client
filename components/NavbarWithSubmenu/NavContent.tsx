@@ -18,9 +18,10 @@ import { RiLoginCircleFill } from "react-icons/ri";
 import { BiLogOut } from "react-icons/bi";
 import { Weno } from "../Hero/Brands";
 import Link from "next/link";
-import { KeycloakLoginOptions } from "keycloak-js";
+import { KeycloakLoginOptions, KeycloakLogoutOptions } from "keycloak-js";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import router from "next/router";
 
 const LogoTextSidebar = (
   <Text
@@ -47,7 +48,7 @@ interface NavBarProps {
   email: string | null;
   userType: "owner" | "visitor" | null;
   loginFn: (options?: KeycloakLoginOptions) => void;
-  logoutFn: () => void;
+  logoutFn: (options?: KeycloakLogoutOptions) => void;
   urlAlias: string | null;
 }
 
@@ -57,7 +58,7 @@ interface LoginButtonProps {
 }
 
 interface LogoutButtonProps {
-  logoutFn: () => void;
+  logoutFn: (options?: KeycloakLoginOptions) => void;
   isNavBar?: boolean;
 }
 
@@ -87,7 +88,9 @@ const LogoutButton = ({ logoutFn, isNavBar = false }: LogoutButtonProps) => {
       size={isNavBar ? "navBarCTA" : "sideBarCTA"}
       variant="cta"
       onClick={() => {
-        logoutFn();
+        const webpageBase = window.location.origin;
+        const redirectUri = webpageBase;
+        logoutFn({ redirectUri: redirectUri });
       }}
     >
       {t("logOut")}

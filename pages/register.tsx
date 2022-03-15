@@ -85,64 +85,22 @@ const Register: FC<RegisterProps> = ({}) => {
       tokenInfo={tokenInfo}
       contextHeader={contextHeader}
     >
-      <Grid as="section" m={5}>
-        {(loadingAuthInfo || fetching) && (
+      {authenticated && isOwner && (
+        <>
           <Flex justifyContent="center" m={5}>
-            <Heading as="h2" size="xl">
-              {t("processingCredentials")}
-            </Heading>
+            {wineryResponse &&
+              wineryResponse.winery?.winery === null &&
+              isOwner && (
+                <CreateWineryForm
+                  username={tokenInfo?.preferred_username}
+                  email={tokenInfo?.email}
+                  contextHeader={contextHeader}
+                />
+              )}
           </Flex>
-        )}
-        {notAuthenticated && (
-          <>
-            <Flex justifyContent="center" m={5}>
-              <Heading as="h1" size="xl">
-                {t("onlyRegisteredUsers")}
-              </Heading>
-            </Flex>
-            <Flex justifyContent="space-around" m={5} alignItems="center">
-              <Button
-                variant="primaryWeno"
-                size="heroWeno"
-                onClick={() => {
-                  const webpageBase = window.location.origin;
-                  register({
-                    redirectUri: webpageBase + "/register",
-                  });
-                }}
-              >
-                {t("register")}
-              </Button>
-              <Button
-                variant="primaryWeno"
-                size="heroWeno"
-                onClick={() => {
-                  const webpageBase = window.location.origin;
-                  const redirectUri = webpageBase + "/register";
-                  login({ redirectUri: redirectUri });
-                }}
-              >
-                {t("logIn")}
-              </Button>
-            </Flex>
-          </>
-        )}
-        {authenticated && isOwner && (
-          <>
-            <Flex justifyContent="center" m={5}>
-              {wineryResponse &&
-                wineryResponse.winery?.winery === null &&
-                isOwner && (
-                  <CreateWineryForm
-                    username={tokenInfo?.preferred_username}
-                    email={tokenInfo?.email}
-                    contextHeader={contextHeader}
-                  />
-                )}
-            </Flex>
-          </>
-        )}
-      </Grid>
+        </>
+      )}
+      {/* </Grid> */}
     </WenoLayout>
   );
 };
