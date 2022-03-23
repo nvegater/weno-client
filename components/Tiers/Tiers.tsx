@@ -127,7 +127,7 @@ export const Tiers: FC<TiersProps> = ({ register }) => {
             name="Magnum"
             price={2099}
             duration="/mo"
-            description={t("producersWithOptions")}
+            description={t("producersOptions")}
             features={[t("20Experiences"), t("90Reservations"), t("17Extra")]}
           />
         </SimpleGrid>

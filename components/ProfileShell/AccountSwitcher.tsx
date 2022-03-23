@@ -50,7 +50,7 @@ export const AccountSwitcher: FC<AccountSwitcherProps> = ({
           onClick={logoutFn}
           _focus={{ bg: "gradient.100" }}
         >
-          {t("logout")}
+          {t("logOut")}
         </MenuItem>
       </MenuList>
     </Menu>
