@@ -17,6 +17,20 @@ import { ContextHeader } from "../Authentication/useAuth";
 import { FormControlImages } from "./FormControlImages";
 import { useTranslation } from "react-i18next";
 
+const imagesTypes = [
+  "apng",
+  "avif",
+  "gif",
+  "jpg",
+  "jpeg",
+  "jfif",
+  "pjpeg",
+  "pjp",
+  "png",
+  "svg",
+  "webp",
+];
+
 async function uploadFileWithPreSignedUrl(
   file: File,
   uploadUrl: string
@@ -63,6 +77,7 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
   const [loading, setLoading] = useState(false);
   const [resetImage, setResetImage] = useState(false);
   const [t] = useTranslation("global");
+  const [extError, setExtError] = useState(false);
 
   useEffect(() => {
     const asyncFn = async () => {
@@ -78,6 +93,7 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
         { ...contextHeader, requestPolicy: "network-only" }
       );
       if (error) {
+        console.log(error);
         setError(error);
       }
       if (data) {
@@ -100,6 +116,7 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
             { ...contextHeader, requestPolicy: "network-only" }
           );
           if (error) {
+            console.log(error);
             setError(error);
             return;
           }
@@ -143,6 +160,7 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
           {t("uploadFile")}
         </Button>
       )}
+      {extError && <Heading as="h4"> Bad size Format </Heading>}
       {savedImageNames.length > 0 && (
         <Flex justifyContent="center" m={5} flexDirection="column">
           <Heading as="h2" size="xl" my={4}>

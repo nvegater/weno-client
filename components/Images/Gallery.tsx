@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { Center, Flex, Grid, Heading } from "@chakra-ui/react";
+import { Center, Flex, Grid, Heading, Text } from "@chakra-ui/react";
 import { ContextHeader } from "../Authentication/useAuth";
 import { UploadImageForm } from "./UploadImageForm";
 import {
@@ -37,6 +37,11 @@ export const Gallery: FC<GalleryProps> = ({
 
   return (
     <>
+      <Flex justifyContent="center" py="2">
+        <Heading as="h1" size="xl">
+          {t("pictureGallery")}
+        </Heading>
+      </Flex>
       <Grid gridTemplateColumns="repeat(auto-fit, minmax(274px, 1fr))" gap={3}>
         {error && (
           <Flex justifyContent="center" m={5}>
@@ -73,6 +78,9 @@ export const Gallery: FC<GalleryProps> = ({
             setImages={setImages}
           />
         </Center>
+      </Flex>
+      <Flex justifyContent="center" py="2">
+        <Text>{t("pictureFormats")}</Text>
       </Flex>
     </>
   );

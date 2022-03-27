@@ -97,6 +97,7 @@
 
   "favorites": "Favoritos",
   "featuresServices": "Características y servicios",
+  "pictureFormats": "Formatos permitidos: 'apng', 'avif', 'gif', 'jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp'",
   "fetchingImages": "Extrayendo tus imagenes",
   "foundationYear": "Año de fundación",
   "fullVisibility": "Visibilidad completa en los pagos sobre tiempo real",
@@ -163,6 +164,7 @@
   "paid": "Pagado",
   "personalizeProfile": "Personaliza tu perfil con tus archivos",
   "pastExperiences": "Experiencias pasadas",
+  "pictureGallery": "Galería de fotos",
   "minAlias": "Por favor ingrese al menos 5 caracteres",
   "descriptionMessage": "Por favor ingrese al menos 20 caracteres",
   "descriptionText": "Por favor ingrese una descripción",

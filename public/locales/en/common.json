@@ -97,6 +97,7 @@
   "favorites": "Favorites",
   "featuresServices": "Features & Services",
   "fetchingImages": "Fetching your images",
+  "pictureFormats": "Allowed Formats: 'apng', 'avif', 'gif', 'jpg', 'jpeg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp'",
   "foundationYear": "Foundation Year",
   "fullVisibility": "Full visibility over all payments in real time",
 
@@ -163,6 +164,7 @@
   "paid": "Paid",
   "pastExperiences": "Past experiences",
   "personalizeProfile": "Personalize your profile with your media",
+  "pictureGallery": "Picture Gallery",
   "minAlias": "Please enter at least 5 characters",
   "descriptionMessage": "Please enter at least 20 characters",
   "descriptionText": "Please enter a description",
