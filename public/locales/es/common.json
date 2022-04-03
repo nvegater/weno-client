@@ -212,6 +212,7 @@
   "autoDuration": "Duración automática (elige inicio y fin)",
   "serverError": "Pantalla de error del Servidor",
   "urlError": "Algo está mal con el URL",
+  "incorrectPictureFormat": "Extensión de archivo no permitido",
   "startDateTime": "Inicio",
   "endDateTime": "Fin",
   "startFree": "Comenzar gratuitamente",

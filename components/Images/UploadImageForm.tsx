@@ -92,8 +92,13 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
         },
         { ...contextHeader, requestPolicy: "network-only" }
       );
+      if (!imagesTypes.includes(fileExtension)) {
+        setExtError(true);
+        setLoading(false);
+        setFileName("");
+        setResetImage(true);
+      }
       if (error) {
-        console.log(error);
         setError(error);
       }
       if (data) {
@@ -116,7 +121,6 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
             { ...contextHeader, requestPolicy: "network-only" }
           );
           if (error) {
-            console.log(error);
             setError(error);
             return;
           }
@@ -160,7 +164,14 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
           {t("uploadFile")}
         </Button>
       )}
-      {extError && <Heading as="h4"> Bad size Format </Heading>}
+      {extError && (
+        <>
+          <Button type="submit" isLoading={loading}>
+            {t("uploadFile")}
+          </Button>
+          <Heading as="h4"> {t("incorrectPictureFormat")} </Heading>
+        </>
+      )}
       {savedImageNames.length > 0 && (
         <Flex justifyContent="center" m={5} flexDirection="column">
           <Heading as="h2" size="xl" my={4}>

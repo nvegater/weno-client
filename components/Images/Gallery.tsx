@@ -42,6 +42,9 @@ export const Gallery: FC<GalleryProps> = ({
           {t("pictureGallery")}
         </Heading>
       </Flex>
+      <Flex justifyContent="center" py="2">
+        <Text>{t("pictureFormats")}</Text>
+      </Flex>
       <Grid gridTemplateColumns="repeat(auto-fit, minmax(274px, 1fr))" gap={3}>
         {error && (
           <Flex justifyContent="center" m={5}>
@@ -78,9 +81,6 @@ export const Gallery: FC<GalleryProps> = ({
             setImages={setImages}
           />
         </Center>
-      </Flex>
-      <Flex justifyContent="center" py="2">
-        <Text>{t("pictureFormats")}</Text>
       </Flex>
     </>
   );
