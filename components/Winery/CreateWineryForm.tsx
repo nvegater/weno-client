@@ -350,7 +350,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
           <Text>
             {t("read+")}{" "}
             <ChakraLink
-              href="https://www.who.int/water_sanitation_health/hygiene/settings/hvchap8.pdf"
+              href="http://www.amr.org.mx/docs/AMR-CANIRAC-Manual-Coronavirus.pdf"
               color="teal.500"
               target="_blank"
             >
