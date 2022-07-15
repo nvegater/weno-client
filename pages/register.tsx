@@ -38,6 +38,8 @@ const Register: FC<RegisterProps> = ({}) => {
     requestPolicy: "network-only",
   });
 
+  console.log("Is auth: ", authenticated);
+
   const [{ data: customerResponse }] = useCustomerQuery({
     variables: {
       createCustomerInputs: {
@@ -88,7 +90,7 @@ const Register: FC<RegisterProps> = ({}) => {
       <Grid as="section" m={5}>
         {(loadingAuthInfo || fetching) && (
           <Flex justifyContent="center" m={5}>
-            <Heading as="h2" size="xl">
+            <Heading as="h1" size="xl">
               {t("processingCredentials")}
             </Heading>
           </Flex>

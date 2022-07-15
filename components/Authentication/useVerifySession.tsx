@@ -39,7 +39,6 @@ const useVerifySession: UseVerifySessionHook = ({ sessionId }) => {
       sessionId: sessionId ? (sessionId as string) : "",
     },
     pause: sessionId === null,
-    requestPolicy: "network-only",
   });
 
   useEffect(() => {

@@ -42,7 +42,6 @@ const useExperiences = ({ filters }: UseExperiencesProps) => {
         filters: { ...newFilters },
       },
     },
-    requestPolicy: "network-only",
   });
 
   useEffect(() => {
