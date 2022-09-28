@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 interface HeroProps {
   authenticated: boolean;
-  register: (options?: Keycloak.KeycloakLoginOptions) => void;
+  register: (options?: any) => void;
 }
 
 export const Hero: FC<HeroProps> = ({ authenticated, register }) => {

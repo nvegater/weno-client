@@ -23,7 +23,6 @@ interface ExperienceModalProps {
   mode: ExperiencesGridMode;
   experience: PaginatedExperienceFragment;
   winery: WineryFragmentFragment | null;
-  contextHeader: ContextHeader | null;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -34,7 +33,6 @@ export const ExperienceDrawer: FC<ExperienceModalProps> = ({
   winery,
   isOpen,
   onClose,
-  contextHeader,
 }) => {
   return (
     <Drawer isOpen={isOpen} onClose={onClose} placement="right" size="md">
@@ -44,15 +42,9 @@ export const ExperienceDrawer: FC<ExperienceModalProps> = ({
           {mode === ExperiencesGridMode.RESERVE && isOpen && (
             <ReserveExperience experience={experience} />
           )}
-          {mode === ExperiencesGridMode.EDIT &&
-            winery &&
-            isOpen &&
-            contextHeader && (
-              <EditExperience
-                selectedExperience={experience}
-                contextHeader={contextHeader}
-              />
-            )}
+          {mode === ExperiencesGridMode.EDIT && winery && isOpen && (
+            <EditExperience selectedExperience={experience} />
+          )}
           {mode === ExperiencesGridMode.VIEW && (
             <ViewExperience experience={experience} />
           )}

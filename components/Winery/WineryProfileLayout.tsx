@@ -10,7 +10,6 @@ import { AiOutlineFileAdd } from "react-icons/ai";
 import { NavGroup } from "../ProfileShell/NavGroup";
 import { WineryOwnerInfo } from "./WineryOwnerInfo";
 import { WineryFragmentFragment } from "../../graphql/generated/graphql";
-import { ContextHeader } from "../Authentication/useAuth";
 import { CreateExperienceForm } from "../Experiences/CreateExperienceForm";
 import { EditableExperiences } from "../Experiences/EditableExperiences";
 import { Gallery } from "../Images/Gallery";
@@ -36,13 +35,11 @@ export interface GeneratorLayoutProps {
   winery: WineryFragmentFragment;
   logoUrl?: string | undefined | null;
   logoutFn: () => void;
-  contextHeader: ContextHeader;
 }
 
 export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
   winery,
   logoutFn,
-  contextHeader,
 }) => {
   const [subPage, setSubPage] = useState<WineryProfileSubpage>(
     WineryProfileSubpage.WINERY_INFO
@@ -52,26 +49,22 @@ export const WineryProfileLayout: FC<GeneratorLayoutProps> = ({
   const subpages = (
     <>
       {subPage === WineryProfileSubpage.WINERY_INFO && (
-        <WineryOwnerInfo winery={winery} contextHeader={contextHeader} />
+        <WineryOwnerInfo winery={winery} />
       )}
       {subPage === WineryProfileSubpage.EDIT_INFO && (
-        <EditWineryInfo winery={winery} contextHeader={contextHeader} />
+        <EditWineryInfo winery={winery} />
       )}
       {subPage === WineryProfileSubpage.SCHEDULE && (
-        <WineryCalendar winery={winery} contextHeader={contextHeader} />
+        <WineryCalendar winery={winery} />
       )}
       {subPage === WineryProfileSubpage.GALLERY && (
-        <Gallery
-          wineryAlias={winery.urlAlias}
-          wineryId={winery.id}
-          contextHeader={contextHeader}
-        />
+        <Gallery wineryAlias={winery.urlAlias} wineryId={winery.id} />
       )}
       {subPage === WineryProfileSubpage.NEW_EXPERIENCE && (
-        <CreateExperienceForm winery={winery} contextHeader={contextHeader} />
+        <CreateExperienceForm winery={winery} />
       )}
       {subPage === WineryProfileSubpage.EDIT_EXPERIENCE && (
-        <EditableExperiences winery={winery} contextHeader={contextHeader} />
+        <EditableExperiences winery={winery} />
       )}
       {subPage === WineryProfileSubpage.DASHBOARD_ANALYTICS && (
         <div>{t("comming")}</div>

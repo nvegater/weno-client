@@ -25,7 +25,6 @@ export const AllExperiences: FC<AllExperiencesProps> = ({}) => {
         onClose={onClose}
         experience={experience}
         winery={null}
-        contextHeader={null}
       />
       <Experiences
         hasFilters={false}

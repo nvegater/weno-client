@@ -33,7 +33,6 @@ import { useRouter } from "next/router";
 
 interface CreateExperienceProps {
   winery: WineryFragmentFragment;
-  contextHeader: ContextHeader;
 }
 
 export const oneTime = "One Time";
@@ -44,10 +43,7 @@ export const degustation = "Degustation";
 export const pairing = "Pairing";
 export const concert = "Concert";
 
-export const CreateExperienceForm: FC<CreateExperienceProps> = ({
-  winery,
-  contextHeader,
-}) => {
+export const CreateExperienceForm: FC<CreateExperienceProps> = ({ winery }) => {
   const {
     register,
     setError,
@@ -94,7 +90,7 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
         createExperienceInputs: experienceInputs,
         createRecurrentDatesInputs: recurrenceInputs,
       },
-      { ...contextHeader, requestPolicy: "network-only" }
+      { requestPolicy: "network-only" }
     );
     if (error) {
       setError("submit", {
@@ -119,7 +115,7 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
       title: t("experienceDetails"),
       content: (
         <VStack spacing="24px">
-          <FormControl isInvalid={errors.title} isRequired={true}>
+          <FormControl isInvalid={Boolean(errors.title)} isRequired={true}>
             <Input
               type="text"
               placeholder={t("title")}
@@ -135,9 +131,11 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={errors.description} isRequired={true}>
+          <FormControl
+            isInvalid={Boolean(errors.description)}
+            isRequired={true}
+          >
             <Textarea
-              type="text"
               placeholder={t("describeEvent")}
               {...register("description", {
                 required: { value: true, message: t("descriptionText") },
@@ -153,7 +151,10 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={errors.pricePerPersonInMxn} isRequired={true}>
+          <FormControl
+            isInvalid={Boolean(errors.pricePerPersonInMxn)}
+            isRequired={true}
+          >
             <FormLabel htmlFor="pricePerPersonInMxn">{t("price")}</FormLabel>
             <Input
               type="number"
@@ -167,7 +168,10 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
               {errors.pricePerPersonInMxn && errors.pricePerPersonInMxn.message}
             </FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={errors.limitOfAttendees} isRequired={true}>
+          <FormControl
+            isInvalid={Boolean(errors.limitOfAttendees)}
+            isRequired={true}
+          >
             <FormLabel htmlFor="limitOfAttendees">
               {t("attendeesLimit")}
             </FormLabel>
@@ -207,7 +211,6 @@ export const CreateExperienceForm: FC<CreateExperienceProps> = ({
           watch={watch}
           setValue={setValue}
           register={register}
-          contextHeader={contextHeader}
         />
       ),
     },

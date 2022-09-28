@@ -19,7 +19,7 @@ const FeatureItem: React.FC = ({ children }) => (
   </HStack>
 );
 interface TiersProps {
-  register: (options?: Keycloak.KeycloakLoginOptions) => void;
+  register: (options?: any) => void;
 }
 export const Tiers: FC<TiersProps> = ({ register }) => {
   const onClickFn = () => {

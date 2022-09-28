@@ -13,8 +13,6 @@ interface RegisterProps {}
 
 const Register: FC<RegisterProps> = ({}) => {
   const {
-    contextHeader,
-    tokenInfo,
     authenticated,
     loading: loadingAuthInfo,
     notAuthenticated,
@@ -23,6 +21,8 @@ const Register: FC<RegisterProps> = ({}) => {
     register,
     login,
     logout,
+    preferred_username,
+    email,
   } = useAuth();
 
   const router = useRouter();
@@ -30,11 +30,10 @@ const Register: FC<RegisterProps> = ({}) => {
   const [{ data: wineryResponse, error, fetching }] = useWineryQuery({
     variables: {
       getWineryInputs: {
-        creatorUsername: tokenInfo ? tokenInfo.preferred_username : "",
+        creatorUsername: preferred_username ?? "",
       },
     },
-    context: contextHeader,
-    pause: loadingAuthInfo || notAuthenticated || tokenInfo === null,
+    pause: loadingAuthInfo || notAuthenticated,
     requestPolicy: "network-only",
   });
 
@@ -43,14 +42,13 @@ const Register: FC<RegisterProps> = ({}) => {
   const [{ data: customerResponse }] = useCustomerQuery({
     variables: {
       createCustomerInputs: {
-        email: tokenInfo ? tokenInfo.email : "",
+        email: email,
         paymentMetadata: {
-          username: tokenInfo ? tokenInfo.preferred_username : null,
+          username: preferred_username,
         },
       },
     },
-    context: contextHeader,
-    pause: loadingAuthInfo || notAuthenticated || tokenInfo === null,
+    pause: loadingAuthInfo || notAuthenticated,
     requestPolicy: "network-only",
   });
 
@@ -84,8 +82,10 @@ const Register: FC<RegisterProps> = ({}) => {
       loginFn={login}
       logoutFn={logout}
       authenticated={authenticated}
-      tokenInfo={tokenInfo}
-      contextHeader={contextHeader}
+      email={email}
+      isOwner={isOwner}
+      isVisitor={isVisitor}
+      preferred_username={preferred_username}
     >
       <Grid as="section" m={5}>
         {(loadingAuthInfo || fetching) && (
@@ -136,9 +136,8 @@ const Register: FC<RegisterProps> = ({}) => {
                 wineryResponse.winery?.winery === null &&
                 isOwner && (
                   <CreateWineryForm
-                    username={tokenInfo?.preferred_username}
-                    email={tokenInfo?.email}
-                    contextHeader={contextHeader}
+                    username={preferred_username}
+                    email={email}
                   />
                 )}
             </Flex>

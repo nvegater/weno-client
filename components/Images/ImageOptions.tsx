@@ -18,13 +18,11 @@ interface ImageOptionsProps {
   imageUrl: string;
   imageId: number;
   wineryId: number;
-  contextHeader: ContextHeader;
 }
 
 export const ImageOptions: FC<ImageOptionsProps> = ({
   imageId,
   imageUrl,
-  contextHeader,
   wineryId,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -40,7 +38,7 @@ export const ImageOptions: FC<ImageOptionsProps> = ({
         experienceId,
         wineryImageId: imageId,
       },
-      { ...contextHeader, requestPolicy: "network-only" }
+      { requestPolicy: "network-only" }
     );
     if (error) {
       setMessage(error.message);
@@ -70,7 +68,6 @@ export const ImageOptions: FC<ImageOptionsProps> = ({
         isOpen={isOpen}
         onClose={onClose}
         wineryId={wineryId}
-        contextHeader={contextHeader}
         handleSelection={handleSelection}
         imageUrl={imageUrl}
         message={message}

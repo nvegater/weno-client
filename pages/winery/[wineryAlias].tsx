@@ -17,12 +17,13 @@ const Winery = () => {
   const {
     loading: loadingAuthInfo,
     notAuthenticated,
-    contextHeader,
     authenticated,
     logout,
     login,
-    tokenInfo,
     isOwner,
+    email,
+    isVisitor,
+    preferred_username,
   } = useAuth();
 
   const {
@@ -39,8 +40,10 @@ const Winery = () => {
       authenticated={authenticated}
       loginFn={login}
       logoutFn={logout}
-      tokenInfo={tokenInfo}
-      contextHeader={contextHeader}
+      email={email}
+      isOwner={isOwner}
+      isVisitor={isVisitor}
+      preferred_username={preferred_username}
     >
       {!wineryAlias && <h1>{t("urlError")}</h1>}
 
@@ -87,7 +90,6 @@ const Winery = () => {
         <WineryProfile
           isOwner={isOwner}
           wineryAlias={wineryAlias as string}
-          contextHeader={contextHeader}
           logout={logout}
         />
       )}

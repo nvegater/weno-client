@@ -12,17 +12,11 @@ import { useTranslation } from "react-i18next";
 interface GalleryProps {
   wineryAlias: string;
   wineryId: number;
-  contextHeader: ContextHeader;
 }
 
-export const Gallery: FC<GalleryProps> = ({
-  wineryAlias,
-  wineryId,
-  contextHeader,
-}) => {
+export const Gallery: FC<GalleryProps> = ({ wineryAlias, wineryId }) => {
   const [{ data, fetching, error }] = useWineryImagesQuery({
     variables: { wineryId, wineryAlias },
-    context: contextHeader,
     requestPolicy: "network-only",
   });
 
@@ -59,7 +53,6 @@ export const Gallery: FC<GalleryProps> = ({
               imageUrl={image.getUrl}
               imageId={image.id}
               wineryId={wineryId}
-              contextHeader={contextHeader}
             />
           );
         })}
@@ -69,7 +62,6 @@ export const Gallery: FC<GalleryProps> = ({
           <UploadImageForm
             wineryAlias={wineryAlias}
             wineryId={wineryId}
-            contextHeader={contextHeader}
             setImages={setImages}
           />
         </Center>

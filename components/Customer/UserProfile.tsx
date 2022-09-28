@@ -10,7 +10,6 @@ interface UserProfileProps {
   isVisitor: boolean;
   username: string;
   email: string;
-  contextHeader: ContextHeader;
   logoutFn: () => void;
 }
 
@@ -18,7 +17,6 @@ export const UserProfile: FC<UserProfileProps> = ({
   isVisitor,
   email,
   username,
-  contextHeader,
   logoutFn,
 }) => {
   const [{ data: customerResponse, fetching, error }] = useCustomerQuery({
@@ -30,7 +28,6 @@ export const UserProfile: FC<UserProfileProps> = ({
         },
       },
     },
-    context: contextHeader,
     requestPolicy: "network-only",
   });
   const [t] = useTranslation("global");
@@ -67,7 +64,6 @@ export const UserProfile: FC<UserProfileProps> = ({
       {customerResponse && customerResponse.customer && isVisitor && (
         <UserProfileLayout
           logoutFn={logoutFn}
-          contextHeader={contextHeader}
           customer={customerResponse.customer.customer}
         />
       )}

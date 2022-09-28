@@ -14,16 +14,11 @@ import { useTranslation } from "react-i18next";
 
 interface WineryCalendarProps {
   winery: WineryFragmentFragment;
-  contextHeader: ContextHeader;
 }
 
-export const WineryCalendar: FC<WineryCalendarProps> = ({
-  winery,
-  contextHeader,
-}) => {
+export const WineryCalendar: FC<WineryCalendarProps> = ({ winery }) => {
   const [{ data, error, fetching }] = useReservedSlotsQuery({
     variables: { wineryId: winery.id },
-    context: contextHeader,
   });
   const [t] = useTranslation("global");
 

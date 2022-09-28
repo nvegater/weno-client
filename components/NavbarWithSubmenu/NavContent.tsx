@@ -18,7 +18,6 @@ import { RiLoginCircleFill } from "react-icons/ri";
 import { BiLogOut } from "react-icons/bi";
 import { Weno } from "../Hero/Brands";
 import Link from "next/link";
-import { KeycloakLoginOptions } from "keycloak-js";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
@@ -46,13 +45,13 @@ interface NavBarProps {
   preferred_username: string | null;
   email: string | null;
   userType: "owner" | "visitor" | null;
-  loginFn: (options?: KeycloakLoginOptions) => void;
+  loginFn: (options?: any) => void;
   logoutFn: () => void;
   urlAlias: string | null;
 }
 
 interface LoginButtonProps {
-  loginFn: (options?: KeycloakLoginOptions) => void;
+  loginFn: (options?: any) => void;
   isNavBar?: boolean;
 }
 

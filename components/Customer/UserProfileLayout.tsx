@@ -21,13 +21,11 @@ export enum UserProfileSubpage {
 
 interface UserProfileLayoutProps {
   logoutFn: () => void;
-  contextHeader: ContextHeader;
   customer: CustomerFragment;
 }
 
 export const UserProfileLayout: FC<UserProfileLayoutProps> = ({
   logoutFn,
-  contextHeader,
   customer,
 }) => {
   const [subPage, setSubPage] = useState<UserProfileSubpage>(
@@ -41,10 +39,7 @@ export const UserProfileLayout: FC<UserProfileLayoutProps> = ({
         <UserInformation customer={customer} />
       )}
       {subPage === UserProfileSubpage.RESERVATIONS && (
-        <UserReservations
-          email={customer.email}
-          contextHeader={contextHeader}
-        />
+        <UserReservations email={customer.email} />
       )}
       {subPage === UserProfileSubpage.FAVORITES && <div>{t("coming")}</div>}
       {subPage === UserProfileSubpage.HELP && <div>{t("help")}</div>}

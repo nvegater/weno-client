@@ -43,13 +43,9 @@ interface EditWineryInputsForm extends EditWineryInputs {
 
 interface EditWineryInfoProps {
   winery: WineryFragmentFragment;
-  contextHeader: ContextHeader;
 }
 
-export const EditWineryInfo: FC<EditWineryInfoProps> = ({
-  contextHeader,
-  winery,
-}) => {
+export const EditWineryInfo: FC<EditWineryInfoProps> = ({ winery }) => {
   const toast = useToast();
   const router = useRouter();
   const [t] = useTranslation("global");
@@ -95,7 +91,7 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
       {
         editWineryInputs: editWineryInputs,
       },
-      { ...contextHeader, requestPolicy: "network-only" }
+      { requestPolicy: "network-only" }
     );
     if (error) {
       setError("winery", {
@@ -122,7 +118,6 @@ export const EditWineryInfo: FC<EditWineryInfoProps> = ({
         <VStack spacing="24px" mt={4} mb={8}>
           <FormControl isInvalid={Boolean(errors.description)}>
             <Textarea
-              type="text"
               placeholder={t("wineryDescription")}
               {...register("description", {
                 required: { value: true, message: t("descriptionText") },

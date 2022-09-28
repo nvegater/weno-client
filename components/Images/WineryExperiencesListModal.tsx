@@ -20,7 +20,6 @@ interface ExperiencesListModalProps {
   onClose: () => void;
   imageUrl?: string;
   wineryId: number;
-  contextHeader: ContextHeader;
   handleSelection: (experienceId: number, experienceTitle: string) => void;
   message?: string;
 }
@@ -30,14 +29,12 @@ export const WineryExperiencesListModal: FC<ExperiencesListModalProps> = ({
   onClose,
   imageUrl,
   wineryId,
-  contextHeader,
   handleSelection,
   message,
 }) => {
   const [{ data, fetching, error: experiencesError }] = useExperiencesListQuery(
     {
       variables: { wineryId },
-      context: contextHeader,
       requestPolicy: "network-only",
     }
   );

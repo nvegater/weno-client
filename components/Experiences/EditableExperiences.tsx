@@ -11,12 +11,10 @@ import { useTranslation } from "react-i18next";
 
 interface EditableExperiencesProps {
   winery: WineryFragmentFragment;
-  contextHeader: ContextHeader;
 }
 
 export const EditableExperiences: FC<EditableExperiencesProps> = ({
   winery,
-  contextHeader,
 }) => {
   const [experience, setExperience] = useState<PaginatedExperienceFragment>();
   const [t] = useTranslation("global");
@@ -37,7 +35,6 @@ export const EditableExperiences: FC<EditableExperiencesProps> = ({
         onClose={onClose}
         experience={experience}
         winery={winery}
-        contextHeader={contextHeader}
       />
       <Experiences
         hasFilters={false}

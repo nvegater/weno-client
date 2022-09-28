@@ -1,93 +1,48 @@
-import { useKeycloak } from "@react-keycloak/ssr";
-import {
-  KeycloakInstance,
-  KeycloakLoginOptions,
-  KeycloakTokenParsed,
-} from "keycloak-js";
-import { useMemo } from "react";
-
-export interface ParsedTokenExtended extends KeycloakTokenParsed {
-  preferred_username: string;
-  email: string;
-  userType: "owner" | "visitor";
-}
+import { useSession, signIn, signOut } from "next-auth/react";
 
 export type ContextHeader = {
   fetchOptions: { headers: { Authorization: string } };
 };
 
 interface UseAuthHookResult {
-  contextHeader: ContextHeader;
-  tokenInfo: ParsedTokenExtended | null;
   authenticated: boolean;
   loading: boolean;
   notAuthenticated: boolean;
   isOwner: boolean;
   isVisitor: boolean;
-  register: (options?: Keycloak.KeycloakLoginOptions) => void;
-  login: (options?: Keycloak.KeycloakLoginOptions) => void;
+  register: (options?: any) => void;
+  login: (options?: any) => void;
   logout: () => void;
+  email: string;
+  preferred_username: string;
 }
 
 type UseAuthHook = () => UseAuthHookResult;
 
-export const parseKeycloakToken = (token: KeycloakTokenParsed) => {
-  return {
-    ...token,
-    // @ts-ignore
-    preferred_username: token.preferred_username,
-    // @ts-ignore
-    email: token.email,
-    // @ts-ignore
-    userType: token.userType,
-  };
-};
-
 const useAuth: UseAuthHook = () => {
-  const { keycloak, initialized } = useKeycloak<KeycloakInstance>();
+  const { data, status } = useSession();
+  status;
 
-  const getContextHeader: ContextHeader = useMemo(
-    () => ({
-      fetchOptions: {
-        headers: {
-          Authorization: "Bearer " + keycloak.token,
-        },
-      },
-    }),
-    [keycloak.token]
-  );
-
-  const tokenInfo: ParsedTokenExtended | null = keycloak.tokenParsed
-    ? parseKeycloakToken(keycloak.tokenParsed)
-    : null;
-
-  const isOwner = tokenInfo && tokenInfo.userType === "owner";
-  const isVisitor = tokenInfo && tokenInfo.userType === "visitor";
-
-  const register: (options?: Keycloak.KeycloakLoginOptions) => void = (
-    options?: KeycloakLoginOptions
-  ) => {
-    keycloak.register({ ...options });
+  const register: (options?: any) => void = (options?: any) => {
+    signIn();
   };
 
-  const login: (options?: Keycloak.KeycloakLoginOptions) => void = (
-    options?: KeycloakLoginOptions
-  ) => {
-    keycloak.login({ ...options });
+  const login: (options?: any) => void = (options?: any) => {
+    signIn();
   };
 
   const logout: () => void = () => {
-    keycloak.logout();
+    signOut();
   };
 
   return {
-    contextHeader: getContextHeader,
-    tokenInfo,
-    loading: !initialized && !keycloak.authenticated,
-    notAuthenticated: initialized && !keycloak.authenticated,
-    authenticated: initialized && keycloak.authenticated,
-    isOwner,
-    isVisitor,
+    loading: status == "loading",
+    notAuthenticated: status == "unauthenticated",
+    authenticated: status == "authenticated",
+    isOwner: Boolean(data?.user.isOwner),
+    isVisitor: !Boolean(data?.user.isOwner),
+    email: data?.user?.email ?? "",
+    preferred_username: data?.user?.preferred_username ?? "",
     register,
     login,
     logout,

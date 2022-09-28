@@ -53,7 +53,6 @@ interface DateTimeFormProps {
   watch: UseFormWatch<any>;
   setValue: UseFormSetValue<any>;
   register: UseFormRegister<any>;
-  contextHeader: ContextHeader;
 }
 
 export const DateTimeForm: FC<DateTimeFormProps> = ({
@@ -61,7 +60,6 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
   watch,
   setValue,
   register,
-  contextHeader,
 }) => {
   const {
     fields: customExceptionField,
@@ -124,7 +122,6 @@ export const DateTimeForm: FC<DateTimeFormProps> = ({
     variables: {
       createRecurrentDatesInputs: recurrentDatesInputs,
     },
-    context: contextHeader,
     requestPolicy: "network-only",
     pause: !fetchRecurrentDates,
   });

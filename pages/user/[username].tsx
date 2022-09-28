@@ -15,12 +15,13 @@ const User = () => {
   const {
     loading: loadingAuthInfo,
     notAuthenticated,
-    contextHeader,
     authenticated,
     logout,
     login,
-    tokenInfo,
     isVisitor,
+    email,
+    isOwner,
+    preferred_username,
   } = useAuth();
 
   return (
@@ -28,8 +29,10 @@ const User = () => {
       authenticated={authenticated}
       loginFn={login}
       logoutFn={logout}
-      tokenInfo={tokenInfo}
-      contextHeader={contextHeader}
+      email={email}
+      isOwner={isOwner}
+      isVisitor={isVisitor}
+      preferred_username={preferred_username}
     >
       {!username && <h1>{t("urlError")}</h1>}
 
@@ -51,9 +54,8 @@ const User = () => {
       {authenticated && (
         <UserProfile
           isVisitor={isVisitor}
-          username={tokenInfo.preferred_username}
-          email={tokenInfo.email}
-          contextHeader={contextHeader}
+          username={preferred_username}
+          email={email}
           logoutFn={logout}
         />
       )}

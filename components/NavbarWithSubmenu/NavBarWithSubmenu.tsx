@@ -10,27 +10,24 @@ export const NavBarWithSubmenu: FC<NavBarProps> = ({
   loginFn,
   authenticated,
   logoutFn,
-  tokenInfo,
-  contextHeader,
+  email,
+  preferred_username,
+  isVisitor,
+  isOwner,
 }) => {
   const [urlAlias, setUrlAlias] = useState<string | null>(null);
   const [{ data: wineryResponse }] = useWineryQuery({
     variables: {
       getWineryInputs: {
-        creatorUsername: tokenInfo?.preferred_username
-          ? tokenInfo.preferred_username
-          : null,
+        creatorUsername: preferred_username !== "" ? preferred_username : null,
       },
     },
-    pause:
-      !Boolean(tokenInfo) ||
-      (Boolean(tokenInfo) && tokenInfo.userType === "visitor"),
-    context: contextHeader,
+    pause: email === "" || (email !== "" && isVisitor),
     requestPolicy: "cache-first",
   });
 
   useEffectOnChange(() => {
-    if (tokenInfo?.userType === "owner" && wineryResponse?.winery?.winery) {
+    if (isOwner && wineryResponse?.winery?.winery) {
       setUrlAlias(wineryResponse?.winery?.winery.urlAlias ?? null);
     }
   }, [wineryResponse]);
@@ -50,7 +47,9 @@ export const NavBarWithSubmenu: FC<NavBarProps> = ({
             loginFn={loginFn}
             logoutFn={logoutFn}
             urlAlias={urlAlias}
-            {...tokenInfo}
+            email={email}
+            preferred_username={preferred_username}
+            userType={isVisitor ? "visitor" : "owner"}
           />
           <NavContent.Desktop
             flexProps={{ display: { base: "none", lg: "flex" } }}
@@ -58,7 +57,9 @@ export const NavBarWithSubmenu: FC<NavBarProps> = ({
             loginFn={loginFn}
             logoutFn={logoutFn}
             urlAlias={urlAlias}
-            {...tokenInfo}
+            email={email}
+            preferred_username={preferred_username}
+            userType={isVisitor ? "visitor" : "owner"}
           />
         </Box>
       </Box>

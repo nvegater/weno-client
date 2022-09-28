@@ -32,7 +32,6 @@ interface EditExperienceInputsForm extends EditExperienceInputs {
 
 interface EditExperienceModalProps {
   selectedExperience: PaginatedExperienceFragment;
-  contextHeader: ContextHeader;
 }
 
 const placeHolderImage =
@@ -40,7 +39,6 @@ const placeHolderImage =
 
 export const EditExperience: FC<EditExperienceModalProps> = ({
   selectedExperience,
-  contextHeader,
 }) => {
   const toast = useToast();
   const router = useRouter();
@@ -74,7 +72,7 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
           pricePerPersonInDollars: data.pricePerPersonInDollars,
         },
       },
-      { ...contextHeader, requestPolicy: "network-only" }
+      { requestPolicy: "network-only" }
     );
     if (error) {
       setError("experience", {
@@ -136,7 +134,6 @@ export const EditExperience: FC<EditExperienceModalProps> = ({
         </FormControl>
         <FormControl isInvalid={Boolean(errors.description)} isRequired={true}>
           <Textarea
-            type="text"
             placeholder={t("describeEvent")}
             {...register("description", {
               minLength: {

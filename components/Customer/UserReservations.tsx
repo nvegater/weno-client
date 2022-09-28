@@ -5,17 +5,12 @@ import { ReservationsGrid } from "../Reservations/ReservationsGrid";
 import { useTranslation } from "react-i18next";
 
 interface UserReservationsProps {
-  contextHeader: ContextHeader;
   email: string;
 }
 
-export const UserReservations: FC<UserReservationsProps> = ({
-  email,
-  contextHeader,
-}) => {
+export const UserReservations: FC<UserReservationsProps> = ({ email }) => {
   const [{ data, fetching, error }] = useCustomerReservationsQuery({
     variables: { email },
-    context: contextHeader,
   });
   const [t] = useTranslation("global");
 

@@ -9,13 +9,11 @@ import { useTranslation } from "react-i18next";
 interface WineryProfileProps {
   isOwner: boolean;
   wineryAlias: string;
-  contextHeader: ContextHeader;
   logout: () => void;
 }
 export const WineryProfile: FC<WineryProfileProps> = ({
   isOwner,
   wineryAlias,
-  contextHeader,
   logout,
 }) => {
   const [
@@ -24,7 +22,6 @@ export const WineryProfile: FC<WineryProfileProps> = ({
     variables: {
       getWineryInputs: { urlAlias: wineryAlias },
     },
-    context: contextHeader,
     requestPolicy: "network-only",
   });
   const [t] = useTranslation("global");
@@ -55,7 +52,6 @@ export const WineryProfile: FC<WineryProfileProps> = ({
         <WineryProfileLayout
           winery={wineryQuery.winery.winery}
           logoutFn={logout}
-          contextHeader={contextHeader}
         />
       )}
       {wineryQuery && wineryQuery.winery.winery && !isOwner && <WineryCard />}

@@ -33,7 +33,6 @@ import {
   valleyReverseMapping,
   wineTypeReverseMapping,
 } from "../utils/enum-utils";
-import { ContextHeader } from "../Authentication/useAuth";
 import { Step, VerticalSteps } from "../VerticalSteps/VerticalSteps";
 import { ErrorMessage } from "@hookform/error-message";
 import RadioGroup from "../Radio/RadioGroup";
@@ -42,7 +41,6 @@ import { useTranslation } from "react-i18next";
 interface CreateWineryFormProps {
   username: string;
   email: string;
-  contextHeader: ContextHeader;
 }
 type ErrorSummaryProps<T> = {
   errors: FieldErrors<T>;
@@ -73,7 +71,6 @@ const subscriptionMagnum = "magnum";
 export const CreateWineryForm: FC<CreateWineryFormProps> = ({
   username,
   email,
-  contextHeader,
 }) => {
   const {
     register,
@@ -108,7 +105,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
         },
         createWineryInputs: { ...correctedValues },
       },
-      { ...contextHeader, requestPolicy: "network-only" }
+      { requestPolicy: "network-only" }
     );
     if (error) {
       setError("submit", {
@@ -125,8 +122,8 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
       title: t("general"),
       content: (
         <VStack spacing="24px" mt={4} mb={8}>
-          <FormControl isInvalid={errors.name} isRequired={true}>
-            <FormLabel for="name">{t("wineryName")}</FormLabel>
+          <FormControl isInvalid={Boolean(errors.name)} isRequired={true}>
+            <FormLabel htmlFor="name">{t("wineryName")}</FormLabel>
             <Input
               type="text"
               {...register("name", {
@@ -140,10 +137,14 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={errors.description} isRequired={true}>
-            <FormLabel for="description">{t("wineryDescription")}</FormLabel>
+          <FormControl
+            isInvalid={Boolean(errors.description)}
+            isRequired={true}
+          >
+            <FormLabel htmlFor="description">
+              {t("wineryDescription")}
+            </FormLabel>
             <Textarea
-              type="text"
               {...register("description", {
                 required: { value: true, message: t("descriptionText") },
                 minLength: {
@@ -157,8 +158,8 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={errors.urlAlias} isRequired={true}>
-            <FormLabel for="urlAlias">Alias</FormLabel>
+          <FormControl isInvalid={Boolean(errors.urlAlias)} isRequired={true}>
+            <FormLabel htmlFor="urlAlias">Alias</FormLabel>
             <InputGroup size="sm">
               <InputLeftAddon>weno-mx.com/winery/</InputLeftAddon>
               <Input
@@ -183,7 +184,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
             </FormErrorMessage>
           </FormControl>
 
-          <FormControl isInvalid={errors.yearlyWineProduction}>
+          <FormControl isInvalid={Boolean(errors.yearlyWineProduction)}>
             <FormLabel htmlFor="yearlyWineProduction">
               {t("yearlyProduction")}
             </FormLabel>
@@ -200,7 +201,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
                 errors.yearlyWineProduction.message}
             </FormErrorMessage>
           </FormControl>
-          <FormControl isInvalid={errors.foundationYear}>
+          <FormControl isInvalid={Boolean(errors.foundationYear)}>
             <FormLabel htmlFor="foundationYear">
               {t("foundationYear")}
             </FormLabel>
@@ -234,7 +235,7 @@ export const CreateWineryForm: FC<CreateWineryFormProps> = ({
           </FormControl>
           <FormControl>
             <FormLabel htmlFor="valley">{t("valley")}</FormLabel>
-            <Select selected={Valley.Ensenada} {...register("valley")}>
+            <Select {...register("valley")}>
               {Object.values(Valley).map((valley) => (
                 <option key={valley} value={valley}>
                   {valleyReverseMapping(valley)}

@@ -18,9 +18,7 @@ import {
 import { OperationContext, OperationResult } from "urql";
 import { getToastMessage } from "../utils/chakra-utils";
 import { useTranslation } from "react-i18next";
-import { useKeycloak } from "@react-keycloak/ssr";
-import { KeycloakInstance } from "keycloak-js";
-import { parseKeycloakToken } from "../Authentication/useAuth";
+import useAuth from "../Authentication/useAuth";
 
 async function handleBookingLinkRequest(
   totalPrice: number,
@@ -76,12 +74,13 @@ export const CreateReservationForm: FC<CreateReservationProps> = ({
   slot,
   totalPrice,
 }) => {
-  const { keycloak } = useKeycloak<KeycloakInstance>();
-
-  const tokenInfo = keycloak.tokenParsed
-    ? parseKeycloakToken(keycloak.tokenParsed)
-    : null;
-
+  const {
+    authenticated,
+    email,
+    preferred_username,
+    notAuthenticated,
+    register,
+  } = useAuth();
   const [submittingBooking, setSubmittingBooking] = useState(false);
   const [requestGuestEmail, setRequestGuestEmail] = useState(false);
   const [guestEmail, setGuestEmail] = useState("");
@@ -91,11 +90,8 @@ export const CreateReservationForm: FC<CreateReservationProps> = ({
 
   const toast = useToast();
   return (
-    <Flex
-      justifyContent={keycloak.authenticated ? "center" : "space-between"}
-      my={10}
-    >
-      {keycloak.authenticated && (
+    <Flex justifyContent={authenticated ? "center" : "space-between"} my={10}>
+      {authenticated && (
         <Button
           variant="primaryWeno"
           size="heroWeno"
@@ -106,15 +102,15 @@ export const CreateReservationForm: FC<CreateReservationProps> = ({
               slot,
               getCheckoutLink,
               toast,
-              tokenInfo?.email,
-              tokenInfo?.preferred_username
+              email,
+              preferred_username
             );
           }}
         >
           {t("book")}
         </Button>
       )}
-      {!keycloak.authenticated && (
+      {notAuthenticated && (
         <>
           {!requestGuestEmail && (
             <>
@@ -132,9 +128,9 @@ export const CreateReservationForm: FC<CreateReservationProps> = ({
                 size="heroWeno"
                 variant="cta"
                 onClick={() => {
-                  if (!keycloak.authenticated) {
+                  if (notAuthenticated) {
                     const webpageBase = window.location.origin;
-                    keycloak.register({
+                    register({
                       redirectUri: webpageBase + "/register",
                     });
                   }

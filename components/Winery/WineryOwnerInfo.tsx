@@ -11,19 +11,14 @@ import {
   WineryConfirmationFragmentFragment,
   WineryFragmentFragment,
 } from "../../graphql/generated/graphql";
-import { ContextHeader } from "../Authentication/useAuth";
 import { dateFormatter, timeFormatter } from "../utils/dateTime-utils";
 import { useTranslation } from "react-i18next";
 
 interface WineryOwnerInfoProps {
   winery: WineryFragmentFragment;
-  contextHeader: ContextHeader;
 }
 
-export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
-  winery,
-  contextHeader,
-}) => {
+export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({ winery }) => {
   // TODO modify this query to get an object with all the subscription related information: Subscription, connected account, payment status, count of reservations etc..
   const [
     {
@@ -33,7 +28,6 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
     },
   ] = useGetSubscriptionStatusQuery({
     variables: { customerId: winery.stripe_customerId },
-    context: contextHeader,
   });
   const [t] = useTranslation("global");
 
@@ -50,7 +44,7 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
         {
           wineryAlias: winery.urlAlias,
         },
-        { ...contextHeader, requestPolicy: "network-only" }
+        { requestPolicy: "network-only" }
       );
       if (data?.confirmConnectedAccount.winery) {
         const accountInfo: WineryConfirmationFragmentFragment =
@@ -70,7 +64,7 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
     };
 
     confirmAccount();
-  }, [confirmConnectedAccount, contextHeader, winery.urlAlias]);
+  }, [confirmConnectedAccount, winery.urlAlias]);
 
   // TODO implement case when connected account is set up
   const handleOnboarding = async () => {
@@ -78,7 +72,7 @@ export const WineryOwnerInfo: FC<WineryOwnerInfoProps> = ({
       {
         wineryAlias: winery.urlAlias,
       },
-      { ...contextHeader, requestPolicy: "network-only" }
+      { requestPolicy: "network-only" }
     );
     if (error) {
       console.log(error);

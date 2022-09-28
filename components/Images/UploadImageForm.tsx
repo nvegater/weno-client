@@ -43,14 +43,12 @@ async function uploadFileWithPreSignedUrl(
 interface UploadImageFormProps {
   wineryAlias: string;
   wineryId: number;
-  contextHeader: ContextHeader;
   setImages: Dispatch<SetStateAction<GetImage[]>>;
 }
 
 export const UploadImageForm: FC<UploadImageFormProps> = ({
   wineryAlias,
   wineryId,
-  contextHeader,
   setImages,
 }) => {
   const [, getPresignedUrls] = useGetPresignedUrlsMutation();
@@ -75,7 +73,7 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
           uploadType: UploadType.WineryPic,
           fileNames: imageNames,
         },
-        { ...contextHeader, requestPolicy: "network-only" }
+        { requestPolicy: "network-only" }
       );
       if (error) {
         setError(error);
@@ -97,7 +95,7 @@ export const UploadImageForm: FC<UploadImageFormProps> = ({
               wineryAlias: wineryAlias,
               imageNames,
             },
-            { ...contextHeader, requestPolicy: "network-only" }
+            { requestPolicy: "network-only" }
           );
           if (error) {
             setError(error);

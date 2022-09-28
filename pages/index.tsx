@@ -16,8 +16,16 @@ import {
 import { useTranslation } from "react-i18next";
 
 const Home = () => {
-  const { authenticated, logout, login, register, tokenInfo, contextHeader } =
-    useAuth();
+  const {
+    authenticated,
+    logout,
+    login,
+    register,
+    email,
+    isVisitor,
+    isOwner,
+    preferred_username,
+  } = useAuth();
 
   const [t] = useTranslation("global");
 
@@ -67,8 +75,10 @@ const Home = () => {
           loginFn={login}
           logoutFn={logout}
           authenticated={authenticated}
-          tokenInfo={tokenInfo}
-          contextHeader={contextHeader}
+          email={email}
+          isOwner={isOwner}
+          isVisitor={isVisitor}
+          preferred_username={preferred_username}
         >
           <Hero authenticated={authenticated} register={register} />
 
@@ -98,7 +108,6 @@ const Home = () => {
             onClose={onClose}
             experience={experience}
             winery={null}
-            contextHeader={null}
           />
 
           <Experiences
@@ -115,6 +124,6 @@ const Home = () => {
 };
 
 export default withUrqlClient(createUrqlClient, {
-  ssr: true,
+  ssr: false,
   // disable ssr for cypress to mock the requests ssr: process.env.APP_ENV !== "cy-test",
 })(Home);

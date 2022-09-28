@@ -6,15 +6,25 @@ import { Tiers } from "../components/Tiers/Tiers";
 import useAuth from "../components/Authentication/useAuth";
 
 const Subscriptions = () => {
-  const { authenticated, logout, login, tokenInfo, register, contextHeader } =
-    useAuth();
+  const {
+    authenticated,
+    logout,
+    login,
+    register,
+    email,
+    isOwner,
+    isVisitor,
+    preferred_username,
+  } = useAuth();
   return (
     <WenoLayout
       loginFn={login}
       logoutFn={logout}
       authenticated={authenticated}
-      tokenInfo={tokenInfo}
-      contextHeader={contextHeader}
+      email={email}
+      isOwner={isOwner}
+      isVisitor={isVisitor}
+      preferred_username={preferred_username}
     >
       <Tiers register={register} />
     </WenoLayout>
