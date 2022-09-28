@@ -8,9 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "gen-graphql-types": "graphql-codegen --config codegengraphql.yml",
-    "storybook": "start-storybook -p 6006 --static-dir /static/media//public",
-    "build-storybook": "build-storybook"
+    "gen-graphql-types": "graphql-codegen --config codegengraphql.yml"
   },
   "dependencies": {
     "@babel/preset-react": "^7.18.6",
@@ -52,10 +50,6 @@
     "@graphql-codegen/typescript": "^2.7.3",
     "@graphql-codegen/typescript-operations": "^2.5.3",
     "@graphql-codegen/typescript-urql": "^3.7.0",
-    "@storybook/addon-actions": "^6.5.12",
-    "@storybook/addon-essentials": "^6.5.12",
-    "@storybook/addon-links": "^6.5.12",
-    "@storybook/react": "^6.5.12",
     "@types/node": "^16.11.62",
     "@types/react": "^17.0.50",
     "babel-loader": "^8.2.5",
