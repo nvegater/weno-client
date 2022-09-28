@@ -1,0 +1,366 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Example {
+  id String @id @default(cuid())
+}
+
+// Necessary for Next auth
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String     @id @default(cuid())
+  name          String?
+  email         String?    @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  Customer      Customer[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// --------------------------- weno models
+
+// ------------------- Money related
+
+// Anyone that gives us money
+// Email needed. Taking money means there is a Stripe account.
+model Customer {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  stripeId     String
+  subscription Subscription?
+  user         User?         @relation(fields: [id], references: [id])
+
+  Winery Winery[]
+}
+
+enum Subscription {
+  Basic
+  Medium
+  Pro
+}
+
+// ----------------- Winery Related
+
+model WineGrape {
+  id        Int           @id @default(autoincrement())
+  wineryId  Int
+  wineGrape WineGrapeEnum
+  winery    Winery        @relation(fields: [wineryId], references: [id])
+}
+
+enum WineGrapeEnum {
+  Aglianico
+  Barbera
+  Brunello
+  Cabernet_Franc     @map("Cabernet Franc")
+  Cabernet_Sauvignon @map("Cabernet Sauvignon")
+  Carignan
+  Chardonnay
+  Chenin_Blanc       @map("Chenin Blanc")
+  Cinsaul
+  Colombard
+  Gewurztraminer
+  Grenache
+  Grenache_Blanc     @map("Grenache Blanc")
+  Malbec
+  Malvasia_Blanca    @map("Malvasia Blanca")
+  Malvasia_Tinta     @map("Malvasia Tinta")
+  Merlot
+  Mision
+  Montepulciano
+  Moscatel
+  Mourvedre
+  Nebbiolo
+  Palomino
+  Petite_Verdot      @map("Petite Verdot")
+  Pinot_Blanc        @map("Pinot Blanc")
+  Pinot_Gris         @map("Pinot Gris")
+  Pinot_Noir         @map("Pinot Noir")
+  Riesling
+  Rubi_Cabernet      @map("Rubi Cabernet")
+  Sangiovese
+  Sauvignon_Blanc    @map("Sauvignon Blanc")
+  Semillon
+  Sinsault
+  Syrah
+  Tempranillo
+  Viognier
+  Zinfandel
+  Other
+}
+
+model WineProductionType {
+  id             Int                @id @default(autoincrement())
+  wineryId       Int
+  productionType ProductionTypeEnum
+  winery         Winery             @relation(fields: [wineryId], references: [id])
+}
+
+enum ProductionTypeEnum {
+  Comercial
+  traditionalArtesanal @map("Tradicional - Artesanal")
+  organicBioNatural    @map("Orgánico / Biodinámica / Naturales")
+}
+
+model WineType {
+  id       Int          @id @default(autoincrement())
+  wineryId Int
+  wineType WineTypeEnum
+  winery   Winery       @relation(fields: [wineryId], references: [id])
+}
+
+enum WineTypeEnum {
+  Blanco
+  Blanco_con_barrica     @map("Blanco con barrica")
+  Rosado
+  Tinto_crianza          @map("Tinto crianza")
+  Tinto_reserva          @map("Tinto reserva")
+  Tinto_gran_Reserva     @map("Tinto gran Reserva")
+  Generoso___Fortificado @map("Generoso / Fortificado")
+  Espumoso
+  Cosecha_Tard_a         @map("Cosecha Tardía")
+  limitedEdition         @map("Conmemorativos / Edición limitada")
+  Org_nico               @map("Orgánico")
+  Biodin_mico            @map("Biodinámico")
+  Otro
+}
+
+model WineryAmenity {
+  id       Int               @id @default(autoincrement())
+  wineryId Int
+  amenity  WineryAmenityEnum
+  winery   Winery            @relation(fields: [wineryId], references: [id])
+}
+
+enum WineryAmenityEnum {
+  Terraza_al_aire_libre      @map("Terraza al aire libre")
+  Degustacion_de_vinos       @map("Degustación de vinos")
+  Recorridos_en_vi_edos      @map("Recorridos en viñedos")
+  Recorridos_en_bodega       @map("Recorridos en bodega")
+  Paseo_en_carreta           @map("Paseo en carreta")
+  Visita_la_cava_de_barricas @map("Visita la cava de barricas")
+  Cata_de_barricas           @map("Cata de barricas")
+  Crea_tu_mezcla_de_vino     @map("Crea tu mezcla de vino")
+  Talleres_did_cticos        @map("Talleres didácticos")
+  Catas_maridajes            @map("Catas maridajes")
+  Catas_privadas             @map("Catas privadas")
+  Actividades_en_vi_edo      @map("Actividades en viñedo")
+}
+
+model WineryLanguage {
+  id        Int           @id @default(autoincrement())
+  wineryId  Int
+  languages LanguagesEnum
+  winery    Winery        @relation(fields: [wineryId], references: [id])
+}
+
+enum LanguagesEnum {
+  English      @map("Inglés")
+  Spanish      @map("Español")
+  SignLanguage @map("Lenguage de señas mexicanas")
+  French       @map("Francés")
+  German       @map("Alemán")
+  Italian
+  Portuguese   @map("Portugués")
+  Japanese
+  Mandarin     @map("Mandarín")
+}
+
+model WineryOtherServices {
+  id            Int                     @id @default(autoincrement())
+  wineryId      Int
+  OtherServices WineryOtherServicesEnum
+  winery        Winery                  @relation(fields: [wineryId], references: [id])
+}
+
+enum WineryOtherServicesEnum {
+  Hospedaje
+  Restaurante
+  Barra_de_Alimentos__Tapas_ @map("Barra de Alimentos (Tapas)")
+}
+
+enum ValleyEnum {
+  Guadalupe
+  San_Antonio_de_las_Minas @map("San Antonio de las Minas")
+  Ensenada
+  Santo_Tomas              @map("Santo Tomas")
+  Ojos_Negros              @map("Ojos Negros")
+  La_Grulla                @map("La Grulla")
+  San_Vicente              @map("San Vicente")
+  San_Quint_n              @map("San Quintín")
+  Calafia
+}
+
+model Winery {
+  id              Int        @id @default(autoincrement())
+  name            String     @unique
+  urlAlias        String     @unique
+  creatorUsername String     @unique
+  creatorEmail    String     @unique
+  description     String
+  valley          ValleyEnum
+  // Email, creator name, subscription status, etc...
+  customer        Customer   @relation(fields: [customerId], references: [id])
+
+  // Experiences
+  experience Experience[]
+
+  // Images
+  wineryImage WineryImage[]
+
+  // Cant exist without winery
+  wineGrapes          WineGrape[]
+  wineProductionType  WineProductionType[]
+  wineType            WineType[]
+  wineryAmenity       WineryAmenity[]
+  languages           WineryLanguage[]
+  wineryOtherServices WineryOtherServices[]
+
+  foundationYear          Int?
+  googleMapsUrl           String?
+  yearlyWineProduction    Int?
+  contactEmail            String?
+  contactPhoneNumber      String?
+  logo                    String?
+  contactName             String?
+  productRegion           String?
+  postalAddress           String?
+  architecturalReferences Boolean?
+  younerFriendly          Boolean?
+  petFriendly             Boolean?
+  enologoName             String?
+  handicappedFriendly     Boolean?
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+  customerId String
+}
+
+model WineryImage {
+  id          Int      @id @default(autoincrement())
+  wineryId    Int
+  wineryAlias String
+  imageName   String
+  coverPage   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  winery      Winery   @relation(fields: [wineryId], references: [id])
+}
+
+model ExperienceImage {
+  id           Int      @id @default(autoincrement())
+  experienceId Int
+  imageName    String
+  coverPage    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+
+  experience Experience @relation(fields: [experienceId], references: [id])
+}
+
+enum ExperienceTypeEnum {
+  pairing
+  degustation
+  concert
+}
+
+model Experience {
+  id                      Int                @id @default(autoincrement())
+  title                   String
+  description             String
+  experienceType          ExperienceTypeEnum
+  allAttendeesAllSlots    Int                @default(0)
+  pricePerPersonInDollars Float
+  wineryId                Int
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @default(now())
+  winery                  Winery             @relation(fields: [wineryId], references: [id])
+  experience_image        ExperienceImage[]
+  experience_slot         ExperienceSlot[]
+}
+
+enum SlotTypeEnum {
+  oneTime
+  recurrent
+  allDay
+}
+
+model ExperienceSlot {
+  id                      Int          @id @default(autoincrement())
+  startDateTime           DateTime
+  endDateTime             DateTime
+  slotType                SlotTypeEnum
+  durationInMinutes       Int
+  noOfAttendees           Int          @default(0)
+  limitOfAttendees        Int
+  pricePerPersonInDollars Float
+  experienceId            Int
+  createdAt               DateTime     @default(now())
+  updatedAt               DateTime     @default(now())
+
+  experience  Experience    @relation(fields: [experienceId], references: [id])
+  reservation Reservation[]
+}
+
+model Reservation {
+  id                      Int      @id @default(autoincrement())
+  title                   String
+  email                   String
+  wineryName              String
+  username                String?
+  noOfAttendees           Int
+  pricePerPersonInDollars Float
+  paymentStatus           String
+  slotId                  Int
+  experienceId            Int
+  startDateTime           DateTime
+  endDateTime             DateTime
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @default(now())
+
+  slot ExperienceSlot @relation(fields: [slotId], references: [id])
+}
