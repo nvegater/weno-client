@@ -9,7 +9,7 @@
     "lint": "next lint",
     "prepare": "husky install",
     "gen-graphql-types": "graphql-codegen --config codegengraphql.yml",
-    "postinstall": "prisma generate"
+    "postinstall": "src/prisma generate"
   },
   "dependencies": {
     "@babel/preset-react": "^7.18.6",

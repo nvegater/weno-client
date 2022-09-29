@@ -1,5 +1,5 @@
 import { AppType } from "next/app";
-import theme from "../theme/index";
+import theme from "../theme";
 import superjson from "superjson";
 import { withTRPC } from "@trpc/next";
 import { AppRouter } from "../server/router";
@@ -12,8 +12,8 @@ import "@fontsource/open-sans";
 import "../components/DateTimePicker/DatePicker/datePicker.css";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import i18next from "i18next";
-import esLang from "../public/locales/es/common.json";
-import enLang from "../public/locales/en/common.json";
+import esLang from "../../public/locales/es/common.json";
+import enLang from "../../public/locales/en/common.json";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";

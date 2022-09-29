@@ -130,7 +130,7 @@ const MobileNavContext = ({
         <Box flexBasis="6rem">
           <ToggleButton isOpen={isOpen} onClick={onToggle} />
         </Box>
-        <Link href="/" passHref={true}>
+        <Link href="/Users/nvegater/js-dev/weno-client/public" passHref={true}>
           <Flex alignItems="center" cursor="pointer">
             <Weno h="2.1em" w="2.1em" />
             {isOpen ? LogoTextNavbar : LogoTextSidebar}
@@ -212,7 +212,7 @@ const DesktopNavContent = ({
       justify="space-between"
       {...flexProps}
     >
-      <Link href="/" passHref={true}>
+      <Link href="/Users/nvegater/js-dev/weno-client/public" passHref={true}>
         <Flex alignItems="center" cursor="pointer">
           <Weno h="2.1em" w="2.1em" />
           {LogoTextNavbar}

@@ -6,7 +6,7 @@ export default class _Document extends Document {
       <Html>
         <Head>
           <meta name="description" content="Wine with experiences" />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/public/favicon.ico" />
         </Head>
         <body>
           <Main />
