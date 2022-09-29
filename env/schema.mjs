@@ -8,6 +8,8 @@ import { z } from "zod";
 export const serverSchema = z.object({
   DATABASE_URL: z.string().url(),
   SHADOW_DATABASE_URL: z.string().url(),
+  FACEBOOK_CLIENT_ID: z.string(),
+  FACEBOOK_CLIENT_SECRET: z.string(),
   NODE_ENV: z.enum(["development", "test", "production"]),
 });
 
